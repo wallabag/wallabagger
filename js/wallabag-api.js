@@ -124,8 +124,8 @@ WallabagApi.prototype = {
     CheckUrl: function () {
         let url_ = this.data.Url + '/api/version'
         return fetch(url_, { method: 'get', mode: 'cors' })
-            .then(this._status)
             .then(this._json)
+            .then(this._status)
             .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData })
             .catch( error => { throw new Error(`Failed to get api version ${url_}
                 ${error.message}`);  } )
