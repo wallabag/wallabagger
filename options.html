@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/spectre.min.css">
+    <style>
+        body {
+            margin-left: 20px;
+        }
+        section {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="columns">
+        <div class="column col-6">
+            <!--<h2>Wallabagger options</h2>#}-->
+            <form action="">
+                <section id="wallabagurl-section">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="input-wallabagurl">Wallabag URL</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="input-group-wallabagurl">http://</span>
+                            <input class="form-input" type="text" id="input-wallabagurl" placeholder="Wallabag URL" />
+                            <button class="btn input-group-btn" id="checkurl-button">Check URL</button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="form-switch">
+                            <input type="checkbox" id="protocol-checkbox"/>
+                            <i class="form-icon"></i> Use HTTPS
+                        </label>
+                    </div>
+                    
+                </section>
+                
+                <section class="hide" id="token-section">
+                    <div class="form-group">
+                        <label class="form-label" for="clientid-input">Client ID</label>
+                        <div class="input-group">
+                            <input class="form-input" type="text" id="clientid-input" placeholder="Client ID" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="clientsecret-input">Client secret</label>
+                        <div class="input-group">
+                            <input class="form-input" type="text" id="clientsecret-input" placeholder="Client secret" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="userlogin-input">User login</label>
+                        <div class="input-group">
+                            <input class="form-input" type="text" id="userlogin-input" placeholder="User login" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="userpassword-input">User password</label>
+                        <div class="input-group">
+                            <input class="form-input" type="password" id="userpassword-input" />
+                            <button class="btn input-group-btn" id="getapptoken-button">Get token</button>
+                        </div>
+                    </div>
+<!--                
+
+                    <div class="form-group">
+                        <label class="form-label" for="apptoken-input">Application token</label>
+                        <div class="input-group">
+                            <input class="form-input" type="text" id="apptoken-input" readonly/>
+                            <button class="btn input-group-btn" id="checktoken-button">Check token</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="refreshtoken-input">Refresh token</label>
+                        <div class="input-group">
+                            <input class="form-input" type="text" id="refreshtoken-input" readonly/>
+                            <button class="btn input-group-btn" id="refreshtoken-button">Refresh token</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="tokenexpired-input">Token expires at</label>
+                        <div class="input-group">
+                            <input class="form-input" type="datetime" id="tokenexpired-input" readonly/>
+                        </div>
+                    </div>
+                -->
+
+                </section>
+            </form>
+             <table class="table">
+                <thead>
+                    <tr>
+                        <th>Checklist</th>
+                        <th class="text-right">ok?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wallabag URL checked</td>
+                        <td class="text-right" id="checked-label">Not checked</td>
+                    </tr>
+                    <tr>
+                        <td>Wallabag api version</td>
+                        <td class="text-right" id="apiversion-label">Not checked</td>
+                    </tr>
+                    <tr>
+                        <td>Wallabag api token</td>
+                        <td class="text-right" id="apitoken-label">Not granted</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <blockquote class="hide" id="errorinfo">
+                <p id="error-P">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                <p id="errorinfo-P">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+            </blockquote>
+
+        </div>
+        
+        <script src="js/wallabag-api.js"></script>
+        <script src="js/options.js"></script>
+</body>
+
+</html>

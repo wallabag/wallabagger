@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/spectre.min.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/popup.css">
+</head>
+
+<body>
+    <div class="card hide" id="main-card">
+
+        <div class="card-image">
+            <img src="img/wallabag-icon-128.png" class="img-responsive" height="250" id="card-image" />
+        </div>
+
+        <div class="card-header" id="card-header">
+            <span id="card-title">Test card</span>
+        </div>
+
+        <div class="card-body hide" id="card-body">
+            <textarea class="form-input" id="title-input" rows="3"></textarea>
+            <button class="btn btn-link" id="save-title-button">Save</button>
+            <button class="btn btn-link" id="cancel-title-button">Cancel</button>
+        </div>
+
+        <div class="card-footer">
+            <span class="card-meta" id="card-meta">test meta</span>
+            <span class="card-meta float-right icon icon-bin" id="delete-icon"></span>
+            <span class="card-meta float-right icon icon-heart2" id="set-starred"></span>
+            <span class="card-meta float-right icon icon-heart hide" id="remove-starred"></span>
+            <span class="card-meta float-right icon icon-checkmark hide"  id="remove-archived"></span>
+            <span class="card-meta float-right icon icon-checkmark2" id="set-archived"></span>
+            <span class="card-meta float-right icon icon-pencil" id="edit-icon"></span>
+        </div>
+
+        <div class="card-footer" id="tags">
+            <div class="form-autocomplete">
+                <div class="form-autocomplete-input" id="tags-input-container">
+                    <span class="card-meta float-left icon icon-tags" style="margin-top: 5px;"></span>
+                    <!--here we add tag chips-->
+                    <input class="form-input" type="text" placeholder="type tags here" id="tags-input"/>
+                    <ul class="form-autocomplete-list hide" id="tags-autocomplete-list"></ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="toast" id="info-toast">Loading wallabag API.@.</div>
+    <div class="toast toast-danger hide" id="error-toast"></div>
+
+    <div class="modal modal-sm" id="delete_confirmation">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <!-- modal structure here -->
+            <div class="modal-header">
+                <button class="btn btn-clear float-right" id="close-confirmation"></button>
+                <div class="modal-title">Please confirm delete</div>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <!-- content here -->
+                    <h4 class="centered mt-10">Are you sure?</h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-link" id="delete-article">Delete</button>
+                <button class="btn btn-primary" id="cancel-confirmation">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/wallabag-api.js"></script>
+    <script src="js/popup.js"></script>
+
+</body>

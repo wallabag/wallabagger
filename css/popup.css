@@ -1,0 +1,22 @@
+body {
+    width: 450px;
+    overflow: hidden;
+}
+#card-title{
+    cursor: pointer;
+    color: #039be5;
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: 300;
+}
+#card-meta{
+    cursor: pointer;
+}
+span.icon {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.chip-sm {
+   margin-left: 5px;
+}
