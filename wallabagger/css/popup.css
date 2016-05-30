@@ -1,6 +1,7 @@
 body {
     width: 450px;
     overflow: hidden;
+    padding: 3px;
 }
 #card-title{
     cursor: pointer;

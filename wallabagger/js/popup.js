@@ -67,6 +67,7 @@ PopupController.prototype = {
 
 
     articleTags: [],
+    foundTags: [],
     
     starred: false,
     archived: false,
@@ -95,78 +96,137 @@ PopupController.prototype = {
         this.tagsInput.addEventListener('input',this.TagsInputChanged.bind(this));
     },
     
+    
+    disableTagsInput: function () {
+        this.foundTags.length = 0;
+        this.tagsInput.value = '';
+        this.tagsInput.placeholder = 'saving tags....';
+        this.tagsInput.disabled = true;
+    },
+    
+    enableTagsInput: function () {
+                    this.tagsInput.placeholder = 'type tags here';
+                    this.tagsInput.disabled = false;
+                    this.tagsInput.focus();
+    },
+    
     addTag: function (ev) {
 //        alert(ev.currentTarget.dataset.tagid);
         this.tagsInputContainer.insertBefore(
             this.createTagChip( 
                 ev.currentTarget.dataset.tagid, 
                 ev.currentTarget.dataset.taglabel ),this.tagsInput);
-        ev.currentTarget.parentNode.removeChild(ev.currentTarget);  
-        this.tagsInput.value = '';      
+        ev.currentTarget.parentNode.removeChild(ev.currentTarget);
+
+        this.disableTagsInput();
+
+        this.api.SaveTags(this.articleId, this.saveHtml( this.getTagsStr() ))
+        .then( data => this.loadArticleTags(data) )
+        .then(data => this.enableTagsInput())
+        .catch(error=>{
+            this.hide(this.infoToast);
+            this.showError(error.message);
+            })
+
+        this.checkAutocompleteState();
+          
     },
 
     deleteTag: function (ev) {
     //    alert(ev.currentTarget.dataset.tagid);
         let chip = ev.currentTarget.parentNode;
         let tagid = chip.dataset.tagid;
+        
         chip.parentNode.removeChild(chip);
-        this.tagsInput.value = '';
-        this.tagsInput.placeholder = 'saving tags....';
-        this.tagsInput.disabled = true;
+
+        this.disableTagsInput();
         
         this.api.DeleteArticleTag(this.articleId, tagid )
-              .then( data =>this.api.GetArticleTags(this.articleId) )
               .then( data => this.loadArticleTags(data) )
-              .then(data => {
-                    this.tagsInput.disabled = false;
-                    this.tagsInput.placeholder = 'type tags here';
-                }).catch(error=>{
+              .then(data => this.enableTagsInput() )
+              .catch(error=>{
                     this.hide(this.infoToast);
                     this.showError(error.message);
            })
+           
+           this.checkAutocompleteState();
 
     },
 
-     TagsStr: function(){
-         let tagsA = Array.prototype.slice.call(this.tagsInputContainer.childNodes);
-             return tagsA.filter(e=> ( e.classList != null ) && e.classList.contains("chip-sm") )
-                    .map( e=> e.dataset.taglabel ).join(',');
+     getTagsStr: function(){
+         return  Array.prototype.slice.call(this.tagsInputContainer.childNodes)
+             .filter(e=> ( e.classList != null ) && e.classList.contains("chip-sm") )
+             .map( e=> e.dataset.taglabel ).join(',');
      },
     
-    TagsInputChanged: function (e) {
-        e.preventDefault();
-        while (this.tagsAutoCompleteList.firstChild) this.tagsAutoCompleteList.removeChild(this.tagsAutoCompleteList.firstChild);
-        if (this.tagsInput.value != '') {
-            let lastChar = this.tagsInput.value.slice(-1)
-            if ((lastChar == ',') || (lastChar == ';')) {
-                let tagStr = `${this.TagsStr()},${this.tagsInput.value}`;
-                this.tagsInput.value = '';
-                this.tagsInput.placeholder = 'saving tags....';
-                this.tagsInput.disabled = true;
-                this.api.SaveTags(this.articleId, this.saveHtml( tagStr.slice(0, -1)))
-                .then( data =>this.api.GetArticleTags(this.articleId) )
-                .then( data => this.loadArticleTags(data) )
-                .then(data => {
-                    this.tagsInput.placeholder = 'type tags here';
-                    this.tagsInput.disabled = false;
-                }).catch(error=>{
-                    this.hide(this.infoToast);
-                    this.showError(error.message);
-                    })
-            }
-            else {
-                let filteredTags =
-                    this.api.tags.filter(tag =>
-                        (this.tagsInput.value.length >= 3 && tag.label.indexOf(this.tagsInput.value) != -1) || (this.tagsInput.value == tag.label)
-                    );
-                filteredTags.map(tag => this.tagsAutoCompleteList.appendChild(this.createTagChipNoClose(tag.id, tag.label)));
-            }
-        }
-        if (this.tagsAutoCompleteList.firstChild) {
+    ClearAutocompleteList: function () {
+
+        this.foundTags.length = 0;
+
+        Array.prototype.slice.call(this.tagsAutoCompleteList.childNodes)
+         .filter(e=> ( e.classList != null ) && e.classList.contains("chip-sm") )
+         .map( e => this.tagsAutoCompleteList.removeChild(e) );
+    },
+    
+    findTags: function (search) {
+
+        this.foundTags = this.api.tags.filter(tag => ( this.articleTags.map(t=>t.id).indexOf(tag.id) === -1 ) &&
+            (this.tagsInput.value.length >= 3
+                && tag.label.indexOf(this.tagsInput.value) != -1)
+            || (this.tagsInput.value == tag.label) 
+               && ( this.articleTags.map(t=>t.label).indexOf(this.tagsInput.value) === -1 )
+        );
+        
+        this.foundTags.map(tag => this.tagsAutoCompleteList.appendChild(this.createTagChipNoClose(tag.id, tag.label)));
+
+    },
+    
+    checkAutocompleteState: function () {
+
+        if (this.foundTags.length > 0) {
             this.show(this.tagsAutoCompleteList);
         } else {
             this.hide(this.tagsAutoCompleteList);
         }
+       
+    },
+    
+    TagsInputChanged: function (e) {
+        e.preventDefault();
+        
+        this.ClearAutocompleteList();
+        
+        if (this.tagsInput.value != '') {
+            let lastChar = this.tagsInput.value.slice(-1)
+            if ((lastChar == ',') || (lastChar == ';') || (lastChar == ' ')) {
+                let tagStr = `${this.getTagsStr()},${this.tagsInput.value}`;
+
+                
+                if ( this.articleTags.map(t=>t.label).indexOf(this.tagsInput.value.slice(0, -1)) === -1 ) {
+                
+                    this.disableTagsInput();
+                    
+                    this.api.SaveTags(this.articleId, this.saveHtml( tagStr.slice(0, -1)))
+                    .then( data => this.loadArticleTags(data) )
+                    .then(data => this.enableTagsInput())
+                    .catch(error=>{
+                        this.hide(this.infoToast);
+                        this.showError(error.message);
+                        })
+                        
+                }
+                else {
+                  this.disableTagsInput();
+                  this.tagsInput.placeholder = 'Duplicate tag!!!';
+                  var self = this;
+                  setTimeout(function(){ self.enableTagsInput(); }, 1000);
+                }                
+            }
+            else this.findTags( this.tagsInput.value ); 
+        }
+        
+        this.checkAutocompleteState();
+           
     },
     
     setArchived:  function (e) {
@@ -311,7 +371,7 @@ PopupController.prototype = {
 
     createTagChipNoClose: function(tagid,taglabel) {
         let element = document.createElement('div');
-        element.innerHTML =`<div class="chip-sm" data-tagid="${tagid} data-taglabel="${taglabel}"" style="cursor: pointer;"><span class="chip-name">${taglabel}</span></div>`;
+        element.innerHTML =`<div class="chip-sm" data-tagid="${tagid}" data-taglabel="${taglabel}"" style="cursor: pointer;"><span class="chip-name">${taglabel}</span></div>`;
         element.firstChild.addEventListener('click',this.addTag.bind(this));
         return element.firstChild;        
                 },
@@ -390,6 +450,7 @@ PopupController.prototype = {
                     this.show(this.mainCard);                
             })
             .then( data => this.loadArticleTags(data) )
+            .then(data => this.enableTagsInput())
             .catch(error=>{
                     this.hide(this.infoToast);
                     this.showError(error.message);
