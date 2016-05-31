@@ -13,6 +13,7 @@ More informations on website: [wallabag.org](https://wallabag.org) and [github.c
 
 ## Requirement
 Wallabag v.2 on server side.
+Chrome-based browser
 
 ## Acknowledgement
 Many thanks to:
