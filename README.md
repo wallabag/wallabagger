@@ -12,8 +12,8 @@ wallabag is a self hostable application allowing you to not miss any content any
 More informations on website: [wallabag.org](https://wallabag.org) and [github.com](https://github.com/wallabag/wallabag)
 
 ## Requirement
-Wallabag v.2 on server side.
-Chrome-based browser
+- Wallabag v.2 on server side.
+- Chrome-based browser
 
 ## Acknowledgement
 Many thanks to:
