@@ -21,3 +21,8 @@ span.icon {
 .chip-sm {
    margin-left: 5px;
 }
+
+#card-image {
+    height: 250px;
+    overflow: hidden;
+}
