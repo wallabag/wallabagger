@@ -15,6 +15,11 @@ More informations on website: [wallabag.org](https://wallabag.org) and [github.c
 - Wallabag v.2 on server side.
 - Chrome-based browser
 
+## Installation
+- From [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj)
+- By .crx file
+- As unpacked folder (developer mode)
+
 ## Acknowledgement
 Many thanks to:
 - All wallabag mantainers, espesially [Nicolas Lœuillet](https://github.com/nicosomb) and [Jeremy Benoist](https://github.com/j0k3r)
