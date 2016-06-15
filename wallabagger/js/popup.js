@@ -16,14 +16,16 @@ var PopupController = function () {
     this.closeConfirmation = document.getElementById("close-confirmation");
     this.cancelConfirmation = document.getElementById("cancel-confirmation");
     this.deleteArticleButton = document.getElementById("delete-article");
-    this.setStarredIcon = document.getElementById("set-starred");
-    this.removeStarredIcon = document.getElementById("remove-starred");
+//    this.setStarredIcon = document.getElementById("set-starred");
+//    this.removeStarredIcon = document.getElementById("remove-starred");
     this.setArchivedIcon = document.getElementById("set-archived");
     this.removeArchivedIcon = document.getElementById("remove-archived");
     this.deleteConfirmationCard = document.getElementById("delete_confirmation");
     this.titleInput = document.getElementById("title-input");
     this.cardHeader   = document.getElementById("card-header");
     this.cardBody   = document.getElementById("card-body");
+
+    this.starredIcon = document.getElementById("starred-icon");
 
     this.addListeners();
 
@@ -56,8 +58,8 @@ PopupController.prototype = {
     closeConfirmation: null,
     cancelConfirmation: null,
     deleteArticleButton: null,
-    setStarredIcon: null,
-    removeStarredIcon: null,
+//    setStarredIcon: null,
+//    removeStarredIcon: null,
     setArchivedIcon: null,
     removeArchivedIcon: null,
     deleteConfirmationCard: null,
@@ -65,6 +67,7 @@ PopupController.prototype = {
     cardHeader: null,
     cardBody: null,
 
+    starredIcon: null,
 
     articleTags: [],
     foundTags: [],
@@ -72,7 +75,7 @@ PopupController.prototype = {
     starred: false,
     archived: false,
 
-    saveHtml: function (param) {
+    getSaveHtml: function (param) {
         let map = { '&'  : '&amp;', '\'' : '&#039;', '\"' : '&quot;', '<'  : '&lt;', '>'  : '&gt;'  };
         return param.replace(/[<'&">]/g, symb => map[symb]); 
     },
@@ -84,19 +87,83 @@ PopupController.prototype = {
         this.editIcon.addEventListener('click', this.editIconClick.bind(this));
         this.saveTitleButton.addEventListener('click', this.saveTitleClick.bind(this));
         this.cancelTitleButton.addEventListener('click', this.cancelTitleClick.bind(this));
+
         this.deleteIcon.addEventListener('click', this.deleteConfirmation.bind(this));
         this.closeConfirmation.addEventListener('click', this.cancelDelete.bind(this));
         this.cancelConfirmation.addEventListener('click', this.cancelDelete.bind(this));
         this.deleteArticleButton.addEventListener('click', this.deleteArticle.bind(this));
-        this.setStarredIcon.addEventListener('click', this.setStarred.bind(this));
-        this.removeStarredIcon.addEventListener('click', this.removeStarred.bind(this));
+
+  //      this.setStarredIcon.addEventListener('click', this.setStarred.bind(this));
+  //      this.removeStarredIcon.addEventListener('click', this.removeStarred.bind(this));
+
         this.setArchivedIcon.addEventListener('click', this.setArchived.bind(this));
         this.removeArchivedIcon.addEventListener('click', this.removeArchived.bind(this));
         
-        this.tagsInput.addEventListener('input',this.TagsInputChanged.bind(this));
+        this.tagsInput.addEventListener('input',this.onTagsInputChanged.bind(this));
+        this.tagsInput.addEventListener('keyup',this.onTagsInputKeyUp.bind(this));
+
+        this.starredIcon.addEventListener('click', this.onIconClick.bind(this));
     },
     
-    
+    onIconClick: function(event) {
+        event.preventDefault();
+        this.toggleIcon(event.currentTarget);
+        if (event.currentTarget.id=="starred-icon") {
+          this.toggleStarred();
+        }  
+    },
+
+    toggleIcon: function (icon) {
+        let currentState = JSON.parse(icon.dataset.isset);
+
+        icon.classList.remove( currentState ? icon.dataset.seticon : icon.dataset.unseticon );
+        icon.classList.add( currentState ? icon.dataset.unseticon : icon.dataset.seticon );
+
+        currentState = ! currentState;
+        icon.dataset.isset = JSON.stringify( currentState );
+    },
+
+    toggleStarred:  function (e) {
+        this.api.SaveStarred(this.articleId, !this.starred).then(d=>{
+            this.starred = !this.starred; 
+        }).catch(error=>{
+                    this.hide(this.infoToast);
+                    this.showError(error.message);
+           });
+    },
+
+
+    // setStarred:  function (e) {
+    //     this.api.SaveStarred(this.articleId, true).then(d=>{
+    //         this.starred = true; 
+    //         this.show( this.removeStarredIcon );
+    //         this.hide( this.setStarredIcon );
+    //     }).catch(error=>{
+    //                 this.hide(this.infoToast);
+    //                 this.showError(error.message);
+    //        });
+    //     //.catch(error=>{ console.log(error) });;
+    // },
+
+    // removeStarred:  function (e) {
+    //     e.preventDefault();
+    //     this.api.SaveStarred(this.articleId, false).then(d=>{
+    //         this.starred = false; 
+    //         this.hide( this.removeStarredIcon );
+    //         this.show( this.setStarredIcon );
+    //     }).catch(error=>{
+    //                 this.hide(this.infoToast);
+    //                 this.showError(error.message);
+    //        });
+    //     //.catch(error=>{ console.log(error) });;
+    // },
+
+
+    onTagsInputKeyUp: function(event){
+        // "right" key pressed
+        if (event.key=="ArrowRight") this.addFirstFoundTag();
+    },
+
     disableTagsInput: function () {
         this.foundTags.length = 0;
         this.tagsInput.value = '';
@@ -110,19 +177,28 @@ PopupController.prototype = {
                     this.tagsInput.focus();
     },
     
-    addTag: function (ev) {
-//        alert(ev.currentTarget.dataset.tagid);
+    onFoundTagChipClick: function(event){
+      this.addTag( event.currentTarget.dataset.tagid, event.currentTarget.dataset.taglabel );   
+      event.currentTarget.parentNode.removeChild(event.currentTarget);
+    },
+
+    addFirstFoundTag: function(){
+       if (this.foundTags.length > 0) {
+         this.addTag( this.foundTags[0].id, this.foundTags[0].label );   
+       }
+    },
+
+    addTag: function ( tagid, taglabel ) {
+
         this.tagsInputContainer.insertBefore(
-            this.createTagChip( 
-                ev.currentTarget.dataset.tagid, 
-                ev.currentTarget.dataset.taglabel ),this.tagsInput);
-        ev.currentTarget.parentNode.removeChild(ev.currentTarget);
+             this.createTagChip( tagid, taglabel ),
+             this.tagsInput);
 
         this.disableTagsInput();
 
-        this.api.SaveTags(this.articleId, this.saveHtml( this.getTagsStr() ))
+        this.api.SaveTags(this.articleId, this.getSaveHtml( this.getTagsStr() ))
         .then( data => this.loadArticleTags(data) )
-        .then(data => this.enableTagsInput())
+        .then( data => this.enableTagsInput() )
         .catch(error=>{
             this.hide(this.infoToast);
             this.showError(error.message);
@@ -159,7 +235,7 @@ PopupController.prototype = {
              .map( e=> e.dataset.taglabel ).join(',');
      },
     
-    ClearAutocompleteList: function () {
+    clearAutocompleteList: function () {
 
         this.foundTags.length = 0;
 
@@ -191,10 +267,10 @@ PopupController.prototype = {
        
     },
     
-    TagsInputChanged: function (e) {
+    onTagsInputChanged: function (e) {
         e.preventDefault();
         
-        this.ClearAutocompleteList();
+        this.clearAutocompleteList();
         
         if (this.tagsInput.value != '') {
             let lastChar = this.tagsInput.value.slice(-1)
@@ -206,7 +282,7 @@ PopupController.prototype = {
                 
                     this.disableTagsInput();
                     
-                    this.api.SaveTags(this.articleId, this.saveHtml( tagStr.slice(0, -1)))
+                    this.api.SaveTags(this.articleId, this.getSaveHtml( tagStr.slice(0, -1)))
                     .then( data => this.loadArticleTags(data) )
                     .then(data => this.enableTagsInput())
                     .catch(error=>{
@@ -255,31 +331,6 @@ PopupController.prototype = {
         //.catch(error=>{ console.log(error) });;
     },
 
-    setStarred:  function (e) {
-        e.preventDefault();
-        this.api.SaveStarred(this.articleId, true).then(d=>{
-            this.starred = true; 
-            this.show( this.removeStarredIcon );
-            this.hide( this.setStarredIcon );
-        }).catch(error=>{
-                    this.hide(this.infoToast);
-                    this.showError(error.message);
-           });
-        //.catch(error=>{ console.log(error) });;
-    },
-
-    removeStarred:  function (e) {
-        e.preventDefault();
-        this.api.SaveStarred(this.articleId, false).then(d=>{
-            this.starred = false; 
-            this.hide( this.removeStarredIcon );
-            this.show( this.setStarredIcon );
-        }).catch(error=>{
-                    this.hide(this.infoToast);
-                    this.showError(error.message);
-           });
-        //.catch(error=>{ console.log(error) });;
-    },
 
     
     deleteArticle:  function (e) {
@@ -315,7 +366,7 @@ PopupController.prototype = {
     saveTitleClick: function (e) {
         e.preventDefault();
         this.cardTitle.innerHTML = this.titleInput.value;
-        this.api.SaveTitle(this.articleId, this.saveHtml( this.cardTitle.innerHTML) )
+        this.api.SaveTitle(this.articleId, this.getSaveHtml( this.cardTitle.innerHTML) )
             .then(data => {
                 this.hide( this.cardBody );
                 this.show( this.cardHeader );
@@ -372,7 +423,7 @@ PopupController.prototype = {
     createTagChipNoClose: function(tagid,taglabel) {
         let element = document.createElement('div');
         element.innerHTML =`<div class="chip-sm" data-tagid="${tagid}" data-taglabel="${taglabel}"" style="cursor: pointer;"><span class="chip-name">${taglabel}</span></div>`;
-        element.firstChild.addEventListener('click',this.addTag.bind(this));
+        element.firstChild.addEventListener('click',this.onFoundTagChipClick.bind(this));
         return element.firstChild;        
                 },
 
@@ -437,8 +488,9 @@ PopupController.prototype = {
                         this.originalLink = data.url;
                         this.starred = data.is_starred;
                         if ( this.starred ) { 
-                            this.show( this.removeStarredIcon );
-                            this.hide( this.setStarredIcon );
+//                            this.show( this.removeStarredIcon );
+//                            this.hide( this.setStarredIcon );
+                            this.toggleIcon(this.starredIcon)
                         }
                         this.archived = data.is_archived;
                         if ( this.archived ) { 
@@ -456,7 +508,7 @@ PopupController.prototype = {
                     this.showError(error.message);
            });
                 
-           // loading tags for addtags functionality     
+           // loading all tags     
            apiAuthorised.then( data => this.api.GetTags() )
         //    .then(tags => {
         //    tags.map(tag => {
