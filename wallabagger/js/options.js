@@ -22,7 +22,7 @@ var OptionsController = function () {
     //   this.refreshTokenButton_ = document.getElementById("refreshtoken-button");
 
     //   this.tokenExpiresInput = document.getElementById("tokenexpired-input");
-
+    this.allowSpaceCheck = document.getElementById("allow-space-checkbox");
     this.addListeners_();
 
 };
@@ -51,9 +51,12 @@ OptionsController.prototype = {
     //    refreshTokenButton_: null,
     //    tokenExpiresInput: null,
 
+    allowSpaceCheck: null,
+
     api: null,
 
     addListeners_: function () {
+        this.allowSpaceCheck.addEventListener('click', this.allowSpaceCheckClick.bind(this));
         this.protocolCheck_.addEventListener('click', this.handleProtocolClick.bind(this));
         // this.savebutton_.addEventListener('click', this.saveClick_.bind(this));
         this.checkurlbutton_.addEventListener('click', this.checkUrlClick.bind(this));
@@ -61,6 +64,11 @@ OptionsController.prototype = {
         //      this.checkTokenButton_.addEventListener('click', this.checkTokenClick.bind(this));
         //      this.refreshTokenButton_.addEventListener('click', this.refreshTokenClick.bind(this));
     },
+
+    allowSpaceCheckClick: function(e) {
+        this.api.set({ AllowSpaceInTags: this.allowSpaceCheck.checked });
+        this.api.save();
+               },
 
     // refreshTokenClick: function (e) {
     //     e.preventDefault();
@@ -330,13 +338,19 @@ OptionsController.prototype = {
             if ((rtoken != '') && (rtoken != null)) {
                 //             this.refrTokenInput_.value = rtoken;
             }
-            let expireDate = this.api.data.ExpireDateMs;
-            if ((expireDate != null)) {
-                this.tokenExpiresInput.value = new Date(expireDate);
-                if (this.api.expired) {
-                    this.tokenLabel_.innerHTML = "Expired"
-                }
+
+            let allowSp = this.api.data.AllowSpaceInTags;
+            if ((allowSp!= null)) {
+                this.allowSpaceCheck.checked = allowSp;
             }
+
+        //    let expireDate = this.api.data.ExpireDateMs;
+        //     if ((expireDate != null)) {
+        //         this.tokenExpiresInput.value = new Date(expireDate);
+        //         if (this.api.expired) {
+        //             this.tokenLabel_.innerHTML = "Expired"
+        //         }
+        //    }
 
         }).catch(data => { });
 

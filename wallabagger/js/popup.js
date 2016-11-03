@@ -128,8 +128,31 @@ PopupController.prototype = {
     },
 
     onTagsInputKeyUp: function(event){
-        // "right" key pressed
         if (event.key=="ArrowRight") this.addFirstFoundTag();
+        if ((event.key=="Enter") && ( this.api.data.AllowSpaceInTags ) ){
+                let tagStr = `${this.getTagsStr()},${this.tagsInput.value}`;
+
+                if ( this.articleTags.map(t=>t.label).indexOf(this.tagsInput.value) === -1 ) {
+                
+                    this.disableTagsInput();
+                    
+                    this.api.SaveTags(this.articleId, this.getSaveHtml( tagStr ) )
+                    .then( data => this.loadArticleTags(data) )
+                    .then(data => this.enableTagsInput())
+                    .catch(error=>{
+                        this.hide(this.infoToast);
+                        this.showError(error.message);
+                        })
+                        
+                }
+                else {
+                  this.disableTagsInput();
+                  this.tagsInput.placeholder = 'Duplicate tag!!!';
+                  var self = this;
+                  setTimeout(function(){ self.enableTagsInput(); }, 1000);
+                }                
+ 
+        };
     },
 
     disableTagsInput: function () {
@@ -177,7 +200,6 @@ PopupController.prototype = {
     },
 
     deleteTag: function (ev) {
-    //    alert(ev.currentTarget.dataset.tagid);
         let chip = ev.currentTarget.parentNode;
         let tagid = chip.dataset.tagid;
         
@@ -242,7 +264,7 @@ PopupController.prototype = {
         
         if (this.tagsInput.value != '') {
             let lastChar = this.tagsInput.value.slice(-1)
-            if ((lastChar == ',') || (lastChar == ';') || (lastChar == ' ')) {
+            if ((lastChar == ',') || (lastChar == ';') || ((lastChar == ' ') && ( ! this.api.data.AllowSpaceInTags )) ) {
                 let tagStr = `${this.getTagsStr()},${this.tagsInput.value}`;
 
                 
@@ -273,6 +295,7 @@ PopupController.prototype = {
            
     },
     
+    
     setArchived:  function (e) {
         e.preventDefault();
         this.api.SaveArchived(this.articleId, true).then(d=>{
@@ -298,8 +321,6 @@ PopupController.prototype = {
            });
         //.catch(error=>{ console.log(error) });;
     },
-
-
     
     deleteArticle:  function (e) {
         e.preventDefault();
@@ -340,7 +361,6 @@ PopupController.prototype = {
                 this.show( this.cardHeader );
             })
             .catch(error => {
-//                console.log(error)
                 this.hide(this.infoToast);
                 this.showError(error);
             });

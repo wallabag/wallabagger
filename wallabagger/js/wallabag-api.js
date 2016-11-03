@@ -12,6 +12,7 @@ WallabagApi.prototype = {
         ApiToken: null,
         RefreshToken: null,
         ExpireDateMs: null,
+        AllowSpaceInTags: null
     },
     
     response_status: null,
@@ -74,6 +75,7 @@ WallabagApi.prototype = {
         this.data.ApiToken = null;
         this.data.RefreshToken = null;
         this.data.ExpireDateMs = null;
+        this.data.AllowSpaceInTags = null;
     },
 
     set: function (params) {
@@ -105,6 +107,11 @@ WallabagApi.prototype = {
         if ((params.ExpireDateMs != null) && (params.ExpireDateMs != '')) {
             this.data.ExpireDateMs = params.ExpireDateMs;
         }
+
+        if (params.AllowSpaceInTags != null) {
+            this.data.AllowSpaceInTags = params.AllowSpaceInTags;
+        }
+
 
     },
 
