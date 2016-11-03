@@ -165,21 +165,21 @@ WallabagApi.prototype = {
         
     },
 
-    SaveTitle: function (articleId, aruticleTitle) {
+    SaveTitle: function (articleId, articleTitle) {
 
-        return this.PatchArticle(articleId, JSON.stringify({ title: aruticleTitle }));
-
-    },
-
-    SaveStarred: function (articleId, aruticleStarred) {
-
-        return this.PatchArticle(articleId, JSON.stringify({ starred: aruticleStarred }));
+        return this.PatchArticle(articleId, JSON.stringify({ title: articleTitle }));
 
     },
 
-    SaveArchived: function (articleId, aruticleArchived) {
+    SaveStarred: function (articleId, articleStarred) {
 
-        return this.PatchArticle(articleId, JSON.stringify({ archived: aruticleArchived }));
+        return this.PatchArticle(articleId, JSON.stringify({ starred: articleStarred }));
+
+    },
+
+    SaveArchived: function (articleId, articleArchived) {
+
+        return this.PatchArticle(articleId, JSON.stringify({ archive: articleArchived }));
 
     },
 

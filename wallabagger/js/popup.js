@@ -58,8 +58,6 @@ PopupController.prototype = {
     closeConfirmation: null,
     cancelConfirmation: null,
     deleteArticleButton: null,
-//    setStarredIcon: null,
-//    removeStarredIcon: null,
     setArchivedIcon: null,
     removeArchivedIcon: null,
     deleteConfirmationCard: null,
@@ -92,9 +90,6 @@ PopupController.prototype = {
         this.closeConfirmation.addEventListener('click', this.cancelDelete.bind(this));
         this.cancelConfirmation.addEventListener('click', this.cancelDelete.bind(this));
         this.deleteArticleButton.addEventListener('click', this.deleteArticle.bind(this));
-
-  //      this.setStarredIcon.addEventListener('click', this.setStarred.bind(this));
-  //      this.removeStarredIcon.addEventListener('click', this.removeStarred.bind(this));
 
         this.setArchivedIcon.addEventListener('click', this.setArchived.bind(this));
         this.removeArchivedIcon.addEventListener('click', this.removeArchived.bind(this));
@@ -131,33 +126,6 @@ PopupController.prototype = {
                     this.showError(error.message);
            });
     },
-
-
-    // setStarred:  function (e) {
-    //     this.api.SaveStarred(this.articleId, true).then(d=>{
-    //         this.starred = true; 
-    //         this.show( this.removeStarredIcon );
-    //         this.hide( this.setStarredIcon );
-    //     }).catch(error=>{
-    //                 this.hide(this.infoToast);
-    //                 this.showError(error.message);
-    //        });
-    //     //.catch(error=>{ console.log(error) });;
-    // },
-
-    // removeStarred:  function (e) {
-    //     e.preventDefault();
-    //     this.api.SaveStarred(this.articleId, false).then(d=>{
-    //         this.starred = false; 
-    //         this.hide( this.removeStarredIcon );
-    //         this.show( this.setStarredIcon );
-    //     }).catch(error=>{
-    //                 this.hide(this.infoToast);
-    //                 this.showError(error.message);
-    //        });
-    //     //.catch(error=>{ console.log(error) });;
-    // },
-
 
     onTagsInputKeyUp: function(event){
         // "right" key pressed
@@ -488,8 +456,6 @@ PopupController.prototype = {
                         this.originalLink = data.url;
                         this.starred = data.is_starred;
                         if ( this.starred ) { 
-//                            this.show( this.removeStarredIcon );
-//                            this.hide( this.setStarredIcon );
                             this.toggleIcon(this.starredIcon)
                         }
                         this.archived = data.is_archived;
@@ -510,16 +476,6 @@ PopupController.prototype = {
                 
            // loading all tags     
            apiAuthorised.then( data => this.api.GetTags() )
-        //    .then(tags => {
-        //    tags.map(tag => {
-        //        var element = document.createElement('option');
-        //        element.value = tag.label;
-        //        return element;
-        //    }).map(element=>{
-        //        document.getElementById("tag-list").appendChild(element);
-        //        return element;
-        //    })
-        //    } )
            .catch(error=>{
                     this.hide(this.infoToast);
                     this.showError(error.message);
@@ -551,20 +507,3 @@ document.addEventListener('DOMContentLoaded', function () {
     window.PC = new PopupController();
     PC.init();
 });
-
-
-                //this.hide(this.infoToast);
-                // refresh token is_expired in wallabag api is WRONG! issue #2056
-                // if ((data.ApiToken == '') || (data.ApiToken == null)) {
-                //         this.showError('wallabag App token not loaded, check settings!');
-                // }
-                // if ( this.api.expired() ){
-                //     this.showInfo('API token expired, refreshing ...');
-                //     if ((this.api.data.RefreshToken == '') || (this.api.data.RefreshToken == null)) {
-                //             this.showError('wallabag Refresh token not loaded, check settings!');
-                //     } else {
-                //       return  this.api.RefreshToken();
-                //     }
-                    
-                // }
-           
