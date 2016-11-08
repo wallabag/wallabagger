@@ -8,7 +8,7 @@ You can install wallabagger by three way:
   * Go to your chrome-based browser [extension setup page](chrome://extensions)
   * Click "Developer mode" checkbox
   
-  ![Developer mode](images/Developermode.png)
+  ![Developer mode](images/developermode.png)
   * Click the "Load unpacked extension" button 
   
   ![extension page](images/extensionbutton.png)
