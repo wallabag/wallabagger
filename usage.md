@@ -30,21 +30,21 @@ The article window consists from:
 
 ![Title](images/use-title.png)
 
-- domain name - clicking by it opens source article 
+- domain name - clicking by it opens source article
 
 ![Domain](images/use-domain.png)
 
-- icons: 
-    - edit title icon ![Edit icon](images/use-editicon.png) clicking opens edit title dialog
+- icons:
+  - edit title icon ![Edit icon](images/use-editicon.png) clicking opens edit title dialog
 
-    ![Edit title](images/use-edittitle.png)
+   ![Edit title](images/use-edittitle.png)
 
-    - set archived and starred flags icons ![Flags icons](images/use-flagsicons.png) These icon changes its appearing when flags is set ![Flags is set](images/use-flagsset.png)
-    - delete article icon ![Delete icon](images/use-deleteicon.png) clicking opens delete confirmation dialog
+  - set archived and starred flags icons ![Flags icons](images/use-flagsicons.png) These icon changes its appearing when flags is set ![Flags is set](images/use-flagsset.png)
+  - delete article icon ![Delete icon](images/use-deleteicon.png) clicking opens delete confirmation dialog
 
    ![Delete dialog](images/use-deletedialog.png)
 
-- tags area: article tags with input field for adding new tags 
+- tags area: article tags with input field for adding new tags
 
    ![Tags area](images/use-tagsarea.png)
 
