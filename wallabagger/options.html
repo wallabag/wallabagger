@@ -2,21 +2,17 @@
 <html>
 
 <head>
+    <title>Wallabagger options</title>
     <link rel="stylesheet" href="css/spectre.min.css">
     <style>
-        body {
-            margin-left: 20px;
-        }
-        section {
-            margin-top: 10px;
-        }
+        body { padding: 10px; min-width: 800px; background-color: transparent; }
+        section { margin-top: 5px; }
     </style>
 </head>
 
 <body>
     <div class="columns">
         <div class="column col-6">
-            <h2>Wallabagger options</h2>
             <form action="">
                 <section id="wallabagurl-section">
                     
@@ -83,6 +79,9 @@
 
                 </section>
             </form>
+        </div>
+            
+        <div class="column col-6">
              <table class="table">
                 <thead>
                     <tr>
@@ -103,15 +102,15 @@
                         <td>Wallabag api token</td>
                         <td class="text-right" id="apitoken-label">Not granted</td>
                     </tr>
+                    <tr>
+                        <td>Token expires at</td>
+                        <td class="text-right" id="expiretoken-label">Not granted</td>
+                    </tr>
                 </tbody>
             </table>
+        </div> 
             
-            <blockquote class="hide" id="errorinfo">
-                <p id="error-P">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <p id="errorinfo-P">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-            </blockquote>
-
-        </div>
+    </div>
 
         <script src="js/wallabag-api.js"></script>
         <script src="js/options.js"></script>
