@@ -250,8 +250,10 @@ PopupController.prototype = {
     checkAutocompleteState: function () {
 
         if (this.foundTags.length > 0) {
+            this.mainCard.classList.add("pb-30");
             this.show(this.tagsAutoCompleteList);
         } else {
+            this.mainCard.classList.remove("pb-30"); 
             this.hide(this.tagsAutoCompleteList);
         }
        
@@ -259,7 +261,7 @@ PopupController.prototype = {
     
     onTagsInputChanged: function (e) {
         e.preventDefault();
-        
+       
         this.clearAutocompleteList();
         
         if (this.tagsInput.value != '') {
