@@ -28,3 +28,7 @@ span.icon {
     height: 250px;
     overflow: hidden;
 }
+
+.pb-30 {
+    padding-bottom: 30px;
+}
