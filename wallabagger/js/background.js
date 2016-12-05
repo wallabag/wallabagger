@@ -26,12 +26,12 @@ browser.contextMenus.onClicked.addListener(function(info) {
                    });
               
             apiAuthorised.then(() => this.api.SavePage(info.linkUrl) ) 
-                         .then( () =>  { 
-                                browser.browserAction.setIcon({path: 'img/wallabagger-red.svg'});
-                                setTimeout(function() { browser.browserAction.setIcon({path: browserActionIconDefault}); }, 5000); 
-                             }) 
-                         .catch( () => { 
+                         .then(r =>  { 
                              browser.browserAction.setIcon({path: 'img/wallabagger-green.svg'}); 
+                             setTimeout(function() { browser.browserAction.setIcon({path: browserActionIconDefault}); }, 5000); 
+                             }) 
+                         .catch( e => { 
+                              browser.browserAction.setIcon({path: 'img/wallabagger-red.svg'});
                              setTimeout(function() { browser.browserAction.setIcon({path: browserActionIconDefault}); }, 5000); 
                             }); 
 
