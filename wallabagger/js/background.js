@@ -25,16 +25,16 @@ browser.contextMenus.onClicked.addListener(function(info) {
                             throw error;    
                    });
               
-                    apiAuthorised
-                    .then(() => {
-                        if( ! this.api.SavePage(info.linkUrl) ) {
-                            browser.browserAction.setIcon({path: 'img/wallabagger-red.svg'});
-                        }
-                        browser.browserAction.setIcon({path: 'img/wallabagger-green.svg'});
-                        setTimeout(function() {
-                            browser.browserAction.setIcon({path: browserActionIconDefault});
-                        }, 5000);
-                    })
+            apiAuthorised.then(() => this.api.SavePage(info.linkUrl) ) 
+                         .then( () =>  { 
+                                browser.browserAction.setIcon({path: 'img/wallabagger-red.svg'});
+                                setTimeout(function() { browser.browserAction.setIcon({path: browserActionIconDefault}); }, 5000); 
+                             }) 
+                         .catch( () => { 
+                             browser.browserAction.setIcon({path: 'img/wallabagger-green.svg'}); 
+                             setTimeout(function() { browser.browserAction.setIcon({path: browserActionIconDefault}); }, 5000); 
+                            }); 
+
             break;
     }
 });
