@@ -6,7 +6,7 @@ let browserActionIconDefault = browser.runtime.getManifest().browser_action.defa
 browser.contextMenus.create({
     id: "wallabagger-add-link",
     title: "Wallabag it!",
-    contexts: ["link"]
+    contexts: ["link", "page"]
 });
 
 browser.contextMenus.onClicked.addListener(function(info) {
@@ -24,8 +24,14 @@ browser.contextMenus.onClicked.addListener(function(info) {
                     .catch(error=>{
                             throw error;    
                    });
-              
-            apiAuthorised.then(() => this.api.SavePage(info.linkUrl) ) 
+            var url = "";
+
+            if (info.linkUrl !== undefined )
+              url = info.linkUrl;
+            else 
+              url = info.pageUrl;
+
+            apiAuthorised.then(() => this.api.SavePage(url) ) 
                          .then(r =>  { 
                              browser.browserAction.setIcon({path: 'img/wallabagger-green.svg'}); 
                              setTimeout(function() { browser.browserAction.setIcon({path: browserActionIconDefault}); }, 5000); 
