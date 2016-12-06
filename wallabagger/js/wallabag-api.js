@@ -1,22 +1,22 @@
-var WallabagApi = function () { }
+var WallabagApi = function () { };
 
 WallabagApi.prototype = {
 
     data: {
-        Url: null,
-        ApiVersion: null,
-        ClientId: null,
-        ClientSecret: null,
-        UserLogin: null,
-        UserPassword: null,
-        ApiToken: null,
-        RefreshToken: null,
-        ExpireDateMs: null,
-        AllowSpaceInTags: null
+        Url: '',
+        ApiVersion: '',
+        ClientId: '',
+        ClientSecret: '',
+        UserLogin: '',
+        UserPassword: '',
+        ApiToken: '',
+        RefreshToken: '',
+        ExpireDateMs: '',
+        AllowSpaceInTags: ''
     },
-    
+
     response_status: null,
-    
+
     tags: [],
 
     save: function () {
@@ -32,30 +32,29 @@ WallabagApi.prototype = {
                         return resolve(this.data);
                     } else {
                         this.clear();
-                        return reject(new Error("Some parameters are empty. Check the settings"));
+                        return reject(new Error('Some parameters are empty. Check the settings'));
                     }
                 } else {
                     this.clear();
-                    return reject(new Error("Saved parameters not found. Check the settings"));
+                    return reject(new Error('Saved parameters not found. Check the settings'));
                 }
             });
         });
     },
 
-    needNewAppToken: function(){
-         let need =( 
-                  (this.data.ApiToken == '') || 
-                  (this.data.ApiToken == null) || 
-                  this.expired()   
-                   ) ;
-         return need;          
+    needNewAppToken: function () {
+        let need = (
+              (this.data.ApiToken.length === 0) ||
+              this.expired()
+        );
+        return need;
     },
-    
-    checkParams: function(){
-            return ( (this.data.ClientId != '') && 
-                 (this.data.ClientSecret != '') && 
-                 (this.data.userLogin != '') && 
-                 (this.data.UserPassword != '') ) ;
+
+    checkParams: function () {
+        return ((this.data.ClientId.length > 0) &&
+                 (this.data.ClientSecret.length > 0) &&
+                 (this.data.UserLogin.length > 0) &&
+                 (this.data.UserPassword.length > 0));
     },
 
     expired: function () {
@@ -66,20 +65,19 @@ WallabagApi.prototype = {
     },
 
     clear: function () {
-        this.data.Url = null;
-        this.data.ApiVersion = null;
-        this.data.ClientId = null;
-        this.data.ClientSecret = null;
-        this.data.UserLogin = null;
-        this.data.UserPassword = null;
-        this.data.ApiToken = null;
-        this.data.RefreshToken = null;
-        this.data.ExpireDateMs = null;
-        this.data.AllowSpaceInTags = null;
+        this.data.Url = '';
+        this.data.ApiVersion = '';
+        this.data.ClientId = '';
+        this.data.ClientSecret = '';
+        this.data.UserLogin = '';
+        this.data.UserPassword = '';
+        this.data.ApiToken = '';
+        this.data.RefreshToken = '';
+        this.data.ExpireDateMs = '';
+        this.data.AllowSpaceInTags = '';
     },
 
     set: function (params) {
-
         if ((params.Url != null) && (params.Url != '')) {
             this.data.Url = params.Url;
         }
@@ -111,159 +109,152 @@ WallabagApi.prototype = {
         if (params.AllowSpaceInTags != null) {
             this.data.AllowSpaceInTags = params.AllowSpaceInTags;
         }
-
-
     },
 
     _status: function (j) {
-        if ( this.response_status >= 200 && this.response_status < 300) {
+        if (this.response_status >= 200 && this.response_status < 300) {
             return Promise.resolve(j);
         } else {
-            return Promise.reject( new Error(JSON.stringify(j)) );
+            return Promise.reject(new Error(JSON.stringify(j)));
         }
     },
 
     _json: function (response) {
         this.response_status = response.status;
-        return response.json()
+        return response.json();
     },
 
     CheckUrl: function () {
-        let url_ = this.data.Url + '/api/version'
+        let url_ = this.data.Url + '/api/version';
         return fetch(url_, { method: 'get', mode: 'cors' })
             .then(this._json)
             .then(this._status)
-            .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData })
-            .catch( error => { throw new Error(`Failed to get api version ${url_}
-                ${error.message}`);  } )
-                ;
-
+            .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData; })
+            .catch(error => {
+                throw new Error(
+                    `Failed to get api version ${url_}
+                    ${error.message}`
+                );
+            });
     },
 
-    AuhorizedHeader: function() {
+    CheckVersion: function () {
+        return this.data.ApiVersion.split('.')[0] === '2';
+    },
+
+    AuhorizedHeader: function () {
         return new Headers({
-        'Authorization': `Bearer ${this.data.ApiToken}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Accept-Encoding': 'gzip, deflate' });
+            'Authorization': `Bearer ${this.data.ApiToken}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip, deflate' });
     },
 
-    NotAuhorizedHeader: function() {
+    NotAuhorizedHeader: function () {
         return new Headers({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Accept-Encoding': 'gzip, deflate' });
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip, deflate' });
     },
 
-    RequestInit: function(rmethod,rheaders,content){
-        
+    RequestInit: function (rmethod, rheaders, content) {
         let options = {
             method: rmethod,
             headers: rheaders,
             mode: 'cors',
             cache: 'default'
         };
-        
-        if ((content != '') && (content != null)){
+
+        if (content.length > 0) {
             options.body = content;
         };
-        
+
         return options;
-        
     },
 
     SaveTitle: function (articleId, articleTitle) {
-
         return this.PatchArticle(articleId, JSON.stringify({ title: articleTitle }));
-
     },
 
     SaveStarred: function (articleId, articleStarred) {
-
         return this.PatchArticle(articleId, JSON.stringify({ starred: articleStarred }));
-
     },
 
     SaveArchived: function (articleId, articleArchived) {
-
         return this.PatchArticle(articleId, JSON.stringify({ archive: articleArchived }));
-
     },
 
     SaveTags: function (articleId, taglist) {
-
         return this.PatchArticle(articleId, JSON.stringify({ tags: taglist }));
-
     },
 
-
     PatchArticle: function (articleId, content) {
-
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
 
-        let rinit =  this.RequestInit("PATCH", this.AuhorizedHeader(), content);
+        let rinit = this.RequestInit('PATCH', this.AuhorizedHeader(), content);
 
-        return fetch( entryUrl, rinit )
+        return fetch(entryUrl, rinit)
             .then(this._json)
             .then(this._status)
-            .catch( error => { throw new Error(`Failed to update article ${entryUrl}
-                ${error.message}`);  } );
-
-
+            .catch(error => {
+                throw new Error(
+                    `Failed to update article ${entryUrl}
+                    ${error.message}`
+                );
+            });
     },
 
     DeleteArticle: function (articleId) {
-
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
 
-        let rinit =  this.RequestInit("DELETE", this.AuhorizedHeader(), '');
+        let rinit = this.RequestInit('DELETE', this.AuhorizedHeader(), '');
 
-        return fetch( entryUrl, rinit )
+        return fetch(entryUrl, rinit)
             .then(this._json)
             .then(this._status)
-             .catch( error => { throw new Error(`Failed to delete article ${entryUrl}
-                ${error.message}`);  } )           ;
-
+            .catch(error => {
+                throw new Error(
+                    `Failed to delete article ${entryUrl}
+                    ${error.message}`
+                );
+            });
     },
 
-    DeleteArticleTag: function (articleId,tagid) {
-
+    DeleteArticleTag: function (articleId, tagid) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
 
-        let rinit =  this.RequestInit("DELETE", this.AuhorizedHeader(), '');
+        let rinit = this.RequestInit('DELETE', this.AuhorizedHeader(), '');
 
-        return fetch( entryUrl, rinit )
+        return fetch(entryUrl, rinit)
             .then(this._json)
             .then(this._status)
-            .catch( error => { throw new Error(`Failed to delete article tag ${entryUrl}
-                ${error.message}`);  } )
-                ;
-
+            .catch(error => {
+                throw new Error(
+                    `Failed to delete article tag ${entryUrl}
+                    ${error.message}`
+                );
+            });
     },
-    
 
- 
     SavePage: function (pageUrl) {
-
-        let content = JSON.stringify( { url: pageUrl });
+        let content = JSON.stringify({ url: pageUrl });
 
         let entriesUrl = `${this.data.Url}/api/entries.json`;
 
-        let rheaders = this.AuhorizedHeader();
+        let rinit = this.RequestInit('POST', this.AuhorizedHeader(), content);
 
-        let rinit = this.RequestInit("POST", this.AuhorizedHeader(), content); 
-
-        return fetch( entriesUrl, rinit)
+        return fetch(entriesUrl, rinit)
             .then(this._json)
             .then(this._status)
-            .catch( error => { throw new Error(`Failed to save page ${entriesUrl}
-                ${error.message}`);  } )
-            ;
-
+            .catch(error => {
+                throw new Error(
+                    `Failed to save page ${entriesUrl}
+                    ${error.message}`
+                );
+            });
     },
 
     RefreshToken: function () {
-
         let content = JSON.stringify({
             grant_type: 'refresh_token',
             refresh_token: this.data.RefreshToken,
@@ -272,14 +263,14 @@ WallabagApi.prototype = {
         });
 
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
-       
-        let rinit = this.RequestInit("POST", this.NotAuhorizedHeader(), content); 
- 
-        return fetch( oauthurl, rinit)
+
+        let rinit = this.RequestInit('POST', this.NotAuhorizedHeader(), content);
+
+        return fetch(oauthurl, rinit)
             .then(this._json)
             .then(this._status)
             .then(data => {
-                if (data != '') {
+                if (data.length > 0) {
                     this.data.ApiToken = data.access_token;
                     this.data.RefreshToken = data.refresh_token;
                     let nowDate = new Date(Date.now());
@@ -287,60 +278,71 @@ WallabagApi.prototype = {
                     return data;
                 }
             })
-            .catch( error => { throw new Error(`Failed to refresh token ${oauthurl}
-                ${error.message}`);  } );
+            .catch(error => {
+                throw new Error(
+                    `Failed to refresh token ${oauthurl}
+                    ${error.message}`
+                );
+            });
     },
 
     GetTags: function () {
+        let entriesUrl = `${this.data.Url}/api/tags.json`;
 
-       let entriesUrl = `${this.data.Url}/api/tags.json`;
+        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
 
-       let rinit = this.RequestInit("GET", this.AuhorizedHeader(), ''); 
-      
-       return fetch( entriesUrl, rinit )
+        return fetch(entriesUrl, rinit)
             .then(this._json)
             .then(this._status)
-            .then(fetchData => { this.tags = fetchData; return fetchData })
-            .catch( error => { throw new Error(`Failed to get tags ${entriesUrl}
-                ${error.message}`);  } );
+            .then(fetchData => { this.tags = fetchData; return fetchData; })
+            .catch(error => {
+                throw new Error(
+                    `Failed to get tags ${entriesUrl}
+                    ${error.message}`
+                );
+            });
     },
 
     GetArticle: function (articleId) {
+        let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
 
-       let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
+        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
 
-       let rinit = this.RequestInit("GET", this.AuhorizedHeader(), ''); 
-      
-       return fetch( entriesUrl, rinit )
+        return fetch(entriesUrl, rinit)
             .then(this._json)
-            .then(this._status)            
-            .then(fetchData => { return fetchData })            
-            .catch( error => { throw new Error(`Failed to get article ${entriesUrl}
-                ${error.message}`);  } );
+            .then(this._status)
+            .then(fetchData => { return fetchData; })
+            .catch(error => {
+                throw new Error(
+                    `Failed to get article ${entriesUrl}
+                    ${error.message}`
+                );
+            });
     },
 
     GetArticleTags: function (articleId) {
+        let entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
 
-       let entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
+        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
 
-       let rinit = this.RequestInit("GET", this.AuhorizedHeader(), ''); 
-      
-       return fetch( entriesUrl, rinit )
-            .then(this._json)            
+        return fetch(entriesUrl, rinit)
+            .then(this._json)
             .then(this._status)
-            .then(fetchData => { return fetchData })
-            .catch( error => { throw new Error(`Failed to get article tags ${entriesUrl}
-                ${error.message}`);  } );
-
+            .then(fetchData => { return fetchData; })
+            .catch(error => {
+                throw new Error(
+                    `Failed to get article tags ${entriesUrl}
+                    ${error.message}`
+                );
+            });
     },
-
 
     // CheckAppToken: function () {
 
     //    let entriesUrl = `${this.data.Url}/api/entries.json?perPage=1`;
 
-    //    let rinit = this.RequestInit("GET", this.AuhorizedHeader(), ''); 
-      
+    //    let rinit = this.RequestInit("GET", this.AuhorizedHeader(), '');
+
     //    return fetch( entriesUrl, rinit )
     //         .then(this._status)
     //         .then(this._json);
@@ -348,7 +350,6 @@ WallabagApi.prototype = {
     // },
 
     GetAppToken: function () {
-
         let content = JSON.stringify({
             grant_type: 'password',
             client_id: this.data.ClientId,
@@ -356,12 +357,12 @@ WallabagApi.prototype = {
             username: this.data.UserLogin,
             password: this.data.UserPassword
         });
-        
-        let oauthurl = `${this.data.Url}/oauth/v2/token`;
-        
-       let rinit = this.RequestInit("POST", this.NotAuhorizedHeader(), content); 
 
-        return fetch( oauthurl, rinit )
+        let oauthurl = `${this.data.Url}/oauth/v2/token`;
+
+        let rinit = this.RequestInit('POST', this.NotAuhorizedHeader(), content);
+
+        return fetch(oauthurl, rinit)
             .then(this._json)
             .then(this._status)
             .then(fetchData => {
@@ -370,13 +371,12 @@ WallabagApi.prototype = {
                 this.data.RefreshToken = fetchData.refresh_token;
                 this.data.ExpireDateMs = nowDate.setSeconds(nowDate.getSeconds() + fetchData.expires_in);
                 return fetchData;
-            }).catch( error => {
+            }).catch(error => {
                 throw new Error(`Failed to get app token from ${oauthurl}
                 ${error.message}`);
-            } );
-
+            });
     }
 
-}
+};
 
 /**/

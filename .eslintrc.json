@@ -1,0 +1,33 @@
+{
+    "extends": "standard",
+    "installedESLint": true,
+    "plugins": [
+        "standard",
+        "promise"
+    ],
+    "env": {
+        "es6": true,
+        "webextensions": true,
+        "browser": true
+    },
+    globals: {
+        "WallabagApi": true
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4,
+            { "SwitchCase": 1 }
+        ],
+        "eol-last": 0,
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-console":0
+    }
+}
