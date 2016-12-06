@@ -1,7 +1,7 @@
 {
    "manifest_version": 2,
    "name": "Wallabagger",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "description": "Wallabag apiV2 extension with ability to edit title, tags, set starred and  archived, and delete",
     "icons": { "16": "img/wallabag-icon-48a.png",
                "128": "img/wallabag-icon-128.png" },
@@ -30,6 +30,14 @@
               "windows": "Alt+W",
               "mac": "Alt+W"
             }
-        }
+        },
+        "wallabag-it": {
+            "suggested_key": {
+              "default": "Alt+A",
+              "windows": "Alt+A",
+              "mac": "Alt+A"
+            },
+            "description": "Save to wallabag in background"
+        }     
     }
 }
