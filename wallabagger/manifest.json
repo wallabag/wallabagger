@@ -10,10 +10,14 @@
         "default_icon": "img/wallabag-icon-48a.png",
         "default_popup": "popup.html"
     },
+    "background": {
+        "scripts": ["js/background.js", "js/wallabag-api.js"]
+    },
     "permissions": [
         "*://*/",
         "tabs",
-        "storage"
+        "storage",
+        "contextMenus"
     ],
     "options_page": "options.html",
     "options_ui": {
