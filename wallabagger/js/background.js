@@ -54,7 +54,7 @@ browser.contextMenus.onClicked.addListener(function (info) {
 browser.commands.onCommand.addListener(function (command) {
 
     if (command == "wallabag-it") {
-        chrome.tabs.query({ 'active': true }, function (tabs) {
+        browser.tabs.query({ 'active': true }, function (tabs) {
             if (tabs[0] != null) {
                 savePageToWallabag(tabs[0].url);
             }
