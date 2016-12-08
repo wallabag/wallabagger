@@ -33,11 +33,11 @@
         },
         "wallabag-it": {
             "suggested_key": {
-              "default": "Shift+Alt+W",
-              "windows": "Shift+Alt+W",
-              "mac": "Shift+Alt+W"
+              "default": "Alt+Shift+W",
+              "windows": "Alt+Shift+W",
+              "mac": "Alt+Shift+W"
             },
             "description": "Save to wallabag in background"
-        }     
+        }
     }
 }
