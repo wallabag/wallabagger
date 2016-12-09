@@ -434,11 +434,11 @@ PopupController.prototype = {
         apiAuthorised.then(data => this.activeTab())
             .then(tab => {
                 this.showInfo('Saving the page to wallabag ...');
-                console.log(tab.url);
+                // console.log(tab.url);
                 return this.api.SavePage(tab.url);
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data != null) {
                     this.cardTitle.innerHTML = data.title;
                     this.cardMeta.innerHTML = data.domain_name;
