@@ -138,35 +138,22 @@ OptionsController.prototype = {
 
     getAppTokenClick: function (e) {
         e.preventDefault();
+        let isOk = true;
+        [
+            this.clientId_,
+            this.clientSecret_,
+            this.userLogin_,
+            this.userPassword_
+        ].map((field) => {
+            if (field.value.length === 0) {
+                this._red(field);
+                isOk = false;
+            } else {
+                this._green(field);
+            }
+        });
 
-        if (this.clientId_.value == '') {
-            this._red(this.clientId_);
-        } else {
-            //            chrome.storage.local.set({ 'wallabagclientid': this.clientId_.value });
-            this._green(this.clientId_);
-        }
-
-        if (this.clientSecret_.value == '') {
-            this._red(this.clientSecret_);
-        } else {
-            //            chrome.storage.local.set({ 'wallabagclientsecret': this.clientSecret_.value });
-            this._green(this.clientSecret_);
-        }
-
-        if (this.userLogin_.value == '') {
-            this._red(this.userLogin_);
-        } else {
-            //            chrome.storage.local.set({ 'wallabaguserlogin': this.userLogin_.value });
-            this._green(this.userLogin_);
-        }
-
-        if (this.userPassword_.value == '') {
-            this._red(this.userPassword_);
-        } else {
-            this._green(this.userPassword_);
-        }
-
-        if (this.clientId_.value != '' && this.clientSecret_.value != '' && this.userLogin_.value && this.userPassword_.value) {
+        if (isOk) {
             // wallabagGetAppToken: wallabagGetAppToken: function(aUrl, clientId, clientSecret, userId, userPassword){
             this.api.set({
                 Url: this.protocolLabel_.innerText + this.wallabagurlinput_.value,
@@ -236,12 +223,7 @@ OptionsController.prototype = {
             this.versionLabel_.innerHTML = this.api.data.ApiVersion;
             //            chrome.storage.local.set({ 'wallabagapiversion': this.api.data.ApiVersion });
             this.api.save();
-            if (this.api.data.ApiVersion.split('.')[0] == '2') {
-                //                chrome.storage.local.set({ 'wallabagchecked': 'OK' });
-                this.checkedLabel_.innerHTML = 'OK';
-                this._green(this.wallabagurlinput_);
-                this._show(this.tokenSection_);
-            }
+            this.isVersionOk();
         }
     },
 
@@ -272,6 +254,15 @@ OptionsController.prototype = {
         }
     },
 
+    isVersionOk: function () {
+        if (this.api.CheckVersion()) {
+            //                chrome.storage.local.set({ 'wallabagchecked': 'OK' });
+            this.checkedLabel_.innerHTML = 'OK';
+            this._green(this.wallabagurlinput_);
+            this._show(this.tokenSection_);
+        }
+    },
+
     init: function () {
         this.api = new WallabagApi();
 
@@ -284,40 +275,32 @@ OptionsController.prototype = {
                 this.protocolLabel_.innerText = res[1] + '://';
                 this.wallabagurlinput_.value = res[2];
             };
-            if (data.ApiToken.length > 0) {
-                this.versionLabel_.innerHTML = apiv;
-                if (apiv.split('.')[0] == '2') {
-                    this.checkedLabel_.innerHTML = 'OK';
-                    this._green(this.wallabagurlinput_);
-                    this._show(this.tokenSection_);
+            this.isVersionOk();
+            [
+                {
+                    'field': data.ClientId,
+                    'el': this.clientId_
+                },
+                {
+                    'field': data.ClientSecret,
+                    'el': this.clientSecret_
+                },
+                {
+                    'field': data.UserLogin,
+                    'el': this.userLogin_
+                },
+                {
+                    'field': data.UserPassword,
+                    'el': this.userPassword_
                 }
-            }
-            let clid = data.ClientId;
-            if ((clid != '') && (clid != null)) {
-                this.clientId_.value = clid;
-            }
-            let clsc = data.ClientSecret;
-            if ((clsc != '') && (clsc != null)) {
-                this.clientSecret_.value = clsc;
-            }
-            let usrlg = data.UserLogin;
-            if ((usrlg != '') && (usrlg != null)) {
-                this.userLogin_.value = usrlg;
-            }
-            let usrp = data.UserPassword;
-            if ((usrp != '') && (usrp != null)) {
-                this.userPassword_.value = usrp;
-            }
-            let atoken = data.ApiToken;
-            if ((atoken != '') && (atoken != null)) {
-                //                this.appTokenInput_.value = atoken;
+            ].map((object) => {
+                if (object.field.length > 0) {
+                    object.el.value = object.field;
+                }
+            });
+            if (data.ApiToken.length > 0) {
                 this.tokenLabel_.innerHTML = 'Granted';
             }
-            let rtoken = data.RefreshToken;
-            if ((rtoken != '') && (rtoken != null)) {
-                //             this.refrTokenInput_.value = rtoken;
-            }
-
             let allowSp = this.api.data.AllowSpaceInTags;
             if ((allowSp != null)) {
                 this.allowSpaceCheck.checked = allowSp;
