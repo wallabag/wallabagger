@@ -2,7 +2,6 @@ if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
     browser = chrome;
 }
 const GetApi = () => {
-
     const api = new WallabagApi();
 
     return api.load()
@@ -15,7 +14,7 @@ const GetApi = () => {
         .catch(error => {
             throw error;
         });
-}
+};
 
 let browserActionIconDefault = browser.runtime.getManifest().browser_action.default_icon;
 
@@ -26,42 +25,41 @@ browser.contextMenus.create({
 });
 
 browser.contextMenus.create({
-    type: "separator",
-    contexts: ["browser_action"]
+    type: 'separator',
+    contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: "Unread-articles",
-    title: "Unread articles",
-    contexts: ["browser_action"]
+    id: 'Unread-articles',
+    title: 'Unread articles',
+    contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: "Favorite-articles",
-    title: "Starred articles",
-    contexts: ["browser_action"]
+    id: 'Favorite-articles',
+    title: 'Starred articles',
+    contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: "Archived-articles",
-    title: "Archived articles",
-    contexts: ["browser_action"]
+    id: 'Archived-articles',
+    title: 'Archived articles',
+    contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: "All-articles",
-    title: "All articles",
-    contexts: ["browser_action"]
+    id: 'All-articles',
+    title: 'All articles',
+    contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: "Tag-list",
-    title: "Tag list",
-    contexts: ["browser_action"]
+    id: 'Tag-list',
+    title: 'Tag list',
+    contexts: ['browser_action']
 });
 
 function savePageToWallabag (url) {
-
     browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
 
     GetApi().then(api => api.SavePage(url))
@@ -81,20 +79,20 @@ browser.contextMenus.onClicked.addListener(function (info) {
             const url = typeof (info.linkUrl) === 'string' ? info.linkUrl : info.pageUrl;
             savePageToWallabag(url);
             break;
-        case "Unread-articles":
-            GotoWallabag("unread");
+        case 'Unread-articles':
+            GotoWallabag('unread');
             break;
-        case "Favorite-articles":
-            GotoWallabag("starred");
+        case 'Favorite-articles':
+            GotoWallabag('starred');
             break;
-        case "Archived-articles":
-            GotoWallabag("archive");
+        case 'Archived-articles':
+            GotoWallabag('archive');
             break;
-        case "All-articles":
-            GotoWallabag("all");
+        case 'All-articles':
+            GotoWallabag('all');
             break;
-        case "Tag-list":
-            GotoWallabag("tag");
+        case 'Tag-list':
+            GotoWallabag('tag');
             break;
     }
 });
