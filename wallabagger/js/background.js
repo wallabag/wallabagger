@@ -1,6 +1,22 @@
-if(typeof(browser) === 'undefined' && typeof(chrome) === 'object') {
+if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
     browser = chrome;
 }
+const GetApi = () => {
+
+    const api = new WallabagApi();
+
+    return api.load()
+        .then(data => {
+            if (api.needNewAppToken()) {
+                return api.GetAppToken().then(r => api);
+            }
+            return api;
+        })
+        .catch(error => {
+            throw error;
+        });
+}
+
 let browserActionIconDefault = browser.runtime.getManifest().browser_action.default_icon;
 
 browser.contextMenus.create({
@@ -9,22 +25,46 @@ browser.contextMenus.create({
     contexts: ["link", "page"]
 });
 
+browser.contextMenus.create({
+    type: "separator",
+    contexts: ["browser_action"]
+});
+
+browser.contextMenus.create({
+    id: "Unread-articles",
+    title: "Unread articles",
+    contexts: ["browser_action"]
+});
+
+browser.contextMenus.create({
+    id: "Favorite-articles",
+    title: "Starred articles",
+    contexts: ["browser_action"]
+});
+
+browser.contextMenus.create({
+    id: "Archived-articles",
+    title: "Archived articles",
+    contexts: ["browser_action"]
+});
+
+browser.contextMenus.create({
+    id: "All-articles",
+    title: "All articles",
+    contexts: ["browser_action"]
+});
+
+browser.contextMenus.create({
+    id: "Tag-list",
+    title: "Tag list",
+    contexts: ["browser_action"]
+});
+
 function savePageToWallabag(url) {
 
     browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
-    this.api = new WallabagApi();
-    let apiAuthorised = this.api.load()
-        .then(data => {
-            if (this.api.needNewAppToken()) {
-                return this.api.GetAppToken();
-            }
-            return 'OK'
-        })
-        .catch(error => {
-            throw error;
-        });
 
-    apiAuthorised.then(() => this.api.SavePage(url))
+    GetApi().then(api => api.SavePage(url))
         .then(r => {
             browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
             setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
@@ -46,10 +86,27 @@ browser.contextMenus.onClicked.addListener(function (info) {
             savePageToWallabag(url);
 
             break;
+        case "Unread-articles":
+            GotoWallabag("unread");
+            break;
+        case "Favorite-articles":
+            GotoWallabag("starred");
+            break;
+        case "Archived-articles":
+            GotoWallabag("archive");
+            break;
+        case "All-articles":
+            GotoWallabag("all");
+            break;
+        case "Tag-list":
+            GotoWallabag("tag");
+            break;
     }
 
 });
 
+const GotoWallabag = (part) =>
+    GetApi().then(api => chrome.tabs.create({ url: `${api.data.Url}/${part}/list` }));
 
 browser.commands.onCommand.addListener(function (command) {
 
