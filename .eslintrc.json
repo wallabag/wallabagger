@@ -10,7 +10,7 @@
         "webextensions": true,
         "browser": true
     },
-    globals: {
+    "globals": {
         "WallabagApi": true
     },
     "rules": {

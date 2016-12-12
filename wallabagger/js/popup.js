@@ -73,7 +73,7 @@ PopupController.prototype = {
     archived: false,
 
     getSaveHtml: function (param) {
-        let map = { '&': '&amp;', '\'': '&#039;', '\"': '&quot;', '<': '&lt;', '>': '&gt;' };
+        let map = { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' };
         return param.replace(/[<'&">]/g, symb => map[symb]);
     },
 
@@ -101,7 +101,7 @@ PopupController.prototype = {
     onIconClick: function (event) {
         event.preventDefault();
         this.toggleIcon(event.currentTarget);
-        if (event.currentTarget.id == 'starred-icon') {
+        if (event.currentTarget.id === 'starred-icon') {
             this.toggleStarred();
         }
     },
@@ -126,8 +126,8 @@ PopupController.prototype = {
     },
 
     onTagsInputKeyUp: function (event) {
-        if (event.key == 'ArrowRight') this.addFirstFoundTag();
-        if ((event.key == 'Enter') && (this.api.data.AllowSpaceInTags)) {
+        if (event.key === 'ArrowRight') this.addFirstFoundTag();
+        if ((event.key === 'Enter') && (this.api.data.AllowSpaceInTags)) {
             let tagStr = `${this.getTagsStr()},${this.tagsInput.value}`;
 
             if (this.articleTags.map(t => t.label).indexOf(this.tagsInput.value) === -1) {
@@ -227,8 +227,8 @@ PopupController.prototype = {
     findTags: function (search) {
         this.foundTags = this.api.tags.filter(tag => (this.articleTags.map(t => t.id).indexOf(tag.id) === -1) &&
             (this.tagsInput.value.length >= 3 &&
-                tag.label.indexOf(this.tagsInput.value) != -1) ||
-                (this.tagsInput.value == tag.label) &&
+                tag.label.indexOf(this.tagsInput.value) !== -1) ||
+                (this.tagsInput.value === tag.label) &&
                 (this.articleTags.map(t => t.label).indexOf(this.tagsInput.value) === -1)
         );
 
@@ -250,9 +250,9 @@ PopupController.prototype = {
 
         this.clearAutocompleteList();
 
-        if (this.tagsInput.value != '') {
+        if (this.tagsInput.value.length > 0) {
             let lastChar = this.tagsInput.value.slice(-1);
-            if ((lastChar == ',') || (lastChar == ';') || ((lastChar == ' ') && (!this.api.data.AllowSpaceInTags))) {
+            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.api.data.AllowSpaceInTags))) {
                 let tagStr = `${this.getTagsStr()},${this.tagsInput.value}`;
 
                 if (this.articleTags.map(t => t.label).indexOf(this.tagsInput.value.slice(0, -1)) === -1) {
@@ -443,7 +443,9 @@ PopupController.prototype = {
                     this.cardTitle.innerHTML = data.title;
                     this.cardMeta.innerHTML = data.domain_name;
 
-                    if ((data.preview_picture != null) && (data.preview_picture != '')) {
+                    if (typeof (data.preview_picture) === 'string' &&
+                        data.preview_picture.length > 0 &&
+                        data.preview_picture.indexOf('http') === 0) {
                         this.cardImage.src = data.preview_picture;
                     } else {
                         this.hide(this.cardImage);
