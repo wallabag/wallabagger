@@ -28,8 +28,8 @@ var OptionsController = function () {
     this.loadFromFileButton = document.getElementById("loadFromFile-button");
     this.clearButton = document.getElementById("clear-button");
     this.openFileDialog = document.getElementById("openFile-dialog");
-    this.saveToLocalButton = document.getElementById("saveToLocal-button");
-    this.loadFromLocalButton = document.getElementById("loadFromLocal-button");
+    // this.saveToLocalButton = document.getElementById("saveToLocal-button");
+    // this.loadFromLocalButton = document.getElementById("loadFromLocal-button");
 
     this.addListeners_();
 
@@ -62,8 +62,8 @@ OptionsController.prototype = {
     loadFromFileButton: null,
     openFileDialog: null,
     clearButton: null,
-    saveToLocalButton: null,
-    loadFromLocalButton: null,
+    // saveToLocalButton: null,
+    // loadFromLocalButton: null,
 
     allowSpaceCheck: null,
 
@@ -80,22 +80,22 @@ OptionsController.prototype = {
         this.saveToFileButton.addEventListener('click', this.saveToFileClick.bind(this));
         this.loadFromFileButton.addEventListener('click', this.loadFromFileClick.bind(this));
         this.clearButton.addEventListener('click', this.clearClick.bind(this));
-        this.saveToLocalButton.addEventListener('click', this.saveToLocal.bind(this));
-        this.loadFromLocalButton.addEventListener('click', this.loadFromLocal.bind(this));
+        // this.saveToLocalButton.addEventListener('click', this.saveToLocal.bind(this));
+        // this.loadFromLocalButton.addEventListener('click', this.loadFromLocal.bind(this));
 
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
     },
 
-    saveToLocal: function () {
-        localStorage["wallabagger"] = JSON.stringify(this.api.data);
-    },
+    // saveToLocal: function () {
+    //     localStorage.setItem("wallabagger", JSON.stringify(this.api.data));
+    // },
 
-    loadFromLocal: function () {
-        let obj = JSON.parse(localStorage["wallabagger"]);
-        this.api.set(obj);
-        this.setFields(obj);
-        this.api.save();
-    },
+    // loadFromLocal: function () {
+    //     let obj = JSON.parse(localStorage.getItem("wallabagger"));
+    //     this.api.set(obj);
+    //     this.setFields(obj);
+    //     this.api.save();
+    // },
 
 
     clearClick: function () {
