@@ -1,0 +1,26 @@
+{
+  "name": "wallabagger",
+  "version": "1.1.1",
+  "description": "Web extension for Wallabag v2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wallabag/wallabagger.git"
+  },
+  "keywords": [
+    "wallabag",
+    "extension"
+  ],
+  "author": "wallabagger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wallabag/wallabagger/issues"
+  },
+  "homepage": "https://github.com/wallabag/wallabagger#readme",
+  "devDependencies": {
+    "eslint": "^3.12.1"
+  }
+}
