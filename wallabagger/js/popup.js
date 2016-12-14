@@ -162,7 +162,7 @@ PopupController.prototype = {
 
    addTag: function ( tagid, taglabel ) {
 
-        if ( this.articleTags.concat(this.dirtyTags).map(t=>t.label).indexOf( taglabel ) === -1 )
+        if ( this.articleTags.concat(this.dirtyTags).map(t=>t.label.toUpperCase()).indexOf( taglabel.toUpperCase() ) === -1 )
         {
  
             this.disableTagsInput();
@@ -238,7 +238,7 @@ PopupController.prototype = {
 
         this.foundTags = this.api.tags.filter(tag => ( this.articleTags.concat(this.dirtyTags).map(t=>t.id).indexOf(tag.id) === -1 ) &&
             (this.tagsInput.value.length >= 3
-                && tag.label.indexOf(this.tagsInput.value) != -1)
+                && tag.label.toUpperCase().indexOf(this.tagsInput.value.toUpperCase()) != -1)
             || (this.tagsInput.value == tag.label) 
                && ( this.articleTags.concat(this.dirtyTags).map(t=>t.label).indexOf(this.tagsInput.value) === -1 )
         );
