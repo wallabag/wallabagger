@@ -68,11 +68,13 @@ PopupController.prototype = {
     starredIcon: null,
 
     articleTags: [],
+    dirtyTags: [],
     foundTags: [],
     
     starred: false,
     archived: false,
-
+    tmpTagId: 0,
+    
     getSaveHtml: function (param) {
         let map = { '&'  : '&amp;', '\'' : '&#039;', '\"' : '&quot;', '<'  : '&lt;', '>'  : '&gt;'  };
         return param.replace(/[<'&">]/g, symb => map[symb]); 
@@ -130,28 +132,7 @@ PopupController.prototype = {
     onTagsInputKeyUp: function(event){
         if (event.key=="ArrowRight") this.addFirstFoundTag();
         if ((event.key=="Enter") && ( this.api.data.AllowSpaceInTags ) ){
-                let tagStr = `${this.getTagsStr()},${this.tagsInput.value}`;
-
-                if ( this.articleTags.map(t=>t.label).indexOf(this.tagsInput.value) === -1 ) {
-                
-                    this.disableTagsInput();
-                    
-                    this.api.SaveTags(this.articleId, this.getSaveHtml( tagStr ) )
-                    .then( data => this.loadArticleTags(data) )
-                    .then(data => this.enableTagsInput())
-                    .catch(error=>{
-                        this.hide(this.infoToast);
-                        this.showError(error.message);
-                        })
-                        
-                }
-                else {
-                  this.disableTagsInput();
-                  this.tagsInput.placeholder = 'Duplicate tag!!!';
-                  var self = this;
-                  setTimeout(function(){ self.enableTagsInput(); }, 1000);
-                }                
- 
+           this.addTag(this.tmpTagId, this.tagsInput.value.trim());
         };
     },
 
@@ -179,37 +160,56 @@ PopupController.prototype = {
        }
     },
 
-    addTag: function ( tagid, taglabel ) {
+   addTag: function ( tagid, taglabel ) {
 
-        this.tagsInputContainer.insertBefore(
-             this.createTagChip( tagid, taglabel ),
-             this.tagsInput);
+        if ( this.articleTags.concat(this.dirtyTags).map(t=>t.label.toUpperCase()).indexOf( taglabel.toUpperCase() ) === -1 )
+        {
+ 
+            this.disableTagsInput();
 
-        this.disableTagsInput();
+            this.dirtyTags.push({
+                id: tagid,
+                label: taglabel,
+                slug:  taglabel
+            });
 
-        this.api.SaveTags(this.articleId, this.getSaveHtml( this.getTagsStr() ))
-        .then( data => this.loadArticleTags(data) )
-        .then( data => this.enableTagsInput() )
-        .catch(error=>{
-            this.hide(this.infoToast);
-            this.showError(error.message);
-            })
+            this.tagsInputContainer.insertBefore(
+                this.createTagChip( tagid, taglabel ),
+                this.tagsInput);
 
-        this.checkAutocompleteState();
-          
+            this.enableTagsInput(); 
+
+            if (tagid <= 0 ) 
+            this.tmpTagId = this.tmpTagId - 1;
+
+            this.api.SaveTags(this.articleId, this.getSaveHtml( this.getTagsStr() ))
+            .then( data => this.loadArticleTags(data) )
+            .catch(error=>{
+                this.hide(this.infoToast);
+                this.showError(error.message);
+                })
+
+            this.checkAutocompleteState();
+
+        } else {
+            this.disableTagsInput();
+            this.tagsInput.placeholder = 'Duplicate tag!!!';
+            var self = this;
+            setTimeout(function(){ self.enableTagsInput(); }, 1000);
+        }
+    
     },
 
     deleteTag: function (ev) {
         let chip = ev.currentTarget.parentNode;
         let tagid = chip.dataset.tagid;
-        
+
+        this.dirtyTags = this.dirtyTags.filter(tag=>tag.id !==tagid);        
+
         chip.parentNode.removeChild(chip);
 
-        this.disableTagsInput();
-        
         this.api.DeleteArticleTag(this.articleId, tagid )
               .then( data => this.loadArticleTags(data) )
-              .then(data => this.enableTagsInput() )
               .catch(error=>{
                     this.hide(this.infoToast);
                     this.showError(error.message);
@@ -219,7 +219,7 @@ PopupController.prototype = {
 
     },
 
-     getTagsStr: function(){
+    getTagsStr: function(){
          return  Array.prototype.slice.call(this.tagsInputContainer.childNodes)
              .filter(e=> ( e.classList != null ) && e.classList.contains("chip-sm") )
              .map( e=> e.dataset.taglabel ).join(',');
@@ -236,11 +236,11 @@ PopupController.prototype = {
     
     findTags: function (search) {
 
-        this.foundTags = this.api.tags.filter(tag => ( this.articleTags.map(t=>t.id).indexOf(tag.id) === -1 ) &&
+        this.foundTags = this.api.tags.filter(tag => ( this.articleTags.concat(this.dirtyTags).map(t=>t.id).indexOf(tag.id) === -1 ) &&
             (this.tagsInput.value.length >= 3
-                && tag.label.indexOf(this.tagsInput.value) != -1)
+                && tag.label.toUpperCase().indexOf(this.tagsInput.value.toUpperCase()) != -1)
             || (this.tagsInput.value == tag.label) 
-               && ( this.articleTags.map(t=>t.label).indexOf(this.tagsInput.value) === -1 )
+               && ( this.articleTags.concat(this.dirtyTags).map(t=>t.label).indexOf(this.tagsInput.value) === -1 )
         );
         
         this.foundTags.map(tag => this.tagsAutoCompleteList.appendChild(this.createTagChipNoClose(tag.id, tag.label)));
@@ -261,34 +261,11 @@ PopupController.prototype = {
     
     onTagsInputChanged: function (e) {
         e.preventDefault();
-       
         this.clearAutocompleteList();
-        
         if (this.tagsInput.value != '') {
             let lastChar = this.tagsInput.value.slice(-1)
             if ((lastChar == ',') || (lastChar == ';') || ((lastChar == ' ') && ( ! this.api.data.AllowSpaceInTags )) ) {
-                let tagStr = `${this.getTagsStr()},${this.tagsInput.value}`;
-
-                
-                if ( this.articleTags.map(t=>t.label).indexOf(this.tagsInput.value.slice(0, -1)) === -1 ) {
-                
-                    this.disableTagsInput();
-                    
-                    this.api.SaveTags(this.articleId, this.getSaveHtml( tagStr.slice(0, -1)))
-                    .then( data => this.loadArticleTags(data) )
-                    .then(data => this.enableTagsInput())
-                    .catch(error=>{
-                        this.hide(this.infoToast);
-                        this.showError(error.message);
-                        })
-                        
-                }
-                else {
-                  this.disableTagsInput();
-                  this.tagsInput.placeholder = 'Duplicate tag!!!';
-                  var self = this;
-                  setTimeout(function(){ self.enableTagsInput(); }, 1000);
-                }                
+                this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
             }
             else this.findTags( this.tagsInput.value ); 
         }
@@ -409,14 +386,14 @@ PopupController.prototype = {
         chipClose.addEventListener('click',this.deleteTag.bind(this));
         return element.firstChild;
                 },
-
+    
     createTagChipNoClose: function(tagid,taglabel) {
         let element = document.createElement('div');
         element.innerHTML =`<div class="chip-sm" data-tagid="${tagid}" data-taglabel="${taglabel}"" style="cursor: pointer;"><span class="chip-name">${taglabel}</span></div>`;
         element.firstChild.addEventListener('click',this.onFoundTagChipClick.bind(this));
         return element.firstChild;        
                 },
-
+    
     clearTagInput:  function(){
          let tagsA = Array.prototype.slice.call(this.tagsInputContainer.childNodes);
          return tagsA.filter(e=> ( e.classList != null ) && e.classList.contains("chip-sm") )
@@ -424,11 +401,14 @@ PopupController.prototype = {
     },
     
     createTags: function(data){
+
         this.articleTags = data;
+
+        this.dirtyTags = this.dirtyTags.filter( tag => this.articleTags.filter(atag => atag.slug === tag.slug).length === 0 );
+
         this.clearTagInput();
-        return this.articleTags.map( tag => {
+        this.articleTags.concat(this.dirtyTags).map( tag => {
                     this.tagsInputContainer.insertBefore(this.createTagChip( tag.id, tag.label ),this.tagsInput);
-                    return tag;
                 }); 
         },
    
