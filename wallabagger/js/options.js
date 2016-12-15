@@ -317,59 +317,40 @@ OptionsController.prototype = {
 
     setFields: function (data) {
 
-        console.log('setFields');
-        let wburl = data.Url;
-        let re = /^(http|https):\/\/(.*)/;
-        if (re.test(wburl)) {
-            res = re.exec(wburl);
+        const re = /^(http|https):\/\/(.*)/;
+        if (re.test(data.Url)) {
+            res = re.exec(data.Url);
             this.protocolCheck_.checked = (res[1] == "https");
             this.protocolLabel_.innerText = res[1] + "://";
             this.wallabagurlinput_.value = res[2];
         };
+
         if (this.wallabagurlinput_.value != '') {
             this._show(this.tokenSection_);
         }
-        let apiv = data.ApiVersion;
-        if ((apiv != '') && (apiv != null)) {
-            this.versionLabel_.innerHTML = apiv;
-            if (apiv.split('.')[0] == '2') {
+
+        if (data.ApiVersion) {
+            this.versionLabel_.innerHTML = data.ApiVersion;
+            if (data.ApiVersion.split('.')[0] == '2') {
                 this.checkedLabel_.innerHTML = 'OK';
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
             }
         }
-        let clid = data.ClientId;
-        if ((clid != '') && (clid != null)) {
-            this.clientId_.value = clid;
-        }
-        let clsc = data.ClientSecret;
-        if ((clsc != '') && (clsc != null)) {
-            this.clientSecret_.value = clsc;
-        }
-        let usrlg = data.UserLogin;
-        if ((usrlg != '') && (usrlg != null)) {
-            this.userLogin_.value = usrlg;
-        }
-        let usrp = data.UserPassword;
-        if ((usrp != '') && (usrp != null)) {
-            this.userPassword_.value = usrp;
-        }
-        let atoken = data.ApiToken;
-        if ((atoken != '') && (atoken != null)) {
-            //                this.appTokenInput_.value = atoken;
+
+        this.clientId_.value     = data.ClientId || '';
+        this.clientSecret_.value = data.ClientSecret || '';
+        this.userLogin_.value    = data.UserLogin || '';
+        this.userPassword_.value = data.UserPassword || '';
+
+        if (data.ApiToken)  {
             this.tokenLabel_.innerHTML = "Granted";
         }
-        let rtoken = data.RefreshToken;
-        if ((rtoken != '') && (rtoken != null)) {
-            //             this.refrTokenInput_.value = rtoken;
+
+        if (this.api.data.ExpireDateMs && this.api.expired) {
+           this.tokenLabel_.innerHTML = "Expired"
         }
-        let expireDate = this.api.data.ExpireDateMs;
-        if ((expireDate != null)) {
-            //      this.tokenExpiresInput.value = new Date(expireDate);
-            if (this.api.expired) {
-                this.tokenLabel_.innerHTML = "Expired"
-            }
-        }
+
     },
 
     init: function () {
