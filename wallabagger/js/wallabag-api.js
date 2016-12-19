@@ -3,16 +3,16 @@ var WallabagApi = function () { };
 WallabagApi.prototype = {
 
     data: {
-        Url: '',
-        ApiVersion: '',
-        ClientId: '',
-        ClientSecret: '',
-        UserLogin: '',
-        UserPassword: '',
-        ApiToken: '',
-        RefreshToken: '',
-        ExpireDateMs: '',
-        AllowSpaceInTags: ''
+        Url: null,
+        ApiVersion: null,
+        ClientId: null,
+        ClientSecret: null,
+        UserLogin: null,
+        UserPassword: null,
+        ApiToken: null,
+        RefreshToken: null,
+        ExpireDateMs: null,
+        AllowSpaceInTags: null
     },
 
     response_status: null,
@@ -44,17 +44,18 @@ WallabagApi.prototype = {
 
     needNewAppToken: function () {
         let need = (
-              (this.data.ApiToken.length === 0) ||
-              this.expired()
-        );
+                  (this.data.ApiToken === '') ||
+                  (this.data.ApiToken === null) ||
+                  this.expired()
+                   );
         return need;
     },
 
     checkParams: function () {
-        return ((this.data.ClientId.length > 0) &&
-                 (this.data.ClientSecret.length > 0) &&
-                 (this.data.UserLogin.length > 0) &&
-                 (this.data.UserPassword.length > 0));
+        return ((this.data.ClientId !== '') &&
+                 (this.data.ClientSecret !== '') &&
+                 (this.data.userLogin !== '') &&
+                 (this.data.UserPassword !== ''));
     },
 
     expired: function () {
@@ -65,25 +66,50 @@ WallabagApi.prototype = {
     },
 
     clear: function () {
-        this.data.Url = '';
-        this.data.ApiVersion = '';
-        this.data.ClientId = '';
-        this.data.ClientSecret = '';
-        this.data.UserLogin = '';
-        this.data.UserPassword = '';
-        this.data.ApiToken = '';
-        this.data.RefreshToken = '';
-        this.data.ExpireDateMs = '';
-        this.data.AllowSpaceInTags = '';
+        this.data.Url = null;
+        this.data.ApiVersion = null;
+        this.data.ClientId = null;
+        this.data.ClientSecret = null;
+        this.data.UserLogin = null;
+        this.data.UserPassword = null;
+        this.data.ApiToken = null;
+        this.data.RefreshToken = null;
+        this.data.ExpireDateMs = null;
+        this.data.AllowSpaceInTags = null;
     },
 
-    set: function (newParams) {
-        Object.keys(this.data).map((param) => {
-            const newParam = newParams[param];
-            if (typeof (newParam) === 'string' && newParam.length > 0) {
-                this.data[param] = newParam;
-            }
-        });
+    set: function (params) {
+        if ((params.Url != null) && (params.Url !== '')) {
+            this.data.Url = params.Url;
+        }
+        if ((params.ApiVersion != null) && (params.ApiVersion !== '')) {
+            this.data.ApiVersion = params.ApiVersion;
+        }
+        if ((params.ClientId != null) && (params.ClientId !== '')) {
+            this.data.ClientId = params.ClientId;
+        }
+        if ((params.ClientSecret != null) && (params.ClientSecret !== '')) {
+            this.data.ClientSecret = params.ClientSecret;
+        }
+        if ((params.UserLogin != null) && (params.UserLogin !== '')) {
+            this.data.UserLogin = params.UserLogin;
+        }
+        if ((params.UserPassword != null) && (params.UserPassword !== '')) {
+            this.data.UserPassword = params.UserPassword;
+        }
+        if ((params.ApiToken != null) && (params.ApiToken !== '')) {
+            this.data.ApiToken = params.ApiToken;
+        }
+        if ((params.RefreshToken != null) && (params.RefreshToken !== '')) {
+            this.data.RefreshToken = params.RefreshToken;
+        }
+        if ((params.ExpireDateMs != null) && (params.ExpireDateMs !== '')) {
+            this.data.ExpireDateMs = params.ExpireDateMs;
+        }
+
+        if (params.AllowSpaceInTags !== null) {
+            this.data.AllowSpaceInTags = params.AllowSpaceInTags;
+        }
     },
 
     _status: function (j) {
@@ -106,15 +132,10 @@ WallabagApi.prototype = {
             .then(this._status)
             .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData; })
             .catch(error => {
-                throw new Error(
-                    `Failed to get api version ${url_}
-                    ${error.message}`
-                );
-            });
-    },
-
-    CheckVersion: function () {
-        return this.data.ApiVersion.split('.')[0] === '2';
+                throw new Error(`Failed to get api version ${url_}
+                ${error.message}`);
+            })
+                ;
     },
 
     AuhorizedHeader: function () {
@@ -140,7 +161,7 @@ WallabagApi.prototype = {
             cache: 'default'
         };
 
-        if (content.length > 0) {
+        if ((content !== '') && (content !== null)) {
             options.body = content;
         };
 
@@ -172,10 +193,8 @@ WallabagApi.prototype = {
             .then(this._json)
             .then(this._status)
             .catch(error => {
-                throw new Error(
-                    `Failed to update article ${entryUrl}
-                    ${error.message}`
-                );
+                throw new Error(`Failed to update article ${entryUrl}
+                ${error.message}`);
             });
     },
 
@@ -187,12 +206,10 @@ WallabagApi.prototype = {
         return fetch(entryUrl, rinit)
             .then(this._json)
             .then(this._status)
-            .catch(error => {
-                throw new Error(
-                    `Failed to delete article ${entryUrl}
-                    ${error.message}`
-                );
-            });
+             .catch(error => {
+                 throw new Error(`Failed to delete article ${entryUrl}
+                ${error.message}`);
+             });
     },
 
     DeleteArticleTag: function (articleId, tagid) {
@@ -204,11 +221,10 @@ WallabagApi.prototype = {
             .then(this._json)
             .then(this._status)
             .catch(error => {
-                throw new Error(
-                    `Failed to delete article tag ${entryUrl}
-                    ${error.message}`
-                );
-            });
+                throw new Error(`Failed to delete article tag ${entryUrl}
+                ${error.message}`);
+            })
+                ;
     },
 
     SavePage: function (pageUrl) {
@@ -222,11 +238,10 @@ WallabagApi.prototype = {
             .then(this._json)
             .then(this._status)
             .catch(error => {
-                throw new Error(
-                    `Failed to save page ${entriesUrl}
-                    ${error.message}`
-                );
-            });
+                throw new Error(`Failed to save page ${entriesUrl}
+                ${error.message}`);
+            })
+            ;
     },
 
     RefreshToken: function () {
@@ -245,7 +260,7 @@ WallabagApi.prototype = {
             .then(this._json)
             .then(this._status)
             .then(data => {
-                if (data.length > 0) {
+                if (data !== '') {
                     this.data.ApiToken = data.access_token;
                     this.data.RefreshToken = data.refresh_token;
                     let nowDate = new Date(Date.now());
@@ -254,10 +269,8 @@ WallabagApi.prototype = {
                 }
             })
             .catch(error => {
-                throw new Error(
-                    `Failed to refresh token ${oauthurl}
-                    ${error.message}`
-                );
+                throw new Error(`Failed to refresh token ${oauthurl}
+                ${error.message}`);
             });
     },
 
@@ -271,10 +284,8 @@ WallabagApi.prototype = {
             .then(this._status)
             .then(fetchData => { this.tags = fetchData; return fetchData; })
             .catch(error => {
-                throw new Error(
-                    `Failed to get tags ${entriesUrl}
-                    ${error.message}`
-                );
+                throw new Error(`Failed to get tags ${entriesUrl}
+                ${error.message}`);
             });
     },
 
@@ -288,10 +299,8 @@ WallabagApi.prototype = {
             .then(this._status)
             .then(fetchData => { return fetchData; })
             .catch(error => {
-                throw new Error(
-                    `Failed to get article ${entriesUrl}
-                    ${error.message}`
-                );
+                throw new Error(`Failed to get article ${entriesUrl}
+                ${error.message}`);
             });
     },
 
@@ -305,10 +314,8 @@ WallabagApi.prototype = {
             .then(this._status)
             .then(fetchData => { return fetchData; })
             .catch(error => {
-                throw new Error(
-                    `Failed to get article tags ${entriesUrl}
-                    ${error.message}`
-                );
+                throw new Error(`Failed to get article tags ${entriesUrl}
+                ${error.message}`);
             });
     },
 

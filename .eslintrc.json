@@ -28,6 +28,8 @@
             "error",
             "always"
         ],
-        "no-console":0
+        "no-console":0,
+        "no-global-assign": ["error", {"exceptions": ["browser"]}],
+        "no-native-reassign": ["error", {"exceptions": ["browser"]}]
     }
 }
