@@ -79,37 +79,7 @@ WallabagApi.prototype = {
     },
 
     set: function (params) {
-        if ((params.Url != null) && (params.Url !== '')) {
-            this.data.Url = params.Url;
-        }
-        if ((params.ApiVersion != null) && (params.ApiVersion !== '')) {
-            this.data.ApiVersion = params.ApiVersion;
-        }
-        if ((params.ClientId != null) && (params.ClientId !== '')) {
-            this.data.ClientId = params.ClientId;
-        }
-        if ((params.ClientSecret != null) && (params.ClientSecret !== '')) {
-            this.data.ClientSecret = params.ClientSecret;
-        }
-        if ((params.UserLogin != null) && (params.UserLogin !== '')) {
-            this.data.UserLogin = params.UserLogin;
-        }
-        if ((params.UserPassword != null) && (params.UserPassword !== '')) {
-            this.data.UserPassword = params.UserPassword;
-        }
-        if ((params.ApiToken != null) && (params.ApiToken !== '')) {
-            this.data.ApiToken = params.ApiToken;
-        }
-        if ((params.RefreshToken != null) && (params.RefreshToken !== '')) {
-            this.data.RefreshToken = params.RefreshToken;
-        }
-        if ((params.ExpireDateMs != null) && (params.ExpireDateMs !== '')) {
-            this.data.ExpireDateMs = params.ExpireDateMs;
-        }
-
-        if (params.AllowSpaceInTags !== null) {
-            this.data.AllowSpaceInTags = params.AllowSpaceInTags;
-        }
+        Object.assign(this.data, params);
     },
 
     _status: function (j) {
