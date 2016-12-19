@@ -22,7 +22,6 @@ var OptionsController = function () {
 
     //   this.tokenExpiresInput = document.getElementById("tokenexpired-input");
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
-
     this.saveToFileButton = document.getElementById('saveToFile-button');
     this.loadFromFileButton = document.getElementById('loadFromFile-button');
     this.clearButton = document.getElementById('clear-button');
