@@ -71,7 +71,7 @@ PopupController.prototype = {
     archived: false,
     tmpTagId: 0,
 
-getSaveHtml: function (param) {
+    getSaveHtml: function (param) {
         let map = { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' };
         return param.replace(/[<'&">]/g, symb => map[symb]);
     },
