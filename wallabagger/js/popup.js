@@ -156,13 +156,12 @@ PopupController.prototype = {
     },
 
     addTag: function (tagid, taglabel) {
+        this.disableTagsInput();
         if (this.articleTags.concat(this.dirtyTags).map(t => t.label.toUpperCase()).indexOf(taglabel.toUpperCase()) === -1) {
-            this.disableTagsInput();
-
             this.dirtyTags.push({
                 id: tagid,
                 label: taglabel,
-                slug: taglabel
+                slug: taglabel.toLowerCase()
             });
 
             this.tagsInputContainer.insertBefore(
@@ -184,7 +183,6 @@ PopupController.prototype = {
 
             this.checkAutocompleteState();
         } else {
-            this.disableTagsInput();
             this.tagsInput.placeholder = 'Duplicate tag!!!';
             var self = this;
             setTimeout(function () { self.enableTagsInput(); }, 1000);
@@ -385,7 +383,7 @@ PopupController.prototype = {
 
     createTags: function (data) {
         this.articleTags = data;
-        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.label === tag.label).length === 0);
+        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.slug === tag.slug).length === 0);
         this.clearTagInput();
         this.articleTags.concat(this.dirtyTags).map(tag => {
             this.tagsInputContainer.insertBefore(this.createTagChip(tag.id, tag.label), this.tagsInput);
