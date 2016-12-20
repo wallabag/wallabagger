@@ -248,9 +248,13 @@ PopupController.prototype = {
         e.preventDefault();
         this.clearAutocompleteList();
         if (this.tagsInput.value !== '') {
-            let lastChar = this.tagsInput.value.slice(-1);
+            const lastChar = this.tagsInput.value.slice(-1);
+            const value = this.tag.value.slice(0, -1);
             if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.api.data.AllowSpaceInTags))) {
-                this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
+                if (value !== '') {
+                    this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
+                }
+                this.tagsInput.value = '';
             } else {
                 this.findTags(this.tagsInput.value);
             }
@@ -381,7 +385,7 @@ PopupController.prototype = {
 
     createTags: function (data) {
         this.articleTags = data;
-        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.slug === tag.slug).length === 0);
+        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.label === tag.label).length === 0);
         this.clearTagInput();
         this.articleTags.concat(this.dirtyTags).map(tag => {
             this.tagsInputContainer.insertBefore(this.createTagChip(tag.id, tag.label), this.tagsInput);
