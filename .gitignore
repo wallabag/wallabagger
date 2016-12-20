@@ -1,2 +1,4 @@
 wallabagger.pem
 jsconfig.json
+.vscode/
+node_modules
