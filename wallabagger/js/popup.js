@@ -161,7 +161,7 @@ PopupController.prototype = {
             this.dirtyTags.push({
                 id: tagid,
                 label: taglabel,
-                slug: taglabel.toLowerCase()
+                slug: taglabel
             });
 
             this.tagsInputContainer.insertBefore(
@@ -247,7 +247,7 @@ PopupController.prototype = {
         this.clearAutocompleteList();
         if (this.tagsInput.value !== '') {
             const lastChar = this.tagsInput.value.slice(-1);
-            const value = this.tag.value.slice(0, -1);
+            const value = this.tagsInput.value.slice(0, -1);
             if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.api.data.AllowSpaceInTags))) {
                 if (value !== '') {
                     this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
@@ -383,7 +383,7 @@ PopupController.prototype = {
 
     createTags: function (data) {
         this.articleTags = data;
-        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.slug === tag.slug).length === 0);
+        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.label === tag.label).length === 0);
         this.clearTagInput();
         this.articleTags.concat(this.dirtyTags).map(tag => {
             this.tagsInputContainer.insertBefore(this.createTagChip(tag.id, tag.label), this.tagsInput);
