@@ -383,7 +383,7 @@ PopupController.prototype = {
 
     createTags: function (data) {
         this.articleTags = data;
-        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.label === tag.label).length === 0);
+        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.label.toLowerCase() === tag.label.toLowerCase()).length === 0);
         this.clearTagInput();
         this.articleTags.concat(this.dirtyTags).map(tag => {
             this.tagsInputContainer.insertBefore(this.createTagChip(tag.id, tag.label), this.tagsInput);
