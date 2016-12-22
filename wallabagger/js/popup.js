@@ -156,9 +156,8 @@ PopupController.prototype = {
     },
 
     addTag: function (tagid, taglabel) {
+        this.disableTagsInput();
         if (this.articleTags.concat(this.dirtyTags).map(t => t.label.toUpperCase()).indexOf(taglabel.toUpperCase()) === -1) {
-            this.disableTagsInput();
-
             this.dirtyTags.push({
                 id: tagid,
                 label: taglabel,
@@ -184,7 +183,6 @@ PopupController.prototype = {
 
             this.checkAutocompleteState();
         } else {
-            this.disableTagsInput();
             this.tagsInput.placeholder = 'Duplicate tag!!!';
             var self = this;
             setTimeout(function () { self.enableTagsInput(); }, 1000);
@@ -248,9 +246,13 @@ PopupController.prototype = {
         e.preventDefault();
         this.clearAutocompleteList();
         if (this.tagsInput.value !== '') {
-            let lastChar = this.tagsInput.value.slice(-1);
+            const lastChar = this.tagsInput.value.slice(-1);
+            const value = this.tagsInput.value.slice(0, -1);
             if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.api.data.AllowSpaceInTags))) {
-                this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
+                if (value !== '') {
+                    this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
+                }
+                this.tagsInput.value = '';
             } else {
                 this.findTags(this.tagsInput.value);
             }
@@ -381,7 +383,7 @@ PopupController.prototype = {
 
     createTags: function (data) {
         this.articleTags = data;
-        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.slug === tag.slug).length === 0);
+        this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.label.toLowerCase() === tag.label.toLowerCase()).length === 0);
         this.clearTagInput();
         this.articleTags.concat(this.dirtyTags).map(tag => {
             this.tagsInputContainer.insertBefore(this.createTagChip(tag.id, tag.label), this.tagsInput);

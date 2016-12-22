@@ -12,9 +12,6 @@ body {
     width: 450px;
     padding: 3px;
 }
-.card {
-    padding-bottom: 30px;
-}
 #card-title{
     cursor: pointer;
     color: #039be5;
