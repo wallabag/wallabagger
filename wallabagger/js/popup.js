@@ -95,12 +95,16 @@ PopupController.prototype = {
     onIconClick: function (event) {
         event.preventDefault();
         this.toggleIcon(event.currentTarget);
+        let actionKey = false;
         if (event.currentTarget.id === 'starred-icon') {
-            this.toggleAction('starred', 'SaveStarred');
+            actionKey = 'starred';
+            this.toggleAction(actionKey, 'SaveStarred');
         }
         if (event.currentTarget.id === 'archived-icon') {
-            this.toggleAction('archived', 'SaveArchived');
+            actionKey = 'archived';
+            this.toggleAction(actionKey, 'SaveArchived');
         }
+        this.setIconTitle(event.currentTarget, !this[actionKey]);
     },
 
     toggleIcon: function (icon) {
@@ -113,9 +117,13 @@ PopupController.prototype = {
         icon.dataset.isset = JSON.stringify(currentState);
     },
 
-    toggleAction: function (actionKey, actionApi) {
-        this.api[actionApi](this.articleId, !this[actionKey]).then(d => {
-            this[actionKey] = !this[actionKey];
+    setIconTitle: function (icon, state) {
+        icon.title = state ? icon.dataset.unseticonTitle : icon.dataset.seticonTitle;
+    },
+
+    toggleAction: function (actionVar, actionApi) {
+        this.api[actionApi](this.articleId, !this[actionVar]).then(d => {
+            this[actionVar] = !this[actionVar];
         }).catch(error => {
             this.hide(this.infoToast);
             this.showError(error.message);
@@ -407,10 +415,12 @@ PopupController.prototype = {
 
                     this.articleId = data.id;
                     this.starred = data.is_starred;
+                    this.setIconTitle(this.starredIcon, this.starred);
                     if (this.starred) {
                         this.toggleIcon(this.starredIcon);
                     }
                     this.archived = data.is_archived;
+                    this.setIconTitle(this.archivedIcon, this.archived);
                     if (this.archived) {
                         this.toggleIcon(this.archivedIcon);
                     }
