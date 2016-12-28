@@ -74,7 +74,7 @@ PopupController.prototype = {
     },
 
     addListeners: function () {
-        this.cardTitle.addEventListener('click', this.cardTitleClick.bind(this));
+        this.cardTitle.addEventListener('click', this.cardTitleClick);
         this.entryUrl.addEventListener('click', this.entryUrlClick);
         this.editIcon.addEventListener('click', this.editIconClick.bind(this));
         this.saveTitleButton.addEventListener('click', this.saveTitleClick.bind(this));
@@ -319,7 +319,7 @@ PopupController.prototype = {
     cardTitleClick: function (e) {
         e.preventDefault();
         window.close();
-        chrome.tabs.create({url: `${this.api.data.Url}/view/${this.articleId}`});
+        chrome.tabs.create({url: this.href});
     },
 
     entryUrlClick: function (e) {
@@ -401,7 +401,9 @@ PopupController.prototype = {
             .then(data => {
                 console.log(data);
                 if (data != null) {
+                    this.articleId = data.id;
                     this.cardTitle.innerHTML = data.title;
+                    this.cardTitle.href = `${this.api.data.Url}/view/${this.articleId}`;
                     this.entryUrl.innerHTML = data.domain_name;
                     this.entryUrl.href = data.url;
 
@@ -413,7 +415,6 @@ PopupController.prototype = {
                         this.hide(this.cardImage);
                     }
 
-                    this.articleId = data.id;
                     this.starred = data.is_starred;
                     this.setIconTitle(this.starredIcon, this.starred);
                     if (this.starred) {
