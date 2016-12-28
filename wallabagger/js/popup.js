@@ -16,8 +16,7 @@ var PopupController = function () {
     this.closeConfirmation = document.getElementById('close-confirmation');
     this.cancelConfirmation = document.getElementById('cancel-confirmation');
     this.deleteArticleButton = document.getElementById('delete-article');
-    this.setArchivedIcon = document.getElementById('set-archived');
-    this.removeArchivedIcon = document.getElementById('remove-archived');
+    this.archivedIcon = document.getElementById('archived-icon');
     this.deleteConfirmationCard = document.getElementById('delete_confirmation');
     this.titleInput = document.getElementById('title-input');
     this.cardHeader = document.getElementById('card-header');
@@ -54,8 +53,7 @@ PopupController.prototype = {
     closeConfirmation: null,
     cancelConfirmation: null,
     deleteArticleButton: null,
-    setArchivedIcon: null,
-    removeArchivedIcon: null,
+    archivedIcon: null,
     deleteConfirmationCard: null,
     titleInput: null,
     cardHeader: null,
@@ -88,20 +86,21 @@ PopupController.prototype = {
         this.cancelConfirmation.addEventListener('click', this.cancelDelete.bind(this));
         this.deleteArticleButton.addEventListener('click', this.deleteArticle.bind(this));
 
-        this.setArchivedIcon.addEventListener('click', this.setArchived.bind(this));
-        this.removeArchivedIcon.addEventListener('click', this.removeArchived.bind(this));
-
         this.tagsInput.addEventListener('input', this.onTagsInputChanged.bind(this));
         this.tagsInput.addEventListener('keyup', this.onTagsInputKeyUp.bind(this));
 
         this.starredIcon.addEventListener('click', this.onIconClick.bind(this));
+        this.archivedIcon.addEventListener('click', this.onIconClick.bind(this));
     },
 
     onIconClick: function (event) {
         event.preventDefault();
         this.toggleIcon(event.currentTarget);
         if (event.currentTarget.id === 'starred-icon') {
-            this.toggleStarred();
+            this.toggleAction('starred', 'SaveStarred');
+        }
+        if (event.currentTarget.id === 'archived-icon') {
+            this.toggleAction('archived', 'SaveArchived');
         }
     },
 
@@ -115,9 +114,9 @@ PopupController.prototype = {
         icon.dataset.isset = JSON.stringify(currentState);
     },
 
-    toggleStarred: function (e) {
-        this.api.SaveStarred(this.articleId, !this.starred).then(d => {
-            this.starred = !this.starred;
+    toggleAction: function (actionKey, actionApi) {
+        this.api[actionApi](this.articleId, !this[actionKey]).then(d => {
+            this[actionKey] = !this[actionKey];
         }).catch(error => {
             this.hide(this.infoToast);
             this.showError(error.message);
@@ -258,32 +257,6 @@ PopupController.prototype = {
             }
         }
         this.checkAutocompleteState();
-    },
-
-    setArchived: function (e) {
-        e.preventDefault();
-        this.api.SaveArchived(this.articleId, true).then(d => {
-            this.starred = true;
-            this.show(this.removeArchivedIcon);
-            this.hide(this.setArchivedIcon);
-        }).catch(error => {
-            this.hide(this.infoToast);
-            this.showError(error.message);
-        });
-        // .catch(error=>{ console.log(error) });;
-    },
-
-    removeArchived: function (e) {
-        e.preventDefault();
-        this.api.SaveArchived(this.articleId, false).then(d => {
-            this.starred = false;
-            this.hide(this.removeArchivedIcon);
-            this.show(this.setArchivedIcon);
-        }).catch(error => {
-            this.hide(this.infoToast);
-            this.showError(error.message);
-        });
-        // .catch(error=>{ console.log(error) });;
     },
 
     deleteArticle: function (e) {
@@ -440,8 +413,7 @@ PopupController.prototype = {
                     }
                     this.archived = data.is_archived;
                     if (this.archived) {
-                        this.show(this.removeArchivedIcon);
-                        this.hide(this.setArchivedIcon);
+                        this.toggleIcon(this.archivedIcon);
                     }
                 }
                 this.hide(this.infoToast);
