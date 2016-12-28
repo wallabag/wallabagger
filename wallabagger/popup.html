@@ -26,20 +26,18 @@
 
         <div class="card-footer">
             <span class="card-meta" id="card-meta">test meta</span>
-            <span class="card-meta float-right icon icon-bin" id="delete-icon"></span>
+            <button class="action-button float-right card-meta icon icon-bin" id="delete-icon"></button>
 
-            <span id="starred-icon"
-                  data-isset="false"
-                  data-seticon="icon-star-full"
-                  data-unseticon="icon-star"
-                  class="card-meta float-right icon icon-star"></span>
+            <button
+                id="starred-icon"
+                data-isset="false"
+                data-seticon="icon-star-full"
+                data-unseticon="icon-star"
+                class="action-button float-right card-meta icon icon-star"></button>
 
-        <!--    <span class="card-meta float-right icon icon-star-full" id="set-starred"></span>
-            <span class="card-meta float-right icon icon-star hide" id="remove-starred"></span>
-        -->
-            <span class="card-meta float-right icon icon-checkmark-full hide" id="remove-archived"></span>
-            <span class="card-meta float-right icon icon-checkmark" id="set-archived"></span>
-            <span class="card-meta float-right icon icon-pencil" id="edit-icon"></span>
+            <button class="action-button float-right card-meta icon icon-checkmark-full hide" id="remove-archived"></button>
+            <button class="action-button float-right card-meta icon icon-checkmark" id="set-archived"></button>
+            <button class="action-button float-right card-meta icon icon-pencil" id="edit-icon"></button>
         </div>
 
         <div class="card-footer" id="tags">

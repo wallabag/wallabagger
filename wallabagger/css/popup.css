@@ -19,9 +19,14 @@ body {
     font-size: 24px;
     font-weight: 300;
 }
-#card-meta{
-    cursor: pointer;
+
+.action-button {
+    margin-left: 3px;
+    padding: 3px;
+    background-color: transparent;
+    border: none;
 }
+
 span.icon {
     cursor: pointer;
     margin-left: 5px;
