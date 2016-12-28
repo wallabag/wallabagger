@@ -32,6 +32,12 @@ body {
     border: none;
 }
 
+.action-button:hover,
+.action-button:active,
+.action-button:focus {
+    color: #039be5;
+}
+
 span.icon {
     cursor: pointer;
     margin-left: 5px;
