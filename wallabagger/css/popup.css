@@ -20,6 +20,10 @@ body {
     font-weight: 300;
 }
 
+#entry-url {
+    text-decoration: none;
+}
+
 .action-button {
     margin-left: 3px;
     padding: 3px;

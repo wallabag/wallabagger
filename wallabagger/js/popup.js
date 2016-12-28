@@ -4,7 +4,7 @@ var PopupController = function () {
     this.errorToast = document.getElementById('error-toast');
     this.infoToast = document.getElementById('info-toast');
     this.cardTitle = document.getElementById('card-title');
-    this.cardMeta = document.getElementById('card-meta');
+    this.entryUrl = document.getElementById('entry-url');
     this.cardImage = document.getElementById('card-image');
     this.tagsInputContainer = document.getElementById('tags-input-container');
     this.tagsInput = document.getElementById('tags-input');
@@ -31,7 +31,7 @@ PopupController.prototype = {
     mainCard: null,
     errorToast: null,
     infoToast: null,
-    cardMeta: null,
+    entryUrl: null,
     cardTitle: null,
     cardImage: null,
     tagsInputContainer: null,
@@ -44,7 +44,6 @@ PopupController.prototype = {
     tokenExpireDate: null,
 
     articleId: null,
-    originalLink: null,
     api: null,
     editIcon: null,
     saveTitleButton: null,
@@ -76,7 +75,7 @@ PopupController.prototype = {
 
     addListeners: function () {
         this.cardTitle.addEventListener('click', this.cardTitleClick.bind(this));
-        this.cardMeta.addEventListener('click', this.cardMetaClick.bind(this));
+        this.entryUrl.addEventListener('click', this.entryUrlClick);
         this.editIcon.addEventListener('click', this.editIconClick.bind(this));
         this.saveTitleButton.addEventListener('click', this.saveTitleClick.bind(this));
         this.cancelTitleButton.addEventListener('click', this.cancelTitleClick.bind(this));
@@ -315,10 +314,10 @@ PopupController.prototype = {
         chrome.tabs.create({url: `${this.api.data.Url}/view/${this.articleId}`});
     },
 
-    cardMetaClick: function (e) {
+    entryUrlClick: function (e) {
         e.preventDefault();
         window.close();
-        chrome.tabs.create({url: this.originalLink});
+        chrome.tabs.create({url: this.href});
     },
 
     activeTab: function () {
@@ -395,7 +394,8 @@ PopupController.prototype = {
                 console.log(data);
                 if (data != null) {
                     this.cardTitle.innerHTML = data.title;
-                    this.cardMeta.innerHTML = data.domain_name;
+                    this.entryUrl.innerHTML = data.domain_name;
+                    this.entryUrl.href = data.url;
 
                     if (typeof (data.preview_picture) === 'string' &&
                         data.preview_picture.length > 0 &&
@@ -406,7 +406,6 @@ PopupController.prototype = {
                     }
 
                     this.articleId = data.id;
-                    this.originalLink = data.url;
                     this.starred = data.is_starred;
                     if (this.starred) {
                         this.toggleIcon(this.starredIcon);
