@@ -4,7 +4,7 @@ var PopupController = function () {
     this.errorToast = document.getElementById('error-toast');
     this.infoToast = document.getElementById('info-toast');
     this.cardTitle = document.getElementById('card-title');
-    this.cardMeta = document.getElementById('card-meta');
+    this.entryUrl = document.getElementById('entry-url');
     this.cardImage = document.getElementById('card-image');
     this.tagsInputContainer = document.getElementById('tags-input-container');
     this.tagsInput = document.getElementById('tags-input');
@@ -16,8 +16,7 @@ var PopupController = function () {
     this.closeConfirmation = document.getElementById('close-confirmation');
     this.cancelConfirmation = document.getElementById('cancel-confirmation');
     this.deleteArticleButton = document.getElementById('delete-article');
-    this.setArchivedIcon = document.getElementById('set-archived');
-    this.removeArchivedIcon = document.getElementById('remove-archived');
+    this.archivedIcon = document.getElementById('archived-icon');
     this.deleteConfirmationCard = document.getElementById('delete_confirmation');
     this.titleInput = document.getElementById('title-input');
     this.cardHeader = document.getElementById('card-header');
@@ -32,7 +31,7 @@ PopupController.prototype = {
     mainCard: null,
     errorToast: null,
     infoToast: null,
-    cardMeta: null,
+    entryUrl: null,
     cardTitle: null,
     cardImage: null,
     tagsInputContainer: null,
@@ -45,7 +44,6 @@ PopupController.prototype = {
     tokenExpireDate: null,
 
     articleId: null,
-    originalLink: null,
     api: null,
     editIcon: null,
     saveTitleButton: null,
@@ -54,8 +52,7 @@ PopupController.prototype = {
     closeConfirmation: null,
     cancelConfirmation: null,
     deleteArticleButton: null,
-    setArchivedIcon: null,
-    removeArchivedIcon: null,
+    archivedIcon: null,
     deleteConfirmationCard: null,
     titleInput: null,
     cardHeader: null,
@@ -77,8 +74,8 @@ PopupController.prototype = {
     },
 
     addListeners: function () {
-        this.cardTitle.addEventListener('click', this.cardTitleClick.bind(this));
-        this.cardMeta.addEventListener('click', this.cardMetaClick.bind(this));
+        this.cardTitle.addEventListener('click', this.cardTitleClick);
+        this.entryUrl.addEventListener('click', this.entryUrlClick);
         this.editIcon.addEventListener('click', this.editIconClick.bind(this));
         this.saveTitleButton.addEventListener('click', this.saveTitleClick.bind(this));
         this.cancelTitleButton.addEventListener('click', this.cancelTitleClick.bind(this));
@@ -88,21 +85,26 @@ PopupController.prototype = {
         this.cancelConfirmation.addEventListener('click', this.cancelDelete.bind(this));
         this.deleteArticleButton.addEventListener('click', this.deleteArticle.bind(this));
 
-        this.setArchivedIcon.addEventListener('click', this.setArchived.bind(this));
-        this.removeArchivedIcon.addEventListener('click', this.removeArchived.bind(this));
-
         this.tagsInput.addEventListener('input', this.onTagsInputChanged.bind(this));
         this.tagsInput.addEventListener('keyup', this.onTagsInputKeyUp.bind(this));
 
         this.starredIcon.addEventListener('click', this.onIconClick.bind(this));
+        this.archivedIcon.addEventListener('click', this.onIconClick.bind(this));
     },
 
     onIconClick: function (event) {
         event.preventDefault();
         this.toggleIcon(event.currentTarget);
+        let actionKey = false;
         if (event.currentTarget.id === 'starred-icon') {
-            this.toggleStarred();
+            actionKey = 'starred';
+            this.toggleAction(actionKey, 'SaveStarred');
         }
+        if (event.currentTarget.id === 'archived-icon') {
+            actionKey = 'archived';
+            this.toggleAction(actionKey, 'SaveArchived');
+        }
+        this.setIconTitle(event.currentTarget, !this[actionKey]);
     },
 
     toggleIcon: function (icon) {
@@ -115,9 +117,13 @@ PopupController.prototype = {
         icon.dataset.isset = JSON.stringify(currentState);
     },
 
-    toggleStarred: function (e) {
-        this.api.SaveStarred(this.articleId, !this.starred).then(d => {
-            this.starred = !this.starred;
+    setIconTitle: function (icon, state) {
+        icon.title = state ? icon.dataset.unseticonTitle : icon.dataset.seticonTitle;
+    },
+
+    toggleAction: function (actionVar, actionApi) {
+        this.api[actionApi](this.articleId, !this[actionVar]).then(d => {
+            this[actionVar] = !this[actionVar];
         }).catch(error => {
             this.hide(this.infoToast);
             this.showError(error.message);
@@ -260,32 +266,6 @@ PopupController.prototype = {
         this.checkAutocompleteState();
     },
 
-    setArchived: function (e) {
-        e.preventDefault();
-        this.api.SaveArchived(this.articleId, true).then(d => {
-            this.starred = true;
-            this.show(this.removeArchivedIcon);
-            this.hide(this.setArchivedIcon);
-        }).catch(error => {
-            this.hide(this.infoToast);
-            this.showError(error.message);
-        });
-        // .catch(error=>{ console.log(error) });;
-    },
-
-    removeArchived: function (e) {
-        e.preventDefault();
-        this.api.SaveArchived(this.articleId, false).then(d => {
-            this.starred = false;
-            this.hide(this.removeArchivedIcon);
-            this.show(this.setArchivedIcon);
-        }).catch(error => {
-            this.hide(this.infoToast);
-            this.showError(error.message);
-        });
-        // .catch(error=>{ console.log(error) });;
-    },
-
     deleteArticle: function (e) {
         e.preventDefault();
         this.api.DeleteArticle(this.articleId)
@@ -339,13 +319,13 @@ PopupController.prototype = {
     cardTitleClick: function (e) {
         e.preventDefault();
         window.close();
-        chrome.tabs.create({url: `${this.api.data.Url}/view/${this.articleId}`});
+        chrome.tabs.create({url: this.href});
     },
 
-    cardMetaClick: function (e) {
+    entryUrlClick: function (e) {
         e.preventDefault();
         window.close();
-        chrome.tabs.create({url: this.originalLink});
+        chrome.tabs.create({url: this.href});
     },
 
     activeTab: function () {
@@ -421,8 +401,11 @@ PopupController.prototype = {
             .then(data => {
                 console.log(data);
                 if (data != null) {
+                    this.articleId = data.id;
                     this.cardTitle.innerHTML = data.title;
-                    this.cardMeta.innerHTML = data.domain_name;
+                    this.cardTitle.href = `${this.api.data.Url}/view/${this.articleId}`;
+                    this.entryUrl.innerHTML = data.domain_name;
+                    this.entryUrl.href = data.url;
 
                     if (typeof (data.preview_picture) === 'string' &&
                         data.preview_picture.length > 0 &&
@@ -432,16 +415,15 @@ PopupController.prototype = {
                         this.hide(this.cardImage);
                     }
 
-                    this.articleId = data.id;
-                    this.originalLink = data.url;
                     this.starred = data.is_starred;
+                    this.setIconTitle(this.starredIcon, this.starred);
                     if (this.starred) {
                         this.toggleIcon(this.starredIcon);
                     }
                     this.archived = data.is_archived;
+                    this.setIconTitle(this.archivedIcon, this.archived);
                     if (this.archived) {
-                        this.show(this.removeArchivedIcon);
-                        this.hide(this.setArchivedIcon);
+                        this.toggleIcon(this.archivedIcon);
                     }
                 }
                 this.hide(this.infoToast);

@@ -15,7 +15,7 @@
         </div>
 
         <div class="card-header" id="card-header">
-            <span id="card-title">Test card</span>
+            <a id="card-title" href="#" title="Go to Wallabag's article page">Test card</a>
         </div>
 
         <div class="card-body hide" id="card-body">
@@ -25,21 +25,35 @@
         </div>
 
         <div class="card-footer">
-            <span class="card-meta" id="card-meta">test meta</span>
-            <span class="card-meta float-right icon icon-bin" id="delete-icon"></span>
+            <a class="card-meta" id="entry-url" href="#" title="Go to this article page">test meta</a>
+            <button
+                class="action-button float-right card-meta icon icon-bin"
+                id="delete-icon"
+                title="Remove this article from Wallabag"></button>
 
-            <span id="starred-icon" 
-                  data-isset="false"
-                  data-seticon="icon-heart" 
-                  data-unseticon="icon-heart2" 
-                  class="card-meta float-right icon icon-heart2"></span>
+            <button
+                id="starred-icon"
+                data-isset="false"
+                data-seticon="icon-star-full"
+                data-seticon-title="Set this article as starred into Wallabag"
+                data-unseticon="icon-star"
+                data-unseticon-title="Unset this article as starred into Wallabag"
+                class="action-button float-right card-meta icon icon-star"
+                title=""></button>
 
-        <!--    <span class="card-meta float-right icon icon-heart2" id="set-starred"></span>
-            <span class="card-meta float-right icon icon-heart hide" id="remove-starred"></span>
-        -->
-            <span class="card-meta float-right icon icon-checkmark hide"  id="remove-archived"></span>
-            <span class="card-meta float-right icon icon-checkmark2" id="set-archived"></span>
-            <span class="card-meta float-right icon icon-pencil" id="edit-icon"></span>
+            <button
+                id="archived-icon"
+                class="action-button float-right card-meta icon icon-checkmark"
+                data-isset="false"
+                data-seticon="icon-checkmark-full"
+                data-seticon-title="Set this article as archived into Wallabag"
+                data-unseticon="icon-checkmark"
+                data-unseticon-title="Unset this article as archived into Wallabag"
+                title=""></button>
+            <button
+                class="action-button float-right card-meta icon icon-pencil"
+                id="edit-icon"
+                title="Edit the Wallabag title of this article"></button>
         </div>
 
         <div class="card-footer" id="tags">
