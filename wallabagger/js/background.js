@@ -109,3 +109,90 @@ browser.commands.onCommand.addListener(function (command) {
         });
     }
 });
+
+browser.tabs.onActivated.addListener(function (activeInfo) {
+    browser.browserAction.setIcon({ path: browserActionIconDefault });
+    const { tabId } = activeInfo;
+    browser.tabs.get(tabId, function (tab) {
+        checkExist(slash(tab.url));
+    });
+});
+
+browser.tabs.onCreated.addListener(function (tab) {
+    browser.browserAction.setIcon({ path: browserActionIconDefault });
+});
+
+browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo.status === 'loading' && tab.active) {
+        requestExists(slash(tab.url));
+    }
+});
+
+const checkExist = (url) => {
+    if (isServicePage(url)) { return; }
+    existWasChecked(slash(url))
+    .then(wasChecked => {
+        if (wasChecked) {
+            getExistFlag(slash(url))
+            .then(exists => {
+                if (exists) {
+                    browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
+                }
+            });
+        } else {
+            requestExists(url);
+        }
+    });
+};
+
+const requestExists = (url) =>
+    GetApi()
+    .then(api => api.EntryExists(url))
+    .then(data => {
+        let icon = browserActionIconDefault;
+        if (data.exists) {
+            icon = 'img/wallabagger-green.svg';
+        }
+        browser.browserAction.setIcon({ path: icon });
+        saveExistFlag(url, data.exists);
+    });
+
+const saveExistFlag = (url, exists) => {
+    browser.storage.local.set({[btoa(url)]: JSON.stringify(exists)});
+};
+
+const getExistFlag = (url) =>
+    new Promise((resolve, reject) => {
+        browser.storage.local.get(btoa(url), function (item) {
+            resolve(JSON.parse(item[btoa(url)]));
+        });
+    });
+
+const existWasChecked = (url) =>
+    new Promise((resolve, reject) => {
+        browser.storage.local.get(null, function (items) {
+            resolve(btoa(url) in items);
+        });
+    });
+
+const slash = (url) => url.replace(/\/?$/, '/');
+
+const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
+
+chrome.runtime.onMessage.addListener(
+  function (request, sender, sendResponse) {
+      const {type, url} = request;
+      switch (type) {
+          case 'begin' :
+              browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
+              break;
+          case 'success' :
+              browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
+              saveExistFlag(slash(url), true);
+              break;
+          case 'error' :
+              browser.browserAction.setIcon({ path: 'img/wallabagger-red.svg' });
+              setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
+              break;
+      }
+  });
