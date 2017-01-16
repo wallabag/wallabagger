@@ -1,13 +1,15 @@
+/* globals WallabagApi */
 if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
     browser = chrome;
 }
+
 const GetApi = () => {
     const api = new WallabagApi();
-
     return api.load()
         .then(data => {
             if (api.needNewAppToken()) {
-                return api.GetAppToken().then(r => api);
+                return api.GetAppToken()
+                    .then(r => api);
             }
             return api;
         })
@@ -110,23 +112,46 @@ browser.commands.onCommand.addListener(function (command) {
     }
 });
 
-browser.tabs.onActivated.addListener(function (activeInfo) {
-    browser.browserAction.setIcon({ path: browserActionIconDefault });
-    const { tabId } = activeInfo;
-    browser.tabs.get(tabId, function (tab) {
-        checkExist(slash(tab.url));
-    });
+GetApi().then(api => {
+    if (api.data.AllowExistCheck) {
+        browser.tabs.onActivated.addListener(function (activeInfo) {
+            browser.browserAction.setIcon({ path: browserActionIconDefault });
+            const { tabId } = activeInfo;
+            browser.tabs.get(tabId, function (tab) {
+                checkExist(slash(tab.url));
+            });
+        });
+
+        browser.tabs.onCreated.addListener(function (tab) {
+            browser.browserAction.setIcon({ path: browserActionIconDefault });
+        });
+
+        browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+            if (changeInfo.status === 'loading' && tab.active) {
+                requestExists(slash(tab.url));
+            }
+        });
+
+        chrome.runtime.onMessage.addListener(
+        function (request, sender, sendResponse) {
+            const {type, url} = request;
+            switch (type) {
+                case 'begin' :
+                    browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
+                    break;
+                case 'success' :
+                    browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
+                    saveExistFlag(slash(url), true);
+                    break;
+                case 'error' :
+                    browser.browserAction.setIcon({ path: 'img/wallabagger-red.svg' });
+                    setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
+                    break;
+            }
+        });
+    };
 });
 
-browser.tabs.onCreated.addListener(function (tab) {
-    browser.browserAction.setIcon({ path: browserActionIconDefault });
-});
-
-browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if (changeInfo.status === 'loading' && tab.active) {
-        requestExists(slash(tab.url));
-    }
-});
 
 const checkExist = (url) => {
     if (isServicePage(url)) { return; }
@@ -178,21 +203,3 @@ const existWasChecked = (url) =>
 const slash = (url) => url.replace(/\/?$/, '/');
 
 const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
-
-chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
-      const {type, url} = request;
-      switch (type) {
-          case 'begin' :
-              browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
-              break;
-          case 'success' :
-              browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
-              saveExistFlag(slash(url), true);
-              break;
-          case 'error' :
-              browser.browserAction.setIcon({ path: 'img/wallabagger-red.svg' });
-              setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
-              break;
-      }
-  });
