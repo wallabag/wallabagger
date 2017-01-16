@@ -152,7 +152,6 @@ GetApi().then(api => {
     };
 });
 
-
 const checkExist = (url) => {
     if (isServicePage(url)) { return; }
     existWasChecked(slash(url))
