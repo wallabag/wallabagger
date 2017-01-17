@@ -3,6 +3,13 @@ if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
     browser = chrome;
 }
 
+const icon = {
+    'good': 'img/wallabagger-green.svg',
+    'wip': 'img/wallabagger-yellow.svg',
+    'bad': 'img/wallabagger-red.svg'
+
+};
+
 const GetApi = () => {
     const api = new WallabagApi();
     return api.load()
@@ -62,15 +69,15 @@ browser.contextMenus.create({
 });
 
 function savePageToWallabag (url) {
-    browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
+    browser.browserAction.setIcon({ path: icon.wip });
 
     GetApi().then(api => api.SavePage(url))
         .then(r => {
-            browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
+            browser.browserAction.setIcon({ path: icon.good });
             setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
         })
         .catch(e => {
-            browser.browserAction.setIcon({ path: 'img/wallabagger-red.svg' });
+            browser.browserAction.setIcon({ path: icon.bad });
             setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
         });
 };
@@ -137,14 +144,14 @@ GetApi().then(api => {
             const {type, url} = request;
             switch (type) {
                 case 'begin' :
-                    browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
+                    browser.browserAction.setIcon({ path: icon.wip });
                     break;
                 case 'success' :
-                    browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
+                    browser.browserAction.setIcon({ path: icon.good });
                     saveExistFlag(url, true);
                     break;
                 case 'error' :
-                    browser.browserAction.setIcon({ path: 'img/wallabagger-red.svg' });
+                    browser.browserAction.setIcon({ path: icon.bad });
                     setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
                     break;
             }
@@ -160,7 +167,7 @@ const checkExist = (url) => {
             getExistFlag(url)
             .then(exists => {
                 if (exists) {
-                    browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
+                    browser.browserAction.setIcon({ path: icon.good });
                 }
             });
         } else {
@@ -175,7 +182,7 @@ const requestExists = (url) =>
     .then(data => {
         let icon = browserActionIconDefault;
         if (data.exists) {
-            icon = 'img/wallabagger-green.svg';
+            icon = icon.good;
         }
         browser.browserAction.setIcon({ path: icon });
         saveExistFlag(url, data.exists);
