@@ -118,7 +118,7 @@ GetApi().then(api => {
             browser.browserAction.setIcon({ path: browserActionIconDefault });
             const { tabId } = activeInfo;
             browser.tabs.get(tabId, function (tab) {
-                checkExist(slash(tab.url));
+                checkExist(tab.url);
             });
         });
 
@@ -128,7 +128,7 @@ GetApi().then(api => {
 
         browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
             if (changeInfo.status === 'loading' && tab.active) {
-                requestExists(slash(tab.url));
+                requestExists(tab.url);
             }
         });
 
@@ -141,7 +141,7 @@ GetApi().then(api => {
                     break;
                 case 'success' :
                     browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
-                    saveExistFlag(slash(url), true);
+                    saveExistFlag(url, true);
                     break;
                 case 'error' :
                     browser.browserAction.setIcon({ path: 'img/wallabagger-red.svg' });
@@ -154,10 +154,10 @@ GetApi().then(api => {
 
 const checkExist = (url) => {
     if (isServicePage(url)) { return; }
-    existWasChecked(slash(url))
+    existWasChecked(url)
     .then(wasChecked => {
         if (wasChecked) {
-            getExistFlag(slash(url))
+            getExistFlag(url)
             .then(exists => {
                 if (exists) {
                     browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
@@ -199,6 +199,6 @@ const existWasChecked = (url) =>
         });
     });
 
-const slash = (url) => url.replace(/\/?$/, '/');
+// const slash = (url) => url.match(/(\w+)\.html?$/) ? url : url.replace(/\/?$/, '/');
 
 const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
