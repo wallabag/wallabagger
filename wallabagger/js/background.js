@@ -1,13 +1,22 @@
+/* globals WallabagApi */
 if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
     browser = chrome;
 }
+
+const icon = {
+    'good': 'img/wallabagger-green.svg',
+    'wip': 'img/wallabagger-yellow.svg',
+    'bad': 'img/wallabagger-red.svg'
+
+};
+
 const GetApi = () => {
     const api = new WallabagApi();
-
     return api.load()
         .then(data => {
             if (api.needNewAppToken()) {
-                return api.GetAppToken().then(r => api);
+                return api.GetAppToken()
+                    .then(r => api);
             }
             return api;
         })
@@ -60,15 +69,15 @@ browser.contextMenus.create({
 });
 
 function savePageToWallabag (url) {
-    browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
+    browser.browserAction.setIcon({ path: icon.wip });
 
     GetApi().then(api => api.SavePage(url))
         .then(r => {
-            browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
+            browser.browserAction.setIcon({ path: icon.good });
             setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
         })
         .catch(e => {
-            browser.browserAction.setIcon({ path: 'img/wallabagger-red.svg' });
+            browser.browserAction.setIcon({ path: icon.bad });
             setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
         });
 };
@@ -109,3 +118,94 @@ browser.commands.onCommand.addListener(function (command) {
         });
     }
 });
+
+GetApi().then(api => {
+    if (api.data.AllowExistCheck) {
+        browser.tabs.onActivated.addListener(function (activeInfo) {
+            browser.browserAction.setIcon({ path: browserActionIconDefault });
+            const { tabId } = activeInfo;
+            browser.tabs.get(tabId, function (tab) {
+                checkExist(tab.url);
+            });
+        });
+
+        browser.tabs.onCreated.addListener(function (tab) {
+            browser.browserAction.setIcon({ path: browserActionIconDefault });
+        });
+
+        browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+            if (changeInfo.status === 'loading' && tab.active) {
+                requestExists(tab.url);
+            }
+        });
+
+        chrome.runtime.onMessage.addListener(
+        function (request, sender, sendResponse) {
+            const {type, url} = request;
+            switch (type) {
+                case 'begin' :
+                    browser.browserAction.setIcon({ path: icon.wip });
+                    break;
+                case 'success' :
+                    browser.browserAction.setIcon({ path: icon.good });
+                    saveExistFlag(url, true);
+                    break;
+                case 'error' :
+                    browser.browserAction.setIcon({ path: icon.bad });
+                    setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
+                    break;
+            }
+        });
+    };
+});
+
+const checkExist = (url) => {
+    if (isServicePage(url)) { return; }
+    existWasChecked(url)
+    .then(wasChecked => {
+        if (wasChecked) {
+            getExistFlag(url)
+            .then(exists => {
+                if (exists) {
+                    browser.browserAction.setIcon({ path: icon.good });
+                }
+            });
+        } else {
+            requestExists(url);
+        }
+    });
+};
+
+const requestExists = (url) =>
+    GetApi()
+    .then(api => api.EntryExists(url))
+    .then(data => {
+        let icon = browserActionIconDefault;
+        if (data.exists) {
+            icon = icon.good;
+        }
+        browser.browserAction.setIcon({ path: icon });
+        saveExistFlag(url, data.exists);
+    });
+
+const saveExistFlag = (url, exists) => {
+    browser.storage.local.set({[btoa(url)]: JSON.stringify(exists)});
+};
+
+const getExistFlag = (url) =>
+    new Promise((resolve, reject) => {
+        browser.storage.local.get(btoa(url), function (item) {
+            resolve(JSON.parse(item[btoa(url)]));
+        });
+    });
+
+const existWasChecked = (url) =>
+    new Promise((resolve, reject) => {
+        browser.storage.local.get(null, function (items) {
+            resolve(btoa(url) in items);
+        });
+    });
+
+// const slash = (url) => url.match(/(\w+)\.html?$/) ? url : url.replace(/\/?$/, '/');
+
+const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);

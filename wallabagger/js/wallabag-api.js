@@ -12,7 +12,8 @@ WallabagApi.prototype = {
         ApiToken: null,
         RefreshToken: null,
         ExpireDateMs: null,
-        AllowSpaceInTags: null
+        AllowSpaceInTags: null,
+        AllowExistCheck: null
     },
 
     response_status: null,
@@ -259,6 +260,21 @@ WallabagApi.prototype = {
             });
     },
 
+    EntryExists: function (url) {
+        let entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
+
+        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
+
+        return fetch(entriesUrl, rinit)
+            .then(this._json)
+            .then(this._status)
+            .then(fetchData => { return fetchData; })
+            .catch(error => {
+                throw new Error(`Failed to check if exists ${entriesUrl}
+                ${error.message}`);
+            });
+    },
+
     GetArticle: function (articleId) {
         let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
 
@@ -290,15 +306,11 @@ WallabagApi.prototype = {
     },
 
     // CheckAppToken: function () {
-
     //    let entriesUrl = `${this.data.Url}/api/entries.json?perPage=1`;
-
     //    let rinit = this.RequestInit("GET", this.AuhorizedHeader(), '');
-
     //    return fetch( entriesUrl, rinit )
     //         .then(this._status)
     //         .then(this._json);
-
     // },
 
     GetAppToken: function () {
