@@ -16,13 +16,15 @@ More informations on website: [wallabag.org](https://wallabag.org) and [github.c
 ## Requirement
 
 - Wallabag v.2 on server side.
-- Chrome-based browser
+- Chrome-based browser or Firefox browser v.48 and higher
 
 ## Installation
 
 - From [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj)
 - By .crx file
 - As unpacked folder (developer mode)
+- Opera and Yandex browsers users can install the extension from [Opera extension site](https://addons.opera.com/ru/extensions/details/wallabagger/)
+- Firefox browsers users can install the extension from [Mozilla add-ons storage](https://addons.mozilla.org/en-US/firefox/addon/wallabagger/)
 
 ## Acknowledgement
 
