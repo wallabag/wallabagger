@@ -107,7 +107,7 @@ browser.contextMenus.onClicked.addListener(function (info) {
 });
 
 const GotoWallabag = (part) =>
-    GetApi().then(api => chrome.tabs.create({ url: `${api.data.Url}/${part}/list` }));
+    GetApi().then(api => browser.tabs.create({ url: `${api.data.Url}/${part}/list` }));
 
 browser.commands.onCommand.addListener(function (command) {
     if (command === 'wallabag-it') {
@@ -139,8 +139,7 @@ GetApi().then(api => {
             }
         });
 
-        chrome.runtime.onMessage.addListener(
-        function (request, sender, sendResponse) {
+        browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             const {type, url} = request;
             switch (type) {
                 case 'begin' :
