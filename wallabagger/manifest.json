@@ -11,7 +11,7 @@
         "default_popup": "popup.html"
     },
     "background": {
-        "scripts": ["js/background.js", "js/wallabag-api.js", "js/fetch-api.js"]
+        "scripts": [ "js/fetch-api.js", "js/wallabag-api.js", "js/background.js" ]
     },
     "permissions": [
         "*://*/",

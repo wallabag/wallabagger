@@ -378,6 +378,7 @@ PopupController.prototype = {
     },
 
     init: function () {
+        browser.runtime.sendMessage({type: 'begin'});
         this.api = new WallabagApi();
         this.showInfo('Loading wallabag API...');
 
@@ -392,6 +393,7 @@ PopupController.prototype = {
             .catch(error => {
                 this.hide(this.infoToast);
                 this.showError(error.message);
+                browser.runtime.sendMessage({type: 'error'});
                 throw error;
             });
 
@@ -431,12 +433,14 @@ PopupController.prototype = {
                 }
                 this.hide(this.infoToast);
                 this.show(this.mainCard);
+                browser.runtime.sendMessage({type: 'success', url: data.url});
             })
             .then(data => this.loadArticleTags(data))
             .then(data => this.enableTagsInput())
             .catch(error => {
                 this.hide(this.infoToast);
                 this.showError(error.message);
+                browser.runtime.sendMessage({type: 'error'});
             });
 
            // loading all tags
@@ -468,6 +472,10 @@ PopupController.prototype = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
+        browser = chrome;
+    }
+    console.log(browser.runtime.id);
     const PC = new PopupController();
     PC.init();
 });

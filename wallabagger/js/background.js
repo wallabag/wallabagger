@@ -1,13 +1,22 @@
 if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
     browser = chrome;
 }
+
+const icon = {
+    'good': 'img/wallabagger-green.svg',
+    'wip': 'img/wallabagger-yellow.svg',
+    'bad': 'img/wallabagger-red.svg'
+
+};
+
 const GetApi = () => {
     const api = new WallabagApi();
 
     return api.init()
         .then(data => {
             if (api.needNewAppToken()) {
-                return api.GetAppToken().then(r => api);
+                return api.GetAppToken()
+                    .then(r => api);
             }
             return api;
         })
@@ -60,15 +69,15 @@ browser.contextMenus.create({
 });
 
 function savePageToWallabag (url) {
-    browser.browserAction.setIcon({ path: 'img/wallabagger-yellow.svg' });
+    browser.browserAction.setIcon({ path: icon.wip });
 
     GetApi().then(api => api.SavePage(url))
         .then(r => {
-            browser.browserAction.setIcon({ path: 'img/wallabagger-green.svg' });
+            browser.browserAction.setIcon({ path: icon.good });
             setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
         })
         .catch(e => {
-            browser.browserAction.setIcon({ path: 'img/wallabagger-red.svg' });
+            browser.browserAction.setIcon({ path: icon.bad });
             setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
         });
 };
@@ -98,7 +107,7 @@ browser.contextMenus.onClicked.addListener(function (info) {
 });
 
 const GotoWallabag = (part) =>
-    GetApi().then(api => chrome.tabs.create({ url: `${api.data.Url}/${part}/list` }));
+    GetApi().then(api => browser.tabs.create({ url: `${api.data.Url}/${part}/list` }));
 
 browser.commands.onCommand.addListener(function (command) {
     if (command === 'wallabag-it') {

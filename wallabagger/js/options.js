@@ -22,13 +22,15 @@ var OptionsController = function () {
 
     //   this.tokenExpiresInput = document.getElementById("tokenexpired-input");
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
+    this.allowExistCheck = document.getElementById('allow-exist-checkbox');
     this.saveToFileButton = document.getElementById('saveToFile-button');
     this.loadFromFileButton = document.getElementById('loadFromFile-button');
     this.clearButton = document.getElementById('clear-button');
     this.openFileDialog = document.getElementById('openFile-dialog');
     // this.saveToLocalButton = document.getElementById("saveToLocal-button");
     // this.loadFromLocalButton = document.getElementById("loadFromLocal-button");
-
+    this.httpsMessage = document.getElementById('https-message');
+    this.httpsButton = document.getElementById('https-button');
     this.addListeners_();
 };
 
@@ -62,11 +64,15 @@ OptionsController.prototype = {
     // loadFromLocalButton: null,
 
     allowSpaceCheck: null,
+    allowExistCheck: null,
+    httpsButton: null,
+    httpsMessage: null,
 
     api: null,
 
     addListeners_: function () {
         this.allowSpaceCheck.addEventListener('click', this.allowSpaceCheckClick.bind(this));
+        this.allowExistCheck.addEventListener('click', this.allowExistCheckClick.bind(this));
         this.protocolCheck_.addEventListener('click', this.handleProtocolClick.bind(this));
         // this.savebutton_.addEventListener('click', this.saveClick_.bind(this));
         this.checkurlbutton_.addEventListener('click', this.checkUrlClick.bind(this));
@@ -80,8 +86,12 @@ OptionsController.prototype = {
         // this.loadFromLocalButton.addEventListener('click', this.loadFromLocal.bind(this));
 
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
+        this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
     },
 
+    httpsButtonClick: function () {
+        this.httpsMessage.classList.remove('active');
+    },
     // saveToLocal: function () {
     //     localStorage.setItem("wallabagger", JSON.stringify(this.api.data));
     // },
@@ -143,6 +153,16 @@ OptionsController.prototype = {
     allowSpaceCheckClick: function (e) {
         this.api.set({ AllowSpaceInTags: this.allowSpaceCheck.checked });
         this.api.save();
+    },
+
+    allowExistCheckClick: function (e) {
+        if (this.protocolCheck_.checked) {
+            this.api.set({ AllowExistCheck: this.allowExistCheck.checked });
+            this.api.save();
+        } else {
+            this.allowExistCheck.checked = false;
+            this.httpsMessage.classList.add('active');
+        }
     },
 
     wallabagApiTokenGot: function () {
@@ -228,6 +248,7 @@ OptionsController.prototype = {
             this.protocolLabel_.innerText = 'https://';
         } else {
             this.protocolLabel_.innerText = 'http://';
+            this.allowExistCheck.checked = false;
         }
     },
 
@@ -329,6 +350,9 @@ OptionsController.prototype = {
         if (this.api.data.ExpireDateMs && this.api.expired) {
             this.tokenLabel_.innerHTML = 'Expired';
         }
+
+        this.allowSpaceCheck.checked = data.AllowSpaceInTags;
+        this.allowExistCheck.checked = data.AllowExistCheck;
     },
 
     init: function () {
