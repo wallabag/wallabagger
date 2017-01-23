@@ -105,6 +105,7 @@ PopupController.prototype = {
             this.toggleAction(actionKey, 'SaveArchived');
         }
         this.setIconTitle(event.currentTarget, !this[actionKey]);
+        this.tagsInput.focus();
     },
 
     toggleIcon: function (icon) {
@@ -294,6 +295,7 @@ PopupController.prototype = {
         this.titleInput.value = this.cardTitle.innerHTML;
         this.hide(this.cardHeader);
         this.show(this.cardBody);
+        this.titleInput.focus();
     },
 
     saveTitleClick: function (e) {
