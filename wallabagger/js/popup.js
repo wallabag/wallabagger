@@ -1,4 +1,3 @@
-/* globals WallabagApi */
 var PopupController = function () {
     this.mainCard = document.getElementById('main-card');
     this.errorToast = document.getElementById('error-toast');
@@ -310,12 +309,14 @@ PopupController.prototype = {
                 this.hide(this.infoToast);
                 this.showError(error);
             });
+        this.titleInput.focus();
     },
 
     cancelTitleClick: function (e) {
         e.preventDefault();
         this.hide(this.cardBody);
         this.show(this.cardHeader);
+        this.titleInput.focus();
     },
 
     cardTitleClick: function (e) {
@@ -380,7 +381,7 @@ PopupController.prototype = {
         this.api = new WallabagApi();
         this.showInfo('Loading wallabag API...');
 
-        let apiAuthorised = this.api.load()
+        let apiAuthorised = this.api.init()
              .then(data => {
                  if (this.api.needNewAppToken()) {
                      this.showInfo('Obtaining wallabag api token...');

@@ -11,7 +11,8 @@
         "browser": true
     },
     "globals": {
-        "WallabagApi": true
+        "WallabagApi": true,
+        "FetchApi": true
     },
     "rules": {
         "indent": [

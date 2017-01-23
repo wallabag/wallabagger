@@ -1,4 +1,3 @@
-/* globals Post Get Delete Patch */
 var WallabagApi = function () { };
 
 const emptyData = {
@@ -18,7 +17,14 @@ WallabagApi.prototype = {
 
     data: emptyData,
 
+    fetchApi: null,
+
     tags: [],
+
+    init: function () {
+        this.fetchApi = new FetchApi();
+        return this.load();
+    },
 
     save: function () {
         chrome.storage.local.set({ 'wallabagdata': this.data });
@@ -73,7 +79,7 @@ WallabagApi.prototype = {
 
     CheckUrl: function () {
         let url_ = this.data.Url + '/api/version';
-        return Get(url_, '')
+        return this.fetchApi.Get(url_, '')
             .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData; })
             .catch(error => {
                 throw new Error(`Failed to get api version ${url_}
@@ -99,7 +105,7 @@ WallabagApi.prototype = {
 
     PatchArticle: function (articleId, content) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return Patch(entryUrl, this.data.ApiToken, content)
+        return this.fetchApi.Patch(entryUrl, this.data.ApiToken, content)
             .catch(error => {
                 throw new Error(`Failed to update article ${entryUrl}
                 ${error.message}`);
@@ -108,7 +114,7 @@ WallabagApi.prototype = {
 
     DeleteArticle: function (articleId) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return Delete(entryUrl, this.data.ApiToken)
+        return this.fetchApi.Delete(entryUrl, this.data.ApiToken)
              .catch(error => {
                  throw new Error(`Failed to delete article ${entryUrl}
                 ${error.message}`);
@@ -117,7 +123,7 @@ WallabagApi.prototype = {
 
     DeleteArticleTag: function (articleId, tagid) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
-        return Delete(entryUrl, this.data.ApiToken)
+        return this.fetchApi.Delete(entryUrl, this.data.ApiToken)
             .catch(error => {
                 throw new Error(`Failed to delete article tag ${entryUrl}
                 ${error.message}`);
@@ -127,7 +133,7 @@ WallabagApi.prototype = {
     SavePage: function (pageUrl) {
         let content = JSON.stringify({ url: pageUrl });
         let entriesUrl = `${this.data.Url}/api/entries.json`;
-        return Post(entriesUrl, this.data.ApiToken, content)
+        return this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
             .catch(error => {
                 throw new Error(`Failed to save page ${entriesUrl}
                 ${error.message}`);
@@ -142,7 +148,7 @@ WallabagApi.prototype = {
             client_secret: this.data.ClientSecret
         });
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
-        return Post(oauthurl, '', content)
+        return this.fetchApi.Post(oauthurl, '', content)
             .then(data => {
                 if (data !== '') {
                     this.data.ApiToken = data.access_token;
@@ -160,7 +166,7 @@ WallabagApi.prototype = {
 
     GetTags: function () {
         let entriesUrl = `${this.data.Url}/api/tags.json`;
-        return Get(entriesUrl, this.data.ApiToken)
+        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
             .then(fetchData => {
                 this.tags = fetchData;
                 return fetchData;
@@ -173,7 +179,7 @@ WallabagApi.prototype = {
 
     GetArticle: function (articleId) {
         let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return Get(entriesUrl, this.data.ApiToken)
+        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
             .catch(error => {
                 throw new Error(`Failed to get article ${entriesUrl}
                 ${error.message}`);
@@ -182,7 +188,7 @@ WallabagApi.prototype = {
 
     GetArticleTags: function (articleId) {
         let entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
-        return Get(entriesUrl, this.data.ApiToken)
+        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
             .catch(error => {
                 throw new Error(`Failed to get article tags ${entriesUrl}
                 ${error.message}`);
@@ -212,7 +218,7 @@ WallabagApi.prototype = {
 
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
 
-        return Post(oauthurl, '', content)
+        return this.fetchApi.Post(oauthurl, '', content)
             .then(fetchData => {
                 let nowDate = (new Date());
                 this.data.ApiToken = fetchData.access_token;

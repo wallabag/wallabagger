@@ -4,7 +4,7 @@ if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
 const GetApi = () => {
     const api = new WallabagApi();
 
-    return api.load()
+    return api.init()
         .then(data => {
             if (api.needNewAppToken()) {
                 return api.GetAppToken().then(r => api);

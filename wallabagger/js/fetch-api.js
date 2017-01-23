@@ -1,52 +1,57 @@
+var FetchApi = function () {};
 
-function getRequestOptions (rmethod, rheaders, content) {
-    let options = {
-        method: rmethod,
-        headers: rheaders,
-        mode: 'cors',
-        cache: 'default'
-    };
+FetchApi.prototype = {
 
-    if ((content !== '') && (content != null)) {
-        options.body = content;
-    };
+    getRequestOptions: function (rmethod, rheaders, content) {
+        let options = {
+            method: rmethod,
+            headers: rheaders,
+            mode: 'cors',
+            cache: 'default'
+        };
 
-    return options;
-};
+        if ((content !== '') && (content != null)) {
+            options.body = content;
+        };
 
-function getNotAuhorizedHeaders () {
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept-Encoding', 'gzip, deflate');
-    return headers;
-};
+        return options;
+    },
 
-function getAuhorizedHeaders (token) {
-    const headers = new Headers();
-    headers.append('Authorization', `Bearer ${token}`);
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept-Encoding', 'gzip, deflate');
-    return headers;
-};
+    getNotAuhorizedHeaders: function () {
+        const headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept-Encoding', 'gzip, deflate');
+        return headers;
+    },
 
-function Patch (url, token, content) {
-    let rinit = this.getRequestOptions('PATCH', this.getAuhorizedHeaders(token), content);
-    return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
-};
+    getAuhorizedHeaders: function (token) {
+        const headers = new Headers();
+        headers.append('Authorization', `Bearer ${token}`);
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept-Encoding', 'gzip, deflate');
+        return headers;
+    },
 
-function Post (url, token, content) {
-    let rinit = this.getRequestOptions('POST', token === '' ? this.getNotAuhorizedHeaders() : this.getAuhorizedHeaders(token), content);
-    return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
-};
+    Patch: function (url, token, content) {
+        let rinit = this.getRequestOptions('PATCH', this.getAuhorizedHeaders(token), content);
+        return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
+    },
 
-function Delete (url, token) {
-    let rinit = this.getRequestOptions('DELETE', this.getAuhorizedHeaders(token), '');
-    return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
-};
+    Post: function (url, token, content) {
+        let rinit = this.getRequestOptions('POST', token === '' ? this.getNotAuhorizedHeaders() : this.getAuhorizedHeaders(token), content);
+        return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
+    },
 
-function Get (url, token) {
-    let rinit = this.getRequestOptions('GET', token === '' ? this.getNotAuhorizedHeaders() : this.getAuhorizedHeaders(token), '');
-    return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
+    Delete: function (url, token) {
+        let rinit = this.getRequestOptions('DELETE', this.getAuhorizedHeaders(token), '');
+        return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
+    },
+
+    Get: function (url, token) {
+        let rinit = this.getRequestOptions('GET', token === '' ? this.getNotAuhorizedHeaders() : this.getAuhorizedHeaders(token), '');
+        return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
+    }
+
 };
