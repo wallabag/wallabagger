@@ -10,8 +10,8 @@ const emptyData = {
     ApiToken: null,
     RefreshToken: null,
     ExpireDateMs: null,
-        AllowSpaceInTags: null,
-        AllowExistCheck: null
+    AllowSpaceInTags: null,
+    AllowExistCheck: null
 };
 
 WallabagApi.prototype = {
