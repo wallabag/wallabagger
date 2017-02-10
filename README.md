@@ -26,6 +26,9 @@ More informations on website: [wallabag.org](https://wallabag.org) and [github.c
 - Opera and Yandex browsers users can install the extension from [Opera extension site](https://addons.opera.com/ru/extensions/details/wallabagger/)
 - Firefox browsers users can install the extension from [Mozilla add-ons storage](https://addons.mozilla.org/en-US/firefox/addon/wallabagger/)
 
+## Configuration
+https://wallabag.org/en/news/wallabagger-howto
+
 ## Acknowledgement
 
 Many thanks to:

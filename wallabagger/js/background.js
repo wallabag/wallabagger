@@ -12,7 +12,6 @@ const icon = {
 
 const GetApi = () => {
     const api = new WallabagApi();
-
     return api.init()
         .then(data => {
             if (api.needNewAppToken()) {
