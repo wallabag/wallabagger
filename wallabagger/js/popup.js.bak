@@ -1,4 +1,3 @@
-/* globals WallabagApi */
 var PopupController = function () {
     this.mainCard = document.getElementById('main-card');
     this.errorToast = document.getElementById('error-toast');
@@ -295,6 +294,7 @@ PopupController.prototype = {
         this.titleInput.value = this.cardTitle.innerHTML;
         this.hide(this.cardHeader);
         this.show(this.cardBody);
+        this.titleInput.focus();
     },
 
     saveTitleClick: function (e) {
@@ -309,14 +309,14 @@ PopupController.prototype = {
                 this.hide(this.infoToast);
                 this.showError(error);
             });
-        this.tagsInput.focus();
+        this.titleInput.focus();
     },
 
     cancelTitleClick: function (e) {
         e.preventDefault();
         this.hide(this.cardBody);
         this.show(this.cardHeader);
-        this.tagsInput.focus();
+        this.titleInput.focus();
     },
 
     cardTitleClick: function (e) {
