@@ -2,19 +2,14 @@ var FetchApi = function () {};
 
 FetchApi.prototype = {
 
-    getRequestOptions: function (rmethod, rheaders, content) {
-        let options = {
-            method: rmethod,
-            headers: rheaders,
+    getRequestOptions: function (method, token, content) {
+        return {
+            method: method,
+            headers: this.getHeaders(token),
             mode: 'cors',
-            cache: 'default'
+            cache: 'default',
+            body: content
         };
-
-        if ((content !== '') && (content != null)) {
-            options.body = content;
-        };
-
-        return options;
     },
 
     getHeaders: function (token) {
@@ -28,33 +23,33 @@ FetchApi.prototype = {
     },
 
     Patch: function (url, token, content) {
-        let rinit = this.getRequestOptions('PATCH', this.getHeaders(token), content);
-        return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
+        return this.Fetch(url, 'PATCH', token, content);
     },
 
     Post: function (url, token, content) {
-        let rinit = this.getRequestOptions('POST', this.getHeaders(token), content);
-        return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
+        return this.Fetch(url, 'POST', token, content);
     },
 
     Delete: function (url, token) {
-        let rinit = this.getRequestOptions('DELETE', this.getHeaders(token), '');
-        return fetch(url, rinit).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
+        return this.Fetch(url, 'DELETE', token, '');
     },
 
     Get: function (url, token) {
-        return this.Fetch(url, this.getRequestOptions('GET', this.getHeaders(token), ''));
+        return this.Fetch(url, 'GET', token, '');
     },
 
     isEdge: function () {
-        return true;
+        return /Edge/.test(navigator.userAgent);
     },
 
-    Fetch: function (url, token) {
-        return this.isEdge ? this.xhrFetch(url, token) : this.apiFetchurl(url, token);
+    Fetch: function (url, method, token, content) {
+        let options = this.getRequestOptions(method, token, content);
+        return this.isEdge
+            ? this.xhrFetch(url, options)
+            : this.apiFetchurl(url, options);
     },
 
-    apiFetch: (url, init) => fetch(url, init).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err))),
+    apiFetch: (url, options) => fetch(url, options).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err))),
 
     xhrFetch: function (url, options) {
         return new Promise(function (resolve, reject) {

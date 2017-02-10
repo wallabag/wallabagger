@@ -178,6 +178,21 @@ WallabagApi.prototype = {
             });
     },
 
+    EntryExists: function (url) {
+        let entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
+
+        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
+
+        return fetch(entriesUrl, rinit)
+            .then(this._json)
+            .then(this._status)
+            .then(fetchData => { return fetchData; })
+            .catch(error => {
+                throw new Error(`Failed to check if exists ${entriesUrl}
+                ${error.message}`);
+            });
+    },
+
     GetArticle: function (articleId) {
         let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
@@ -218,7 +233,6 @@ WallabagApi.prototype = {
         });
 
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
-
         return this.fetchApi.Post(oauthurl, '', content)
             .then(fetchData => {
                 let nowDate = (new Date());
