@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
         browser = chrome;
     }
-    console.log(browser.runtime.id);
+   // console.log(browser.runtime.id);
     const PC = new PopupController();
     PC.init();
 });
