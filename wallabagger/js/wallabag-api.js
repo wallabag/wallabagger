@@ -30,7 +30,7 @@ WallabagApi.prototype = {
                 if (result.wallabagdata != null) {
                     this.set(result.wallabagdata);
                     if (this.checkParams()) {
-                        return resolve(this.data);
+                        return resolve(this);
                     } else {
                         this.clear();
                         return reject(new Error('Some parameters are empty. Check the settings'));
@@ -44,12 +44,13 @@ WallabagApi.prototype = {
     },
 
     needNewAppToken: function () {
-        let need = (
+ //       console.log(`token=${this.data.ApiToken}`);
+ //       console.log(`this.expired=${this.expired()}`);
+        return (
                   (this.data.ApiToken === '') ||
                   (this.data.ApiToken === null) ||
                   this.expired()
-                   );
-        return need;
+        );
     },
 
     checkParams: function () {
@@ -60,9 +61,9 @@ WallabagApi.prototype = {
     },
 
     expired: function () {
-        // console.log(this.data.ExpireDateMs);
-        // console.log(Date.now());
-        // console.log((Date.now() > this.data.ExpireDateMs));
+//        console.log(`THDTe=${this.data.ExpireDateMs}`);
+//        console.log(`NOW=${Date.now()}`);
+//        console.log(`expired? ${(Date.now() > this.data.ExpireDateMs)}`);
         return (this.data.ExpireDateMs != null) && (Date.now() > this.data.ExpireDateMs);
     },
 
@@ -160,7 +161,8 @@ WallabagApi.prototype = {
 
         let rinit = this.RequestInit('PATCH', this.AuhorizedHeader(), content);
 
-        return fetch(entryUrl, rinit)
+        return this.CheckToken()
+            .then(a => fetch(entryUrl, rinit))
             .then(this._json)
             .then(this._status)
             .catch(error => {
@@ -174,7 +176,8 @@ WallabagApi.prototype = {
 
         let rinit = this.RequestInit('DELETE', this.AuhorizedHeader(), '');
 
-        return fetch(entryUrl, rinit)
+        return this.CheckToken()
+            .then(a => fetch(entryUrl, rinit))
             .then(this._json)
             .then(this._status)
              .catch(error => {
@@ -188,7 +191,8 @@ WallabagApi.prototype = {
 
         let rinit = this.RequestInit('DELETE', this.AuhorizedHeader(), '');
 
-        return fetch(entryUrl, rinit)
+        return this.CheckToken()
+            .then(a => fetch(entryUrl, rinit))
             .then(this._json)
             .then(this._status)
             .catch(error => {
@@ -198,6 +202,15 @@ WallabagApi.prototype = {
                 ;
     },
 
+    CheckToken: function () {
+        return new Promise((resolve, reject) => {
+            if (this.needNewAppToken()) {
+                resolve(this.GetAppToken());
+            }
+            resolve(1);
+        });
+    },
+
     SavePage: function (pageUrl) {
         let content = JSON.stringify({ url: pageUrl });
 
@@ -205,14 +218,14 @@ WallabagApi.prototype = {
 
         let rinit = this.RequestInit('POST', this.AuhorizedHeader(), content);
 
-        return fetch(entriesUrl, rinit)
-            .then(this._json)
-            .then(this._status)
-            .catch(error => {
-                throw new Error(`Failed to save page ${entriesUrl}
-                ${error.message}`);
-            })
-            ;
+        return this.CheckToken()
+                    .then(a => fetch(entriesUrl, rinit))
+                    .then(this._json)
+                    .then(this._status)
+                    .catch(error => {
+                        throw new Error(`Failed to save page ${entriesUrl}
+                        ${error.message}`);
+                    });
     },
 
     RefreshToken: function () {
@@ -250,7 +263,8 @@ WallabagApi.prototype = {
 
         let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
 
-        return fetch(entriesUrl, rinit)
+        return this.CheckToken()
+            .then(a => fetch(entriesUrl, rinit))
             .then(this._json)
             .then(this._status)
             .then(fetchData => { this.tags = fetchData; return fetchData; })
@@ -265,7 +279,8 @@ WallabagApi.prototype = {
 
         let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
 
-        return fetch(entriesUrl, rinit)
+        return this.CheckToken()
+            .then(a => fetch(entriesUrl, rinit))
             .then(this._json)
             .then(this._status)
             .then(fetchData => { return fetchData; })
@@ -280,7 +295,8 @@ WallabagApi.prototype = {
 
         let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
 
-        return fetch(entriesUrl, rinit)
+        return this.CheckToken()
+            .then(a => fetch(entriesUrl, rinit))
             .then(this._json)
             .then(this._status)
             .then(fetchData => { return fetchData; })
@@ -295,7 +311,8 @@ WallabagApi.prototype = {
 
         let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
 
-        return fetch(entriesUrl, rinit)
+        return this.CheckToken()
+            .then(a => fetch(entriesUrl, rinit))
             .then(this._json)
             .then(this._status)
             .then(fetchData => { return fetchData; })
@@ -334,6 +351,7 @@ WallabagApi.prototype = {
                 this.data.ApiToken = fetchData.access_token;
                 this.data.RefreshToken = fetchData.refresh_token;
                 this.data.ExpireDateMs = nowDate.setSeconds(nowDate.getSeconds() + fetchData.expires_in);
+                this.save();
                 return fetchData;
             }).catch(error => {
                 throw new Error(`Failed to get app token from ${oauthurl}

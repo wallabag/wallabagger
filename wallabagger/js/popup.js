@@ -1,4 +1,3 @@
-/* globals WallabagApi */
 var PopupController = function () {
     this.mainCard = document.getElementById('main-card');
     this.errorToast = document.getElementById('error-toast');
@@ -38,11 +37,6 @@ PopupController.prototype = {
     tagsInput: null,
     tagsAutoCompleteList: null,
 
-    wallabagUrl: null,
-    appToken: null,
-    refreshToken: null,
-    tokenExpireDate: null,
-
     articleId: null,
     api: null,
     editIcon: null,
@@ -61,12 +55,15 @@ PopupController.prototype = {
     starredIcon: null,
 
     articleTags: [],
+    allTags: [],
     dirtyTags: [],
     foundTags: [],
 
     starred: false,
     archived: false,
     tmpTagId: 0,
+    AllowSpaceInTags: false,
+    tabUrl: null,
 
     getSaveHtml: function (param) {
         let map = { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' };
@@ -123,17 +120,12 @@ PopupController.prototype = {
     },
 
     toggleAction: function (actionVar, actionApi) {
-        this.api[actionApi](this.articleId, !this[actionVar]).then(d => {
-            this[actionVar] = !this[actionVar];
-        }).catch(error => {
-            this.hide(this.infoToast);
-            this.showError(error.message);
-        });
+        this.port.postMessage({request: actionApi, articleId: this.articleId, value: !this[actionVar], tabUrl: this.tabUrl});
     },
 
     onTagsInputKeyUp: function (event) {
         if (event.key === 'ArrowRight') this.addFirstFoundTag();
-        if ((event.key === 'Enter') && (this.api.data.AllowSpaceInTags)) {
+        if ((event.key === 'Enter') && (this.AllowSpaceInTags)) {
             this.addTag(this.tmpTagId, this.tagsInput.value.trim());
         };
     },
@@ -170,24 +162,14 @@ PopupController.prototype = {
                 label: taglabel,
                 slug: taglabel
             });
-
             this.tagsInputContainer.insertBefore(
                 this.createTagChip(tagid, taglabel),
                 this.tagsInput);
-
             this.enableTagsInput();
-
             if (tagid <= 0) {
                 this.tmpTagId = this.tmpTagId - 1;
             }
-
-            this.api.SaveTags(this.articleId, this.getSaveHtml(this.getTagsStr()))
-            .then(data => this.loadArticleTags(data))
-            .catch(error => {
-                this.hide(this.infoToast);
-                this.showError(error.message);
-            });
-
+            this.port.postMessage({request: 'saveTags', articleId: this.articleId, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl});
             this.checkAutocompleteState();
         } else {
             this.tagsInput.placeholder = 'Duplicate tag!!!';
@@ -199,19 +181,11 @@ PopupController.prototype = {
     deleteTag: function (ev) {
         let chip = ev.currentTarget.parentNode;
         let tagid = chip.dataset.tagid;
-
         this.dirtyTags = this.dirtyTags.filter(tag => tag.id !== tagid);
-
         chip.parentNode.removeChild(chip);
-
-        this.api.DeleteArticleTag(this.articleId, tagid)
-              .then(data => this.loadArticleTags(data))
-              .catch(error => {
-                  this.hide(this.infoToast);
-                  this.showError(error.message);
-              });
-
+        this.port.postMessage({request: 'deleteArticleTag', articleId: this.articleId, tagId: tagid, tabUrl: this.tabUrl});
         this.checkAutocompleteState();
+        this.tagsInput.focus();
     },
 
     getTagsStr: function () {
@@ -229,7 +203,7 @@ PopupController.prototype = {
     },
 
     findTags: function (search) {
-        this.foundTags = this.api.tags.filter(tag => (this.articleTags.concat(this.dirtyTags).map(t => t.id).indexOf(tag.id) === -1) &&
+        this.foundTags = this.allTags.filter(tag => (this.articleTags.concat(this.dirtyTags).map(t => t.id).indexOf(tag.id) === -1) &&
             (this.tagsInput.value.length >= 3 &&
             tag.label.toUpperCase().indexOf(this.tagsInput.value.toUpperCase()) !== -1) ||
             (this.tagsInput.value === tag.label) &&
@@ -255,7 +229,7 @@ PopupController.prototype = {
         if (this.tagsInput.value !== '') {
             const lastChar = this.tagsInput.value.slice(-1);
             const value = this.tagsInput.value.slice(0, -1);
-            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.api.data.AllowSpaceInTags))) {
+            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags))) {
                 if (value !== '') {
                     this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
                 }
@@ -269,15 +243,9 @@ PopupController.prototype = {
 
     deleteArticle: function (e) {
         e.preventDefault();
-        this.api.DeleteArticle(this.articleId)
-            .then(data => {
-                this.deleteConfirmationCard.classList.remove('active');
-                window.close();
-            }).catch(error => {
-                this.hide(this.infoToast);
-                this.showError(error.message);
-            });
-            // .catch(error=>{ console.log(error) });
+        this.port.postMessage({ request: 'deleteArticle', articleId: this.articleId, tabUrl: this.tabUrl });
+        this.deleteConfirmationCard.classList.remove('active');
+        window.close();
     },
 
     cancelDelete: function (e) {
@@ -299,24 +267,16 @@ PopupController.prototype = {
 
     saveTitleClick: function (e) {
         e.preventDefault();
+        this.port.postMessage({request: 'saveTitle', articleId: this.articleId, title: this.getSaveHtml(this.titleInput.value), tabUrl: this.tabUrl});
         this.cardTitle.innerHTML = this.titleInput.value;
-        this.api.SaveTitle(this.articleId, this.getSaveHtml(this.cardTitle.innerHTML))
-            .then(data => {
-                this.hide(this.cardBody);
-                this.show(this.cardHeader);
-            })
-            .catch(error => {
-                this.hide(this.infoToast);
-                this.showError(error);
-            });
-        this.tagsInput.focus();
+        this.hide(this.cardBody);
+        this.show(this.cardHeader);
     },
 
     cancelTitleClick: function (e) {
         e.preventDefault();
         this.hide(this.cardBody);
         this.show(this.cardHeader);
-        this.tagsInput.focus();
     },
 
     cardTitleClick: function (e) {
@@ -373,82 +333,88 @@ PopupController.prototype = {
         });
     },
 
-    loadArticleTags: function (data) {
-        return this.api.GetArticleTags(this.articleId).then(data => this.createTags(data));
+    setArticle: function (data) {
+        this.articleId = data.id;
+        this.cardTitle.innerHTML = data.title;
+        this.cardTitle.href = `${data.Url}/view/${this.articleId}`;
+        this.entryUrl.innerHTML = data.domain_name;
+        this.entryUrl.href = data.url;
+
+        if (typeof (data.preview_picture) === 'string' &&
+            data.preview_picture.length > 0 &&
+            data.preview_picture.indexOf('http') === 0) {
+            this.cardImage.src = data.preview_picture;
+        } else {
+            this.hide(this.cardImage);
+        }
+
+        this.starred = data.is_starred;
+        this.setIconTitle(this.starredIcon, this.starred);
+        if (this.starred) {
+            this.toggleIcon(this.starredIcon);
+        }
+        this.archived = data.is_archived;
+        this.setIconTitle(this.archivedIcon, this.archived);
+        if (this.archived) {
+            this.toggleIcon(this.archivedIcon);
+        }
+        this.createTags(data.tags);
+        this.enableTagsInput();
+    },
+
+    messageListener: function (msg) {
+        switch (msg.response) {
+            case 'info':
+                this.showInfo(msg.text);
+                break;
+            case 'error':
+                this.hide(this.infoToast);
+                this.hide(this.mainCard);
+                this.showError(msg.error.message);
+                break;
+            case 'article':
+                this.hide(this.infoToast);
+                if (msg.article !== null) {
+                    this.setArticle(msg.article);
+                    this.hide(this.infoToast);
+                    this.show(this.mainCard);
+                } else {
+                    this.showError('Error: empty data!');
+                }
+                break;
+            case 'tags':
+                this.allTags = msg.tags;
+                break;
+            case 'title':
+                this.cardTitle.innerHTML = msg.title;
+                break;
+            case 'setup':
+                this.AllowSpaceInTags = msg.data.AllowSpaceInTags;
+                break;
+            case 'articleTags':
+                this.createTags(msg.tags);
+                break;
+            case 'action':
+                this.archived = msg.value.archived;
+                this.starred = msg.value.starred;
+                break;
+            default:
+                console.log(`unknown message: ${msg}`);
+        };
     },
 
     init: function () {
-        browser.runtime.sendMessage({type: 'begin'});
-        this.api = new WallabagApi();
-        this.showInfo('Loading wallabag API...');
-
-        let apiAuthorised = this.api.load()
-             .then(data => {
-                 if (this.api.needNewAppToken()) {
-                     this.showInfo('Obtaining wallabag api token...');
-                     return this.api.GetAppToken();
-                 }
-                 return 'OK';
-             })
-            .catch(error => {
-                this.hide(this.infoToast);
-                this.showError(error.message);
-                browser.runtime.sendMessage({type: 'error'});
-                throw error;
-            });
-
-        apiAuthorised.then(data => this.activeTab())
-            .then(tab => {
-                this.showInfo('Saving the page to wallabag ...');
-                console.log(tab.url);
-                return this.api.SavePage(tab.url);
-            })
-            .then(data => {
-                console.log(data);
-                if (data != null) {
-                    this.articleId = data.id;
-                    this.cardTitle.innerHTML = data.title;
-                    this.cardTitle.href = `${this.api.data.Url}/view/${this.articleId}`;
-                    this.entryUrl.innerHTML = data.domain_name;
-                    this.entryUrl.href = data.url;
-
-                    if (typeof (data.preview_picture) === 'string' &&
-                        data.preview_picture.length > 0 &&
-                        data.preview_picture.indexOf('http') === 0) {
-                        this.cardImage.src = data.preview_picture;
-                    } else {
-                        this.hide(this.cardImage);
-                    }
-
-                    this.starred = data.is_starred;
-                    this.setIconTitle(this.starredIcon, this.starred);
-                    if (this.starred) {
-                        this.toggleIcon(this.starredIcon);
-                    }
-                    this.archived = data.is_archived;
-                    this.setIconTitle(this.archivedIcon, this.archived);
-                    if (this.archived) {
-                        this.toggleIcon(this.archivedIcon);
-                    }
-                }
-                this.hide(this.infoToast);
-                this.show(this.mainCard);
-                browser.runtime.sendMessage({type: 'success', url: data.url});
-            })
-            .then(data => this.loadArticleTags(data))
-            .then(data => this.enableTagsInput())
-            .catch(error => {
-                this.hide(this.infoToast);
-                this.showError(error.message);
-                browser.runtime.sendMessage({type: 'error'});
-            });
-
-           // loading all tags
-        apiAuthorised.then(data => this.api.GetTags())
-           .catch(error => {
-               this.hide(this.infoToast);
-               this.showError(error.message);
-           });
+        this.port = browser.runtime.connect({name: 'popup'});
+        this.port.onMessage.addListener(this.messageListener.bind(this));
+        this.port.postMessage({request: 'setup'});
+        this.activeTab().then(tab => {
+            this.tabUrl = tab.url;
+            this.cardTitle.innerHTML = tab.title;
+            this.entryUrl.innerHTML = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
+            this.enableTagsInput();
+            this.port.postMessage({request: 'save', url: tab.url});
+        });
+        this.port.postMessage({request: 'tags'});
     },
 
     showError: function (infoString) {
@@ -475,7 +441,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
         browser = chrome;
     }
-    console.log(browser.runtime.id);
     const PC = new PopupController();
     PC.init();
 });
