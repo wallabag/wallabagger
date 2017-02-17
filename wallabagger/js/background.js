@@ -54,36 +54,36 @@ browser.contextMenus.create({
 });
 
 browser.contextMenus.create({
-    id: 'Unread-articles',
+    id: 'unread',
     title: 'Unread articles',
     contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: 'Favorite-articles',
+    id: 'starred',
     title: 'Starred articles',
     contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: 'Archived-articles',
+    id: 'archive',
     title: 'Archived articles',
     contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: 'All-articles',
+    id: 'all',
     title: 'All articles',
     contexts: ['browser_action']
 });
 
 browser.contextMenus.create({
-    id: 'Tag-list',
+    id: 'tag',
     title: 'Tag list',
     contexts: ['browser_action']
 });
 
-const cache = new CacheType(true);
+const cache = new CacheType(true); // TODO - here checking option
 const api = new WallabagApi();
 api.load().then(api => {
     addListeners();
@@ -97,20 +97,12 @@ function addListeners () {
                 const url = typeof (info.linkUrl) === 'string' ? info.linkUrl : info.pageUrl;
                 savePageToWallabag(url);
                 break;
-            case 'Unread-articles':
-                GotoWallabag('unread');
-                break;
-            case 'Favorite-articles':
-                GotoWallabag('starred');
-                break;
-            case 'Archived-articles':
-                GotoWallabag('archive');
-                break;
-            case 'All-articles':
-                GotoWallabag('all');
-                break;
-            case 'Tag-list':
-                GotoWallabag('tag');
+            case 'unread':
+            case 'starred':
+            case 'archive':
+            case 'all':
+            case 'tag':
+                GotoWallabag(info.menuItemId);
                 break;
         }
     });
