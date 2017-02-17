@@ -1,4 +1,34 @@
 /* globals WallabagApi */
+
+var CacheType = function (enable) {
+    this.enabled = enable;
+};
+
+CacheType.prototype = {
+    _cache: [],
+    enabled: null,
+
+    set: function (key, data) {
+        if (this.enabled) {
+            this._cache[key] = data;
+        }
+    },
+
+    clear: function (key, data) {
+        if (this.enabled) {
+            delete this._cache[key];
+        }
+    },
+
+    check: function (key, data) {
+        return this.enabled && (this._cache[key] !== undefined);
+    },
+
+    get: function (key) {
+        return this.enabled ? this._cache[key] : undefined;
+    }
+};
+
 if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
     browser = chrome;
 }
@@ -53,13 +83,12 @@ browser.contextMenus.create({
     contexts: ['browser_action']
 });
 
+const cache = new CacheType(true);
 const api = new WallabagApi();
 api.load().then(api => {
     addListeners();
     api.GetTags().then(tags => { cache.set('allTags', tags); });
 });
-
-const cache = new CacheType();
 
 function addListeners () {
     browser.contextMenus.onClicked.addListener(function (info) {
@@ -264,29 +293,3 @@ const existWasChecked = (url) =>
 
 const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
 
-var CacheType = function () {};
-
-CacheType.prototype = {
-    _cache: [],
-    enabled: true,
-
-    set: function (key, data) {
-        if (this.enabled) {
-            this._cache[key] = data;
-        }
-    },
-
-    clear: function (key, data) {
-        if (this.enabled) {
-            delete this._cache[key];
-        }
-    },
-
-    check: function (key, data) {
-        return this.enabled && (this._cache[key] !== undefined);
-    },
-
-    get: function (key) {
-        return this.enabled ? this._cache[key] : undefined;
-    }
-};
