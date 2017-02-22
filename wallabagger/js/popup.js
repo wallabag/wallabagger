@@ -21,7 +21,7 @@ var PopupController = function () {
     this.cardHeader = document.getElementById('card-header');
     this.cardBody = document.getElementById('card-body');
     this.starredIcon = document.getElementById('starred-icon');
-
+    this.articleId = -1;
     this.addListeners();
 };
 
@@ -183,7 +183,7 @@ PopupController.prototype = {
         let tagid = chip.dataset.tagid;
         this.dirtyTags = this.dirtyTags.filter(tag => tag.id !== tagid);
         chip.parentNode.removeChild(chip);
-        this.port.postMessage({request: 'deleteArticleTag', articleId: this.articleId, tagId: tagid, tabUrl: this.tabUrl});
+        this.port.postMessage({request: 'deleteArticleTag', articleId: this.articleId, tagId: tagid, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl});
         this.checkAutocompleteState();
         this.tagsInput.focus();
     },
