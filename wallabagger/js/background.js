@@ -189,14 +189,14 @@ function addListeners () {
                                 cache.set(btoa(msg.tabUrl), data);
                             });
                         } else {
-                            dirtyCacheSet(msg.tabUrl, {title: msg.title});
+                            dirtyCacheSet(btoa(msg.tabUrl), {title: msg.title});
                         }
                         break;
                     case 'deleteArticle':
                         if (msg.articleId !== -1) {
                             api.DeleteArticle(msg.articleId).then(data => { cache.clear(msg.tabUrl); });
                         } else {
-                            dirtyCacheSet(msg.tabUrl, {deleted: true});
+                            dirtyCacheSet(btoa(msg.tabUrl), {deleted: true});
                         }
                         break;
                     case 'setup':
@@ -209,7 +209,7 @@ function addListeners () {
                                 cache.set(btoa(msg.tabUrl), data);
                             });
                         } else {
-                            dirtyCacheSet(msg.tabUrl, {tags: msg.tags});
+                            dirtyCacheSet(btoa(msg.tabUrl), {tags: msg.tags});
                         }
                         break;
                     case 'saveTags':
@@ -219,7 +219,7 @@ function addListeners () {
                                 cache.set(btoa(msg.tabUrl), data);
                             });
                         } else {
-                            dirtyCacheSet(msg.tabUrl, {tags: msg.tags});
+                            dirtyCacheSet(btoa(msg.tabUrl), {tags: msg.tags});
                         }
                         break;
                     case 'SaveStarred':
@@ -230,7 +230,7 @@ function addListeners () {
                                 cache.set(btoa(msg.tabUrl), data);
                             });
                         } else {
-                            dirtyCacheSet(msg.tabUrl, (msg.request === 'SaveStarred') ? {is_starred: msg.value ? 1 : 0} : {is_archived: msg.value ? 1 : 0});
+                            dirtyCacheSet(btoa(msg.tabUrl), (msg.request === 'SaveStarred') ? {is_starred: msg.value ? 1 : 0} : {is_archived: msg.value ? 1 : 0});
                         }
                         break;
                     default: {
