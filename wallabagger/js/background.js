@@ -42,51 +42,54 @@ const icon = {
 
 let browserActionIconDefault = browser.runtime.getManifest().browser_action.default_icon;
 
-browser.contextMenus.create({
-    id: 'wallabagger-add-link',
-    title: 'Wallabag it!',
-    contexts: ['link', 'page']
-});
+const wallabagContextMenus = [
+    {
+        id: 'wallabagger-add-link',
+        title: 'Wallabag it!',
+        contexts: ['link', 'page']
+    },
+    {
+        type: 'separator',
+        contexts: ['browser_action']
+    },
+    {
+        id: 'unread',
+        title: 'Unread articles',
+        contexts: ['browser_action']
+    },
+    {
+        id: 'starred',
+        title: 'Starred articles',
+        contexts: ['browser_action']
+    },
+    {
+        id: 'archive',
+        title: 'Archived articles',
+        contexts: ['browser_action']
+    },
+    {
+        id: 'all',
+        title: 'All articles',
+        contexts: ['browser_action']
+    },
+    {
+        id: 'tag',
+        title: 'Tag list',
+        contexts: ['browser_action']
+    }
+];
 
-browser.contextMenus.create({
-    type: 'separator',
-    contexts: ['browser_action']
-});
-
-browser.contextMenus.create({
-    id: 'unread',
-    title: 'Unread articles',
-    contexts: ['browser_action']
-});
-
-browser.contextMenus.create({
-    id: 'starred',
-    title: 'Starred articles',
-    contexts: ['browser_action']
-});
-
-browser.contextMenus.create({
-    id: 'archive',
-    title: 'Archived articles',
-    contexts: ['browser_action']
-});
-
-browser.contextMenus.create({
-    id: 'all',
-    title: 'All articles',
-    contexts: ['browser_action']
-});
-
-browser.contextMenus.create({
-    id: 'tag',
-    title: 'Tag list',
-    contexts: ['browser_action']
-});
+function createContextMenus () {
+    wallabagContextMenus.map(menu => { browser.contextMenus.create(menu); });
+}
 
 const cache = new CacheType(true); // TODO - here checking option
+// const dirtyCache = new CacheType(true);
+
 const api = new WallabagApi();
 api.load().then(api => {
     addListeners();
+    createContextMenus();
     api.GetTags().then(tags => { cache.set('allTags', tags); });
 });
 
