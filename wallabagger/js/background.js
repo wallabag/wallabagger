@@ -139,20 +139,27 @@ function addListeners () {
     });
     browser.runtime.onConnect.addListener(function (port) {
         console.assert(port.name === 'popup');
+        let portConnected = true;
+        port.onDisconnect.addListener(function () { portConnected = false; });
+        function postIfConnected (obj) {
+            if (portConnected) {
+                port.postMessage(obj);
+            }
+        }
         port.onMessage.addListener(function (msg) {
             try {
                 switch (msg.request) {
                     case 'save':
                         if (isServicePage(msg.url)) { return; }
                         if (cache.check(btoa(msg.url))) {
-                            port.postMessage({ response: 'article', article: cache.get(btoa(msg.url)) });
+                            postIfConnected({ response: 'article', article: cache.get(btoa(msg.url)) });
                         } else {
                             browser.browserAction.setIcon({ path: icon.wip });
-                            port.postMessage({ response: 'info', text: 'Saving the page to wallabag ...' });
+                            postIfConnected({ response: 'info', text: 'Saving the page to wallabag ...' });
                             api.SavePage(msg.url)
                             .then(data => {
                                 browser.browserAction.setIcon({ path: icon.good });
-                                port.postMessage({ response: 'article', article: data });
+                                postIfConnected({ response: 'article', article: data });
                                 cache.set(btoa(msg.url), data);
                             })
                             .catch(error => {
@@ -165,41 +172,41 @@ function addListeners () {
                         if (!cache.check('allTags')) {
                             api.GetTags()
                             .then(data => {
-                                port.postMessage({ response: 'tags', tags: data });
+                                postIfConnected({ response: 'tags', tags: data });
                                 cache.set('allTags', data);
                             });
                         } else {
-                            port.postMessage({ response: 'tags', tags: cache.get('allTags') });
+                            postIfConnected({ response: 'tags', tags: cache.get('allTags') });
                         }
                         break;
                     case 'saveTitle':
                         api.SaveTitle(msg.articleId, msg.title).then(data => {
-                            port.postMessage({ response: 'title', title: data.title });
+                            postIfConnected({ response: 'title', title: data.title });
                             cache.set(btoa(msg.tabUrl), data);
                         });
                         break;
                     case 'deleteArticle':
-                        api.DeleteArticle(msg.articleId).then(data => { cache.clear(msg.tabUrl); })
+                        api.DeleteArticle(msg.articleId).then(data => { cache.clear(msg.tabUrl); });
                         break;
                     case 'setup':
-                        port.postMessage({ response: 'setup', data: api.data });
+                        postIfConnected({ response: 'setup', data: api.data });
                         break;
                     case 'deleteArticleTag':
                         api.DeleteArticleTag(msg.articleId, msg.tagId).then(data => {
-                            port.postMessage({ response: 'articleTags', tags: data.tags });
+                            postIfConnected({ response: 'articleTags', tags: data.tags });
                             cache.set(btoa(msg.tabUrl), data);
                         });
                         break;
                     case 'saveTags':
                         api.SaveTags(msg.articleId, msg.tags).then(data => {
-                            port.postMessage({ response: 'articleTags', tags: data.tags });
+                            postIfConnected({ response: 'articleTags', tags: data.tags });
                             cache.set(btoa(msg.tabUrl), data);
                         });
                         break;
                     case 'SaveStarred':
                     case 'SaveArchived':
                         api[msg.request](msg.articleId, msg.value ? 1 : 0).then(data => {
-                            port.postMessage({ response: 'action', value: {starred: data.is_starred === 1, archived: data.is_archived === 1} });
+                            postIfConnected({ response: 'action', value: {starred: data.is_starred === 1, archived: data.is_archived === 1} });
                             cache.set(btoa(msg.tabUrl), data);
                         });
                         break;
@@ -208,7 +215,7 @@ function addListeners () {
                     }
                 }
             } catch (error) {
-                port.postMessage({ response: 'error', error: error });
+                postIfConnected({ response: 'error', error: error });
             }
         });
     });
