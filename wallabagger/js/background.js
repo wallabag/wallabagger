@@ -140,85 +140,75 @@ function addListeners () {
     browser.runtime.onConnect.addListener(function (port) {
         console.assert(port.name === 'popup');
         port.onMessage.addListener(function (msg) {
-            switch (msg.request) {
-                case 'save':
-                    if (isServicePage(msg.url)) { return; }
-                    if (cache.check(btoa(msg.url))) {
-                        port.postMessage({ response: 'article', article: cache.get(btoa(msg.url)) });
-                    } else {
-                        browser.browserAction.setIcon({ path: icon.wip });
-                        port.postMessage({ response: 'info', text: 'Saving the page to wallabag ...' });
-                        api.SavePage(msg.url)
-                        .then(data => {
-                            browser.browserAction.setIcon({ path: icon.good });
-                            port.postMessage({ response: 'article', article: data });
-                            cache.set(btoa(msg.url), data);
-                        })
-                        .catch(error => {
-                            port.postMessage({ response: 'error', error: error });
-                            browser.browserAction.setIcon({ path: icon.bad });
+            try {
+                switch (msg.request) {
+                    case 'save':
+                        if (isServicePage(msg.url)) { return; }
+                        if (cache.check(btoa(msg.url))) {
+                            port.postMessage({ response: 'article', article: cache.get(btoa(msg.url)) });
+                        } else {
+                            browser.browserAction.setIcon({ path: icon.wip });
+                            port.postMessage({ response: 'info', text: 'Saving the page to wallabag ...' });
+                            api.SavePage(msg.url)
+                            .then(data => {
+                                browser.browserAction.setIcon({ path: icon.good });
+                                port.postMessage({ response: 'article', article: data });
+                                cache.set(btoa(msg.url), data);
+                            })
+                            .catch(error => {
+                                browser.browserAction.setIcon({ path: icon.bad });
+                                throw error;
+                            });
+                        }
+                        break;
+                    case 'tags':
+                        if (!cache.check('allTags')) {
+                            api.GetTags()
+                            .then(data => {
+                                port.postMessage({ response: 'tags', tags: data });
+                                cache.set('allTags', data);
+                            });
+                        } else {
+                            port.postMessage({ response: 'tags', tags: cache.get('allTags') });
+                        }
+                        break;
+                    case 'saveTitle':
+                        api.SaveTitle(msg.articleId, msg.title).then(data => {
+                            port.postMessage({ response: 'title', title: data.title });
+                            cache.set(btoa(msg.tabUrl), data);
                         });
-                    }
-                    break;
-                case 'tags':
-                    if (!cache.check('allTags')) {
-                        api.GetTags()
-                        .then(data => {
-                            port.postMessage({ response: 'tags', tags: data });
-                            cache.set('allTags', data);
-                        })
-                        .catch(error => {
-                            port.postMessage({ response: 'error', error: error });
+                        break;
+                    case 'deleteArticle':
+                        api.DeleteArticle(msg.articleId).then(data => { cache.clear(msg.tabUrl); })
+                        break;
+                    case 'setup':
+                        port.postMessage({ response: 'setup', data: api.data });
+                        break;
+                    case 'deleteArticleTag':
+                        api.DeleteArticleTag(msg.articleId, msg.tagId).then(data => {
+                            port.postMessage({ response: 'articleTags', tags: data.tags });
+                            cache.set(btoa(msg.tabUrl), data);
                         });
-                    } else {
-                        port.postMessage({ response: 'tags', tags: cache.get('allTags') });
+                        break;
+                    case 'saveTags':
+                        api.SaveTags(msg.articleId, msg.tags).then(data => {
+                            port.postMessage({ response: 'articleTags', tags: data.tags });
+                            cache.set(btoa(msg.tabUrl), data);
+                        });
+                        break;
+                    case 'SaveStarred':
+                    case 'SaveArchived':
+                        api[msg.request](msg.articleId, msg.value ? 1 : 0).then(data => {
+                            port.postMessage({ response: 'action', value: {starred: data.is_starred === 1, archived: data.is_archived === 1} });
+                            cache.set(btoa(msg.tabUrl), data);
+                        });
+                        break;
+                    default: {
+                        console.log(`unknown request ${msg}`);
                     }
-                    break;
-                case 'saveTitle':
-                    api.SaveTitle(msg.articleId, msg.title).then(data => {
-                        port.postMessage({ response: 'title', title: data.title });
-                        cache.set(btoa(msg.tabUrl), data);
-                    }).catch(error => {
-                        port.postMessage({ response: 'error', error: error });
-                    });
-                    break;
-                case 'deleteArticle':
-                    api.DeleteArticle(msg.articleId).then(data => { cache.clear(msg.tabUrl); })
-                    .catch(error => {
-                        port.postMessage({ response: 'error', error: error });
-                    });
-                    break;
-                case 'setup':
-                    port.postMessage({ response: 'setup', data: api.data });
-                    break;
-                case 'deleteArticleTag':
-                    api.DeleteArticleTag(msg.articleId, msg.tagId).then(data => {
-                        port.postMessage({ response: 'articleTags', tags: data.tags });
-                        cache.set(btoa(msg.tabUrl), data);
-                    }).catch(error => {
-                        port.postMessage({ response: 'error', error: error });
-                    });
-                    break;
-                case 'saveTags':
-                    api.SaveTags(msg.articleId, msg.tags).then(data => {
-                        port.postMessage({ response: 'articleTags', tags: data.tags });
-                        cache.set(btoa(msg.tabUrl), data);
-                    }).catch(error => {
-                        port.postMessage({ response: 'error', error: error });
-                    });
-                    break;
-                case 'SaveStarred':
-                case 'SaveArchived':
-                    api[msg.request](msg.articleId, msg.value ? 1 : 0).then(data => {
-                        port.postMessage({ response: 'action', value: {starred: data.is_starred === 1, archived: data.is_archived === 1} });
-                        cache.set(btoa(msg.tabUrl), data);
-                    }).catch(error => {
-                        port.postMessage({ response: 'error', error: error });
-                    });
-                    break;
-                default: {
-                    console.log(`unknown request ${msg}`);
                 }
+            } catch (error) {
+                port.postMessage({ response: 'error', error: error });
             }
         });
     });
