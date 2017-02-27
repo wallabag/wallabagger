@@ -382,7 +382,7 @@ PopupController.prototype = {
         this.api = new WallabagApi();
         this.showInfo('Loading wallabag API...');
 
-        let apiAuthorised = this.api.load()
+        let apiAuthorised = this.api.init()
              .then(data => {
                  if (this.api.needNewAppToken()) {
                      this.showInfo('Obtaining wallabag api token...');
@@ -475,7 +475,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
         browser = chrome;
     }
-    console.log(browser.runtime.id);
     const PC = new PopupController();
     PC.init();
 });

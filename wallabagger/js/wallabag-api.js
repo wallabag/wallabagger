@@ -1,24 +1,31 @@
 var WallabagApi = function () { };
 
+const emptyData = {
+    Url: null,
+    ApiVersion: null,
+    ClientId: null,
+    ClientSecret: null,
+    UserLogin: null,
+    UserPassword: null,
+    ApiToken: null,
+    RefreshToken: null,
+    ExpireDateMs: null,
+    AllowSpaceInTags: null,
+    AllowExistCheck: null
+};
+
 WallabagApi.prototype = {
 
-    data: {
-        Url: null,
-        ApiVersion: null,
-        ClientId: null,
-        ClientSecret: null,
-        UserLogin: null,
-        UserPassword: null,
-        ApiToken: null,
-        RefreshToken: null,
-        ExpireDateMs: null,
-        AllowSpaceInTags: null,
-        AllowExistCheck: null
-    },
+    data: emptyData,
 
-    response_status: null,
+    fetchApi: null,
 
     tags: [],
+
+    init: function () {
+        this.fetchApi = new FetchApi();
+        return this.load();
+    },
 
     save: function () {
         chrome.storage.local.set({ 'wallabagdata': this.data });
@@ -60,83 +67,25 @@ WallabagApi.prototype = {
     },
 
     expired: function () {
-        // console.log(this.data.ExpireDateMs);
-        // console.log(Date.now());
-        // console.log((Date.now() > this.data.ExpireDateMs));
         return (this.data.ExpireDateMs != null) && (Date.now() > this.data.ExpireDateMs);
     },
 
     clear: function () {
-        this.data.Url = null;
-        this.data.ApiVersion = null;
-        this.data.ClientId = null;
-        this.data.ClientSecret = null;
-        this.data.UserLogin = null;
-        this.data.UserPassword = null;
-        this.data.ApiToken = null;
-        this.data.RefreshToken = null;
-        this.data.ExpireDateMs = null;
-        this.data.AllowSpaceInTags = null;
+        this.set(emptyData);
     },
 
     set: function (params) {
         Object.assign(this.data, params);
     },
 
-    _status: function (j) {
-        if (this.response_status >= 200 && this.response_status < 300) {
-            return Promise.resolve(j);
-        } else {
-            return Promise.reject(new Error(JSON.stringify(j)));
-        }
-    },
-
-    _json: function (response) {
-        this.response_status = response.status;
-        return response.json();
-    },
-
     CheckUrl: function () {
         let url_ = this.data.Url + '/api/version';
-        return fetch(url_, { method: 'get', mode: 'cors' })
-            .then(this._json)
-            .then(this._status)
+        return this.fetchApi.Get(url_, '')
             .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData; })
             .catch(error => {
                 throw new Error(`Failed to get api version ${url_}
                 ${error.message}`);
-            })
-                ;
-    },
-
-    AuhorizedHeader: function () {
-        return new Headers({
-            'Authorization': `Bearer ${this.data.ApiToken}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Accept-Encoding': 'gzip, deflate' });
-    },
-
-    NotAuhorizedHeader: function () {
-        return new Headers({
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Accept-Encoding': 'gzip, deflate' });
-    },
-
-    RequestInit: function (rmethod, rheaders, content) {
-        let options = {
-            method: rmethod,
-            headers: rheaders,
-            mode: 'cors',
-            cache: 'default'
-        };
-
-        if ((content !== '') && (content !== null)) {
-            options.body = content;
-        };
-
-        return options;
+            });
     },
 
     SaveTitle: function (articleId, articleTitle) {
@@ -157,12 +106,7 @@ WallabagApi.prototype = {
 
     PatchArticle: function (articleId, content) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-
-        let rinit = this.RequestInit('PATCH', this.AuhorizedHeader(), content);
-
-        return fetch(entryUrl, rinit)
-            .then(this._json)
-            .then(this._status)
+        return this.fetchApi.Patch(entryUrl, this.data.ApiToken, content)
             .catch(error => {
                 throw new Error(`Failed to update article ${entryUrl}
                 ${error.message}`);
@@ -171,12 +115,7 @@ WallabagApi.prototype = {
 
     DeleteArticle: function (articleId) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-
-        let rinit = this.RequestInit('DELETE', this.AuhorizedHeader(), '');
-
-        return fetch(entryUrl, rinit)
-            .then(this._json)
-            .then(this._status)
+        return this.fetchApi.Delete(entryUrl, this.data.ApiToken)
              .catch(error => {
                  throw new Error(`Failed to delete article ${entryUrl}
                 ${error.message}`);
@@ -185,34 +124,21 @@ WallabagApi.prototype = {
 
     DeleteArticleTag: function (articleId, tagid) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
-
-        let rinit = this.RequestInit('DELETE', this.AuhorizedHeader(), '');
-
-        return fetch(entryUrl, rinit)
-            .then(this._json)
-            .then(this._status)
+        return this.fetchApi.Delete(entryUrl, this.data.ApiToken)
             .catch(error => {
                 throw new Error(`Failed to delete article tag ${entryUrl}
                 ${error.message}`);
-            })
-                ;
+            });
     },
 
     SavePage: function (pageUrl) {
         let content = JSON.stringify({ url: pageUrl });
-
         let entriesUrl = `${this.data.Url}/api/entries.json`;
-
-        let rinit = this.RequestInit('POST', this.AuhorizedHeader(), content);
-
-        return fetch(entriesUrl, rinit)
-            .then(this._json)
-            .then(this._status)
+        return this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
             .catch(error => {
                 throw new Error(`Failed to save page ${entriesUrl}
                 ${error.message}`);
-            })
-            ;
+            });
     },
 
     RefreshToken: function () {
@@ -222,14 +148,8 @@ WallabagApi.prototype = {
             client_id: this.data.ClientId,
             client_secret: this.data.ClientSecret
         });
-
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
-
-        let rinit = this.RequestInit('POST', this.NotAuhorizedHeader(), content);
-
-        return fetch(oauthurl, rinit)
-            .then(this._json)
-            .then(this._status)
+        return this.fetchApi.Post(oauthurl, '', content)
             .then(data => {
                 if (data !== '') {
                     this.data.ApiToken = data.access_token;
@@ -247,13 +167,11 @@ WallabagApi.prototype = {
 
     GetTags: function () {
         let entriesUrl = `${this.data.Url}/api/tags.json`;
-
-        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
-
-        return fetch(entriesUrl, rinit)
-            .then(this._json)
-            .then(this._status)
-            .then(fetchData => { this.tags = fetchData; return fetchData; })
+        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+            .then(fetchData => {
+                this.tags = fetchData;
+                return fetchData;
+            })
             .catch(error => {
                 throw new Error(`Failed to get tags ${entriesUrl}
                 ${error.message}`);
@@ -263,12 +181,7 @@ WallabagApi.prototype = {
     EntryExists: function (url) {
         let entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
 
-        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
-
-        return fetch(entriesUrl, rinit)
-            .then(this._json)
-            .then(this._status)
-            .then(fetchData => { return fetchData; })
+        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
             .catch(error => {
                 throw new Error(`Failed to check if exists ${entriesUrl}
                 ${error.message}`);
@@ -277,13 +190,7 @@ WallabagApi.prototype = {
 
     GetArticle: function (articleId) {
         let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-
-        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
-
-        return fetch(entriesUrl, rinit)
-            .then(this._json)
-            .then(this._status)
-            .then(fetchData => { return fetchData; })
+        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
             .catch(error => {
                 throw new Error(`Failed to get article ${entriesUrl}
                 ${error.message}`);
@@ -292,13 +199,7 @@ WallabagApi.prototype = {
 
     GetArticleTags: function (articleId) {
         let entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
-
-        let rinit = this.RequestInit('GET', this.AuhorizedHeader(), '');
-
-        return fetch(entriesUrl, rinit)
-            .then(this._json)
-            .then(this._status)
-            .then(fetchData => { return fetchData; })
+        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
             .catch(error => {
                 throw new Error(`Failed to get article tags ${entriesUrl}
                 ${error.message}`);
@@ -323,12 +224,7 @@ WallabagApi.prototype = {
         });
 
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
-
-        let rinit = this.RequestInit('POST', this.NotAuhorizedHeader(), content);
-
-        return fetch(oauthurl, rinit)
-            .then(this._json)
-            .then(this._status)
+        return this.fetchApi.Post(oauthurl, '', content)
             .then(fetchData => {
                 let nowDate = (new Date());
                 this.data.ApiToken = fetchData.access_token;
@@ -342,5 +238,3 @@ WallabagApi.prototype = {
     }
 
 };
-
-/**/
