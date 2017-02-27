@@ -4,6 +4,7 @@ if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
 }
 
 const icon = {
+    'default': browser.runtime.getManifest().browser_action.default_icon,
     'good': 'img/wallabagger-green.svg',
     'wip': 'img/wallabagger-yellow.svg',
     'bad': 'img/wallabagger-red.svg'
@@ -24,8 +25,6 @@ const GetApi = () => {
             throw error;
         });
 };
-
-let browserActionIconDefault = browser.runtime.getManifest().browser_action.default_icon;
 
 browser.contextMenus.create({
     id: 'wallabagger-add-link',
@@ -74,11 +73,11 @@ function savePageToWallabag (url) {
     GetApi().then(api => api.SavePage(url))
         .then(r => {
             browser.browserAction.setIcon({ path: icon.good });
-            setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
+            setTimeout(function () { browser.browserAction.setIcon({ path: icon.default }); }, 5000);
         })
         .catch(e => {
             browser.browserAction.setIcon({ path: icon.bad });
-            setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
+            setTimeout(function () { browser.browserAction.setIcon({ path: icon.default }); }, 5000);
         });
 };
 
@@ -122,7 +121,7 @@ browser.commands.onCommand.addListener(function (command) {
 GetApi().then(api => {
     if (api.data.AllowExistCheck) {
         browser.tabs.onActivated.addListener(function (activeInfo) {
-            browser.browserAction.setIcon({ path: browserActionIconDefault });
+            browser.browserAction.setIcon({ path: icon.default });
             const { tabId } = activeInfo;
             browser.tabs.get(tabId, function (tab) {
                 checkExist(tab.url);
@@ -130,7 +129,7 @@ GetApi().then(api => {
         });
 
         browser.tabs.onCreated.addListener(function (tab) {
-            browser.browserAction.setIcon({ path: browserActionIconDefault });
+            browser.browserAction.setIcon({ path: icon.default });
         });
 
         browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
@@ -151,7 +150,7 @@ GetApi().then(api => {
                     break;
                 case 'error' :
                     browser.browserAction.setIcon({ path: icon.bad });
-                    setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
+                    setTimeout(function () { browser.browserAction.setIcon({ path: icon.default }); }, 5000);
                     break;
             }
         });
@@ -179,11 +178,8 @@ const requestExists = (url) =>
     GetApi()
     .then(api => api.EntryExists(url))
     .then(data => {
-        let icon = browserActionIconDefault;
-        if (data.exists) {
-            icon = icon.good;
-        }
-        browser.browserAction.setIcon({ path: icon });
+        const existsIcon = data.exists ? icon.good : icon.default;
+        browser.browserAction.setIcon({ path: existsIcon });
         saveExistFlag(url, data.exists);
     });
 
