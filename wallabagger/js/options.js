@@ -358,8 +358,8 @@ OptionsController.prototype = {
     init: function () {
         this.api = new WallabagApi();
 
-        this.api.load().then(api => {
-            this.setFields(api.data);
+        this.api.init().then(data => {
+            this.setFields(data);
         }).catch(data => { });
     }
 

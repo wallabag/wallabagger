@@ -87,7 +87,7 @@ const cache = new CacheType(true); // TODO - here checking option
 const dirtyCache = new CacheType(true);
 
 const api = new WallabagApi();
-api.load().then(api => {
+api.init().then(api => {
     addListeners();
     createContextMenus();
     api.GetTags().then(tags => { cache.set('allTags', tags); });

@@ -277,6 +277,7 @@ PopupController.prototype = {
         e.preventDefault();
         this.hide(this.cardBody);
         this.show(this.cardHeader);
+        this.tagsInput.focus();
     },
 
     cardTitleClick: function (e) {
