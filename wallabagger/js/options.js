@@ -109,7 +109,7 @@ OptionsController.prototype = {
         this.clientSecret_.value = '';
         this.clientId_.value = '';
         this.wallabagurlinput_.value = '';
-        this.protocolLabel_.innerText = 'http://';
+        this.protocolLabel_.textContent = 'http://';
         this.protocolCheck_.checked = false;
     },
 
@@ -142,7 +142,7 @@ OptionsController.prototype = {
         let fileNameToSaveAs = 'wallabag.json';
         let downloadLink = document.createElement('a');
         downloadLink.download = fileNameToSaveAs;
-        downloadLink.innerHTML = 'Download File';
+        downloadLink.textContent = 'Download File';
         downloadLink.href = textToSaveAsURL;
         downloadLink.onclick = (event) => { document.body.removeChild(event.target); };
         downloadLink.style.display = 'none';
@@ -176,7 +176,7 @@ OptionsController.prototype = {
         //   this.refrTokenInput_.value = this.api.data.RefreshToken;
         //   let expireDate = this.api.data.ExpireDateMs;
         //   this.tokenExpiresInput.value = new Date(  expireDate );
-        this.tokenLabel_.innerHTML = 'Granted';
+        this.tokenLabel_.textContent = 'Granted';
     },
 
     wallabagApiTokenNotGot: function () {
@@ -188,7 +188,7 @@ OptionsController.prototype = {
         // this.refrTokenInput_.value = '';
         // chrome.storage.local.set({ 'wallabagapptoken': '' });
         // chrome.storage.local.set({ 'wallabagrefreshtoken': '' });
-        this.tokenLabel_.innerHTML = 'Not granted';
+        this.tokenLabel_.textContent = 'Not granted';
     },
 
     getAppTokenClick: function (e) {
@@ -224,7 +224,7 @@ OptionsController.prototype = {
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
             // wallabagGetAppToken: wallabagGetAppToken: function(aUrl, clientId, clientSecret, userId, userPassword){
             this.api.set({
-                Url: this.protocolLabel_.innerText + this.wallabagurlinput_.value,
+                Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value,
                 ClientId: this.clientId_.value,
                 ClientSecret: this.clientSecret_.value,
                 UserLogin: this.userLogin_.value,
@@ -245,9 +245,9 @@ OptionsController.prototype = {
 
     handleProtocolClick: function () {
         if (this.protocolCheck_.checked) {
-            this.protocolLabel_.innerText = 'https://';
+            this.protocolLabel_.textContent = 'https://';
         } else {
-            this.protocolLabel_.innerText = 'http://';
+            this.protocolLabel_.textContent = 'http://';
             this.allowExistCheck.checked = false;
         }
     },
@@ -277,12 +277,12 @@ OptionsController.prototype = {
 
     wallabagUrlChecked: function () {
         if (this.api.data.ApiVersion !== '') {
-            this.versionLabel_.innerHTML = this.api.data.ApiVersion;
+            this.versionLabel_.textContent = this.api.data.ApiVersion;
             //            chrome.storage.local.set({ 'wallabagapiversion': this.api.data.ApiVersion });
             this.api.save();
             if (this.api.data.ApiVersion.split('.')[0] === '2') {
                 //                chrome.storage.local.set({ 'wallabagchecked': 'OK' });
-                this.checkedLabel_.innerHTML = 'OK';
+                this.checkedLabel_.textContent = 'OK';
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
             }
@@ -294,15 +294,15 @@ OptionsController.prototype = {
         this.api.save();
         this._red(this.wallabagurlinput_);
         this._hide(this.tokenSection_);
-        this.checkedLabel_.innerHTML = 'Not checked';
-        this.versionLabel_.innerHTML = 'Not checked';
+        this.checkedLabel_.textContent = 'Not checked';
+        this.versionLabel_.textContent = 'Not checked';
     },
 
     checkUrlClick: function (e) {
         e.preventDefault();
 
         if (this.wallabagurlinput_.value !== '') {
-            this.api.set({ Url: this.protocolLabel_.innerText + this.wallabagurlinput_.value });
+            this.api.set({ Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value });
 
             this.api.CheckUrl()
                 .then(data => {
@@ -321,7 +321,7 @@ OptionsController.prototype = {
         if (re.test(data.Url)) {
             const res = re.exec(data.Url);
             this.protocolCheck_.checked = (res[1] === 'https');
-            this.protocolLabel_.innerText = res[1] + '://';
+            this.protocolLabel_.textContent = res[1] + '://';
             this.wallabagurlinput_.value = res[2];
         };
 
@@ -330,9 +330,9 @@ OptionsController.prototype = {
         }
 
         if (data.ApiVersion) {
-            this.versionLabel_.innerHTML = data.ApiVersion;
+            this.versionLabel_.textContent = data.ApiVersion;
             if (data.ApiVersion.split('.')[0] === '2') {
-                this.checkedLabel_.innerHTML = 'OK';
+                this.checkedLabel_.textContent = 'OK';
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
             }
@@ -344,11 +344,11 @@ OptionsController.prototype = {
         this.userPassword_.value = data.UserPassword || '';
 
         if (data.ApiToken) {
-            this.tokenLabel_.innerHTML = 'Granted';
+            this.tokenLabel_.textContent = 'Granted';
         }
 
         if (this.api.data.ExpireDateMs && this.api.expired) {
-            this.tokenLabel_.innerHTML = 'Expired';
+            this.tokenLabel_.textContent = 'Expired';
         }
 
         this.allowSpaceCheck.checked = data.AllowSpaceInTags;
