@@ -49,6 +49,7 @@ span.icon {
 
 #card-image {
     max-width: 444px;
+    max-height: 250px;
     overflow: hidden;
 }
 
