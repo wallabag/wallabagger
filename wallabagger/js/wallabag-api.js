@@ -1,30 +1,37 @@
 var WallabagApi = function () { };
 
-const emptyData = {
-    Url: null,
-    ApiVersion: null,
-    ClientId: null,
-    ClientSecret: null,
-    UserLogin: null,
-    UserPassword: null,
-    ApiToken: null,
-    RefreshToken: null,
-    ExpireDateMs: null,
-    AllowSpaceInTags: null,
-    AllowExistCheck: null
-};
-
 WallabagApi.prototype = {
 
-    data: emptyData,
+    defaultValues: {
+        Url: null,
+        ApiVersion: null,
+        ClientId: null,
+        ClientSecret: null,
+        UserLogin: null,
+        UserPassword: null,
+        ApiToken: null,
+        RefreshToken: null,
+        ExpireDateMs: null,
+        AllowSpaceInTags: null,
+        AllowExistCheck: null,
+        Debug: false
+    },
+
+    data: {},
 
     fetchApi: null,
 
     tags: [],
 
     init: function () {
+        Object.assign(this.data, this.defaultValues);
         this.fetchApi = new FetchApi();
         return this.load();
+    },
+
+    resetDebug: function() {
+        this.data.Debug = this.defaultValues.Debug;
+        this.save();
     },
 
     save: function () {
@@ -71,7 +78,7 @@ WallabagApi.prototype = {
     },
 
     clear: function () {
-        this.set(emptyData);
+        this.set(this.defaultValues);
     },
 
     set: function (params) {

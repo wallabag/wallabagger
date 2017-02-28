@@ -23,6 +23,7 @@ var OptionsController = function () {
     //   this.tokenExpiresInput = document.getElementById("tokenexpired-input");
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
     this.allowExistCheck = document.getElementById('allow-exist-checkbox');
+    this.debugEl = document.getElementById('debug');
     this.saveToFileButton = document.getElementById('saveToFile-button');
     this.loadFromFileButton = document.getElementById('loadFromFile-button');
     this.clearButton = document.getElementById('clear-button');
@@ -65,6 +66,7 @@ OptionsController.prototype = {
 
     allowSpaceCheck: null,
     allowExistCheck: null,
+    debugEl: null,
     httpsButton: null,
     httpsMessage: null,
 
@@ -73,6 +75,7 @@ OptionsController.prototype = {
     addListeners_: function () {
         this.allowSpaceCheck.addEventListener('click', this.allowSpaceCheckClick.bind(this));
         this.allowExistCheck.addEventListener('click', this.allowExistCheckClick.bind(this));
+        this.debugEl.addEventListener('click', this.debugClick.bind(this));
         this.protocolCheck_.addEventListener('click', this.handleProtocolClick.bind(this));
         // this.savebutton_.addEventListener('click', this.saveClick_.bind(this));
         this.checkurlbutton_.addEventListener('click', this.checkUrlClick.bind(this));
@@ -124,9 +127,11 @@ OptionsController.prototype = {
             let fileReader = new FileReader();
             fileReader.onload = function (fileLoadedEvent) {
                 let textFromFileLoaded = fileLoadedEvent.target.result;
-                console.log(textFromFileLoaded);
                 let obj = JSON.parse(textFromFileLoaded);
-                console.log(obj);
+                if(this.api.data.Debug === true) {
+                    console.log(textFromFileLoaded);
+                    console.log(obj);
+                }
                 this.api.set(obj);
                 this.setFields(obj);
                 this.api.save();
@@ -163,6 +168,11 @@ OptionsController.prototype = {
             this.allowExistCheck.checked = false;
             this.httpsMessage.classList.add('active');
         }
+    },
+
+    debugClick: function () {
+        this.api.set({ Debug: this.debugEl.checked });
+        this.api.save();
     },
 
     wallabagApiTokenGot: function () {
@@ -353,6 +363,7 @@ OptionsController.prototype = {
 
         this.allowSpaceCheck.checked = data.AllowSpaceInTags;
         this.allowExistCheck.checked = data.AllowExistCheck;
+        this.debugEl.checked = data.Debug;
     },
 
     init: function () {

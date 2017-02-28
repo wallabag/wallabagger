@@ -400,11 +400,15 @@ PopupController.prototype = {
         apiAuthorised.then(data => this.activeTab())
             .then(tab => {
                 this.showInfo('Saving the page to wallabag ...');
-                console.log(tab.url);
+                if(this.api.data.Debug === true) {
+                    console.log(tab.url);
+                }
                 return this.api.SavePage(tab.url);
             })
             .then(data => {
-                console.log(data);
+                if(this.api.data.Debug === true) {
+                    console.log(data);
+                }
                 if (data != null) {
                     this.articleId = data.id;
                     this.cardTitle.innerHTML = data.title;
