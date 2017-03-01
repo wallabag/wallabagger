@@ -87,7 +87,7 @@ const cache = new CacheType(true); // TODO - here checking option
 const dirtyCache = new CacheType(true);
 
 const api = new WallabagApi();
-api.init().then(api => {
+api.init().then(data => {
     addListeners();
     createContextMenus();
     api.GetTags().then(tags => { cache.set('allTags', tags); });
@@ -162,11 +162,13 @@ function addListeners () {
                                 browser.browserAction.setIcon({ path: icon.good });
                                 postIfConnected({ response: 'article', article: data });
                                 cache.set(btoa(msg.url), data);
+                                saveExistFlag(btoa(msg.url, true));
                                 return data;
                             })
                             .then(data => applyDirtyCacheReal(msg.url, data))
                             .catch(error => {
                                 browser.browserAction.setIcon({ path: icon.bad });
+                                saveExistFlag(btoa(msg.url, false));
                                 throw error;
                             });
                         }
