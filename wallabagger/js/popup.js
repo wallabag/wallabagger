@@ -292,15 +292,15 @@ PopupController.prototype = {
 
     editIconClick: function (e) {
         e.preventDefault();
-        this.titleInput.value = this.cardTitle.innerHTML;
+        this.titleInput.value = this.cardTitle.textContent;
         this.hide(this.cardHeader);
         this.show(this.cardBody);
     },
 
     saveTitleClick: function (e) {
         e.preventDefault();
-        this.cardTitle.innerHTML = this.titleInput.value;
-        this.api.SaveTitle(this.articleId, this.getSaveHtml(this.cardTitle.innerHTML))
+        this.cardTitle.textContent = this.titleInput.value;
+        this.api.SaveTitle(this.articleId, this.getSaveHtml(this.cardTitle.textContent))
             .then(data => {
                 this.hide(this.cardBody);
                 this.show(this.cardHeader);
@@ -343,19 +343,39 @@ PopupController.prototype = {
         });
     },
 
-    createTagChip: function (tagid, taglabel) {
-        let element = document.createElement('div');
-        element.innerHTML = `<div class="chip-sm" data-tagid="${tagid}" data-taglabel="${taglabel}"><span class="chip-name">${taglabel}</span><button class="btn btn-clear"></button></div>`;
-        let chipClose = element.firstChild.lastChild;
-        chipClose.addEventListener('click', this.deleteTag.bind(this));
-        return element.firstChild;
+    _createContainerEl: function(id, label) {
+        const container = document.createElement('div');
+        container.setAttribute("class", "chip-sm");
+        container.setAttribute("data-tagid", id);
+        container.setAttribute("data-taglabel", label);
+        container.appendChild(this._createTagEl(label));
+        return container;
     },
 
-    createTagChipNoClose: function (tagid, taglabel) {
-        let element = document.createElement('div');
-        element.innerHTML = `<div class="chip-sm" data-tagid="${tagid}" data-taglabel="${taglabel}"" style="cursor: pointer;"><span class="chip-name">${taglabel}</span></div>`;
-        element.firstChild.addEventListener('click', this.onFoundTagChipClick.bind(this));
-        return element.firstChild;
+    _createTagEl: (label) => {
+        const tag = document.createElement('span');
+        tag.setAttribute("class", "chip-name");
+        tag.textContent = label;
+        return tag;
+    },
+
+    createTagChip: function (id, label) {
+        const container = this._createContainerEl(id, label);
+
+        const button = document.createElement('button');
+        button.setAttribute("class", "btn btn-clear");
+        button.addEventListener('click', this.deleteTag.bind(this));
+
+        container.appendChild(button);
+
+        return container;
+    },
+
+    createTagChipNoClose: function (id, label) {
+        const container = this._createContainerEl(id, label);
+        container.addEventListener('click', this.onFoundTagChipClick.bind(this));
+        container.setAttribute("style", "cursor: pointer;");
+        return container;
     },
 
     clearTagInput: function () {
@@ -407,9 +427,9 @@ PopupController.prototype = {
                 console.log(data);
                 if (data != null) {
                     this.articleId = data.id;
-                    this.cardTitle.innerHTML = data.title;
+                    this.cardTitle.textContent = data.title;
                     this.cardTitle.href = `${this.api.data.Url}/view/${this.articleId}`;
-                    this.entryUrl.innerHTML = data.domain_name;
+                    this.entryUrl.textContent = data.domain_name;
                     this.entryUrl.href = data.url;
 
                     if (typeof (data.preview_picture) === 'string' &&
@@ -452,12 +472,12 @@ PopupController.prototype = {
     },
 
     showError: function (infoString) {
-        this.errorToast.innerText = infoString;
+        this.errorToast.textContent = infoString;
         this.show(this.errorToast);
     },
 
     showInfo: function (infoString) {
-        this.infoToast.innerText = infoString;
+        this.infoToast.textContent = infoString;
         this.show(this.infoToast);
     },
 
