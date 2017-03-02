@@ -279,7 +279,11 @@ function applyDirtyCacheLight (key, data) {
             data.title = dirtyObject.title !== undefined ? dirtyObject.title : data.title;
             data.is_archived = dirtyObject.is_archived !== undefined ? dirtyObject.is_archived : data.is_archived;
             data.is_starred = dirtyObject.is_starred !== undefined ? dirtyObject.is_starred : data.is_starred;
-            data.tagList = (dirtyObject.tags !== undefined ? dirtyObject.tags.split(',') : []).concat(data.tags.map(t => t.label)).unique().join(',');
+            data.tagList =
+            (dirtyObject.tags !== undefined ? dirtyObject.tags.split(',') : [])
+            .concat(data.tags.map(t => t.label))
+            .filter((v, i, a) => a.indexOf(v) === i)
+            .join(',');
         } else {
             data.deleted = true;
         }
@@ -291,10 +295,11 @@ function applyDirtyCacheReal (key, data) {
     if (dirtyCache.check(key)) {
         const dirtyObject = dirtyCache.get(key);
         if (dirtyObject.deleted !== undefined) {
-            return api.DeleteArticle(data.id);
+            return api.DeleteArticle(data.id).then(a => { dirtyCache.clear(key); });
         } else {
-            if (!data.changed === undefined) {
-                return api.PatchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList });
+            if (data.changed !== undefined) {
+                return api.PatchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList })
+                .then(a => { dirtyCache.clear(key); });
             }
         }
     }

@@ -89,19 +89,19 @@ WallabagApi.prototype = {
     },
 
     SaveTitle: function (articleId, articleTitle) {
-        return this.PatchArticle(articleId, JSON.stringify({ title: articleTitle }));
+        return this.PatchArticle(articleId, { title: articleTitle });
     },
 
     SaveStarred: function (articleId, articleStarred) {
-        return this.PatchArticle(articleId, JSON.stringify({ starred: articleStarred }));
+        return this.PatchArticle(articleId, { starred: articleStarred });
     },
 
     SaveArchived: function (articleId, articleArchived) {
-        return this.PatchArticle(articleId, JSON.stringify({ archive: articleArchived }));
+        return this.PatchArticle(articleId, { archive: articleArchived });
     },
 
     SaveTags: function (articleId, taglist) {
-        return this.PatchArticle(articleId, JSON.stringify({ tags: taglist }));
+        return this.PatchArticle(articleId, { tags: taglist });
     },
 
     PatchArticle: function (articleId, content) {
@@ -150,7 +150,7 @@ WallabagApi.prototype = {
     },
 
     SavePage: function (pageUrl) {
-        let content = JSON.stringify({ url: pageUrl });
+        let content = { url: pageUrl };
         let entriesUrl = `${this.data.Url}/api/entries.json`;
         return this.CheckToken().then(a =>
                 this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
@@ -162,12 +162,12 @@ WallabagApi.prototype = {
     },
 
     RefreshToken: function () {
-        let content = JSON.stringify({
+        let content = {
             grant_type: 'refresh_token',
             refresh_token: this.data.RefreshToken,
             client_id: this.data.ClientId,
             client_secret: this.data.ClientSecret
-        });
+        };
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
         return this.fetchApi.Post(oauthurl, '', content)
             .then(data => {
@@ -243,13 +243,13 @@ WallabagApi.prototype = {
     // },
 
     GetAppToken: function () {
-        let content = JSON.stringify({
+        let content = {
             grant_type: 'password',
             client_id: this.data.ClientId,
             client_secret: this.data.ClientSecret,
             username: this.data.UserLogin,
             password: this.data.UserPassword
-        });
+        };
 
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
         return this.fetchApi.Post(oauthurl, '', content)
