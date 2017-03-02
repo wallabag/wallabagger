@@ -119,6 +119,7 @@ browser.commands.onCommand.addListener(function (command) {
 });
 
 GetApi().then(api => {
+    api.resetDebug();
     if (api.data.AllowExistCheck) {
         browser.tabs.onActivated.addListener(function (activeInfo) {
             browser.browserAction.setIcon({ path: icon.default });
