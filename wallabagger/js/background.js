@@ -1,31 +1,36 @@
-/* globals WallabagApi */
+//* globals WallabagApi */
 
 var CacheType = function (enable) {
     this.enabled = enable;
+    this._cache = [];
 };
 
 CacheType.prototype = {
-    _cache: [],
+    _cache: null,
     enabled: null,
+
+    str: function (some) {
+        return btoa(JSON.stringify(some));
+    },
 
     set: function (key, data) {
         if (this.enabled) {
-            this._cache[key] = data;
+            this._cache[this.str(key)] = data;
         }
     },
 
     clear: function (key) {
         if (this.enabled) {
-            delete this._cache[key];
+            delete this._cache[this.str(key)];
         }
     },
 
     check: function (key) {
-        return this.enabled && (this._cache[key] !== undefined);
+        return this.enabled && (this._cache[this.str(key)] !== undefined);
     },
 
     get: function (key) {
-        return this.enabled ? this._cache[key] : undefined;
+        return this.enabled ? this._cache[this.str(key)] : undefined;
     }
 };
 
@@ -33,14 +38,13 @@ if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
     browser = chrome;
 }
 
-const icon = {
+const icons = {
+    'default': browser.runtime.getManifest().browser_action.default_icon,
     'good': 'img/wallabagger-green.svg',
     'wip': 'img/wallabagger-yellow.svg',
     'bad': 'img/wallabagger-red.svg'
 
 };
-
-let browserActionIconDefault = browser.runtime.getManifest().browser_action.default_icon;
 
 const wallabagContextMenus = [
     {
@@ -111,7 +115,7 @@ function addListeners () {
     });
     if (api.data.AllowExistCheck) {
         browser.tabs.onActivated.addListener(function (activeInfo) {
-            browser.browserAction.setIcon({ path: browserActionIconDefault });
+            setIcon(icons.default);
             const { tabId } = activeInfo;
             browser.tabs.get(tabId, function (tab) {
                 checkExist(tab.url);
@@ -119,7 +123,7 @@ function addListeners () {
         });
 
         browser.tabs.onCreated.addListener(function (tab) {
-            browser.browserAction.setIcon({ path: browserActionIconDefault });
+            setIcon(icons.default);
         });
 
         browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
@@ -150,25 +154,30 @@ function addListeners () {
             try {
                 switch (msg.request) {
                     case 'save':
-                        if (isServicePage(msg.url)) { return; }
-                        if (cache.check(btoa(msg.url))) {
-                            postIfConnected({ response: 'article', article: cache.get(btoa(msg.url)) });
+                        if (isServicePage(msg.tabUrl)) { return; }
+                        if (cache.check(msg.tabUrl)) {
+                            postIfConnected({ response: 'article', article: cache.get(msg.tabUrl) });
                         } else {
-                            browser.browserAction.setIcon({ path: icon.wip });
+                            setIcon(icons.wip);
                             postIfConnected({ response: 'info', text: 'Saving the page to wallabag ...' });
-                            api.SavePage(msg.url)
-                            .then(data => portConnected ? applyDirtyCacheLight(msg.url, data) : data)
+                            api.SavePage(msg.tabUrl)
+                            .then(data => applyDirtyCacheLight(msg.tabUrl, data))
                             .then(data => {
-                                browser.browserAction.setIcon({ path: icon.good });
-                                postIfConnected({ response: 'article', article: data });
-                                cache.set(btoa(msg.url), data);
-                                saveExistFlag(btoa(msg.url, true));
+                                if (!data.deleted) {
+                                    setIcon(icons.good);
+                                    postIfConnected({ response: 'article', article: data });
+                                    cache.set(msg.tabUrl, data);
+                                    saveExistFlag(msg.tabUrl, true);
+                                } else {
+                                    cache.clear(msg.tabUrl);
+                                }
                                 return data;
                             })
-                            .then(data => applyDirtyCacheReal(msg.url, data))
+                            .then(data => applyDirtyCacheReal(msg.tabUrl, data))
                             .catch(error => {
-                                browser.browserAction.setIcon({ path: icon.bad });
-                                saveExistFlag(btoa(msg.url, false));
+                                setIcon(icons.bad);
+                                setTimeout(function () { setIcon(icons.default); }, 5000);
+                                saveExistFlag(msg.tabUrl, false);
                                 throw error;
                             });
                         }
@@ -188,18 +197,22 @@ function addListeners () {
                         if (msg.articleId !== -1) {
                             api.SaveTitle(msg.articleId, msg.title).then(data => {
                                 postIfConnected({ response: 'title', title: data.title });
-                                cache.set(btoa(msg.tabUrl), data);
+                                cache.set(msg.tabUrl, data);
                             });
                         } else {
-                            dirtyCacheSet(btoa(msg.tabUrl), {title: msg.title});
+                            dirtyCacheSet(msg.tabUrl, {title: msg.title});
                         }
                         break;
                     case 'deleteArticle':
                         if (msg.articleId !== -1) {
-                            api.DeleteArticle(msg.articleId).then(data => { cache.clear(msg.tabUrl); });
+                            api.DeleteArticle(msg.articleId).then(data => {
+                                cache.clear(msg.tabUrl);
+                            });
                         } else {
-                            dirtyCacheSet(btoa(msg.tabUrl), {deleted: true});
+                            dirtyCacheSet(msg.tabUrl, {deleted: true});
                         }
+                        setIcon(icons.default);
+                        saveExistFlag(msg.tabUrl, false);
                         break;
                     case 'setup':
                         postIfConnected({ response: 'setup', data: api.data });
@@ -208,20 +221,20 @@ function addListeners () {
                         if (msg.articleId !== -1) {
                             api.DeleteArticleTag(msg.articleId, msg.tagId).then(data => {
                                 postIfConnected({ response: 'articleTags', tags: data.tags });
-                                cache.set(btoa(msg.tabUrl), data);
+                                cache.set(msg.tabUrl, data);
                             });
                         } else {
-                            dirtyCacheSet(btoa(msg.tabUrl), {tags: msg.tags});
+                            dirtyCacheSet(msg.tabUrl, {tags: msg.tags});
                         }
                         break;
                     case 'saveTags':
                         if (msg.articleId !== -1) {
                             api.SaveTags(msg.articleId, msg.tags).then(data => {
                                 postIfConnected({ response: 'articleTags', tags: data.tags });
-                                cache.set(btoa(msg.tabUrl), data);
+                                cache.set(msg.tabUrl, data);
                             });
                         } else {
-                            dirtyCacheSet(btoa(msg.tabUrl), {tags: msg.tags});
+                            dirtyCacheSet(msg.tabUrl, {tags: msg.tags});
                         }
                         break;
                     case 'SaveStarred':
@@ -229,10 +242,10 @@ function addListeners () {
                         if (msg.articleId !== -1) {
                             api[msg.request](msg.articleId, msg.value ? 1 : 0).then(data => {
                                 postIfConnected({ response: 'action', value: {starred: data.is_starred === 1, archived: data.is_archived === 1} });
-                                cache.set(btoa(msg.tabUrl), data);
+                                cache.set(msg.tabUrl, data);
                             });
                         } else {
-                            dirtyCacheSet(btoa(msg.tabUrl), (msg.request === 'SaveStarred') ? {is_starred: msg.value ? 1 : 0} : {is_archived: msg.value ? 1 : 0});
+                            dirtyCacheSet(msg.tabUrl, (msg.request === 'SaveStarred') ? {is_starred: msg.value ? 1 : 0} : {is_archived: msg.value ? 1 : 0});
                         }
                         break;
                     default: {
@@ -240,23 +253,36 @@ function addListeners () {
                     }
                 }
             } catch (error) {
+                setIcon(icons.bad);
+                setTimeout(function () { setIcon(icons.default); }, 5000);
                 postIfConnected({ response: 'error', error: error });
             }
         });
     });
 }
 
+function setIcon (icon) {
+    browser.browserAction.setIcon({ path: icon });
+}
 function dirtyCacheSet (key, obj) {
-    dirtyCache.set(Object.assign(dirtyCache.check(key) ? dirtyCache.get(key) : {}, obj));
+    dirtyCache.set(key, Object.assign(dirtyCache.check(key) ? dirtyCache.get(key) : {}, obj));
 }
 
 function applyDirtyCacheLight (key, data) {
     if (dirtyCache.check(key)) {
         const dirtyObject = dirtyCache.get(key);
-        data.title = dirtyObject.title !== undefined ? dirtyObject.title : data.title;
-        data.is_archived = dirtyObject.is_archived !== undefined ? dirtyObject.is_archived : data.is_archived;
-        data.is_starred = dirtyObject.is_starred !== undefined ? dirtyObject.is_starred : data.is_starred;
-        data.tagList = (dirtyObject.tags !== undefined ? dirtyObject.tags.split(',') : []).concat(data.tags.map(t => t.label)).unique().join(',');
+        if (!dirtyObject.deleted) {
+            if ((dirtyObject.title !== undefined) || (dirtyObject.is_archived !== undefined) ||
+                 (dirtyObject.is_starred !== undefined) || (dirtyObject.tagList !== undefined)) {
+                data.changed = true;
+            }
+            data.title = dirtyObject.title !== undefined ? dirtyObject.title : data.title;
+            data.is_archived = dirtyObject.is_archived !== undefined ? dirtyObject.is_archived : data.is_archived;
+            data.is_starred = dirtyObject.is_starred !== undefined ? dirtyObject.is_starred : data.is_starred;
+            data.tagList = (dirtyObject.tags !== undefined ? dirtyObject.tags.split(',') : []).concat(data.tags.map(t => t.label)).unique().join(',');
+        } else {
+            data.deleted = true;
+        }
     }
     return data;
 }
@@ -267,23 +293,25 @@ function applyDirtyCacheReal (key, data) {
         if (dirtyObject.deleted !== undefined) {
             return api.DeleteArticle(data.id);
         } else {
-            return api.PatchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList });
+            if (!data.changed === undefined) {
+                return api.PatchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList });
+            }
         }
     }
     return data;
 }
 
 function savePageToWallabag (url) {
-    browser.browserAction.setIcon({ path: icon.wip });
+    setIcon(icons.wip);
 
     api.SavePage(url)
             .then(r => {
-                browser.browserAction.setIcon({ path: icon.good });
-                setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
+                setIcon(icons.good);
+                setTimeout(function () { setIcon(icons.default); }, 5000);
             })
             .catch(e => {
-                browser.browserAction.setIcon({ path: icon.bad });
-                setTimeout(function () { browser.browserAction.setIcon({ path: browserActionIconDefault }); }, 5000);
+                setIcon(icons.bad);
+                setTimeout(function () { setIcon(icons.defaul); }, 5000);
             });
 };
 
@@ -297,7 +325,7 @@ const checkExist = (url) => {
                 getExistFlag(url)
                 .then(exists => {
                     if (exists) {
-                        browser.browserAction.setIcon({ path: icon.good });
+                        setIcon(icons.good);
                     }
                 });
             } else {
@@ -309,11 +337,11 @@ const checkExist = (url) => {
 const requestExists = (url) =>
         api.EntryExists(url)
         .then(data => {
-            let icon = browserActionIconDefault;
+            let icon = icons.default;
             if (data.exists) {
-                icon = icon.good;
+                icon = icons.good;
             }
-            browser.browserAction.setIcon({ path: icon });
+            setIcon(icon);
             saveExistFlag(url, data.exists);
         });
 

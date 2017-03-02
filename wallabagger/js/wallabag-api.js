@@ -114,7 +114,9 @@ WallabagApi.prototype = {
                 ${error.message}`);
             });
     },
-
+    /** Delete article
+     * @param articleId {number} Article identificator
+     */
     DeleteArticle: function (articleId) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>

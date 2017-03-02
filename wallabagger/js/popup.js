@@ -413,7 +413,7 @@ PopupController.prototype = {
             this.cardTitle.innerHTML = tab.title;
             this.entryUrl.innerHTML = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
             this.enableTagsInput();
-            this.port.postMessage({request: 'save', url: tab.url});
+            this.port.postMessage({request: 'save', tabUrl: tab.url});
         });
         this.port.postMessage({request: 'tags'});
     },
