@@ -91,17 +91,10 @@ PopupController.prototype = {
 
     onIconClick: function (event) {
         event.preventDefault();
-        this.toggleIcon(event.currentTarget);
-        let actionKey = false;
-        if (event.currentTarget.id === 'starred-icon') {
-            actionKey = 'starred';
-            this.toggleAction(actionKey, 'SaveStarred');
-        }
-        if (event.currentTarget.id === 'archived-icon') {
-            actionKey = 'archived';
-            this.toggleAction(actionKey, 'SaveArchived');
-        }
-        this.setIconTitle(event.currentTarget, !this[actionKey]);
+        let icon = event.currentTarget;
+        this.toggleIcon(icon);
+        this.toggleAction(icon);
+        this.setIconTitle(icon);
         this.tagsInput.focus();
     },
 
@@ -115,12 +108,12 @@ PopupController.prototype = {
         icon.dataset.isset = JSON.stringify(currentState);
     },
 
-    setIconTitle: function (icon, state) {
-        icon.title = state ? icon.dataset.unseticonTitle : icon.dataset.seticonTitle;
+    setIconTitle: function (icon) {
+        icon.title = icon.dataset.isset ? icon.dataset.unseticonTitle : icon.dataset.seticonTitle;
     },
 
-    toggleAction: function (actionVar, actionApi) {
-        this.port.postMessage({request: actionApi, articleId: this.articleId, value: !this[actionVar], tabUrl: this.tabUrl});
+    toggleAction: function (icon) {
+        this.port.postMessage({request: icon.dataset.apiCall, articleId: this.articleId, value: icon.dataset.isset, tabUrl: this.tabUrl});
     },
 
     onTagsInputKeyUp: function (event) {
@@ -304,18 +297,18 @@ PopupController.prototype = {
         });
     },
 
-    createTagChip: function (tagid, taglabel) {
-        let element = document.createElement('div');
-        element.innerHTML = `<div class="chip-sm" data-tagid="${tagid}" data-taglabel="${taglabel}"><span class="chip-name">${taglabel}</span><button class="btn btn-clear"></button></div>`;
-        let chipClose = element.firstChild.lastChild;
-        chipClose.addEventListener('click', this.deleteTag.bind(this));
-        return element.firstChild;
+    _createContainerEl: function (id, label) {
+        const container = document.createElement('div');
+        container.setAttribute('class', 'chip-sm');
+        container.setAttribute('data-tagid', id);
+        container.setAttribute('data-taglabel', label);
+        container.appendChild(this._createTagEl(label));
         return container;
     },
 
     _createTagEl: (label) => {
         const tag = document.createElement('span');
-        tag.setAttribute("class", "chip-name");
+        tag.setAttribute('class', 'chip-name');
         tag.textContent = label;
         return tag;
     },
@@ -324,7 +317,7 @@ PopupController.prototype = {
         const container = this._createContainerEl(id, label);
 
         const button = document.createElement('button');
-        button.setAttribute("class", "btn btn-clear");
+        button.setAttribute('class', 'btn btn-clear');
         button.addEventListener('click', this.deleteTag.bind(this));
 
         container.appendChild(button);
@@ -335,7 +328,7 @@ PopupController.prototype = {
     createTagChipNoClose: function (id, label) {
         const container = this._createContainerEl(id, label);
         container.addEventListener('click', this.onFoundTagChipClick.bind(this));
-        container.setAttribute("style", "cursor: pointer;");
+        container.setAttribute('style', 'cursor: pointer;');
         return container;
     },
 
@@ -356,9 +349,9 @@ PopupController.prototype = {
 
     setArticle: function (data) {
         this.articleId = data.id;
-                    this.cardTitle.textContent = data.title;
-                    this.cardTitle.href = `${this.api.data.Url}/view/${this.articleId}`;
-                    this.entryUrl.textContent = data.domain_name;
+        this.cardTitle.textContent = data.title;
+        this.cardTitle.href = `${this.api.data.Url}/view/${this.articleId}`;
+        this.entryUrl.textContent = data.domain_name;
         this.entryUrl.href = data.url;
 
         if (typeof (data.preview_picture) === 'string' &&
