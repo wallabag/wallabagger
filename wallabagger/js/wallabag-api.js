@@ -29,7 +29,7 @@ WallabagApi.prototype = {
         return this.load();
     },
 
-    resetDebug: function() {
+    resetDebug: function () {
         this.data.Debug = this.defaultValues.Debug;
         this.save();
     },
