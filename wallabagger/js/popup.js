@@ -268,7 +268,7 @@ PopupController.prototype = {
     saveTitleClick: function (e) {
         e.preventDefault();
         this.port.postMessage({request: 'saveTitle', articleId: this.articleId, title: this.getSaveHtml(this.titleInput.value), tabUrl: this.tabUrl});
-        this.cardTitle.innerHTML = this.titleInput.value;
+        this.cardTitle.textContent = this.titleInput.value;
         this.hide(this.cardBody);
         this.show(this.cardHeader);
     },
@@ -310,13 +310,33 @@ PopupController.prototype = {
         let chipClose = element.firstChild.lastChild;
         chipClose.addEventListener('click', this.deleteTag.bind(this));
         return element.firstChild;
+        return container;
     },
 
-    createTagChipNoClose: function (tagid, taglabel) {
-        let element = document.createElement('div');
-        element.innerHTML = `<div class="chip-sm" data-tagid="${tagid}" data-taglabel="${taglabel}"" style="cursor: pointer;"><span class="chip-name">${taglabel}</span></div>`;
-        element.firstChild.addEventListener('click', this.onFoundTagChipClick.bind(this));
-        return element.firstChild;
+    _createTagEl: (label) => {
+        const tag = document.createElement('span');
+        tag.setAttribute("class", "chip-name");
+        tag.textContent = label;
+        return tag;
+    },
+
+    createTagChip: function (id, label) {
+        const container = this._createContainerEl(id, label);
+
+        const button = document.createElement('button');
+        button.setAttribute("class", "btn btn-clear");
+        button.addEventListener('click', this.deleteTag.bind(this));
+
+        container.appendChild(button);
+
+        return container;
+    },
+
+    createTagChipNoClose: function (id, label) {
+        const container = this._createContainerEl(id, label);
+        container.addEventListener('click', this.onFoundTagChipClick.bind(this));
+        container.setAttribute("style", "cursor: pointer;");
+        return container;
     },
 
     clearTagInput: function () {
@@ -336,9 +356,9 @@ PopupController.prototype = {
 
     setArticle: function (data) {
         this.articleId = data.id;
-        this.cardTitle.innerHTML = data.title;
-        this.cardTitle.href = `${data.Url}/view/${this.articleId}`;
-        this.entryUrl.innerHTML = data.domain_name;
+                    this.cardTitle.textContent = data.title;
+                    this.cardTitle.href = `${this.api.data.Url}/view/${this.articleId}`;
+                    this.entryUrl.textContent = data.domain_name;
         this.entryUrl.href = data.url;
 
         if (typeof (data.preview_picture) === 'string' &&
@@ -410,8 +430,8 @@ PopupController.prototype = {
         this.port.postMessage({request: 'setup'});
         this.activeTab().then(tab => {
             this.tabUrl = tab.url;
-            this.cardTitle.innerHTML = tab.title;
-            this.entryUrl.innerHTML = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
+            this.cardTitle.textContent = tab.title;
+            this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
             this.enableTagsInput();
             this.port.postMessage({request: 'save', tabUrl: tab.url});
         });
@@ -419,12 +439,12 @@ PopupController.prototype = {
     },
 
     showError: function (infoString) {
-        this.errorToast.innerText = infoString;
+        this.errorToast.textContent = infoString;
         this.show(this.errorToast);
     },
 
     showInfo: function (infoString) {
-        this.infoToast.innerText = infoString;
+        this.infoToast.textContent = infoString;
         this.show(this.infoToast);
     },
 

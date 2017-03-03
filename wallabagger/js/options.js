@@ -23,6 +23,7 @@ var OptionsController = function () {
     //   this.tokenExpiresInput = document.getElementById("tokenexpired-input");
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
     this.allowExistCheck = document.getElementById('allow-exist-checkbox');
+    this.debugEl = document.getElementById('debug');
     this.saveToFileButton = document.getElementById('saveToFile-button');
     this.loadFromFileButton = document.getElementById('loadFromFile-button');
     this.clearButton = document.getElementById('clear-button');
@@ -65,6 +66,7 @@ OptionsController.prototype = {
 
     allowSpaceCheck: null,
     allowExistCheck: null,
+    debugEl: null,
     httpsButton: null,
     httpsMessage: null,
 
@@ -73,6 +75,7 @@ OptionsController.prototype = {
     addListeners_: function () {
         this.allowSpaceCheck.addEventListener('click', this.allowSpaceCheckClick.bind(this));
         this.allowExistCheck.addEventListener('click', this.allowExistCheckClick.bind(this));
+        this.debugEl.addEventListener('click', this.debugClick.bind(this));
         this.protocolCheck_.addEventListener('click', this.handleProtocolClick.bind(this));
         // this.savebutton_.addEventListener('click', this.saveClick_.bind(this));
         this.checkurlbutton_.addEventListener('click', this.checkUrlClick.bind(this));
@@ -109,7 +112,7 @@ OptionsController.prototype = {
         this.clientSecret_.value = '';
         this.clientId_.value = '';
         this.wallabagurlinput_.value = '';
-        this.protocolLabel_.innerText = 'http://';
+        this.protocolLabel_.textContent = 'http://';
         this.protocolCheck_.checked = false;
     },
 
@@ -124,9 +127,11 @@ OptionsController.prototype = {
             let fileReader = new FileReader();
             fileReader.onload = function (fileLoadedEvent) {
                 let textFromFileLoaded = fileLoadedEvent.target.result;
-                console.log(textFromFileLoaded);
                 let obj = JSON.parse(textFromFileLoaded);
-                console.log(obj);
+                if(this.api.data.Debug === true) {
+                    console.log(textFromFileLoaded);
+                	console.log(obj);
+                }
                 this.api.set(obj);
                 this.setFields(obj);
                 this.api.save();
@@ -142,7 +147,7 @@ OptionsController.prototype = {
         let fileNameToSaveAs = 'wallabag.json';
         let downloadLink = document.createElement('a');
         downloadLink.download = fileNameToSaveAs;
-        downloadLink.innerHTML = 'Download File';
+        downloadLink.textContent = 'Download File';
         downloadLink.href = textToSaveAsURL;
         downloadLink.onclick = (event) => { document.body.removeChild(event.target); };
         downloadLink.style.display = 'none';
@@ -165,6 +170,11 @@ OptionsController.prototype = {
         }
     },
 
+    debugClick: function () {
+        this.api.set({ Debug: this.debugEl.checked });
+        this.api.save();
+    },
+
     wallabagApiTokenGot: function () {
         this.api.save();
 
@@ -176,7 +186,7 @@ OptionsController.prototype = {
         //   this.refrTokenInput_.value = this.api.data.RefreshToken;
         //   let expireDate = this.api.data.ExpireDateMs;
         //   this.tokenExpiresInput.value = new Date(  expireDate );
-        this.tokenLabel_.innerHTML = 'Granted';
+        this.tokenLabel_.textContent = 'Granted';
     },
 
     wallabagApiTokenNotGot: function () {
@@ -188,7 +198,7 @@ OptionsController.prototype = {
         // this.refrTokenInput_.value = '';
         // chrome.storage.local.set({ 'wallabagapptoken': '' });
         // chrome.storage.local.set({ 'wallabagrefreshtoken': '' });
-        this.tokenLabel_.innerHTML = 'Not granted';
+        this.tokenLabel_.textContent = 'Not granted';
     },
 
     getAppTokenClick: function (e) {
@@ -224,7 +234,7 @@ OptionsController.prototype = {
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
             // wallabagGetAppToken: wallabagGetAppToken: function(aUrl, clientId, clientSecret, userId, userPassword){
             this.api.set({
-                Url: this.protocolLabel_.innerText + this.wallabagurlinput_.value,
+                Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value,
                 ClientId: this.clientId_.value,
                 ClientSecret: this.clientSecret_.value,
                 UserLogin: this.userLogin_.value,
@@ -245,9 +255,9 @@ OptionsController.prototype = {
 
     handleProtocolClick: function () {
         if (this.protocolCheck_.checked) {
-            this.protocolLabel_.innerText = 'https://';
+            this.protocolLabel_.textContent = 'https://';
         } else {
-            this.protocolLabel_.innerText = 'http://';
+            this.protocolLabel_.textContent = 'http://';
             this.allowExistCheck.checked = false;
         }
     },
@@ -277,12 +287,12 @@ OptionsController.prototype = {
 
     wallabagUrlChecked: function () {
         if (this.api.data.ApiVersion !== '') {
-            this.versionLabel_.innerHTML = this.api.data.ApiVersion;
+            this.versionLabel_.textContent = this.api.data.ApiVersion;
             //            chrome.storage.local.set({ 'wallabagapiversion': this.api.data.ApiVersion });
             this.api.save();
             if (this.api.data.ApiVersion.split('.')[0] === '2') {
                 //                chrome.storage.local.set({ 'wallabagchecked': 'OK' });
-                this.checkedLabel_.innerHTML = 'OK';
+                this.checkedLabel_.textContent = 'OK';
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
             }
@@ -294,15 +304,15 @@ OptionsController.prototype = {
         this.api.save();
         this._red(this.wallabagurlinput_);
         this._hide(this.tokenSection_);
-        this.checkedLabel_.innerHTML = 'Not checked';
-        this.versionLabel_.innerHTML = 'Not checked';
+        this.checkedLabel_.textContent = 'Not checked';
+        this.versionLabel_.textContent = 'Not checked';
     },
 
     checkUrlClick: function (e) {
         e.preventDefault();
 
         if (this.wallabagurlinput_.value !== '') {
-            this.api.set({ Url: this.protocolLabel_.innerText + this.wallabagurlinput_.value });
+            this.api.set({ Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value });
 
             this.api.CheckUrl()
                 .then(data => {
@@ -321,7 +331,7 @@ OptionsController.prototype = {
         if (re.test(data.Url)) {
             const res = re.exec(data.Url);
             this.protocolCheck_.checked = (res[1] === 'https');
-            this.protocolLabel_.innerText = res[1] + '://';
+            this.protocolLabel_.textContent = res[1] + '://';
             this.wallabagurlinput_.value = res[2];
         };
 
@@ -330,9 +340,9 @@ OptionsController.prototype = {
         }
 
         if (data.ApiVersion) {
-            this.versionLabel_.innerHTML = data.ApiVersion;
+            this.versionLabel_.textContent = data.ApiVersion;
             if (data.ApiVersion.split('.')[0] === '2') {
-                this.checkedLabel_.innerHTML = 'OK';
+                this.checkedLabel_.textContent = 'OK';
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
             }
@@ -344,15 +354,16 @@ OptionsController.prototype = {
         this.userPassword_.value = data.UserPassword || '';
 
         if (data.ApiToken) {
-            this.tokenLabel_.innerHTML = 'Granted';
+            this.tokenLabel_.textContent = 'Granted';
         }
 
         if (this.api.data.ExpireDateMs && this.api.expired) {
-            this.tokenLabel_.innerHTML = 'Expired';
+            this.tokenLabel_.textContent = 'Expired';
         }
 
         this.allowSpaceCheck.checked = data.AllowSpaceInTags;
         this.allowExistCheck.checked = data.AllowExistCheck;
+        this.debugEl.checked = data.Debug;
     },
 
     init: function () {

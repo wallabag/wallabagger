@@ -307,6 +307,9 @@ function applyDirtyCacheReal (key, data) {
 }
 
 function savePageToWallabag (url) {
+    if (isServicePage(url)) {
+        return;
+    }
     setIcon(icons.wip);
 
     api.SavePage(url)
