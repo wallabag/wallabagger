@@ -128,9 +128,9 @@ OptionsController.prototype = {
             fileReader.onload = function (fileLoadedEvent) {
                 let textFromFileLoaded = fileLoadedEvent.target.result;
                 let obj = JSON.parse(textFromFileLoaded);
-                if(this.api.data.Debug === true) {
+                if (this.api.data.Debug === true) {
                     console.log(textFromFileLoaded);
-                	console.log(obj);
+                    console.log(obj);
                 }
                 this.api.set(obj);
                 this.setFields(obj);

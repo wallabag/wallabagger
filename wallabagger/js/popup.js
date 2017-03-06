@@ -30,6 +30,7 @@ PopupController.prototype = {
     mainCard: null,
     errorToast: null,
     infoToast: null,
+    apiUrl: null,
     entryUrl: null,
     cardTitle: null,
     cardImage: null,
@@ -38,7 +39,6 @@ PopupController.prototype = {
     tagsAutoCompleteList: null,
 
     articleId: null,
-    api: null,
     editIcon: null,
     saveTitleButton: null,
     cancelTitleButton: null,
@@ -276,18 +276,18 @@ PopupController.prototype = {
     cardTitleClick: function (e) {
         e.preventDefault();
         window.close();
-        chrome.tabs.create({url: this.href});
+        browser.tabs.create({url: this.href});
     },
 
     entryUrlClick: function (e) {
         e.preventDefault();
         window.close();
-        chrome.tabs.create({url: this.href});
+        browser.tabs.create({url: this.href});
     },
 
     activeTab: function () {
         return new Promise((resolve, reject) => {
-            chrome.tabs.query({ 'active': true, 'currentWindow': true }, function (tabs) {
+            browser.tabs.query({ 'active': true, 'currentWindow': true }, function (tabs) {
                 if (tabs[0] != null) {
                     return resolve(tabs[0]);
                 } else {
@@ -350,7 +350,7 @@ PopupController.prototype = {
     setArticle: function (data) {
         this.articleId = data.id;
         this.cardTitle.textContent = data.title;
-        this.cardTitle.href = `${this.api.data.Url}/view/${this.articleId}`;
+        this.cardTitle.href = `${this.apiUrl}/view/${this.articleId}`;
         this.entryUrl.textContent = data.domain_name;
         this.entryUrl.href = data.url;
 
@@ -404,6 +404,7 @@ PopupController.prototype = {
                 break;
             case 'setup':
                 this.AllowSpaceInTags = msg.data.AllowSpaceInTags;
+                this.apiUrl = msg.data.Url;
                 break;
             case 'articleTags':
                 this.createTags(msg.tags);
