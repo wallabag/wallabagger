@@ -65,6 +65,8 @@ PopupController.prototype = {
     AllowSpaceInTags: false,
     tabUrl: null,
 
+    port: null,
+
     getSaveHtml: function (param) {
         let map = { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' };
         return param.replace(/[<'&">]/g, symb => map[symb]);

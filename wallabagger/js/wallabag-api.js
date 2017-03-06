@@ -35,12 +35,12 @@ WallabagApi.prototype = {
     },
 
     save: function () {
-        chrome.storage.local.set({ 'wallabagdata': this.data });
+        browser.storage.local.set({ 'wallabagdata': this.data });
     },
 
     load: function () {
         return new Promise((resolve, reject) => {
-            chrome.storage.local.get('wallabagdata', result => {
+            browser.storage.local.get('wallabagdata', result => {
                 if (result.wallabagdata != null) {
                     this.set(result.wallabagdata);
                     if (this.checkParams()) {
@@ -83,6 +83,11 @@ WallabagApi.prototype = {
 
     set: function (params) {
         Object.assign(this.data, params);
+    },
+
+    setsave: function (params) {
+        this.set(params);
+        this.save;
     },
 
     CheckUrl: function () {

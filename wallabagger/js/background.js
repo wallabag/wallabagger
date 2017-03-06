@@ -217,6 +217,33 @@ function addListeners () {
                     case 'setup':
                         postIfConnected({ response: 'setup', data: api.data });
                         break;
+                    case 'setup-save':
+                        api.setsave(msg.data);
+                        postIfConnected({ response: 'setup-save', data: api.data });
+                        break;
+                    case 'setup-gettoken':
+                        api.setsave(msg.data);
+                        api.GetAppToken()
+                        .then(a => {
+                            api.save();
+                            postIfConnected({ response: 'setup-gettoken', data: api.data, result: true });
+                        })
+                        .catch(a => {
+                            postIfConnected({ response: 'setup-gettoken', data: api.data, result: false });
+                        });
+                        break;
+                    case 'setup-checkurl':
+                        api.setsave(msg.data);
+                        api.CheckUrl()
+                        .then(a => {
+                            postIfConnected({ response: 'setup-checkurl', data: api.data, result: true });
+                        })
+                        .catch(a => {
+                            api.clear();
+                            // api.save();
+                            postIfConnected({ response: 'setup-checkurl', data: api.data, result: false });
+                        });
+                        break;
                     case 'deleteArticleTag':
                         if (msg.articleId !== -1) {
                             api.DeleteArticleTag(msg.articleId, msg.tagId).then(data => {
