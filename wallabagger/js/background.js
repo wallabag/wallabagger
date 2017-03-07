@@ -312,7 +312,7 @@ function applyDirtyCacheLight (key, data) {
         const dirtyObject = dirtyCache.get(key);
         if (!dirtyObject.deleted) {
             if ((dirtyObject.title !== undefined) || (dirtyObject.is_archived !== undefined) ||
-                 (dirtyObject.is_starred !== undefined) || (dirtyObject.tagList !== undefined)) {
+                 (dirtyObject.is_starred !== undefined) || (dirtyObject.tags !== undefined)) {
                 data.changed = true;
             }
             data.title = dirtyObject.title !== undefined ? dirtyObject.title : data.title;
