@@ -95,13 +95,13 @@ OptionsController.prototype = {
             fileReader.onload = function (fileLoadedEvent) {
                 let textFromFileLoaded = fileLoadedEvent.target.result;
                 let obj = JSON.parse(textFromFileLoaded);
-                if (this.data.Debug === true) {
+                if (this.debugEl.checked) {
                     console.log(textFromFileLoaded);
                     console.log(obj);
                 }
-                Object.assign(this.data, obj);
-                this.port.postMessage({request: 'setup-save', data: this.data});
+                this.data = Object.assign({}, obj);
                 this.setFields();
+                this.port.postMessage({request: 'setup-save', data: this.data});
             }.bind(this);
             fileReader.readAsText(fileToLoad, 'UTF-8');
         }
@@ -252,7 +252,7 @@ OptionsController.prototype = {
 
         if (this.wallabagurlinput_.value !== '') {
             Object.assign(this.data, { Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value });
-            this.port.postMessage({request: 'setup-chekurl', data: this.data});
+            this.port.postMessage({request: 'setup-checkurl', data: this.data});
         }
     },
 
