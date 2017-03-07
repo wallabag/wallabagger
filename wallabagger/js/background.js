@@ -157,7 +157,7 @@ function onContextMenusClicked (info) {
 
 function onCommandsCommand (command) {
     if (command === 'wallabag-it') {
-        browser.tabs.query({ 'active': true }, function (tabs) {
+        browser.tabs.query({ 'active': true, 'currentWindow': true }, function (tabs) {
             if (tabs[0] != null) {
                 savePageToWallabag(tabs[0].url, false);
             }
