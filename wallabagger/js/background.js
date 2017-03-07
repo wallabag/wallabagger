@@ -113,6 +113,7 @@ function onTabCreatedListener (tab) {
 
 function onTabUpdatedListener (tabId, changeInfo, tab) {
     if (changeInfo.status === 'loading' && tab.active) {
+        saveExistFlag(tab.url, false);
         requestExists(tab.url);
     }
 }
