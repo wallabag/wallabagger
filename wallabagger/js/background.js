@@ -1,5 +1,14 @@
 //* globals WallabagApi */
 
+// declarations
+
+if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
+    browser = chrome;
+}
+
+let Port = null;
+let portConnected = false;
+
 var CacheType = function (enable) {
     this.enabled = enable;
     this._cache = [];
@@ -33,10 +42,6 @@ CacheType.prototype = {
         return this.enabled ? this._cache[this.str(key)] : undefined;
     }
 };
-
-if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-    browser = chrome;
-}
 
 const icons = {
     'default': browser.runtime.getManifest().browser_action.default_icon,
@@ -83,14 +88,20 @@ const wallabagContextMenus = [
     }
 ];
 
-function createContextMenus () {
-    wallabagContextMenus.map(menu => { browser.contextMenus.create(menu); });
-}
+const existStates = {
+    exists: 'exists',
+    notexists: 'notexists',
+    wip: 'wip'
+};
 
 const cache = new CacheType(true); // TODO - here checking option
 const dirtyCache = new CacheType(true);
+const existCache = new CacheType(true);
 
 const api = new WallabagApi();
+
+// Code
+
 api.init().then(data => {
     addExistCheckListeners(api.data.AllowExistCheck);
     api.GetTags().then(tags => { cache.set('allTags', tags); });
@@ -98,6 +109,11 @@ api.init().then(data => {
 
 addListeners();
 createContextMenus();
+
+// Functions
+function createContextMenus () {
+    wallabagContextMenus.map(menu => { browser.contextMenus.create(menu); });
+}
 
 function onTabActivatedListener (activeInfo) {
     setIcon(icons.default);
@@ -113,7 +129,7 @@ function onTabCreatedListener (tab) {
 
 function onTabUpdatedListener (tabId, changeInfo, tab) {
     if (changeInfo.status === 'loading' && tab.active) {
-        saveExistFlag(tab.url, false);
+        saveExistFlag(tab.url, existStates.notexists);
         requestExists(tab.url);
     }
 }
@@ -165,9 +181,6 @@ function onCommandsCommand (command) {
     }
 }
 
-let Port = null;
-let portConnected = false;
-
 function postIfConnected (obj) {
     portConnected && Port.postMessage(obj);
 }
@@ -207,7 +220,7 @@ function onPortMessage (msg) {
                     dirtyCacheSet(msg.tabUrl, {deleted: true});
                 }
                 setIcon(icons.default);
-                saveExistFlag(msg.tabUrl, false);
+                saveExistFlag(msg.tabUrl, existStates.notexists);
                 break;
             case 'setup':
                 postIfConnected({ response: 'setup', data: api.data });
@@ -354,6 +367,7 @@ function savePageToWallabag (url, resetIcon) {
         postIfConnected({ response: 'article', article: cache.get(url) });
     } else {
         setIcon(icons.wip);
+        existCache.set(url, existStates.wip);
         postIfConnected({ response: 'info', text: 'Saving the page to wallabag ...' });
         api.SavePage(url)
                 .then(data => applyDirtyCacheLight(url, data))
@@ -362,7 +376,7 @@ function savePageToWallabag (url, resetIcon) {
                         setIcon(icons.good);
                         postIfConnected({ response: 'article', article: data });
                         cache.set(url, data);
-                        saveExistFlag(url, true);
+                        saveExistFlag(url, existStates.exists);
                         if (resetIcon) {
                             setTimeout(function () { setIcon(icons.default); }, 5000);
                         }
@@ -375,7 +389,7 @@ function savePageToWallabag (url, resetIcon) {
                 .catch(error => {
                     setIcon(icons.bad);
                     setTimeout(function () { setIcon(icons.default); }, 5000);
-                    saveExistFlag(url, false);
+                    saveExistFlag(url, existStates.notexists);
                     throw error;
                 });
     }
@@ -385,19 +399,17 @@ const GotoWallabag = (part) => api.check() && browser.tabs.create({ url: `${api.
 
 const checkExist = (url) => {
     if (isServicePage(url)) { return; }
-    existWasChecked(url)
-        .then(wasChecked => {
-            if (wasChecked) {
-                getExistFlag(url)
-                .then(exists => {
-                    if (exists) {
-                        setIcon(icons.good);
-                    }
-                });
-            } else {
-                requestExists(url);
-            }
-        });
+    if (existCache.check(url)) {
+        const existsFlag = existCache.get(url);
+        if (existsFlag === existStates.exists) {
+            setIcon(icons.good);
+        }
+        if (existsFlag === existStates.wip) {
+            setIcon(icons.wip);
+        }
+    } else {
+        requestExists(url);
+    }
 };
 
 const requestExists = (url) =>
@@ -408,26 +420,26 @@ const requestExists = (url) =>
                 icon = icons.good;
             }
             setIcon(icon);
-            saveExistFlag(url, data.exists);
+            saveExistFlag(url, data.exists ? existStates.exists : existStates.notexists);
         });
 
 const saveExistFlag = (url, exists) => {
-    browser.storage.local.set({[btoa(url)]: JSON.stringify(exists)});
+    existCache.set(url, exists);
 };
 
-const getExistFlag = (url) =>
-        new Promise((resolve, reject) => {
-            browser.storage.local.get(btoa(url), function (item) {
-                resolve(JSON.parse(item[btoa(url)]));
-            });
-        });
+// const getExistFlag = (url) => existCache.get(url);
+        // new Promise((resolve, reject) => {
+        //     browser.storage.local.get(btoa(url), function (item) {
+        //         resolve(JSON.parse(item[btoa(url)]));
+        //     });
+        // });
 
-const existWasChecked = (url) =>
-        new Promise((resolve, reject) => {
-            browser.storage.local.get(null, function (items) {
-                resolve(btoa(url) in items);
-            });
-        });
+// const existWasChecked = (url) => existCache.check(url);
+        // new Promise((resolve, reject) => {
+        //     browser.storage.local.get(null, function (items) {
+        //         resolve(btoa(url) in items);
+        //     });
+        // });
 
 const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
 
