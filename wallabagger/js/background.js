@@ -395,7 +395,7 @@ function savePageToWallabag (url, resetIcon) {
     }
 };
 
-const GotoWallabag = (part) => api.check() && browser.tabs.create({ url: `${api.data.Url}/${part}/list` });
+const GotoWallabag = (part) => api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${part}/list` });
 
 const checkExist = (url) => {
     if (isServicePage(url)) { return; }
