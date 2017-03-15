@@ -427,19 +427,5 @@ const saveExistFlag = (url, exists) => {
     existCache.set(url, exists);
 };
 
-// const getExistFlag = (url) => existCache.get(url);
-        // new Promise((resolve, reject) => {
-        //     browser.storage.local.get(btoa(url), function (item) {
-        //         resolve(JSON.parse(item[btoa(url)]));
-        //     });
-        // });
-
-// const existWasChecked = (url) => existCache.check(url);
-        // new Promise((resolve, reject) => {
-        //     browser.storage.local.get(null, function (items) {
-        //         resolve(btoa(url) in items);
-        //     });
-        // });
-
 const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
 

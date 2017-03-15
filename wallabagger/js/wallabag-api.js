@@ -249,14 +249,6 @@ WallabagApi.prototype = {
             });
     },
 
-    // CheckAppToken: function () {
-    //    let entriesUrl = `${this.data.Url}/api/entries.json?perPage=1`;
-    //    let rinit = this.RequestInit("GET", this.AuhorizedHeader(), '');
-    //    return fetch( entriesUrl, rinit )
-    //         .then(this._status)
-    //         .then(this._json);
-    // },
-
     GetAppToken: function () {
         let content = {
             grant_type: 'password',
