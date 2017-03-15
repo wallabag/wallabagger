@@ -152,8 +152,7 @@ WallabagApi.prototype = {
             .catch(error => {
                 throw new Error(`Failed to delete article tag ${entryUrl}
                 ${error.message}`);
-            })
-                ;
+            });
     },
 
     CheckToken: function () {

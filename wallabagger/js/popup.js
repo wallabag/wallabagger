@@ -255,7 +255,7 @@ PopupController.prototype = {
 
     editIconClick: function (e) {
         e.preventDefault();
-        this.titleInput.value = this.cardTitle.innerHTML;
+        this.titleInput.value = this.cardTitle.textContent;
         this.hide(this.cardHeader);
         this.show(this.cardBody);
     },
