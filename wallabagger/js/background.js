@@ -264,7 +264,7 @@ function onPortMessage (msg) {
                         cache.set(msg.tabUrl, data);
                     });
                 } else {
-                    dirtyCacheSet(msg.tabUrl, {tags: msg.tags});
+                    dirtyCacheSet(msg.tabUrl, {tagList: msg.tags});
                 }
                 break;
             case 'saveTags':
@@ -274,7 +274,7 @@ function onPortMessage (msg) {
                         cache.set(msg.tabUrl, data);
                     });
                 } else {
-                    dirtyCacheSet(msg.tabUrl, {tags: msg.tags});
+                    dirtyCacheSet(msg.tabUrl, {tagList: msg.tags});
                 }
                 break;
             case 'SaveStarred':
@@ -289,7 +289,7 @@ function onPortMessage (msg) {
                 }
                 break;
             default: {
-                console.log(`unknown request ${msg}`);
+                console.log(`unknown request ${JSON.stringify(msg)}`);
             }
         }
     } catch (error) {
@@ -319,6 +319,7 @@ function setIcon (icon) {
 
 function dirtyCacheSet (key, obj) {
     dirtyCache.set(key, Object.assign(dirtyCache.check(key) ? dirtyCache.get(key) : {}, obj));
+    dirtyCache.set(key, Object.assign(dirtyCache.check(key) ? dirtyCache.get(key) : {}, { id: -1, url: key }));
 }
 
 function applyDirtyCacheLight (key, data) {
@@ -326,14 +327,14 @@ function applyDirtyCacheLight (key, data) {
         const dirtyObject = dirtyCache.get(key);
         if (!dirtyObject.deleted) {
             if ((dirtyObject.title !== undefined) || (dirtyObject.is_archived !== undefined) ||
-                 (dirtyObject.is_starred !== undefined) || (dirtyObject.tags !== undefined)) {
+                 (dirtyObject.is_starred !== undefined) || (dirtyObject.tagList !== undefined)) {
                 data.changed = true;
             }
             data.title = dirtyObject.title !== undefined ? dirtyObject.title : data.title;
             data.is_archived = dirtyObject.is_archived !== undefined ? dirtyObject.is_archived : data.is_archived;
             data.is_starred = dirtyObject.is_starred !== undefined ? dirtyObject.is_starred : data.is_starred;
             data.tagList =
-            (dirtyObject.tags !== undefined ? dirtyObject.tags.split(',') : [])
+            (dirtyObject.tagList !== undefined ? dirtyObject.tagList.split(',') : [])
             .concat(data.tags.map(t => t.label))
             .filter((v, i, a) => a.indexOf(v) === i)
             .join(',');
@@ -352,6 +353,7 @@ function applyDirtyCacheReal (key, data) {
         } else {
             if (data.changed !== undefined) {
                 return api.PatchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList })
+                .then(data => cache.set(key, data))
                 .then(a => { dirtyCache.clear(key); });
             }
         }
@@ -363,36 +365,49 @@ function savePageToWallabag (url, resetIcon) {
     if (isServicePage(url)) {
         return;
     }
+    // if WIP and was some dirty changes, return dirtyCache
+    let exists = existCache.check(url) ? existCache.get(url) : existStates.notexists;
+    if (exists === existStates.wip) {
+        if (dirtyCache.check(url)) {
+            let dc = dirtyCache.get(url);
+            postIfConnected({ response: 'article', article: dc });
+        }
+        return;
+    }
+
+    // if article was saved, return cache
     if (cache.check(url)) {
         postIfConnected({ response: 'article', article: cache.get(url) });
-    } else {
-        setIcon(icons.wip);
-        existCache.set(url, existStates.wip);
-        postIfConnected({ response: 'info', text: 'Saving the page to wallabag ...' });
-        api.SavePage(url)
-                .then(data => applyDirtyCacheLight(url, data))
-                .then(data => {
-                    if (!data.deleted) {
-                        setIcon(icons.good);
-                        postIfConnected({ response: 'article', article: data });
-                        cache.set(url, data);
-                        saveExistFlag(url, existStates.exists);
-                        if (resetIcon) {
-                            setTimeout(function () { setIcon(icons.default); }, 5000);
-                        }
-                    } else {
-                        cache.clear(url);
-                    }
-                    return data;
-                })
-                .then(data => applyDirtyCacheReal(url, data))
-                .catch(error => {
-                    setIcon(icons.bad);
-                    setTimeout(function () { setIcon(icons.default); }, 5000);
-                    saveExistFlag(url, existStates.notexists);
-                    throw error;
-                });
+        return;
     }
+
+    // real saving
+    setIcon(icons.wip);
+    existCache.set(url, existStates.wip);
+    postIfConnected({ response: 'info', text: 'Saving the page to wallabag ...' });
+    api.SavePage(url)
+            .then(data => applyDirtyCacheLight(url, data))
+            .then(data => {
+                if (!data.deleted) {
+                    setIcon(icons.good);
+                    postIfConnected({ response: 'article', article: data });
+                    cache.set(url, data);
+                    saveExistFlag(url, existStates.exists);
+                    if (resetIcon) {
+                        setTimeout(function () { setIcon(icons.default); }, 5000);
+                    }
+                } else {
+                    cache.clear(url);
+                }
+                return data;
+            })
+            .then(data => applyDirtyCacheReal(url, data))
+            .catch(error => {
+                setIcon(icons.bad);
+                setTimeout(function () { setIcon(icons.default); }, 5000);
+                saveExistFlag(url, existStates.notexists);
+                throw error;
+            });
 };
 
 const GotoWallabag = (part) => api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${part}/list` });
@@ -428,4 +443,3 @@ const saveExistFlag = (url, exists) => {
 };
 
 const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
-

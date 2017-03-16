@@ -115,7 +115,7 @@ PopupController.prototype = {
     },
 
     toggleAction: function (icon) {
-        this.port.postMessage({request: icon.dataset.apiCall, articleId: this.articleId, value: icon.dataset.isset, tabUrl: this.tabUrl});
+        this.port.postMessage({request: icon.dataset.apicall, articleId: this.articleId, value: icon.dataset.isset, tabUrl: this.tabUrl});
     },
 
     onTagsInputKeyUp: function (event) {
@@ -351,9 +351,9 @@ PopupController.prototype = {
 
     setArticle: function (data) {
         this.articleId = data.id;
-        this.cardTitle.textContent = data.title;
-        this.cardTitle.href = `${this.apiUrl}/view/${this.articleId}`;
-        this.entryUrl.textContent = data.domain_name;
+        if (data.title !== undefined) { this.cardTitle.textContent = data.title; }
+        this.cardTitle.href = data.id === -1 ? '#' : `${this.apiUrl}/view/${this.articleId}`;
+        if (data.domain_name !== undefined) { this.entryUrl.textContent = data.domain_name; }
         this.entryUrl.href = data.url;
 
         if (typeof (data.preview_picture) === 'string' &&
@@ -364,17 +364,29 @@ PopupController.prototype = {
             this.hide(this.cardImage);
         }
 
-        this.starred = data.is_starred;
+        if (data.is_starred !== undefined) { this.starred = data.is_starred; }
         this.setIconTitle(this.starredIcon, this.starred);
         if (this.starred) {
             this.toggleIcon(this.starredIcon);
         }
-        this.archived = data.is_archived;
+        if (data.is_archived !== undefined) { this.archived = data.is_archived; }
         this.setIconTitle(this.archivedIcon, this.archived);
         if (this.archived) {
             this.toggleIcon(this.archivedIcon);
         }
-        this.createTags(data.tags);
+        if (data.id === -1 && data.tagList !== undefined) {
+            this.dirtyTags = data.tagList.split(',').map(taglabel => {
+                this.tmpTagId = this.tmpTagId - 1;
+                return {
+                    id: this.tmpTagId,
+                    label: taglabel,
+                    slug: taglabel
+                };
+            });
+            this.createTags([]);
+        } else {
+            this.createTags(data.tags);
+        }
         this.enableTagsInput();
     },
 
