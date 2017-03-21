@@ -360,6 +360,18 @@ function applyDirtyCacheReal (key, data) {
     }
     return data;
 }
+function cutArticle (data) {
+    return Object.assign({}, {
+        id: data.id,
+        is_starred: data.is_starred,
+        is_archived: data.is_archived,
+        title: data.title,
+        url: data.url,
+        tags: data.tags,
+        domain_name: data.domain_name,
+        preview_picture: data.preview_picture
+    });
+}
 
 function savePageToWallabag (url, resetIcon) {
     if (isServicePage(url)) {
@@ -370,14 +382,14 @@ function savePageToWallabag (url, resetIcon) {
     if (exists === existStates.wip) {
         if (dirtyCache.check(url)) {
             let dc = dirtyCache.get(url);
-            postIfConnected({ response: 'article', article: dc });
+            postIfConnected({ response: 'article', article: cutArticle(dc) });
         }
         return;
     }
 
     // if article was saved, return cache
     if (cache.check(url)) {
-        postIfConnected({ response: 'article', article: cache.get(url) });
+        postIfConnected({ response: 'article', article: cutArticle(cache.get(url)) });
         return;
     }
 
@@ -390,7 +402,7 @@ function savePageToWallabag (url, resetIcon) {
             .then(data => {
                 if (!data.deleted) {
                     setIcon(icons.good);
-                    postIfConnected({ response: 'article', article: data });
+                    postIfConnected({ response: 'article', article: cutArticle(data) });
                     cache.set(url, data);
                     saveExistFlag(url, existStates.exists);
                     if (resetIcon) {
