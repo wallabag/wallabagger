@@ -155,7 +155,7 @@ function addExistCheckListeners (enable) {
 function onContextMenusClicked (info) {
     switch (info.menuItemId) {
         case 'wallabagger-add-link':
-            if (typeof (info.linkUrl) === 'string') {
+            if (info.linkUrl.length > 0) {
                 savePageToWallabag(info.linkUrl, true);
             } else {
                 savePageToWallabag(info.pageUrl, false);
