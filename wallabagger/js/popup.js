@@ -73,8 +73,8 @@ PopupController.prototype = {
     },
 
     addListeners: function () {
-        this.cardTitle.addEventListener('click', this.cardTitleClick);
-        this.entryUrl.addEventListener('click', this.entryUrlClick);
+        this.cardTitle.addEventListener('click', this.openUrl);
+        this.entryUrl.addEventListener('click', this.openUrl);
         this.editIcon.addEventListener('click', this.editIconClick.bind(this));
         this.saveTitleButton.addEventListener('click', this.saveTitleClick.bind(this));
         this.cancelTitleButton.addEventListener('click', this.cancelTitleClick.bind(this));
@@ -275,16 +275,10 @@ PopupController.prototype = {
         this.tagsInput.focus();
     },
 
-    cardTitleClick: function (e) {
+    openUrl: function (e) {
         e.preventDefault();
-        window.close();
         browser.tabs.create({url: this.href});
-    },
-
-    entryUrlClick: function (e) {
-        e.preventDefault();
         window.close();
-        browser.tabs.create({url: this.href});
     },
 
     activeTab: function () {
