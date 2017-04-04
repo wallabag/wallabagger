@@ -183,6 +183,7 @@ function onCommandsCommand (command) {
 
 function postIfConnected (obj) {
     portConnected && Port.postMessage(obj);
+    api.data.Debug && console.log(`postMessage: ${JSON.stringify(obj)}`);
 }
 function onPortMessage (msg) {
     try {
@@ -373,6 +374,20 @@ function cutArticle (data) {
     });
 }
 
+function moveToDirtyCache (url) {
+    if (cache.check(url)) {
+        let art = cache.get(url);
+        // api.data.Debug && console.log(`article to move to dirtyCache ${JSON.stringify(art)}`);
+        dirtyCacheSet(url, {
+            title: art.title,
+            tagList: art.tags.map(tag => tag.label).join(','),
+            is_archived: art.is_archived,
+            is_starred: art.is_starred
+        });
+        cache.clear(url);
+    }
+}
+
 function savePageToWallabag (url, resetIcon) {
     if (isServicePage(url)) {
         return;
@@ -390,6 +405,14 @@ function savePageToWallabag (url, resetIcon) {
     // if article was saved, return cache
     if (cache.check(url)) {
         postIfConnected({ response: 'article', article: cutArticle(cache.get(url)) });
+        // check if article was deleted via web interface
+        requestExists(url)
+        .then(exists => {
+            if (!exists) {
+                moveToDirtyCache(url);
+                savePageToWallabag(url, resetIcon);
+            }
+        });
         return;
     }
 
@@ -448,6 +471,7 @@ const requestExists = (url) =>
             }
             setIcon(icon);
             saveExistFlag(url, data.exists ? existStates.exists : existStates.notexists);
+            return data.exists;
         });
 
 const saveExistFlag = (url, exists) => {
