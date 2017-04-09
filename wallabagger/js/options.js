@@ -251,9 +251,14 @@ OptionsController.prototype = {
         e.preventDefault();
 
         if (this.wallabagurlinput_.value !== '') {
+            this.wallabagurlinput_.value = this._urlSanitized(this.wallabagurlinput_.value);
             Object.assign(this.data, { Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value });
             this.port.postMessage({request: 'setup-checkurl', data: this.data});
         }
+    },
+
+    _urlSanitized: function (url) {
+        return url.replace(/\/$/, '');
     },
 
     setFields: function () {
