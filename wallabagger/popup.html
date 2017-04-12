@@ -8,14 +8,14 @@
 </head>
 
 <body>
-    <div class="card hide" id="main-card">
+    <div class="card" id="main-card">
 
         <div class="card-image">
-            <img src="img/wallabag-icon-128.png" class="img-responsive" id="card-image" />
+            <img src="img/wallabag-icon-128.png" class="card-image img-responsive" id="card-image" />
         </div>
 
         <div class="card-header" id="card-header">
-            <a id="card-title" href="#" title="Go to Wallabag's article page">Test card</a>
+            <a id="card-title" href="#" title="Go to Wallabag's article page">Page title</a>
         </div>
 
         <div class="card-body hide" id="card-body">
@@ -33,6 +33,7 @@
 
             <button
                 id="starred-icon"
+                data-apicall="SaveStarred"
                 data-isset="false"
                 data-seticon="icon-star-full"
                 data-seticon-title="Set this article as starred into Wallabag"
@@ -43,6 +44,7 @@
 
             <button
                 id="archived-icon"
+                data-apicall="SaveArchived"
                 class="action-button float-right card-meta icon icon-checkmark"
                 data-isset="false"
                 data-seticon="icon-checkmark-full"
@@ -96,8 +98,6 @@
         </div>
     </div>
 
-    <script src="js/fetch-api.js"></script>
-    <script src="js/wallabag-api.js"></script>
     <script src="js/popup.js"></script>
 
 </body>

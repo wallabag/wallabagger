@@ -35,12 +35,12 @@ WallabagApi.prototype = {
     },
 
     save: function () {
-        chrome.storage.local.set({ 'wallabagdata': this.data });
+        browser.storage.local.set({ 'wallabagdata': this.data });
     },
 
     load: function () {
         return new Promise((resolve, reject) => {
-            chrome.storage.local.get('wallabagdata', result => {
+            browser.storage.local.get('wallabagdata', result => {
                 if (result.wallabagdata != null) {
                     this.set(result.wallabagdata);
                     if (this.checkParams()) {
@@ -67,7 +67,11 @@ WallabagApi.prototype = {
     },
 
     checkParams: function () {
-        return ((this.data.ClientId !== '') &&
+        return ((this.data.ClientId !== null) &&
+                 (this.data.ClientSecret !== null) &&
+                 (this.data.userLogin !== null) &&
+                 (this.data.UserPassword !== null) &&
+                 (this.data.ClientId !== '') &&
                  (this.data.ClientSecret !== '') &&
                  (this.data.userLogin !== '') &&
                  (this.data.UserPassword !== ''));
@@ -85,6 +89,11 @@ WallabagApi.prototype = {
         Object.assign(this.data, params);
     },
 
+    setsave: function (params) {
+        this.set(params);
+        this.save;
+    },
+
     CheckUrl: function () {
         let url_ = this.data.Url + '/api/version';
         return this.fetchApi.Get(url_, '')
@@ -96,33 +105,39 @@ WallabagApi.prototype = {
     },
 
     SaveTitle: function (articleId, articleTitle) {
-        return this.PatchArticle(articleId, JSON.stringify({ title: articleTitle }));
+        return this.PatchArticle(articleId, { title: articleTitle });
     },
 
     SaveStarred: function (articleId, articleStarred) {
-        return this.PatchArticle(articleId, JSON.stringify({ starred: articleStarred }));
+        return this.PatchArticle(articleId, { starred: articleStarred });
     },
 
     SaveArchived: function (articleId, articleArchived) {
-        return this.PatchArticle(articleId, JSON.stringify({ archive: articleArchived }));
+        return this.PatchArticle(articleId, { archive: articleArchived });
     },
 
     SaveTags: function (articleId, taglist) {
-        return this.PatchArticle(articleId, JSON.stringify({ tags: taglist }));
+        return this.PatchArticle(articleId, { tags: taglist });
     },
 
     PatchArticle: function (articleId, content) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return this.fetchApi.Patch(entryUrl, this.data.ApiToken, content)
+        return this.CheckToken().then(a =>
+                this.fetchApi.Patch(entryUrl, this.data.ApiToken, content)
+            )
             .catch(error => {
                 throw new Error(`Failed to update article ${entryUrl}
                 ${error.message}`);
             });
     },
-
+    /** Delete article
+     * @param articleId {number} Article identificator
+     */
     DeleteArticle: function (articleId) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return this.fetchApi.Delete(entryUrl, this.data.ApiToken)
+        return this.CheckToken().then(a =>
+                this.fetchApi.Delete(entryUrl, this.data.ApiToken)
+            )
              .catch(error => {
                  throw new Error(`Failed to delete article ${entryUrl}
                 ${error.message}`);
@@ -131,17 +146,30 @@ WallabagApi.prototype = {
 
     DeleteArticleTag: function (articleId, tagid) {
         let entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
-        return this.fetchApi.Delete(entryUrl, this.data.ApiToken)
+        return this.CheckToken().then(a =>
+                this.fetchApi.Delete(entryUrl, this.data.ApiToken)
+            )
             .catch(error => {
                 throw new Error(`Failed to delete article tag ${entryUrl}
                 ${error.message}`);
             });
     },
 
+    CheckToken: function () {
+        return new Promise((resolve, reject) => {
+            if (this.needNewAppToken()) {
+                resolve(this.GetAppToken());
+            }
+            resolve(1);
+        });
+    },
+
     SavePage: function (pageUrl) {
-        let content = JSON.stringify({ url: pageUrl });
+        let content = { url: pageUrl };
         let entriesUrl = `${this.data.Url}/api/entries.json`;
-        return this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
+        return this.CheckToken().then(a =>
+                this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
+            )
             .catch(error => {
                 throw new Error(`Failed to save page ${entriesUrl}
                 ${error.message}`);
@@ -149,12 +177,12 @@ WallabagApi.prototype = {
     },
 
     RefreshToken: function () {
-        let content = JSON.stringify({
+        let content = {
             grant_type: 'refresh_token',
             refresh_token: this.data.RefreshToken,
             client_id: this.data.ClientId,
             client_secret: this.data.ClientSecret
-        });
+        };
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
         return this.fetchApi.Post(oauthurl, '', content)
             .then(data => {
@@ -174,7 +202,9 @@ WallabagApi.prototype = {
 
     GetTags: function () {
         let entriesUrl = `${this.data.Url}/api/tags.json`;
-        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+        return this.CheckToken().then(a =>
+                this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+            )
             .then(fetchData => {
                 this.tags = fetchData;
                 return fetchData;
@@ -188,7 +218,9 @@ WallabagApi.prototype = {
     EntryExists: function (url) {
         let entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
 
-        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+        return this.CheckToken().then(a =>
+              this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+            )
             .catch(error => {
                 throw new Error(`Failed to check if exists ${entriesUrl}
                 ${error.message}`);
@@ -197,7 +229,9 @@ WallabagApi.prototype = {
 
     GetArticle: function (articleId) {
         let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+        return this.CheckToken().then(a =>
+                this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+            )
             .catch(error => {
                 throw new Error(`Failed to get article ${entriesUrl}
                 ${error.message}`);
@@ -206,29 +240,23 @@ WallabagApi.prototype = {
 
     GetArticleTags: function (articleId) {
         let entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
-        return this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+        return this.CheckToken().then(a =>
+                this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+            )
             .catch(error => {
                 throw new Error(`Failed to get article tags ${entriesUrl}
                 ${error.message}`);
             });
     },
 
-    // CheckAppToken: function () {
-    //    let entriesUrl = `${this.data.Url}/api/entries.json?perPage=1`;
-    //    let rinit = this.RequestInit("GET", this.AuhorizedHeader(), '');
-    //    return fetch( entriesUrl, rinit )
-    //         .then(this._status)
-    //         .then(this._json);
-    // },
-
     GetAppToken: function () {
-        let content = JSON.stringify({
+        let content = {
             grant_type: 'password',
             client_id: this.data.ClientId,
             client_secret: this.data.ClientSecret,
             username: this.data.UserLogin,
             password: this.data.UserPassword
-        });
+        };
 
         let oauthurl = `${this.data.Url}/oauth/v2/token`;
         return this.fetchApi.Post(oauthurl, '', content)
