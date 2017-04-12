@@ -3,13 +3,16 @@ var FetchApi = function () {};
 FetchApi.prototype = {
 
     getRequestOptions: function (method, token, content) {
-        return {
+        let options = {
             method: method,
             headers: this.getHeaders(token),
             mode: 'cors',
-            cache: 'default',
-            body: content
+            cache: 'default'
         };
+        if (content !== '') {
+            options = Object.assign(options, { body: JSON.stringify(content) });
+        }
+        return options;
     },
 
     getHeaders: function (token) {
@@ -44,9 +47,9 @@ FetchApi.prototype = {
 
     Fetch: function (url, method, token, content) {
         let options = this.getRequestOptions(method, token, content);
-        return this.isEdge
+        return this.isEdge()
             ? this.xhrFetch(url, options)
-            : this.apiFetchurl(url, options);
+            : this.apiFetch(url, options);
     },
 
     apiFetch: (url, options) => fetch(url, options).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err))),
