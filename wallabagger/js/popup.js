@@ -408,7 +408,7 @@ PopupController.prototype = {
                 this.allTags = msg.tags;
                 break;
             case 'title':
-                this.cardTitle.innerHTML = msg.title;
+                this.cardTitle.textContent = msg.title;
                 break;
             case 'setup':
                 this.AllowSpaceInTags = msg.data.AllowSpaceInTags;
