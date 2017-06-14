@@ -12,8 +12,8 @@ WallabagApi.prototype = {
         ApiToken: null,
         RefreshToken: null,
         ExpireDateMs: null,
-        AllowSpaceInTags: null,
-        AllowExistCheck: null,
+        AllowSpaceInTags: false,
+        AllowExistCheck: false,
         Debug: false
     },
 
