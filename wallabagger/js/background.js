@@ -135,19 +135,19 @@ function onTabUpdatedListener (tabId, changeInfo, tab) {
 }
 
 function addExistCheckListeners (enable) {
-    if (enable) {
+    if (enable === true) {
         browser.tabs.onActivated.addListener(onTabActivatedListener);
         browser.tabs.onCreated.addListener(onTabCreatedListener);
         browser.tabs.onUpdated.addListener(onTabUpdatedListener);
     } else {
-        if (browser.tab && browser.tab.onActivated.hasListener(onTabActivatedListener)) {
-            browser.tab.onActivated.removeListener(onTabActivatedListener);
+        if (browser.tabs && browser.tabs.onActivated.hasListener(onTabActivatedListener)) {
+            browser.tabs.onActivated.removeListener(onTabActivatedListener);
         }
-        if (browser.tab && browser.tabs.onCreated.hasListener(onTabCreatedListener)) {
+        if (browser.tabs && browser.tabs.onCreated.hasListener(onTabCreatedListener)) {
             browser.tabs.onCreated.removeListener(onTabCreatedListener);
         }
-        if (browser.tab && browser.tabs.onUpdated.hasListener(onTabUpdatedListener)) {
-            browser.tabs.onUpdated.remoneListener(onTabUpdatedListener);
+        if (browser.tabs && browser.tabs.onUpdated.hasListener(onTabUpdatedListener)) {
+            browser.tabs.onUpdated.removeListener(onTabUpdatedListener);
         }
     }
 }
