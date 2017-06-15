@@ -416,14 +416,8 @@ function savePageToWallabag (url, resetIcon) {
     // if article was saved, return cache
     if (cache.check(url)) {
         postIfConnected({ response: 'article', article: cutArticle(cache.get(url)) });
-        // check if article was deleted via web interface
-        requestExists(url)
-        .then(exists => {
-            if (!exists) {
-                moveToDirtyCache(url);
-                savePageToWallabag(url, resetIcon);
-            }
-        });
+        moveToDirtyCache(url);
+        savePageToWallabag(url, resetIcon);
         return;
     }
 
