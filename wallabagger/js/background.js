@@ -491,4 +491,4 @@ const saveExistFlag = (url, exists) => {
     existCache.set(url, exists);
 };
 
-const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
+const isServicePage = (url) => RegExp('((chrome|about|browser):(.*)|' + api.data.Url + ')', 'g').test(url);
