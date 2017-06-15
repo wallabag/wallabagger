@@ -29,7 +29,7 @@ var OptionsController = function () {
 
 OptionsController.prototype = {
 
-    protocolCheck_: null,
+    protocolCheck_: true,
     protocolLabel_: null,
     wallabagurlinput_: null,
     checkurlbutton_: null,
@@ -82,8 +82,8 @@ OptionsController.prototype = {
         this.clientSecret_.value = '';
         this.clientId_.value = '';
         this.wallabagurlinput_.value = '';
-        this.protocolLabel_.textContent = 'http://';
-        this.protocolCheck_.checked = false;
+        this.protocolLabel_.textContent = 'https://';
+        this.protocolCheck_.checked = true;
     },
 
     loadFromFileClick: function () {
