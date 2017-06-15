@@ -363,7 +363,7 @@ OptionsController.prototype = {
             case 'setup-save':
                 Object.assign(this.data, msg.data);
                 if (this.data.Debug) {
-                    console.log(`setup saved: ${msg.data}`);
+                    console.log('setup saved:', msg.data);
                 }
                 break;
             default:
