@@ -225,7 +225,7 @@ function onPortMessage (msg) {
                 break;
             case 'setup-gettoken':
                 api.setsave(msg.data);
-                api.GetAppToken()
+                api.PasswordToken()
                         .then(a => {
                             api.save();
                             postIfConnected({ response: 'setup-gettoken', data: api.data, result: true });

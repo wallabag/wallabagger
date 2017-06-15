@@ -11,7 +11,8 @@ WallabagApi.prototype = {
         UserPassword: null,
         ApiToken: null,
         RefreshToken: null,
-        ExpireDateMs: null,
+        ExpireDate: 0,
+        isTokenExpired: true,
         AllowSpaceInTags: false,
         AllowExistCheck: false,
         Debug: false
@@ -61,7 +62,7 @@ WallabagApi.prototype = {
         let need = (
                   (this.data.ApiToken === '') ||
                   (this.data.ApiToken === null) ||
-                  this.expired()
+                  this.isTokenExpired()
                    );
         return need;
     },
@@ -77,8 +78,8 @@ WallabagApi.prototype = {
                  (this.data.UserPassword !== ''));
     },
 
-    expired: function () {
-        return (this.data.ExpireDateMs != null) && (Date.now() > this.data.ExpireDateMs);
+    isTokenExpired: function () {
+        return Date.now() > this.data.ExpireDate;
     },
 
     clear: function () {
@@ -158,7 +159,7 @@ WallabagApi.prototype = {
     CheckToken: function () {
         return new Promise((resolve, reject) => {
             if (this.needNewAppToken()) {
-                resolve(this.GetAppToken());
+                resolve(this.PasswordToken());
             }
             resolve(1);
         });
@@ -177,20 +178,35 @@ WallabagApi.prototype = {
     },
 
     RefreshToken: function () {
-        let content = {
+        const content = {
             grant_type: 'refresh_token',
             refresh_token: this.data.RefreshToken,
             client_id: this.data.ClientId,
             client_secret: this.data.ClientSecret
         };
-        let oauthurl = `${this.data.Url}/oauth/v2/token`;
+        return this.GetAppToken(content);
+    },
+
+    PasswordToken: function () {
+        let content = {
+            grant_type: 'password',
+            client_id: this.data.ClientId,
+            client_secret: this.data.ClientSecret,
+            username: this.data.UserLogin,
+            password: this.data.UserPassword
+        };
+        return this.GetAppToken(content);
+    },
+
+    GetAppToken: function (content) {
+        const oauthurl = `${this.data.Url}/oauth/v2/token`;
         return this.fetchApi.Post(oauthurl, '', content)
             .then(data => {
                 if (data !== '') {
                     this.data.ApiToken = data.access_token;
                     this.data.RefreshToken = data.refresh_token;
-                    let nowDate = new Date(Date.now());
-                    this.data.ExpireDateMs = nowDate.setSeconds(nowDate.getSeconds() + data.expires_in);
+                    this.data.ExpireDate = Date.now() + data.expires_in * 1000;
+                    this.data.isTokenExpired = this.isTokenExpired();
                     return data;
                 }
             })
@@ -247,29 +263,5 @@ WallabagApi.prototype = {
                 throw new Error(`Failed to get article tags ${entriesUrl}
                 ${error.message}`);
             });
-    },
-
-    GetAppToken: function () {
-        let content = {
-            grant_type: 'password',
-            client_id: this.data.ClientId,
-            client_secret: this.data.ClientSecret,
-            username: this.data.UserLogin,
-            password: this.data.UserPassword
-        };
-
-        let oauthurl = `${this.data.Url}/oauth/v2/token`;
-        return this.fetchApi.Post(oauthurl, '', content)
-            .then(fetchData => {
-                let nowDate = (new Date());
-                this.data.ApiToken = fetchData.access_token;
-                this.data.RefreshToken = fetchData.refresh_token;
-                this.data.ExpireDateMs = nowDate.setSeconds(nowDate.getSeconds() + fetchData.expires_in);
-                return fetchData;
-            }).catch(error => {
-                throw new Error(`Failed to get app token from ${oauthurl}
-                ${error.message}`);
-            });
     }
-
 };

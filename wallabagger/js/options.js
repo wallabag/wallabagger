@@ -13,6 +13,8 @@ var OptionsController = function () {
     this.userPassword_ = document.getElementById('userpassword-input');
     this.getAppTokenButton_ = document.getElementById('getapptoken-button');
     this.tokenLabel_ = document.getElementById('apitoken-label');
+    this.tokenExpire = document.getElementById('expiretoken-label');
+
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
     this.allowExistCheck = document.getElementById('allow-exist-checkbox');
     this.debugEl = document.getElementById('debug');
@@ -41,6 +43,7 @@ OptionsController.prototype = {
     userPassword_: null,
     getAppTokenButton_: null,
     tokenLabel_: null,
+    tokenExpire: null,
     saveToFileButton: null,
     loadFromFileButton: null,
     openFileDialog: null,
@@ -148,6 +151,37 @@ OptionsController.prototype = {
         this._green(this.userLogin_);
         this._green(this.userPassword_);
         this.tokenLabel_.textContent = 'Granted';
+        this.tokenExpire.textContent = this.getTokenExpireTime();
+    },
+
+    getTokenExpireTime: function () {
+        const expMs = this.data.ExpireDate - Date.now();
+        if (expMs < 0) {
+            return 'Expired';
+        }
+        const expSec = Math.floor(expMs / 1000);
+        const expMin = Math.floor(expSec / 60);
+        if (expMin < 60) {
+            let unit = 'minute';
+            if (expMin > 1) {
+                unit += 's';
+            }
+            return `${expMin} ${unit}`;
+        }
+        const expHours = Math.floor(expMin / 60);
+        if (expHours < 24) {
+            let unit = 'hour';
+            if (expHours > 1) {
+                unit += 's';
+            }
+            return `${expHours} ${unit}`;
+        }
+        const expDays = Math.floor(expHours / 24);
+        let unit = 'day';
+        if (expDays > 1) {
+            unit += 's';
+        }
+        return `${expDays} ${unit}`;
     },
 
     wallabagApiTokenNotGot: function () {
@@ -156,6 +190,7 @@ OptionsController.prototype = {
         this._red(this.userLogin_);
         this._red(this.userPassword_);
         this.tokenLabel_.textContent = 'Not granted';
+        this.tokenExpire.textContent = '';
     },
 
     getAppTokenClick: function (e) {
@@ -290,19 +325,17 @@ OptionsController.prototype = {
 
         if (this.data.ApiToken) {
             this.tokenLabel_.textContent = 'Granted';
+            this.tokenExpire.textContent = this.getTokenExpireTime();
         }
 
-        if (this.data.ExpireDateMs && this.expired) {
+        if (this.data.isTokenExpired) {
             this.tokenLabel_.textContent = 'Expired';
+            this.tokenExpire.textContent = '';
         }
 
         this.allowSpaceCheck.checked = this.data.AllowSpaceInTags;
         this.allowExistCheck.checked = this.data.AllowExistCheck;
         this.debugEl.checked = this.data.Debug;
-    },
-
-    expired: function () {
-        return (this.data.ExpireDateMs != null) && (Date.now() > this.data.ExpireDateMs);
     },
 
     messageListener: function (msg) {
