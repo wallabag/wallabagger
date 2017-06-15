@@ -16,7 +16,7 @@ var CacheType = function (enable) {
 
 CacheType.prototype = {
     _cache: null,
-    enabled: null,
+    enabled: false,
 
     str: function (some) {
         return btoa(JSON.stringify(some));
