@@ -6,6 +6,7 @@ var OptionsController = function () {
     this.versionLabel_ = document.getElementById('apiversion-label');
     this.checkurlbutton_ = document.getElementById('checkurl-button');
     this.tokenSection_ = document.getElementById('token-section');
+    this.togglesSection = document.getElementById('toggles-section');
 
     this.clientId_ = document.getElementById('clientid-input');
     this.clientSecret_ = document.getElementById('clientsecret-input');
@@ -37,6 +38,7 @@ OptionsController.prototype = {
     _debug: false,
     checkedLabel_: null,
     tokenSection_: null,
+    togglesSection: null,
     clientId_: null,
     clientSecret_: null,
     userLogin_: null,
@@ -271,6 +273,7 @@ OptionsController.prototype = {
                 this.checkedLabel_.textContent = 'OK';
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
+                this._show(this.togglesSection);
             }
         }
     },
@@ -278,6 +281,7 @@ OptionsController.prototype = {
     wallabagUrlNotChecked: function () {
         this._red(this.wallabagurlinput_);
         this._hide(this.tokenSection_);
+        this._hide(this.togglesSection);
         this.checkedLabel_.textContent = 'Not checked';
         this.versionLabel_.textContent = 'Not checked';
     },
@@ -307,6 +311,7 @@ OptionsController.prototype = {
 
         if (this.wallabagurlinput_.value !== '') {
             this._show(this.tokenSection_);
+            this._show(this.togglesSection);
         }
 
         if (this.data.ApiVersion) {
@@ -315,6 +320,7 @@ OptionsController.prototype = {
                 this.checkedLabel_.textContent = 'OK';
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
+                this._show(this.togglesSection);
             }
         }
 
