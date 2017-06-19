@@ -86,6 +86,8 @@ OptionsController.prototype = {
         this.wallabagurlinput_.value = '';
         this.protocolLabel_.textContent = 'https://';
         this.protocolCheck_.checked = true;
+        this.setDataFromFields();
+        this.port.postMessage({request: 'setup-save', data: this.data});
     },
 
     loadFromFileClick: function () {
@@ -223,15 +225,19 @@ OptionsController.prototype = {
         }
 
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
-            Object.assign(this.data, {
-                Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value,
-                ClientId: this.clientId_.value,
-                ClientSecret: this.clientSecret_.value,
-                UserLogin: this.userLogin_.value,
-                UserPassword: this.userPassword_.value
-            });
+            this.setDataFromFields();
             this.port.postMessage({request: 'setup-gettoken', data: this.data});
         }
+    },
+
+    setDataFromFields: function () {
+        Object.assign(this.data, {
+            Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value,
+            ClientId: this.clientId_.value,
+            ClientSecret: this.clientSecret_.value,
+            UserLogin: this.userLogin_.value,
+            UserPassword: this.userPassword_.value
+        });
     },
 
     handleProtocolClick: function () {
