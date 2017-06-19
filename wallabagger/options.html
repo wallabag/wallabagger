@@ -7,127 +7,118 @@
     <link rel="stylesheet" href="css/spectre.min.css">
     <style>
         body { padding: 10px; min-width: 800px; background-color: transparent; font-size: 1.3rem }
-        section { margin-top: 5px; }
+        form, section { margin-top: 5px; }
     </style>
 </head>
 
 <body>
-    <form action="">
-        <div class="columns">
-            <div class="column col-6">
-                    <section id="wallabagurl-section">
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="input-wallabagurl">Wallabag URL</label>
-                            <div class="input-group">
-                                <span class="input-group-addon" id="input-group-wallabagurl">https://</span>
-                                <input class="form-input" type="text" id="input-wallabagurl" placeholder="Wallabag URL" />
-                                <button class="btn input-group-btn" id="checkurl-button">Check URL</button>
+    <div class="columns">
+        <div class="column col-6">
+            <form action="." id="wallabagurl-section">
+                <div class="form-group">
+                    <label class="form-label" for="input-wallabagurl">Wallabag URL</label>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="input-group-wallabagurl">https://</span>
+                        <input class="form-input" type="text" id="input-wallabagurl" placeholder="Wallabag URL" />
+                        <button class="btn input-group-btn" id="checkurl-button">Check URL</button>
 
-                            </div>
+                    </div>
 
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="protocol-checkbox" checked />
+                        <i class="form-icon"></i> Use HTTPS
+                    </label>
+                </div>
+            </form>
+            <form action="." class="hide" id="token-section">
+                <div class="form-group">
+                    <label class="form-label" for="clientid-input">Client ID</label>
+                    <div class="input-group">
+                        <input class="form-input" type="text" id="clientid-input" placeholder="Client ID" />
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <label class="form-label" for="clientsecret-input">Client secret</label>
+                    <div class="input-group">
+                        <input class="form-input" type="text" id="clientsecret-input" placeholder="Client secret" />
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            <label class="form-switch">
-                                <input type="checkbox" id="protocol-checkbox" checked />
-                                <i class="form-icon"></i> Use HTTPS
-                            </label>
-                        </div>
-                        
-                    </section>
-                    
-                    <section class="hide" id="token-section">
-                        <div class="form-group">
-                            <label class="form-label" for="clientid-input">Client ID</label>
-                            <div class="input-group">
-                                <input class="form-input" type="text" id="clientid-input" placeholder="Client ID" />
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <label class="form-label" for="userlogin-input">User login</label>
+                    <div class="input-group">
+                        <input class="form-input" type="text" id="userlogin-input" placeholder="User login" />
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            <label class="form-label" for="clientsecret-input">Client secret</label>
-                            <div class="input-group">
-                                <input class="form-input" type="text" id="clientsecret-input" placeholder="Client secret" />
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <label class="form-label" for="userpassword-input">User password</label>
+                    <div class="input-group">
+                        <input class="form-input" type="password" id="userpassword-input" />
+                        <button class="btn input-group-btn" id="getapptoken-button">Get token</button>
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            <label class="form-label" for="userlogin-input">User login</label>
-                            <div class="input-group">
-                                <input class="form-input" type="text" id="userlogin-input" placeholder="User login" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="userpassword-input">User password</label>
-                            <div class="input-group">
-                                <input class="form-input" type="password" id="userpassword-input" />
-                                <button class="btn input-group-btn" id="getapptoken-button">Get token</button>
-                            </div>
-                        </div>
-
-                    </section>
-            </div>
-                
-            <div class="column col-6">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Checklist</th>
-                            <th class="text-right">ok?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Wallabag URL checked</td>
-                            <td class="text-right" id="checked-label">Not checked</td>
-                        </tr>
-                        <tr>
-                            <td>Wallabag api version</td>
-                            <td class="text-right" id="apiversion-label">Not checked</td>
-                        </tr>
-                        <tr>
-                            <td>Wallabag api token</td>
-                            <td class="text-right" id="apitoken-label">Not granted</td>
-                        </tr>
-                        <tr>
-                            <td>Token expires in</td>
-                            <td class="text-right" id="expiretoken-label"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> 
+            </form>
         </div>
-        <div id="toggles-section" class="hide columns">
-            <div class="column col-12">
-                    <section>
-
-                        <div class="form-group">
-                            <label class="form-switch">
-                                <input type="checkbox" id="allow-space-checkbox"/>
-                                <i class="form-icon"></i>Allow Space in tags (this disables Space as send-tags key, use Enter key instead)
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-switch">
-                                <input type="checkbox" id="allow-exist-checkbox"/>
-                                <i class="form-icon"></i>Indicate if page already saved (this sends URL of each tab to wallabag, use HTTPS protocol for better security!)
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-switch">
-                                <input type="checkbox" id="debug"/>
-                                <i class="form-icon"></i>Enable this only if developers told you to.
-                            </label>
-                        </div>
-                    </section>
-            </div>    
+        <div class="column col-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Checklist</th>
+                        <th class="text-right">ok?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wallabag URL checked</td>
+                        <td class="text-right" id="checked-label">Not checked</td>
+                    </tr>
+                    <tr>
+                        <td>Wallabag api version</td>
+                        <td class="text-right" id="apiversion-label">Not checked</td>
+                    </tr>
+                    <tr>
+                        <td>Wallabag api token</td>
+                        <td class="text-right" id="apitoken-label">Not granted</td>
+                    </tr>
+                    <tr>
+                        <td>Token expires in</td>
+                        <td class="text-right" id="expiretoken-label"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </form>
+    </div>
+    <div id="toggles-section" class="hide columns">
+        <div class="column col-12">
+            <section>
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="allow-space-checkbox"/>
+                        <i class="form-icon"></i>Allow Space in tags (this disables Space as send-tags key, use Enter key instead)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="allow-exist-checkbox"/>
+                        <i class="form-icon"></i>Indicate if page already saved (this sends URL of each tab to wallabag, use HTTPS protocol for better security!)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="debug"/>
+                        <i class="form-icon"></i>Enable this only if developers told you to.
+                    </label>
+                </div>
+            </section>
+        </div>
+    </div>
     <div class="column col-12 pt-10">
         <button class="btn" id="clear-button">Clear</button>
         <button class="btn" id="saveToFile-button">Save to file</button>
@@ -149,7 +140,5 @@
         </div>
     </div>
     <script src="js/options.js"></script>
-
 </body>
-
 </html>
