@@ -27,7 +27,9 @@ WallabagApi.prototype = {
     init: function () {
         Object.assign(this.data, this.defaultValues);
         this.fetchApi = new FetchApi();
-        return this.load();
+        return this.load().then(
+            result => Promise.resolve(result)
+        );
     },
 
     resetDebug: function () {
@@ -45,14 +47,18 @@ WallabagApi.prototype = {
                 if (result.wallabagdata != null) {
                     this.set(result.wallabagdata);
                     if (this.checkParams()) {
-                        return resolve(this.data);
+                        resolve(this.data);
                     } else {
                         this.clear();
-                        return reject(new Error('Some parameters are empty. Check the settings'));
+                        if (this.Debug === true) {
+                            console.log('Some parameters are empty. Check the settings');
+                        }
                     }
                 } else {
                     this.clear();
-                    return reject(new Error('Saved parameters not found. Check the settings'));
+                    if (this.Debug === true) {
+                        console.log('Saved parameters not found. Check the settings');
+                    }
                 }
             });
         });
