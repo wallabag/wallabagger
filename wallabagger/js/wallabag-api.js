@@ -233,7 +233,7 @@ WallabagApi.prototype = {
             })
             .catch(error => {
                 throw new Error(`Failed to get tags ${entriesUrl}
-                ${error.message}`);
+                ${error.error_description}`);
             });
     },
 
