@@ -273,7 +273,7 @@ OptionsController.prototype = {
     },
 
     wallabagUrlChecked: function () {
-        if (this.data.ApiVersion !== '') {
+        if (this.data.ApiVersion) {
             this.versionLabel_.textContent = this.data.ApiVersion;
             if (this.data.ApiVersion.split('.')[0] === '2') {
                 this.checkedLabel_.textContent = 'OK';
@@ -319,16 +319,7 @@ OptionsController.prototype = {
             this._show(this.tokenSection_);
             this._show(this.togglesSection);
         }
-
-        if (this.data.ApiVersion) {
-            this.versionLabel_.textContent = this.data.ApiVersion;
-            if (this.data.ApiVersion.split('.')[0] === '2') {
-                this.checkedLabel_.textContent = 'OK';
-                this._green(this.wallabagurlinput_);
-                this._show(this.tokenSection_);
-                this._show(this.togglesSection);
-            }
-        }
+        this.wallabagUrlChecked();
 
         this.clientId_.value = this.data.ClientId || '';
         this.clientSecret_.value = this.data.ClientSecret || '';
