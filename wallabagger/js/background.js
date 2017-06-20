@@ -227,7 +227,6 @@ function onPortMessage (msg) {
                 api.setsave(msg.data);
                 api.PasswordToken()
                         .then(a => {
-                            api.save();
                             postIfConnected({ response: 'setup-gettoken', data: api.data, result: true });
                             if (!cache.check('allTags')) {
                                 api.GetTags()
@@ -246,7 +245,6 @@ function onPortMessage (msg) {
                         })
                         .catch(a => {
                             api.clear();
-                            // api.save();
                             postIfConnected({ response: 'setup-checkurl', data: api.data, result: false });
                         });
                 break;
