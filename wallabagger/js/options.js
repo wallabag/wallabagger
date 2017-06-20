@@ -86,6 +86,11 @@ OptionsController.prototype = {
         this.wallabagurlinput_.value = '';
         this.protocolLabel_.textContent = 'https://';
         this.protocolCheck_.checked = true;
+        this.checkedLabel_.textContent = 'Not checked';
+        this.versionLabel_.textContent = 'Not checked';
+        this.tokenLabel_.textContent = 'Not granted';
+        this.tokenExpire.textContent = '';
+
         this.setDataFromFields();
         this.port.postMessage({request: 'setup-save', data: this.data});
     },
