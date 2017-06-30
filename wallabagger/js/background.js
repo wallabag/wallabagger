@@ -16,7 +16,7 @@ var CacheType = function (enable) {
 
 CacheType.prototype = {
     _cache: null,
-    enabled: null,
+    enabled: false,
 
     str: function (some) {
         return btoa(JSON.stringify(some));
@@ -41,14 +41,6 @@ CacheType.prototype = {
     get: function (key) {
         return this.enabled ? this._cache[this.str(key)] : undefined;
     }
-};
-
-const icons = {
-    'default': browser.runtime.getManifest().browser_action.default_icon,
-    'good': 'img/wallabagger-green.svg',
-    'wip': 'img/wallabagger-yellow.svg',
-    'bad': 'img/wallabagger-red.svg'
-
 };
 
 const wallabagContextMenus = [
@@ -116,7 +108,7 @@ function createContextMenus () {
 }
 
 function onTabActivatedListener (activeInfo) {
-    setIcon(icons.default);
+    browserIcon.set('default');
     const { tabId } = activeInfo;
     browser.tabs.get(tabId, function (tab) {
         checkExist(tab.url);
@@ -124,7 +116,7 @@ function onTabActivatedListener (activeInfo) {
 }
 
 function onTabCreatedListener (tab) {
-    setIcon(icons.default);
+    browserIcon.set('default');
 }
 
 function onTabUpdatedListener (tabId, changeInfo, tab) {
@@ -135,19 +127,19 @@ function onTabUpdatedListener (tabId, changeInfo, tab) {
 }
 
 function addExistCheckListeners (enable) {
-    if (enable) {
+    if (enable === true) {
         browser.tabs.onActivated.addListener(onTabActivatedListener);
         browser.tabs.onCreated.addListener(onTabCreatedListener);
         browser.tabs.onUpdated.addListener(onTabUpdatedListener);
     } else {
-        if (browser.tab && browser.tab.onActivated.hasListener(onTabActivatedListener)) {
-            browser.tab.onActivated.removeListener(onTabActivatedListener);
+        if (browser.tabs && browser.tabs.onActivated.hasListener(onTabActivatedListener)) {
+            browser.tabs.onActivated.removeListener(onTabActivatedListener);
         }
-        if (browser.tab && browser.tabs.onCreated.hasListener(onTabCreatedListener)) {
+        if (browser.tabs && browser.tabs.onCreated.hasListener(onTabCreatedListener)) {
             browser.tabs.onCreated.removeListener(onTabCreatedListener);
         }
-        if (browser.tab && browser.tabs.onUpdated.hasListener(onTabUpdatedListener)) {
-            browser.tabs.onUpdated.remoneListener(onTabUpdatedListener);
+        if (browser.tabs && browser.tabs.onUpdated.hasListener(onTabUpdatedListener)) {
+            browser.tabs.onUpdated.removeListener(onTabUpdatedListener);
         }
     }
 }
@@ -189,7 +181,7 @@ function onPortMessage (msg) {
     try {
         switch (msg.request) {
             case 'save':
-                savePageToWallabag(msg.tabUrl);
+                savePageToWallabag(msg.tabUrl, true);
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
@@ -220,7 +212,7 @@ function onPortMessage (msg) {
                 } else {
                     dirtyCacheSet(msg.tabUrl, {deleted: true});
                 }
-                setIcon(icons.default);
+                browserIcon.set('default');
                 saveExistFlag(msg.tabUrl, existStates.notexists);
                 break;
             case 'setup':
@@ -233,9 +225,8 @@ function onPortMessage (msg) {
                 break;
             case 'setup-gettoken':
                 api.setsave(msg.data);
-                api.GetAppToken()
+                api.PasswordToken()
                         .then(a => {
-                            api.save();
                             postIfConnected({ response: 'setup-gettoken', data: api.data, result: true });
                             if (!cache.check('allTags')) {
                                 api.GetTags()
@@ -254,7 +245,6 @@ function onPortMessage (msg) {
                         })
                         .catch(a => {
                             api.clear();
-                            // api.save();
                             postIfConnected({ response: 'setup-checkurl', data: api.data, result: false });
                         });
                 break;
@@ -294,8 +284,7 @@ function onPortMessage (msg) {
             }
         }
     } catch (error) {
-        setIcon(icons.bad);
-        setTimeout(function () { setIcon(icons.default); }, 5000);
+        browserIcon.setTimed('bad');
         postIfConnected({ response: 'error', error: error });
     }
 }
@@ -314,9 +303,29 @@ function addListeners () {
     browser.runtime.onConnect.addListener(onRuntimeConnect);
 }
 
-function setIcon (icon) {
-    browser.browserAction.setIcon({ path: icon });
-}
+const browserIcon = {
+    images: {
+        'default': browser.runtime.getManifest().browser_action.default_icon,
+        'good': 'img/wallabagger-green.svg',
+        'wip': 'img/wallabagger-yellow.svg',
+        'bad': 'img/wallabagger-red.svg'
+    },
+
+    timedToDefault: function () {
+        setTimeout(() => {
+            this.set('default');
+        }, 5000);
+    },
+
+    set: function (icon) {
+        browser.browserAction.setIcon({ path: this.images[icon] });
+    },
+
+    setTimed: function (icon) {
+        this.set(icon);
+        this.timedToDefault();
+    }
+};
 
 function dirtyCacheSet (key, obj) {
     dirtyCache.set(key, Object.assign(dirtyCache.check(key) ? dirtyCache.get(key) : {}, obj));
@@ -405,31 +414,25 @@ function savePageToWallabag (url, resetIcon) {
     // if article was saved, return cache
     if (cache.check(url)) {
         postIfConnected({ response: 'article', article: cutArticle(cache.get(url)) });
-        // check if article was deleted via web interface
-        requestExists(url)
-        .then(exists => {
-            if (!exists) {
-                moveToDirtyCache(url);
-                savePageToWallabag(url, resetIcon);
-            }
-        });
+        moveToDirtyCache(url);
+        savePageToWallabag(url, resetIcon);
         return;
     }
 
     // real saving
-    setIcon(icons.wip);
+    browserIcon.set('wip');
     existCache.set(url, existStates.wip);
     postIfConnected({ response: 'info', text: 'Saving the page to wallabag ...' });
     api.SavePage(url)
             .then(data => applyDirtyCacheLight(url, data))
             .then(data => {
                 if (!data.deleted) {
-                    setIcon(icons.good);
+                    browserIcon.set('good');
                     postIfConnected({ response: 'article', article: cutArticle(data) });
                     cache.set(url, data);
                     saveExistFlag(url, existStates.exists);
                     if (api.data.AllowExistCheck === null || resetIcon) {
-                        setTimeout(function () { setIcon(icons.default); }, 5000);
+                        browserIcon.timedToDefault();
                     }
                 } else {
                     cache.clear(url);
@@ -438,8 +441,7 @@ function savePageToWallabag (url, resetIcon) {
             })
             .then(data => applyDirtyCacheReal(url, data))
             .catch(error => {
-                setIcon(icons.bad);
-                setTimeout(function () { setIcon(icons.default); }, 5000);
+                browserIcon.setTimed('bad');
                 saveExistFlag(url, existStates.notexists);
                 throw error;
             });
@@ -452,10 +454,10 @@ const checkExist = (url) => {
     if (existCache.check(url)) {
         const existsFlag = existCache.get(url);
         if (existsFlag === existStates.exists) {
-            setIcon(icons.good);
+            browserIcon.set('good');
         }
         if (existsFlag === existStates.wip) {
-            setIcon(icons.wip);
+            browserIcon.set('wip');
         }
     } else {
         requestExists(url);
@@ -465,11 +467,14 @@ const checkExist = (url) => {
 const requestExists = (url) =>
         api.EntryExists(url)
         .then(data => {
-            let icon = icons.default;
+            let icon = 'default';
             if (data.exists) {
-                icon = icons.good;
+                icon = 'good';
+                if (api.data.AllowExistCheck === false) {
+                    browserIcon.setTimed(icon);
+                }
             }
-            setIcon(icon);
+            browserIcon.set(icon);
             saveExistFlag(url, data.exists ? existStates.exists : existStates.notexists);
             return data.exists;
         });
@@ -478,4 +483,4 @@ const saveExistFlag = (url, exists) => {
     existCache.set(url, exists);
 };
 
-const isServicePage = (url) => /^(chrome|about|browser):(.*)/.test(url);
+const isServicePage = (url) => RegExp('((chrome|about|browser):(.*)|' + api.data.Url + ')', 'g').test(url);

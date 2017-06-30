@@ -6,6 +6,7 @@ var OptionsController = function () {
     this.versionLabel_ = document.getElementById('apiversion-label');
     this.checkurlbutton_ = document.getElementById('checkurl-button');
     this.tokenSection_ = document.getElementById('token-section');
+    this.togglesSection = document.getElementById('toggles-section');
 
     this.clientId_ = document.getElementById('clientid-input');
     this.clientSecret_ = document.getElementById('clientsecret-input');
@@ -13,6 +14,8 @@ var OptionsController = function () {
     this.userPassword_ = document.getElementById('userpassword-input');
     this.getAppTokenButton_ = document.getElementById('getapptoken-button');
     this.tokenLabel_ = document.getElementById('apitoken-label');
+    this.tokenExpire = document.getElementById('expiretoken-label');
+
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
     this.allowExistCheck = document.getElementById('allow-exist-checkbox');
     this.debugEl = document.getElementById('debug');
@@ -27,7 +30,7 @@ var OptionsController = function () {
 
 OptionsController.prototype = {
 
-    protocolCheck_: null,
+    protocolCheck_: true,
     protocolLabel_: null,
     wallabagurlinput_: null,
     checkurlbutton_: null,
@@ -35,12 +38,14 @@ OptionsController.prototype = {
     _debug: false,
     checkedLabel_: null,
     tokenSection_: null,
+    togglesSection: null,
     clientId_: null,
     clientSecret_: null,
     userLogin_: null,
     userPassword_: null,
     getAppTokenButton_: null,
     tokenLabel_: null,
+    tokenExpire: null,
     saveToFileButton: null,
     loadFromFileButton: null,
     openFileDialog: null,
@@ -79,8 +84,15 @@ OptionsController.prototype = {
         this.clientSecret_.value = '';
         this.clientId_.value = '';
         this.wallabagurlinput_.value = '';
-        this.protocolLabel_.textContent = 'http://';
-        this.protocolCheck_.checked = false;
+        this.protocolLabel_.textContent = 'https://';
+        this.protocolCheck_.checked = true;
+        this.checkedLabel_.textContent = 'Not checked';
+        this.versionLabel_.textContent = 'Not checked';
+        this.tokenLabel_.textContent = 'Not granted';
+        this.tokenExpire.textContent = '';
+
+        this.setDataFromFields();
+        this.port.postMessage({request: 'setup-save', data: this.data});
     },
 
     loadFromFileClick: function () {
@@ -148,6 +160,37 @@ OptionsController.prototype = {
         this._green(this.userLogin_);
         this._green(this.userPassword_);
         this.tokenLabel_.textContent = 'Granted';
+        this.tokenExpire.textContent = this.getTokenExpireTime();
+    },
+
+    getTokenExpireTime: function () {
+        const expMs = this.data.ExpireDate - Date.now();
+        if (expMs < 0) {
+            return 'Expired';
+        }
+        const expSec = Math.floor(expMs / 1000);
+        const expMin = Math.floor(expSec / 60);
+        if (expMin < 60) {
+            let unit = 'minute';
+            if (expMin > 1) {
+                unit += 's';
+            }
+            return `${expMin} ${unit}`;
+        }
+        const expHours = Math.floor(expMin / 60);
+        if (expHours < 24) {
+            let unit = 'hour';
+            if (expHours > 1) {
+                unit += 's';
+            }
+            return `${expHours} ${unit}`;
+        }
+        const expDays = Math.floor(expHours / 24);
+        let unit = 'day';
+        if (expDays > 1) {
+            unit += 's';
+        }
+        return `${expDays} ${unit}`;
     },
 
     wallabagApiTokenNotGot: function () {
@@ -156,6 +199,7 @@ OptionsController.prototype = {
         this._red(this.userLogin_);
         this._red(this.userPassword_);
         this.tokenLabel_.textContent = 'Not granted';
+        this.tokenExpire.textContent = '';
     },
 
     getAppTokenClick: function (e) {
@@ -186,15 +230,19 @@ OptionsController.prototype = {
         }
 
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
-            Object.assign(this.data, {
-                Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value,
-                ClientId: this.clientId_.value,
-                ClientSecret: this.clientSecret_.value,
-                UserLogin: this.userLogin_.value,
-                UserPassword: this.userPassword_.value
-            });
+            this.setDataFromFields();
             this.port.postMessage({request: 'setup-gettoken', data: this.data});
         }
+    },
+
+    setDataFromFields: function () {
+        Object.assign(this.data, {
+            Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value,
+            ClientId: this.clientId_.value,
+            ClientSecret: this.clientSecret_.value,
+            UserLogin: this.userLogin_.value,
+            UserPassword: this.userPassword_.value
+        });
     },
 
     handleProtocolClick: function () {
@@ -230,12 +278,13 @@ OptionsController.prototype = {
     },
 
     wallabagUrlChecked: function () {
-        if (this.data.ApiVersion !== '') {
+        if (this.data.ApiVersion) {
             this.versionLabel_.textContent = this.data.ApiVersion;
             if (this.data.ApiVersion.split('.')[0] === '2') {
                 this.checkedLabel_.textContent = 'OK';
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
+                this._show(this.togglesSection);
             }
         }
     },
@@ -243,6 +292,7 @@ OptionsController.prototype = {
     wallabagUrlNotChecked: function () {
         this._red(this.wallabagurlinput_);
         this._hide(this.tokenSection_);
+        this._hide(this.togglesSection);
         this.checkedLabel_.textContent = 'Not checked';
         this.versionLabel_.textContent = 'Not checked';
     },
@@ -272,16 +322,9 @@ OptionsController.prototype = {
 
         if (this.wallabagurlinput_.value !== '') {
             this._show(this.tokenSection_);
+            this._show(this.togglesSection);
         }
-
-        if (this.data.ApiVersion) {
-            this.versionLabel_.textContent = this.data.ApiVersion;
-            if (this.data.ApiVersion.split('.')[0] === '2') {
-                this.checkedLabel_.textContent = 'OK';
-                this._green(this.wallabagurlinput_);
-                this._show(this.tokenSection_);
-            }
-        }
+        this.wallabagUrlChecked();
 
         this.clientId_.value = this.data.ClientId || '';
         this.clientSecret_.value = this.data.ClientSecret || '';
@@ -290,19 +333,17 @@ OptionsController.prototype = {
 
         if (this.data.ApiToken) {
             this.tokenLabel_.textContent = 'Granted';
+            this.tokenExpire.textContent = this.getTokenExpireTime();
         }
 
-        if (this.data.ExpireDateMs && this.expired) {
+        if (this.data.isTokenExpired) {
             this.tokenLabel_.textContent = 'Expired';
+            this.tokenExpire.textContent = '';
         }
 
         this.allowSpaceCheck.checked = this.data.AllowSpaceInTags;
         this.allowExistCheck.checked = this.data.AllowExistCheck;
         this.debugEl.checked = this.data.Debug;
-    },
-
-    expired: function () {
-        return (this.data.ExpireDateMs != null) && (Date.now() > this.data.ExpireDateMs);
     },
 
     messageListener: function (msg) {
@@ -330,7 +371,7 @@ OptionsController.prototype = {
             case 'setup-save':
                 Object.assign(this.data, msg.data);
                 if (this.data.Debug) {
-                    console.log(`setup saved: ${msg.data}`);
+                    console.log('setup saved:', msg.data);
                 }
                 break;
             default:
