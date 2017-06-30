@@ -263,8 +263,13 @@ function onPortMessage (msg) {
                     api.SaveTags(msg.articleId, msg.tags).then(data => {
                         postIfConnected({ response: 'articleTags', tags: data.tags });
                         cache.set(msg.tabUrl, data);
+                        return data;
+                    })
+                    .then(data => {
+                        addToAllTags(data.tags);
                     });
                 } else {
+                    addDirtyToAllTags(msg.tags);
                     dirtyCacheSet(msg.tabUrl, {tagList: msg.tags});
                 }
                 break;
@@ -484,3 +489,30 @@ const saveExistFlag = (url, exists) => {
 };
 
 const isServicePage = (url) => RegExp('((chrome|about|browser):(.*)|' + api.data.Url + ')', 'g').test(url);
+
+const addToAllTags = (tags) => {
+    if (tags.length === 0) { return; }
+    if (!cache.check('allTags')) {
+        cache.set('allTags', tags);
+    } else {
+        const allTags = cache.get('allTags');
+        for (const tag of tags) {
+            const index = allTags.map(t => t.label).indexOf(tag.label);
+            if (index === -1) {
+                // add new tags
+                allTags.push(tag);
+            } else if ((tag.id > 0) && (allTags[index].id < 0)) {
+                // replace dirty tags by clean ones
+                allTags.splice(index, 1, tag);
+            }
+        };
+        cache.set('allTags', allTags);
+    }
+};
+
+const addDirtyToAllTags = (tagList) => {
+    if (!tagList || tagList === '') { return; }
+    let dirtyId = -1;
+    const dirtyTags = tagList.split(',').map(label => Object.assign({}, {id: dirtyId--, label: label, slug: label}));
+    addToAllTags(dirtyTags);
+};
