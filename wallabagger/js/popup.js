@@ -258,6 +258,7 @@ PopupController.prototype = {
         this.titleInput.value = this.cardTitle.textContent;
         this.hide(this.cardHeader);
         this.show(this.cardBody);
+        this.titleInput.focus();
     },
 
     saveTitleClick: function (e) {
