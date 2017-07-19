@@ -255,9 +255,16 @@ PopupController.prototype = {
 
     editIconClick: function (e) {
         e.preventDefault();
-        this.titleInput.value = this.cardTitle.textContent;
-        this.hide(this.cardHeader);
-        this.show(this.cardBody);
+        if (this.isHidden(this.cardBody)) {
+            this.titleInput.value = this.cardTitle.textContent;
+            this.hide(this.cardHeader);
+            this.show(this.cardBody);
+            this.titleInput.focus();
+        } else {
+            this.hide(this.cardBody);
+            this.show(this.cardHeader);
+            this.tagsInput.focus();
+        }
     },
 
     saveTitleClick: function (e) {
@@ -456,6 +463,10 @@ PopupController.prototype = {
 
     show: function (element) {
         element.classList.remove('hide');
+    },
+
+    isHidden: function (element) {
+        return element.classList.contains('hide');
     }
 
 };
