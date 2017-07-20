@@ -1,6 +1,6 @@
 # Wallabagger
 
-Wallabagger is extension for add pages to wallabag, with ability to:
+Wallabagger is an extension for add pages to wallabag, with ability to:
 
 - save current page
 - edit title
@@ -27,7 +27,8 @@ More informations on website: [wallabag.org](https://wallabag.org) and [github.c
 - Firefox browsers users can install the extension from [Mozilla add-ons storage](https://addons.mozilla.org/en-US/firefox/addon/wallabagger/)
 
 ## Configuration
-https://wallabag.org/en/news/wallabagger-howto
+
+<https://wallabag.org/en/news/wallabagger-howto>
 
 ## Acknowledgement
 
