@@ -181,7 +181,7 @@ function onPortMessage (msg) {
     try {
         switch (msg.request) {
             case 'save':
-                savePageToWallabag(msg.tabUrl, true);
+                savePageToWallabag(msg.tabUrl, false);
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
