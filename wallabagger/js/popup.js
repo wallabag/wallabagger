@@ -423,10 +423,6 @@ PopupController.prototype = {
             case 'tags':
                 this.allTags = msg.tags;
                 break;
-// title is already set, no need to set it again. see #95
-//            case 'title':
-//                this.cardTitle.textContent = msg.title;
-//                break;
             case 'setup':
                 this.AllowSpaceInTags = msg.data.AllowSpaceInTags;
                 this.apiUrl = msg.data.Url;
