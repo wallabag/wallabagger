@@ -67,9 +67,18 @@ PopupController.prototype = {
 
     port: null,
 
+    encodeMap: { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' },
+    decodeMap: { '&amp;': '&', '&#039;': '\'', '&quot;': '"', '&lt;': '<', '&gt;': '>' },
+
     getSaveHtml: function (param) {
-        let map = { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' };
-        return param.replace(/[<'&">]/g, symb => map[symb]);
+        return param.replace(/[<'&">]/g, symb => this.encodeMap[symb]);
+    },
+
+    decodeStr: function (param) {
+        for (let prop in this.decodeMap) {
+            param = param.replace(prop, this.decodeMap[prop]);
+        }
+        return param;
     },
 
     addListeners: function () {
@@ -352,7 +361,7 @@ PopupController.prototype = {
 
     setArticle: function (data) {
         this.articleId = data.id;
-        if (data.title !== undefined) { this.cardTitle.textContent = data.title; }
+        if (data.title !== undefined) { this.cardTitle.textContent = this.decodeStr(data.title); }
         this.cardTitle.href = data.id === -1 ? '#' : `${this.apiUrl}/view/${this.articleId}`;
         if (data.domain_name !== undefined) { this.entryUrl.textContent = data.domain_name; }
         this.entryUrl.href = data.url;
@@ -414,9 +423,10 @@ PopupController.prototype = {
             case 'tags':
                 this.allTags = msg.tags;
                 break;
-            case 'title':
-                this.cardTitle.textContent = msg.title;
-                break;
+// title is already set, no need to set it again. see #95
+//            case 'title':
+//                this.cardTitle.textContent = msg.title;
+//                break;
             case 'setup':
                 this.AllowSpaceInTags = msg.data.AllowSpaceInTags;
                 this.apiUrl = msg.data.Url;
