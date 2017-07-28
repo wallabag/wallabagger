@@ -129,7 +129,7 @@ PopupController.prototype = {
 
     onTagsInputKeyUp: function (event) {
         if (event.key === 'ArrowRight') this.addFirstFoundTag();
-        if ((event.key === 'Enter') && (this.AllowSpaceInTags)) {
+        if (event.key === 'Enter') {
             this.addTag(this.tmpTagId, this.tagsInput.value.trim());
         };
     },
