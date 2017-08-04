@@ -60,3 +60,6 @@ span.icon {
 .form-autocomplete-item {
     display: inline;
 }
+.chip-selected {
+   border: 1px solid black;
+}
