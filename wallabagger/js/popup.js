@@ -70,6 +70,8 @@ PopupController.prototype = {
     encodeMap: { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' },
     decodeMap: { '&amp;': '&', '&#039;': '\'', '&quot;': '"', '&lt;': '<', '&gt;': '>' },
 
+    selectedTag: 0,
+
     getSaveHtml: function (param) {
         return param.replace(/[<'&">]/g, symb => this.encodeMap[symb]);
     },
@@ -128,9 +130,26 @@ PopupController.prototype = {
     },
 
     onTagsInputKeyUp: function (event) {
-        if (event.key === 'ArrowRight') this.addFirstFoundTag();
+        if (event.key === 'ArrowRight') {
+            if (!event.ctrlKey) { this.addFoundTag(this.selectedTag); } else {
+                if ((this.foundTags.length > 1) && (this.selectedTag < this.foundTags.length - 1)) {
+                    this.selectNextFoundTag();
+                }
+            };
+        }
+        if ((event.key === 'ArrowLeft') && (event.ctrlKey)) {
+            if ((this.foundTags.length > 1) && (this.selectedTag > 0)) {
+                this.selectPreviousFoundTag();
+            }
+        }
         if (event.key === 'Enter') {
-            this.addTag(this.tmpTagId, this.tagsInput.value.trim());
+            if (this.selectedTag > 0) {
+                this.addFoundTag(this.selectedTag);
+            } else {
+                if (this.tagsInput.value.trim() !== '') {
+                    this.addTag(this.tmpTagId, this.tagsInput.value.trim());
+                }
+            }
         };
     },
 
@@ -155,6 +174,12 @@ PopupController.prototype = {
     addFirstFoundTag: function () {
         if (this.foundTags.length > 0) {
             this.addTag(this.foundTags[0].id, this.foundTags[0].label);
+        }
+    },
+
+    addFoundTag: function (index) {
+        if (this.foundTags.length > 0) {
+            this.addTag(this.foundTags[index].id, this.foundTags[index].label);
         }
     },
 
@@ -215,6 +240,25 @@ PopupController.prototype = {
         );
 
         this.foundTags.map(tag => this.tagsAutoCompleteList.appendChild(this.createTagChipNoClose(tag.id, tag.label)));
+        if (this.foundTags.length > 2) {
+            this.selectFoundTag(0);
+            this.selectedTag = 0;
+        }
+    },
+
+    selectFoundTag: function (index) {
+        for (const chip of this.tagsAutoCompleteList.children) {
+            chip.classList.remove('chip-selected');
+        }
+        this.tagsAutoCompleteList.children[index + 1].classList.add('chip-selected');
+    },
+
+    selectNextFoundTag: function () {
+        this.selectFoundTag(++this.selectedTag);
+    },
+
+    selectPreviousFoundTag: function () {
+        this.selectFoundTag(--this.selectedTag);
     },
 
     checkAutocompleteState: function () {
@@ -229,16 +273,18 @@ PopupController.prototype = {
 
     onTagsInputChanged: function (e) {
         e.preventDefault();
-        this.clearAutocompleteList();
         if (this.tagsInput.value !== '') {
             const lastChar = this.tagsInput.value.slice(-1);
             const value = this.tagsInput.value.slice(0, -1);
-            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags))) {
+            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags) && (this.selectedTag <= 0))) {
                 if (value !== '') {
                     this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
                 }
                 this.tagsInput.value = '';
+            } else if ((lastChar === ' ') && (this.selectedTag > 0)) {
+                this.addFoundTag(this.selectedTag);
             } else {
+                this.clearAutocompleteList();
                 this.findTags(this.tagsInput.value);
             }
         }
