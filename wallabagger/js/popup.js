@@ -143,7 +143,13 @@ PopupController.prototype = {
             }
         }
         if (event.key === 'Enter') {
-            this.addTag(this.tmpTagId, this.tagsInput.value.trim());
+            if (this.selectedTag > 0) {
+                this.addFoundTag(this.selectedTag);
+            } else {
+                if (this.tagsInput.value.trim() !== '') {
+                    this.addTag(this.tmpTagId, this.tagsInput.value.trim());
+                }
+            }
         };
     },
 
@@ -267,16 +273,18 @@ PopupController.prototype = {
 
     onTagsInputChanged: function (e) {
         e.preventDefault();
-        this.clearAutocompleteList();
         if (this.tagsInput.value !== '') {
             const lastChar = this.tagsInput.value.slice(-1);
             const value = this.tagsInput.value.slice(0, -1);
-            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags))) {
+            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags) && (this.selectedTag <= 0))) {
                 if (value !== '') {
                     this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
                 }
                 this.tagsInput.value = '';
+            } else if ((lastChar === ' ') && (this.selectedTag > 0)) {
+                this.addFoundTag(this.selectedTag);
             } else {
+                this.clearAutocompleteList();
                 this.findTags(this.tagsInput.value);
             }
         }
