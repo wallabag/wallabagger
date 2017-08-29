@@ -59,8 +59,8 @@ PopupController.prototype = {
     dirtyTags: [],
     foundTags: [],
 
-    starred: false,
-    archived: false,
+    starred: 0,
+    archived: 0,
     tmpTagId: 0,
     AllowSpaceInTags: false,
     tabUrl: null,
@@ -107,7 +107,6 @@ PopupController.prototype = {
         let icon = event.currentTarget;
         this.toggleIcon(icon);
         this.toggleAction(icon);
-        this.setIconTitle(icon);
         this.tagsInput.focus();
     },
 
@@ -119,14 +118,11 @@ PopupController.prototype = {
 
         currentState = !currentState;
         icon.dataset.isset = JSON.stringify(currentState);
-    },
-
-    setIconTitle: function (icon) {
-        icon.title = icon.dataset.isset ? icon.dataset.unseticonTitle : icon.dataset.seticonTitle;
+        icon.title = JSON.parse(icon.dataset.isset) ? icon.dataset.unseticonTitle : icon.dataset.seticonTitle;
     },
 
     toggleAction: function (icon) {
-        this.port.postMessage({request: icon.dataset.apicall, articleId: this.articleId, value: icon.dataset.isset, tabUrl: this.tabUrl});
+        this.port.postMessage({request: icon.dataset.apicall, articleId: this.articleId, value: icon.dataset.isset + 0, tabUrl: this.tabUrl});
     },
 
     onTagsInputKeyUp: function (event) {
@@ -205,6 +201,7 @@ PopupController.prototype = {
             var self = this;
             setTimeout(function () { self.enableTagsInput(); }, 1000);
         }
+        this.selectedTag = 0;
     },
 
     deleteTag: function (ev) {
@@ -420,15 +417,17 @@ PopupController.prototype = {
             this.hide(this.cardImage);
         }
 
-        if (data.is_starred !== undefined) { this.starred = data.is_starred; }
-        this.setIconTitle(this.starredIcon, this.starred);
-        if (this.starred) {
-            this.toggleIcon(this.starredIcon);
+        if (data.is_starred !== undefined) {
+            if (this.starred !== data.is_starred) {
+                this.toggleIcon(this.starredIcon);
+            }
+            this.starred = data.is_starred;
         }
-        if (data.is_archived !== undefined) { this.archived = data.is_archived; }
-        this.setIconTitle(this.archivedIcon, this.archived);
-        if (this.archived) {
-            this.toggleIcon(this.archivedIcon);
+        if (data.is_archived !== undefined) {
+            if (this.archived !== data.is_archived) {
+                this.toggleIcon(this.archivedIcon);
+            }
+            this.archived = data.is_archived;
         }
         if (data.id === -1 && data.tagList !== undefined) {
             this.dirtyTags = data.tagList.split(',').map(taglabel => {

@@ -277,11 +277,11 @@ function onPortMessage (msg) {
             case 'SaveArchived':
                 if (msg.articleId !== -1) {
                     api[msg.request](msg.articleId, msg.value ? 1 : 0).then(data => {
-                        postIfConnected({ response: 'action', value: {starred: data.is_starred === 1, archived: data.is_archived === 1} });
+                        postIfConnected({ response: 'action', value: {starred: data.is_starred, archived: data.is_archived} });
                         cache.set(msg.tabUrl, data);
                     });
                 } else {
-                    dirtyCacheSet(msg.tabUrl, (msg.request === 'SaveStarred') ? {is_starred: msg.value ? 1 : 0} : {is_archived: msg.value ? 1 : 0});
+                    dirtyCacheSet(msg.tabUrl, (msg.request === 'SaveStarred') ? {is_starred: msg.value} : {is_archived: msg.value});
                 }
                 break;
             default: {
