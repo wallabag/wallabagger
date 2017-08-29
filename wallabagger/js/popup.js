@@ -107,6 +107,11 @@ PopupController.prototype = {
         let icon = event.currentTarget;
         this.toggleIcon(icon);
         this.toggleAction(icon);
+        if (icon.id === 'starred-icon') {
+            this.starred = (this.starred + 1) % 2;
+        } else {
+            this.archived = (this.archived + 1) % 2;
+        }
         this.tagsInput.focus();
     },
 
@@ -122,7 +127,7 @@ PopupController.prototype = {
     },
 
     toggleAction: function (icon) {
-        this.port.postMessage({request: icon.dataset.apicall, articleId: this.articleId, value: icon.dataset.isset + 0, tabUrl: this.tabUrl});
+        this.port.postMessage({request: icon.dataset.apicall, articleId: this.articleId, value: JSON.parse(icon.dataset.isset) + 0, tabUrl: this.tabUrl});
     },
 
     onTagsInputKeyUp: function (event) {
