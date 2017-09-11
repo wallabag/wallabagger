@@ -436,7 +436,7 @@ function savePageToWallabag (url, resetIcon) {
                     postIfConnected({ response: 'article', article: cutArticle(data) });
                     cache.set(url, data);
                     saveExistFlag(url, existStates.exists);
-                    if (api.data.AllowExistCheck === null || resetIcon) {
+                    if (api.data.AllowExistCheck === false || resetIcon) {
                         browserIcon.timedToDefault();
                     }
                 } else {
