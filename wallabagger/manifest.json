@@ -1,7 +1,7 @@
 {
    "manifest_version": 2,
    "name": "Wallabagger",
-    "version": "1.4.3",
+    "version": "1.4.4",
     "description": "Wallabag apiV2 extension with ability to edit title, tags, set starred and  archived, and delete",
     "icons": { "16": "img/wallabag-icon-48a.png",
                "128": "img/wallabag-icon-128.png" },
