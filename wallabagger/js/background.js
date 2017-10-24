@@ -19,7 +19,7 @@ CacheType.prototype = {
     enabled: false,
 
     str: function (some) {
-        return btoa(JSON.stringify(some));
+        return btoa(unescape(encodeURIComponent(some)));
     },
 
     set: function (key, data) {
