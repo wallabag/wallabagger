@@ -198,7 +198,7 @@ function onPortMessage (msg) {
                 if (msg.articleId !== -1) {
                     api.SaveTitle(msg.articleId, msg.title).then(data => {
                         postIfConnected({ response: 'title', title: data.title });
-                        cache.set(msg.tabUrl, data);
+                        cache.set(msg.tabUrl, cutArticle(data));
                     });
                 } else {
                     dirtyCacheSet(msg.tabUrl, {title: msg.title});
@@ -252,7 +252,7 @@ function onPortMessage (msg) {
                 if (msg.articleId !== -1) {
                     api.DeleteArticleTag(msg.articleId, msg.tagId).then(data => {
                         postIfConnected({ response: 'articleTags', tags: data.tags });
-                        cache.set(msg.tabUrl, data);
+                        cache.set(msg.tabUrl, cutArticle(data));
                     });
                 } else {
                     dirtyCacheSet(msg.tabUrl, {tagList: msg.tags});
@@ -262,7 +262,7 @@ function onPortMessage (msg) {
                 if (msg.articleId !== -1) {
                     api.SaveTags(msg.articleId, msg.tags).then(data => {
                         postIfConnected({ response: 'articleTags', tags: data.tags });
-                        cache.set(msg.tabUrl, data);
+                        cache.set(msg.tabUrl, cutArticle(data));
                         return data;
                     })
                     .then(data => {
@@ -278,7 +278,7 @@ function onPortMessage (msg) {
                 if (msg.articleId !== -1) {
                     api[msg.request](msg.articleId, msg.value ? 1 : 0).then(data => {
                         postIfConnected({ response: 'action', value: {starred: data.is_starred, archived: data.is_archived} });
-                        cache.set(msg.tabUrl, data);
+                        cache.set(msg.tabUrl, cutArticle(data));
                     });
                 } else {
                     dirtyCacheSet(msg.tabUrl, (msg.request === 'SaveStarred') ? {is_starred: msg.value} : {is_archived: msg.value});
@@ -368,7 +368,7 @@ function applyDirtyCacheReal (key, data) {
         } else {
             if (data.changed !== undefined) {
                 return api.PatchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList })
-                .then(data => cache.set(key, data))
+                .then(data => cache.set(key, cutArticle(data)))
                 .then(a => { dirtyCache.clear(key); });
             }
         }
@@ -434,7 +434,7 @@ function savePageToWallabag (url, resetIcon) {
                 if (!data.deleted) {
                     browserIcon.set('good');
                     postIfConnected({ response: 'article', article: cutArticle(data) });
-                    cache.set(url, data);
+                    cache.set(url, cutArticle(data));
                     saveExistFlag(url, existStates.exists);
                     if (api.data.AllowExistCheck === false || resetIcon) {
                         browserIcon.timedToDefault();
