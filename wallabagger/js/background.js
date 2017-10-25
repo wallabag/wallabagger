@@ -94,6 +94,9 @@ const api = new WallabagApi();
 
 // Code
 
+const version = browser.runtime.getManifest().version.split('.');
+version.length === 4 && browser.browserAction.setBadgeText({ text: 'ß' });
+
 api.init().then(data => {
     addExistCheckListeners(api.data.AllowExistCheck);
     api.GetTags().then(tags => { cache.set('allTags', tags); });
