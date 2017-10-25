@@ -474,7 +474,7 @@ PopupController.prototype = {
                 this.allTags = msg.tags;
                 break;
             case 'setup':
-                this.AllowSpaceInTags = msg.data.AllowSpaceInTags;
+                this.AllowSpaceInTags = msg.data.AllowSpaceInTags || 0;
                 this.apiUrl = msg.data.Url;
                 break;
             case 'articleTags':
