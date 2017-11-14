@@ -131,14 +131,14 @@ PopupController.prototype = {
     },
 
     onTagsInputKeyUp: function (event) {
-        if (event.key === 'ArrowRight') {
+        if ((event.key === 'ArrowRight') || (event.key === 'Right')) {
             if (!event.ctrlKey) { this.addFoundTag(this.selectedTag); } else {
                 if ((this.foundTags.length > 1) && (this.selectedTag < this.foundTags.length - 1)) {
                     this.selectNextFoundTag();
                 }
             };
         }
-        if ((event.key === 'ArrowLeft') && (event.ctrlKey)) {
+        if (((event.key === 'ArrowLeft') || (event.key === 'Left')) && (event.ctrlKey)) {
             if ((this.foundTags.length > 1) && (this.selectedTag > 0)) {
                 this.selectPreviousFoundTag();
             }
@@ -249,8 +249,8 @@ PopupController.prototype = {
     },
 
     selectFoundTag: function (index) {
-        for (const chip of this.tagsAutoCompleteList.children) {
-            chip.classList.remove('chip-selected');
+        for (var i = 0; i < this.tagsAutoCompleteList.children.length; i++) {
+            this.tagsAutoCompleteList.children[i].classList.remove('chip-selected');
         }
         this.tagsAutoCompleteList.children[index + 1].classList.add('chip-selected');
     },
