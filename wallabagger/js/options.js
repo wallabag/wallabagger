@@ -86,9 +86,9 @@ OptionsController.prototype = {
         this.wallabagurlinput_.value = '';
         this.protocolLabel_.textContent = 'https://';
         this.protocolCheck_.checked = true;
-        this.checkedLabel_.textContent = 'Not checked';
-        this.versionLabel_.textContent = 'Not checked';
-        this.tokenLabel_.textContent = 'Not granted';
+        this.checkedLabel_.textContent = Common.translate('Not_checked');
+        this.versionLabel_.textContent = Common.translate('Not_checked');
+        this.tokenLabel_.textContent = Common.translate('Not_granted');
         this.tokenExpire.textContent = '';
 
         this.setDataFromFields();
@@ -126,7 +126,7 @@ OptionsController.prototype = {
         let fileNameToSaveAs = 'wallabag.json';
         let downloadLink = document.createElement('a');
         downloadLink.download = fileNameToSaveAs;
-        downloadLink.textContent = 'Download File';
+        downloadLink.textContent = Common.translate('Download_file');
         downloadLink.href = textToSaveAsURL;
         downloadLink.onclick = (event) => { document.body.removeChild(event.target); };
         downloadLink.style.display = 'none';
@@ -159,37 +159,28 @@ OptionsController.prototype = {
         this._green(this.clientSecret_);
         this._green(this.userLogin_);
         this._green(this.userPassword_);
-        this.tokenLabel_.textContent = 'Granted';
+        this.tokenLabel_.textContent = Common.translate('Granted');
         this.tokenExpire.textContent = this.getTokenExpireTime();
     },
 
     getTokenExpireTime: function () {
         const expMs = this.data.ExpireDate - Date.now();
         if (expMs < 0) {
-            return 'Expired';
+            return Common.translate('Expired');
         }
         const expSec = Math.floor(expMs / 1000);
         const expMin = Math.floor(expSec / 60);
         if (expMin < 60) {
-            let unit = 'minute';
-            if (expMin > 1) {
-                unit += 's';
-            }
+            const unit = expMin > 1 ? Common.translate('minutes') : Common.translate('minute');
             return `${expMin} ${unit}`;
         }
         const expHours = Math.floor(expMin / 60);
         if (expHours < 24) {
-            let unit = 'hour';
-            if (expHours > 1) {
-                unit += 's';
-            }
+            const unit = expHours > 1 ? Common.translate('hours') : Common.translate('hour');
             return `${expHours} ${unit}`;
         }
         const expDays = Math.floor(expHours / 24);
-        let unit = 'day';
-        if (expDays > 1) {
-            unit += 's';
-        }
+        const unit = expDays > 1 ? Common.translate('days') : Common.translate('day');
         return `${expDays} ${unit}`;
     },
 
@@ -198,7 +189,7 @@ OptionsController.prototype = {
         this._red(this.clientSecret_);
         this._red(this.userLogin_);
         this._red(this.userPassword_);
-        this.tokenLabel_.textContent = 'Not granted';
+        this.tokenLabel_.textContent = Common.translate('Not_granted');
         this.tokenExpire.textContent = '';
     },
 
@@ -281,7 +272,7 @@ OptionsController.prototype = {
         if (this.data.ApiVersion) {
             this.versionLabel_.textContent = this.data.ApiVersion;
             if (this.data.ApiVersion.split('.')[0] === '2') {
-                this.checkedLabel_.textContent = 'OK';
+                this.checkedLabel_.textContent = Common.translate('Ok');
                 this._green(this.wallabagurlinput_);
                 this._show(this.tokenSection_);
                 this._show(this.togglesSection);
@@ -293,8 +284,8 @@ OptionsController.prototype = {
         this._red(this.wallabagurlinput_);
         this._hide(this.tokenSection_);
         this._hide(this.togglesSection);
-        this.checkedLabel_.textContent = 'Not checked';
-        this.versionLabel_.textContent = 'Not checked';
+        this.checkedLabel_.textContent = Common.translate('Not_checked');
+        this.versionLabel_.textContent = Common.translate('Not_checked');
     },
 
     checkUrlClick: function (e) {
@@ -332,12 +323,12 @@ OptionsController.prototype = {
         this.userPassword_.value = this.data.UserPassword || '';
 
         if (this.data.ApiToken) {
-            this.tokenLabel_.textContent = 'Granted';
+            this.tokenLabel_.textContent = Common.translate('Granted');
             this.tokenExpire.textContent = this.getTokenExpireTime();
         }
 
         if (this.data.isTokenExpired) {
-            this.tokenLabel_.textContent = 'Expired';
+            this.tokenLabel_.textContent = Common.translate('Expired');
             this.tokenExpire.textContent = '';
         }
 

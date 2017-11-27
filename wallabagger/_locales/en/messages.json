@@ -31,6 +31,14 @@
     "message": "Client secret",
     "description": "Options"
   },
+  "day": {
+    "message": "day",
+    "description": "Options"
+  },
+  "days": {
+    "message": "days",
+    "description": "Options"
+  },
   "Delete_this_article": {
     "message": "Delete this article",
     "description": "Popup"
@@ -38,6 +46,10 @@
   "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
     "message": "Do you want to remove this article permanently from wallabag?",
     "description": "Popup"
+  },
+  "Download_file": {
+    "message": "Download file",
+    "description": "Options"
   },
   "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
     "message": "Due to security reason, we allow this option only for HTTPS protocol",
@@ -51,12 +63,28 @@
     "message": "Enter your tags here",
     "description": "Popup"
   },
+  "Expired": {
+    "message": "Expired",
+    "description": "Options"
+  },
   "Extension_description": {
     "message": "This wallabag v2 extension has the ability to edit title and tags and set starred, archived, or delete states. You can add a page from the icon or through the right click menu on a link or on a blank page spot.",
     "description": "Manifest.json"
   },
   "Get_token": {
     "message": "Get token",
+    "description": "Options"
+  },
+  "Granted": {
+    "message": "Granted",
+    "description": "Options"
+  },
+  "hour": {
+    "message": "hour",
+    "description": "Options"
+  },
+  "hours": {
+    "message": "hours",
     "description": "Options"
   },
   "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
@@ -71,6 +99,14 @@
     "message": "Loading wallabag API…",
     "description": "Popup"
   },
+  "minute": {
+    "message": "minute",
+    "description": "Options"
+  },
+  "minutes": {
+    "message": "minutes",
+    "description": "Options"
+  },
   "No_leave_it": {
     "message": "No, leave it",
     "description": "Popup"
@@ -81,6 +117,10 @@
   },
   "Not_granted": {
     "message": "Not granted",
+    "description": "Options"
+  },
+  "Ok": {
+    "message": "Ok",
     "description": "Options"
   },
   "Ok_I_understand": {
