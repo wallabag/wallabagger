@@ -157,12 +157,12 @@ PopupController.prototype = {
     disableTagsInput: function () {
         this.foundTags.length = 0;
         this.tagsInput.value = '';
-        this.tagsInput.placeholder = 'saving tags....';
+        this.tagsInput.placeholder = Common.translate('Saving_tags');
         this.tagsInput.disabled = true;
     },
 
     enableTagsInput: function () {
-        this.tagsInput.placeholder = 'type tags here';
+        this.tagsInput.placeholder = Common.translate('Enter_your_tags_here');
         this.tagsInput.disabled = false;
         this.tagsInput.focus();
     },
@@ -202,7 +202,7 @@ PopupController.prototype = {
             this.port.postMessage({request: 'saveTags', articleId: this.articleId, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl});
             this.checkAutocompleteState();
         } else {
-            this.tagsInput.placeholder = 'Duplicate tag!!!';
+            this.tagsInput.placeholder = Common.translate('Tag_already_exists');
             var self = this;
             setTimeout(function () { self.enableTagsInput(); }, 1000);
         }

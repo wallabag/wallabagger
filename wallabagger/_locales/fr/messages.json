@@ -47,6 +47,10 @@
     "message": "N'activez cette option que si un développeur vous y invite",
     "description": "Options"
   },
+  "Enter_your_tags_here": {
+    "message": "Entrez vos tags ici",
+    "description": "Popup"
+  },
   "Extension_description": {
     "message": "Cette extension pour Wallabag v2 permet d'éditer le titre de la page, les tags, changer l'état en tant que favori, archivé ou supprimé. Ajoutez une page depuis l'icône ou via le menu du clic droit sur un lien ou une partie vide de la page.",
     "description": "Manifest.json"
@@ -98,6 +102,14 @@
   "State": {
     "message": "État",
     "description": "Options"
+  },
+  "Saving_tags": {
+    "message": "Enregistrement des tags…",
+    "description": "Popup"
+  },
+  "Tag_already_exists": {
+    "message": "Tag déjà existant",
+    "description": "Popup"
   },
   "Tags_found": {
     "message": "Tags trouvés :",

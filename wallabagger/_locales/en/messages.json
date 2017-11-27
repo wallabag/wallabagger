@@ -47,6 +47,10 @@
     "message": "Enable this only if developers told you to",
     "description": "Options"
   },
+  "Enter_your_tags_here": {
+    "message": "Enter your tags here",
+    "description": "Popup"
+  },
   "Extension_description": {
     "message": "This wallabag v2 extension has the ability to edit title and tags and set starred, archived, or delete states. You can add a page from the icon or through the right click menu on a link or on a blank page spot.",
     "description": "Manifest.json"
@@ -95,9 +99,17 @@
     "message": "Save to file",
     "description": "Options"
   },
+  "Saving_tags": {
+    "message": "Saving tags…",
+    "description": "Popup"
+  },
   "State": {
     "message": "State",
     "description": "Options"
+  },
+  "Tag_already_exists": {
+    "message": "Tag already exists",
+    "description": "Popup"
   },
   "Tags_found": {
     "message": "Tags found:",
