@@ -46,7 +46,7 @@ CacheType.prototype = {
 const wallabagContextMenus = [
     {
         id: 'wallabagger-add-link',
-        title: 'Wallabag it!',
+        title: Common.translate('Wallabag_it'),
         contexts: ['link', 'page']
     },
     {
@@ -55,27 +55,27 @@ const wallabagContextMenus = [
     },
     {
         id: 'unread',
-        title: 'Unread articles',
+        title: Common.translate('Unread'),
         contexts: ['browser_action']
     },
     {
         id: 'starred',
-        title: 'Starred articles',
+        title: Common.translate('Starred'),
         contexts: ['browser_action']
     },
     {
         id: 'archive',
-        title: 'Archived articles',
+        title: Common.translate('Archive'),
         contexts: ['browser_action']
     },
     {
         id: 'all',
-        title: 'All articles',
+        title: Common.translate('All_entries'),
         contexts: ['browser_action']
     },
     {
         id: 'tag',
-        title: 'Tag list',
+        title: Common.translate('Tags'),
         contexts: ['browser_action']
     }
 ];
@@ -430,7 +430,7 @@ function savePageToWallabag (url, resetIcon) {
     // real saving
     browserIcon.set('wip');
     existCache.set(url, existStates.wip);
-    postIfConnected({ response: 'info', text: 'Saving the page to wallabag ...' });
+    postIfConnected({ response: 'info', text: Common.translate('Saving_the_page_to_wallabag') });
     api.SavePage(url)
             .then(data => applyDirtyCacheLight(url, data))
             .then(data => {

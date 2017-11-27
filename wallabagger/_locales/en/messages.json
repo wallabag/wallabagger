@@ -1,7 +1,15 @@
 {
+  "All_entries": {
+    "message": "All entries",
+    "description": "background"
+  },
   "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
     "message": "Allow Space in tags (this disables Space as send-tags key, use Enter key instead)",
     "description": "Options"
+  },
+  "Archive": {
+    "message": "Archive",
+    "description": "background"
   },
   "Article_s_link": {
     "message": "Article_s_link",
@@ -143,6 +151,14 @@
     "message": "Saving tags…",
     "description": "Popup"
   },
+  "Saving_the_page_to_wallabag": {
+    "message": "Saving the page to wallabag…",
+    "description": "background"
+  },
+  "Starred": {
+    "message": "Starred",
+    "description": "background"
+  },
   "State": {
     "message": "State",
     "description": "Options"
@@ -151,6 +167,10 @@
     "message": "Tag already exists",
     "description": "Popup"
   },
+  "Tags": {
+    "message": "Tags",
+    "description": "background"
+  },
   "Tags_found": {
     "message": "Tags found:",
     "description": "Popup"
@@ -158,6 +178,10 @@
   "Token_expires_in": {
     "message": "Token expires in",
     "description": "Options"
+  },
+  "Unread": {
+    "message": "Unread",
+    "description": "background"
   },
   "Use_HTTPS": {
     "message": "Use HTTPS",
@@ -178,6 +202,10 @@
   "Wallabag_API_version": {
     "message": "Wallabag API version",
     "description": "Options"
+  },
+  "Wallabag_it": {
+    "message": "Wallabag it!",
+    "description": "background"
   },
   "Wallabag_URL": {
     "message": "Wallabag URL",

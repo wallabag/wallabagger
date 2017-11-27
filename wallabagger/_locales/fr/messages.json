@@ -1,7 +1,15 @@
 {
+  "All_entries": {
+    "message": "Tous les articles",
+    "description": "background"
+  },
   "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
     "message": "Autoriser les espaces dans les tags (vous devrez alors utiliser la touche \"entrée\" de votre clavier pour valider)",
     "description": "Options"
+  },
+  "Archive": {
+    "message": "Lus",
+    "description": "background"
   },
   "Article_s_title": {
     "message": "Titre de l'article",
@@ -147,9 +155,21 @@
     "message": "Enregistrement des tags…",
     "description": "Popup"
   },
+  "Starred": {
+    "message": "Favoris",
+    "description": "background"
+  },
+  "Saving_the_page_to_wallabag": {
+    "message": "Enregistrement de la page dans wallabag…",
+    "description": "background"
+  },
   "Tag_already_exists": {
     "message": "Tag déjà existant",
     "description": "Popup"
+  },
+  "Tags": {
+    "message": "Tags",
+    "description": "background"
   },
   "Tags_found": {
     "message": "Tags trouvés :",
@@ -158,6 +178,10 @@
   "Token_expires_in": {
     "message": "Le jeton expire dans",
     "description": "Options"
+  },
+  "Unread": {
+    "message": "Non lus",
+    "description": "background"
   },
   "Use_HTTPS": {
     "message": "Utiliser HTTPS",
@@ -178,6 +202,10 @@
   "Wallabag_API_version": {
     "message": "Version de l'API de Wallabag",
     "description": "Options"
+  },
+  "Wallabag_it": {
+    "message": "Wallabag it!",
+    "description": "background"
   },
   "Wallabag_URL": {
     "message": "URL de Wallabag",
