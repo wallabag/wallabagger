@@ -123,7 +123,8 @@ PopupController.prototype = {
 
         currentState = !currentState;
         icon.dataset.isset = JSON.stringify(currentState);
-        icon.title = JSON.parse(icon.dataset.isset) ? icon.dataset.unseticonTitle : icon.dataset.seticonTitle;
+        const title = JSON.parse(icon.dataset.isset) ? icon.dataset.unseticonTitle : icon.dataset.seticonTitle;
+        icon.title = Common.translate(title);
     },
 
     toggleAction: function (icon) {

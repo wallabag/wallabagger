@@ -16,7 +16,12 @@
         </div>
 
         <div class="card-header" id="card-header">
-            <a id="card-title" href="#" title="Go to Wallabag's article page" data-i18n="Article_s_title">Article's title</a>
+            <a
+                id="card-title"
+                href="#"
+                title="Go to Wallabag's article page"
+                data-i18n-attr="title|Go_to_Wallabag_s_article_page"
+                data-i18n="Article_s_title">Article's title</a>
         </div>
 
         <div class="card-body hide" id="card-body">
@@ -26,22 +31,31 @@
         </div>
 
         <div class="card-footer">
-            <a class="card-meta" id="entry-url" href="#" title="Go to this article page" data-i18n="Article_s_link">Article's link</a>
+            <a
+                class="card-meta"
+                id="entry-url"
+                href="#"
+                title="Go to this article page"
+                data-i18-attr="title|Go_to_this_article_page"
+                data-i18n="Article_s_link">Article's link</a>
             <button
                 class="action-button float-right card-meta icon icon-bin"
                 id="delete-icon"
-                title="Remove this article from Wallabag"></button>
+                title="Remove this article from Wallabag"
+                data-i18n-attr="title|Remove_this_article_from_Wallabag"
+                ></button>
 
             <button
                 id="starred-icon"
                 data-apicall="SaveStarred"
                 data-isset="false"
                 data-seticon="icon-star-full"
-                data-seticon-title="Set this article as starred into Wallabag"
+                data-seticon-title="Set_this_article_as_starred_into_Wallabag"
                 data-unseticon="icon-star"
-                data-unseticon-title="Unset this article as starred into Wallabag"
+                data-unseticon-title="Unset_this_article_as_starred_into_Wallabag"
                 class="action-button float-right card-meta icon icon-star"
-                title="Set this article as starred into Wallabag"></button>
+                title="Set this article as starred into Wallabag"
+                data-i18n-attr="title|Set_this_article_as_starred_into_Wallabag"></button>
 
             <button
                 id="archived-icon"
@@ -49,14 +63,17 @@
                 class="action-button float-right card-meta icon icon-checkmark"
                 data-isset="false"
                 data-seticon="icon-checkmark-full"
-                data-seticon-title="Set this article as archived into Wallabag"
+                data-seticon-title="Set_this_article_as_archived_into_Wallabag"
                 data-unseticon="icon-checkmark"
-                data-unseticon-title="Unset this article as archived into Wallabag"
-                title="Set this article as archived into Wallabag"></button>
+                data-unseticon-title="Unset_this_article_as_archived_into_Wallabag"
+                title="Set this article as archived into Wallabag"
+                data-i18n-attr="title|Set_this_article_as_archived_into_Wallabag"></button>
             <button
                 class="action-button float-right card-meta icon icon-pencil"
                 id="edit-icon"
-                title="Edit the Wallabag title of this article"></button>
+                title="Edit the Wallabag title of this article"
+                data-i18n-attr="title|Edit_the_Wallabag_title_of_this_article"
+                ></button>
         </div>
 
         <div class="card-footer" id="tags">

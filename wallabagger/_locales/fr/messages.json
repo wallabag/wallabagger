@@ -63,6 +63,10 @@
     "message": "Pour des raisons de sécurité, vous ne pouvez activer cette option qu'en utilisant le protocole HTTPS",
     "description": "Options"
   },
+  "Edit_the_Wallabag_title_of_this_article": {
+    "message": "Editer le titre de cet article dans Wallabag",
+    "description": "Popup"
+  },
   "Enable_this_only_if_developers_told_you_to": {
     "message": "N'activez cette option que si un développeur vous y invite",
     "description": "Options"
@@ -82,6 +86,14 @@
   "Get_token": {
     "message": "Obtenir un jeton",
     "description": "Options"
+  },
+  "Go_to_this_article_page": {
+    "message": "Aller sur la page de cet article",
+    "description": "Popup"
+  },
+  "Go_to_Wallabag_s_article_page": {
+    "message": "Aller sur la page de l'article sur Wallabag",
+    "description": "Popup"
   },
   "Granted": {
     "message": "Accordé",
@@ -135,6 +147,10 @@
     "message": "D'accord, j'ai compris",
     "description": "Options"
   },
+  "Remove_this_article_from_Wallabag": {
+    "message": "Supprimer cet article de Wallabag",
+    "description": "Popup"
+  },
   "Reset_parameters": {
     "message": "Remise à zéro des paramètres",
     "description": "Options"
@@ -153,6 +169,14 @@
   },
   "Saving_tags": {
     "message": "Enregistrement des tags…",
+    "description": "Popup"
+  },
+  "Set_this_article_as_archived_into_Wallabag": {
+    "message": "Marquer cet article comme lu dans Wallabag",
+    "description": "Popup"
+  },
+  "Set_this_article_as_starred_into_Wallabag": {
+    "message": "Marquer cet article comme favori dans Wallabag",
     "description": "Popup"
   },
   "Starred": {
@@ -182,6 +206,14 @@
   "Unread": {
     "message": "Non lus",
     "description": "background"
+  },
+  "Unset_this_article_as_archived_into_Wallabag": {
+    "message": "Marquer cet article comme non lu dans Wallabag",
+    "description": "Popup"
+  },
+  "Unset_this_article_as_starred_into_Wallabag": {
+    "message": "Supprimer cet article des favoris dans Wallabag",
+    "description": "Popup"
   },
   "Use_HTTPS": {
     "message": "Utiliser HTTPS",
