@@ -3,7 +3,7 @@
    "name": "Wallabagger",
    "default_locale": "en",
     "version": "1.4.4",
-    "description": "Wallabag apiV2 extension with ability to edit title, tags, set starred and  archived, and delete",
+    "description": "__MSG_Extension_description__",
     "icons": { "16": "img/wallabag-icon-48a.png",
                "128": "img/wallabag-icon-128.png" },
     "browser_action": {
