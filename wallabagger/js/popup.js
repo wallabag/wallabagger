@@ -531,6 +531,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
         browser = chrome;
     }
+    Common.translateAll();
     const PC = new PopupController();
     PC.init();
 });

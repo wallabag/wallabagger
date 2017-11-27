@@ -16,17 +16,17 @@
         </div>
 
         <div class="card-header" id="card-header">
-            <a id="card-title" href="#" title="Go to Wallabag's article page">Page title</a>
+            <a id="card-title" href="#" title="Go to Wallabag's article page" data-i18n="Article_s_title">Article's title</a>
         </div>
 
         <div class="card-body hide" id="card-body">
             <textarea class="form-input" id="title-input" rows="3"></textarea>
-            <button class="btn btn-link" id="save-title-button">Save</button>
-            <button class="btn btn-link" id="cancel-title-button">Cancel</button>
+            <button class="btn btn-link" id="save-title-button" data-i18n="Save">Save</button>
+            <button class="btn btn-link" id="cancel-title-button" data-i18n="Cancel">Cancel</button>
         </div>
 
         <div class="card-footer">
-            <a class="card-meta" id="entry-url" href="#" title="Go to this article page">test meta</a>
+            <a class="card-meta" id="entry-url" href="#" title="Go to this article page" data-i18n="Article_s_link">Article's link</a>
             <button
                 class="action-button float-right card-meta icon icon-bin"
                 id="delete-icon"
@@ -66,7 +66,7 @@
                     <!--here we add tag chips-->
                     <input class="form-input" type="text" placeholder="type tags here" id="tags-input"/>
                     <ul class="form-autocomplete-list hide" id="tags-autocomplete-list">
-                        <li class="card-meta float-left form-autocomplete-item" style="margin-top: 5px;">Tags found: </li>
+                        <li class="card-meta float-left form-autocomplete-item" style="margin-top: 5px;" data-i18n="Tags_found">Tags found:</li>
                     </ul>
                 </div>
             </div>
@@ -75,7 +75,7 @@
     </div>
 
 
-    <div class="toast" id="info-toast">Loading wallabag API...</div>
+    <div class="toast" id="info-toast" data-i18n="Loading_wallabag_API">Loading wallabag API...</div>
     <div class="toast toast-danger hide" id="error-toast"></div>
 
     <div class="modal modal-sm" id="delete_confirmation">
@@ -84,21 +84,22 @@
             <!-- modal structure here -->
             <div class="modal-header">
                 <button class="btn btn-clear float-right" id="close-confirmation"></button>
-                <div class="modal-title">Delete this article</div>
+                <div class="modal-title" data-i18n="Delete_this_article">Delete this article</div>
             </div>
             <div class="modal-body">
                 <div class="content">
                     <!-- content here -->
-                    <h4 class="centered mt-10">Deleting removes article from wallabag permanently</h4>
+                    <h4 class="centered mt-10" data-i18n="Do_you_want_to_remove_this_article_permanently_from_wallabag">Do you want to remove this article permanently from wallabag?</h4>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-link" id="delete-article">Yes, Delete it</button>
-                <button class="btn btn-primary" id="cancel-confirmation">No, leave it</button>
+                <button class="btn btn-link" id="delete-article" data-i18n="Yes_delete_it">Yes, delete it</button>
+                <button class="btn btn-primary" id="cancel-confirmation"data-i18n="No_leave_it">No, leave it</button>
             </div>
         </div>
     </div>
 
+    <script src="js/common.js"></script>
     <script src="js/popup.js"></script>
 
 </body>

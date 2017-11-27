@@ -1,0 +1,138 @@
+{
+  "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+    "message": "Autoriser les espaces dans les tags (vous devrez alors utiliser la touche \"entrée\" de votre clavier pour valider)",
+    "description": "Options"
+  },
+  "Article_s_title": {
+    "message": "Titre de l'article",
+    "description": "Popup"
+  },
+  "Article_s_link": {
+    "message": "Lien de l'article",
+    "description": "Popup"
+  },
+  "Cancel": {
+    "message": "Annuler",
+    "description": "Popup"
+  },
+  "Check_URL": {
+    "message": "Tester l'URL",
+    "description": "Options"
+  },
+  "Checklist": {
+    "message": "Liste de contrôle",
+    "description": "Options"
+  },
+  "Client_ID": {
+    "message": "ID Client",
+    "description": "Options"
+  },
+  "Client_secret": {
+    "message": "Clé secrète",
+    "description": "Options"
+  },
+  "Delete_this_article": {
+    "message": "Supprimer cet article",
+    "description": "Popup"
+  },
+  "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+    "message": "Souhaitez-vous supprimer de wallabag cet article de façon permanente ?",
+    "description": "Popup"
+  },
+  "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+    "message": "Pour des raisons de sécurité, vous ne pouvez activer cette option qu'en utilisant le protocole HTTPS",
+    "description": "Options"
+  },
+  "Enable_this_only_if_developers_told_you_to": {
+    "message": "N'activez cette option que si un développeur vous y invite",
+    "description": "Options"
+  },
+  "Get_token": {
+    "message": "Obtenir un jeton",
+    "description": "Options"
+  },
+  "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+    "message": "Indique si la page est déjà sauvegardée (tout changement d'onglet entraîne l'envoie de l'URL en cours à wallabag, utilisez le protocole HTTPS pour une meilleure sécurité !)",
+    "description": "Options"
+  },
+  "Load_from_file": {
+    "message": "Charger depuis un fichier",
+    "description": "Options"
+  },
+  "Loading_wallabag_API": {
+    "message": "Chargement de l'API de wallabag…",
+    "description": "Popup"
+  },
+  "No_leave_it": {
+    "message": "Non, le supprimer",
+    "description": "Popup"
+  },
+  "Not_checked": {
+    "message": "Non testé",
+    "description": "Options"
+  },
+  "Not_granted": {
+    "message": "Pas accordé",
+    "description": "Options"
+  },
+  "Ok_I_understand": {
+    "message": "D'accord, j'ai compris",
+    "description": "Options"
+  },
+  "Reset_parameters": {
+    "message": "Remise à zéro des paramètres",
+    "description": "Options"
+  },
+  "Save": {
+    "message": "Enregistrer",
+    "description": "Popup"
+  },
+  "Save_to_file": {
+    "message": "Enregistrer dans un fichier",
+    "description": "Options"
+  },
+  "State": {
+    "message": "État",
+    "description": "Options"
+  },
+  "Tags_found": {
+    "message": "Tags trouvés :",
+    "description": "Popup"
+  },
+  "Token_expires_in": {
+    "message": "Le jeton expire dans",
+    "description": "Options"
+  },
+  "Use_HTTPS": {
+    "message": "Utiliser HTTPS",
+    "description": "Options"
+  },
+  "User_login": {
+    "message": "Nom d'utilisateur",
+    "description": "Options"
+  },
+  "User_password": {
+    "message": "Mot de passe",
+    "description": "Options"
+  },
+  "Wallabag_API_token": {
+    "message": "Jeton de l'API de Wallabag",
+    "description": "Options"
+  },
+  "Wallabag_API_version": {
+    "message": "Version de l'API de Wallabag",
+    "description": "Options"
+  },
+  "Wallabag_URL": {
+    "message": "URL de Wallabag",
+    "description": "Options"
+  },
+  "Wallabag_URL_checked": {
+    "message": "Wallabag URL testée",
+    "description": "Options"
+  },
+  "Yes_delete_it": {
+    "message": "Oui, le supprimer",
+    "description": "Popup"
+  }
+}

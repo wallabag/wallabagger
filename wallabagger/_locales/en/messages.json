@@ -1,0 +1,138 @@
+{
+  "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+    "message": "Allow Space in tags (this disables Space as send-tags key, use Enter key instead)",
+    "description": "Options"
+  },
+  "Article_s_link": {
+    "message": "Article_s_link",
+    "description": "Popup"
+  },
+  "Article_s_title": {
+    "message": "Article's title",
+    "description": "Popup"
+  },
+  "Cancel": {
+    "message": "Cancel",
+    "description": "Popup"
+  },
+  "Check_URL": {
+    "message": "Check URL",
+    "description": "Options"
+  },
+  "Checklist": {
+    "message": "Checklist",
+    "description": "Options"
+  },
+  "Client_ID": {
+    "message": "Client ID",
+    "description": "Options"
+  },
+  "Client_secret": {
+    "message": "Client secret",
+    "description": "Options"
+  },
+  "Delete_this_article": {
+    "message": "Delete this article",
+    "description": "Popup"
+  },
+  "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+    "message": "Do you want to remove this article permanently from wallabag?",
+    "description": "Popup"
+  },
+  "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+    "message": "Due to security reason, we allow this option only for HTTPS protocol",
+    "description": "Options"
+  },
+  "Enable_this_only_if_developers_told_you_to": {
+    "message": "Enable this only if developers told you to",
+    "description": "Options"
+  },
+  "Get_token": {
+    "message": "Get token",
+    "description": "Options"
+  },
+  "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+    "message": "Indicate if page already saved (this sends URL of each tab to wallabag, use HTTPS protocol for better security!)",
+    "description": "Options"
+  },
+  "Load_from_file": {
+    "message": "Load from file",
+    "description": "Options"
+  },
+  "Loading_wallabag_API": {
+    "message": "Loading wallabag API…",
+    "description": "Popup"
+  },
+  "No_leave_it": {
+    "message": "No, leave it",
+    "description": "Popup"
+  },
+  "Not_checked": {
+    "message": "Not checked",
+    "description": "Options"
+  },
+  "Not_granted": {
+    "message": "Not granted",
+    "description": "Options"
+  },
+  "Ok_I_understand": {
+    "message": "Ok, I understand",
+    "description": "Options"
+  },
+  "Reset_parameters": {
+    "message": "Reset parameters",
+    "description": "Options"
+  },
+  "Save": {
+    "message": "Save",
+    "description": "Popup"
+  },
+  "Save_to_file": {
+    "message": "Save to file",
+    "description": "Options"
+  },
+  "State": {
+    "message": "State",
+    "description": "Options"
+  },
+  "Tags_found": {
+    "message": "Tags found:",
+    "description": "Popup"
+  },
+  "Token_expires_in": {
+    "message": "Token expires in",
+    "description": "Options"
+  },
+  "Use_HTTPS": {
+    "message": "Use HTTPS",
+    "description": "Options"
+  },
+  "User_login": {
+    "message": "User login",
+    "description": "Options"
+  },
+  "User_password": {
+    "message": "User password",
+    "description": "Options"
+  },
+  "Wallabag_API_token": {
+    "message": "Wallabag API token",
+    "description": "Options"
+  },
+  "Wallabag_API_version": {
+    "message": "Wallabag API version",
+    "description": "Options"
+  },
+  "Wallabag_URL": {
+    "message": "Wallabag URL",
+    "description": "Options"
+  },
+  "Wallabag_URL_checked": {
+    "message": "Wallabag URL checked",
+    "description": "Options"
+  },
+  "Yes_delete_it": {
+    "message": "Yes, delete it",
+    "description": "Popup"
+  }
+}
