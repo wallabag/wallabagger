@@ -3,7 +3,8 @@
     "installedESLint": true,
     "plugins": [
         "standard",
-        "promise"
+        "promise",
+        "compat"
     ],
     "env": {
         "es6": true,
@@ -20,6 +21,7 @@
             4,
             { "SwitchCase": 1 }
         ],
+        "compat/compat": "error",
         "eol-last": 0,
         "linebreak-style": [
             "error",

@@ -3,8 +3,13 @@
   "version": "1.1.1",
   "description": "Web extension for Wallabag v2",
   "main": "index.js",
+  "browserslist": [
+    "Firefox >= 52",
+    "Chrome > 60",
+    "Edge > 14"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "eslint wallabagger/js/*"
   },
   "repository": {
     "type": "git",
@@ -23,6 +28,7 @@
   "devDependencies": {
     "eslint": "^3.12.1",
     "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-compat": "^2.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
