@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 const Common = (() => {
     const translate = (message) => {
@@ -19,5 +19,5 @@ const Common = (() => {
     return {
         'translate': translate,
         'translateAll': translateAll
-    }
+    };
 })();

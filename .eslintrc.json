@@ -13,7 +13,8 @@
     },
     "globals": {
         "WallabagApi": true,
-        "FetchApi": true
+        "FetchApi": true,
+        "Common": true
     },
     "rules": {
         "indent": [

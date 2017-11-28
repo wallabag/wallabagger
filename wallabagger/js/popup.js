@@ -352,7 +352,7 @@ PopupController.prototype = {
                 if (tabs[0] != null) {
                     return resolve(tabs[0]);
                 } else {
-                    return reject('active tab not found');
+                    return reject(new Error('active tab not found'));
                 }
             });
         });
