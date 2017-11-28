@@ -37,7 +37,7 @@
               "windows": "Alt+Shift+W",
               "mac": "Alt+Shift+W"
             },
-            "description": "Save to wallabag in background"
+            "description": "__MSG_Wallabag_it_description__"
         }
     }
 }

@@ -250,5 +250,8 @@
   "Yes_delete_it": {
     "message": "Oui, le supprimer",
     "description": "Popup"
-  }
-}
+  },
+  "Wallabag_it_description": {
+    "message": "Enregistrer la page dans le Wallabag en arrière-plan",
+    "description": "Manifest.json"
+  }}
