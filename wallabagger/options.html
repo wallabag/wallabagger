@@ -16,11 +16,11 @@
         <div class="column col-6">
             <form action="." id="wallabagurl-section">
                 <div class="form-group">
-                    <label class="form-label" for="input-wallabagurl">Wallabag URL</label>
+                    <label class="form-label" for="input-wallabagurl" data-i18n="Wallabag_URL">Wallabag URL</label>
                     <div class="input-group">
                         <span class="input-group-addon" id="input-group-wallabagurl">https://</span>
-                        <input class="form-input" type="text" id="input-wallabagurl" placeholder="Wallabag URL" />
-                        <button class="btn input-group-btn" id="checkurl-button">Check URL</button>
+                        <input class="form-input" type="text" id="input-wallabagurl" placeholder="app.wallabag.it" />
+                        <button class="btn input-group-btn" id="checkurl-button" data-i18n="Check_URL">Check URL</button>
 
                     </div>
 
@@ -28,37 +28,37 @@
                 <div class="form-group">
                     <label class="form-switch">
                         <input type="checkbox" id="protocol-checkbox" checked />
-                        <i class="form-icon"></i> Use HTTPS
+                        <i class="form-icon"></i> <span data-i18n="Use_HTTPS">Use HTTPS</span>
                     </label>
                 </div>
             </form>
             <form action="." class="hide" id="token-section">
                 <div class="form-group">
-                    <label class="form-label" for="clientid-input">Client ID</label>
+                    <label class="form-label" for="clientid-input" data-i18n="Client_ID">Client ID</label>
                     <div class="input-group">
-                        <input class="form-input" type="text" id="clientid-input" placeholder="Client ID" />
+                        <input class="form-input" type="text" id="clientid-input" placeholder="1_daih12daohdapa[…]" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="clientsecret-input">Client secret</label>
+                    <label class="form-label" for="clientsecret-input" data-i18n="Client_secret">Client secret</label>
                     <div class="input-group">
-                        <input class="form-input" type="text" id="clientsecret-input" placeholder="Client secret" />
+                        <input class="form-input" type="text" id="clientsecret-input" placeholder="dapojda1209daPo[…]" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="userlogin-input">User login</label>
+                    <label class="form-label" for="userlogin-input" data-i18n="User_login">User login</label>
                     <div class="input-group">
-                        <input class="form-input" type="text" id="userlogin-input" placeholder="User login" />
+                        <input class="form-input" type="text" id="userlogin-input" placeholder="Chuck Norris" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="userpassword-input">User password</label>
+                    <label class="form-label" for="userpassword-input" data-i18n="User_password">User password</label>
                     <div class="input-group">
                         <input class="form-input" type="password" id="userpassword-input" />
-                        <button class="btn input-group-btn" id="getapptoken-button">Get token</button>
+                        <button class="btn input-group-btn" id="getapptoken-button" data-i18n="Get_token">Get token</button>
                     </div>
                 </div>
 
@@ -68,25 +68,25 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Checklist</th>
-                        <th class="text-right">ok?</th>
+                        <th data-i18n="Checklist">Checklist</th>
+                        <th class="text-right" data-i18n="State">State</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Wallabag URL checked</td>
-                        <td class="text-right" id="checked-label">Not checked</td>
+                        <td data-i18n="Wallabag_URL_checked">Wallabag URL checked</td>
+                        <td class="text-right" id="checked-label" data-i18n="Not_checked">Not checked</td>
                     </tr>
                     <tr>
-                        <td>Wallabag api version</td>
-                        <td class="text-right" id="apiversion-label">Not checked</td>
+                        <td data-i18n="Wallabag_API_version">Wallabag API version</td>
+                        <td class="text-right" id="apiversion-label" data-i18n="Not_checked">Not checked</td>
                     </tr>
                     <tr>
-                        <td>Wallabag api token</td>
-                        <td class="text-right" id="apitoken-label">Not granted</td>
+                        <td data-i18n="Wallabag_API_token">Wallabag API token</td>
+                        <td class="text-right" id="apitoken-label" data-i18n="Not_granted">Not granted</td>
                     </tr>
                     <tr>
-                        <td>Token expires in</td>
+                        <td data-i18n="Token_expires_in">Token expires in</td>
                         <td class="text-right" id="expiretoken-label"></td>
                     </tr>
                 </tbody>
@@ -99,30 +99,30 @@
                 <div class="form-group">
                     <label class="form-switch">
                         <input type="checkbox" id="allow-space-checkbox"/>
-                        <i class="form-icon"></i>Allow Space in tags (this disables Space as send-tags key, use Enter key instead)
+                        <i class="form-icon"></i><span data-i18n="Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead">Allow Space in tags (this disables Space as send-tags key, use Enter key instead)</span>
                     </label>
                 </div>
 
                 <div class="form-group">
                     <label class="form-switch">
                         <input type="checkbox" id="allow-exist-checkbox"/>
-                        <i class="form-icon"></i>Indicate if page already saved (this sends URL of each tab to wallabag, use HTTPS protocol for better security!)
+                        <i class="form-icon"></i><span data-i18n="Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security">Indicate if page already saved (this sends URL of each tab to wallabag, use HTTPS protocol for better security!)</span>
                     </label>
                 </div>
 
                 <div class="form-group">
                     <label class="form-switch">
                         <input type="checkbox" id="debug"/>
-                        <i class="form-icon"></i>Enable this only if developers told you to.
+                        <i class="form-icon"></i><span data-i18n="Enable_this_only_if_developers_told_you_to">Enable this only if developers told you to.</span>
                     </label>
                 </div>
             </section>
         </div>
     </div>
     <div class="column col-12 pt-10">
-        <button class="btn" id="clear-button">Clear</button>
-        <button class="btn" id="saveToFile-button">Save to file</button>
-        <button class="btn" id="loadFromFile-button">Load from file</button>
+        <button class="btn" id="clear-button" data-i18n="Reset_parameters">Reset parameters</button>
+        <button class="btn" id="saveToFile-button" data-i18n="Save_to_file">Save to file</button>
+        <button class="btn" id="loadFromFile-button" data-i18n="Load_from_file">Load from file</button>
         <input type="file" style="display:none" id="openFile-dialog"/>
     </div>
 
@@ -131,14 +131,15 @@
         <div class="modal-container">
             <div class="modal-body">
                 <div class="content">
-                    <h4 class="centered mt-10">Due to security reason, we allow this option only for HTTPS protocol</h4>
+                    <h4 class="centered mt-10" data-i18n="Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol">Due to security reason, we allow this option only for HTTPS protocol</h4>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-link" id="https-button">Ok, I understand</button>
+                <button class="btn btn-link" id="https-button" data-i18n="Ok_I_understand">Ok, I understand</button>
             </div>
         </div>
     </div>
+    <script src="js/common.js"></script>
     <script src="js/options.js"></script>
 </body>
 </html>

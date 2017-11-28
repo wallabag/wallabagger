@@ -1,8 +1,9 @@
 {
    "manifest_version": 2,
    "name": "Wallabagger",
-    "version": "1.4.4.3",
-    "description": "Wallabag apiV2 extension with ability to edit title, tags, set starred and  archived, and delete",
+   "default_locale": "en",
+    "version": "1.4.4",
+    "description": "__MSG_Extension_description__",
     "icons": { "16": "img/wallabag-icon-48a.png",
                "128": "img/wallabag-icon-128.png" },
     "browser_action": {
@@ -11,7 +12,7 @@
         "default_popup": "popup.html"
     },
     "background": {
-        "scripts": [ "js/fetch-api.js", "js/wallabag-api.js", "js/background.js" ]
+        "scripts": [ "js/common.js", "js/fetch-api.js", "js/wallabag-api.js", "js/background.js" ]
     },
     "permissions": [
         "*://*/",
