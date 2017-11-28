@@ -162,8 +162,8 @@ OptionsController.prototype = {
         this.tokenLabel_.textContent = Common.translate('Granted');
         this.tokenExpire.textContent = this.getTokenExpireTime();
     },
-
     getTokenExpireTime: function () {
+        if (Common.getLocale() === 'ru') return this.getTokenExpireTimeRu();
         const expMs = this.data.ExpireDate - Date.now();
         if (expMs < 0) {
             return Common.translate('Expired');
@@ -181,6 +181,30 @@ OptionsController.prototype = {
         }
         const expDays = Math.floor(expHours / 24);
         const unit = expDays > 1 ? Common.translate('days') : Common.translate('day');
+        return `${expDays} ${unit}`;
+    },
+
+    getTokenExpireTimeRu: function () {
+        const expMs = this.data.ExpireDate - Date.now();
+        if (expMs < 0) {
+            return Common.translate('Expired');
+        }
+        const expSec = Math.floor(expMs / 1000);
+        const expMin = Math.floor(expSec / 60);
+        const expMinD = expMin % 10;
+        if (expMin < 60) {
+            const unit = expMinD === 1 ? Common.translate('minute') : expMinD < 5 ? Common.translate('minutes24') : Common.translate('minutes');
+            return `${expMin} ${unit}`;
+        }
+        const expHours = Math.floor(expMin / 60);
+        const expHoursD = expHours % 10;
+        if (expHours < 24) {
+            const unit = expHoursD === 1 ? Common.translate('hour') : expHoursD < 5 ? Common.translate('hours24') : Common.translate('hours');
+            return `${expHours} ${unit}`;
+        }
+        const expDays = Math.floor(expHours / 24);
+        const expDaysD = expDays % 10;
+        const unit = expDaysD === 1 ? Common.translate('day') : expDaysD < 5 ? Common.translate('days24') : Common.translate('days');
         return `${expDays} ${unit}`;
     },
 
