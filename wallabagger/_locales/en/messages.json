@@ -239,6 +239,10 @@
     "message": "Wallabag it!",
     "description": "background"
   },
+  "Wallabag_it_description": {
+    "message": "Save to wallabag in background",
+    "description": "Manifest.json"
+  },
   "Wallabag_URL": {
     "message": "Wallabag URL",
     "description": "Options"
@@ -250,9 +254,5 @@
   "Yes_delete_it": {
     "message": "Yes, delete it",
     "description": "Popup"
-  },
-  "Wallabag_it_description": {
-    "message": "Save to wallabag in background",
-    "description": "Manifest.json"
   }
 }
