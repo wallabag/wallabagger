@@ -240,7 +240,7 @@
     "description": "background"
   },
   "Wallabag_it_description": {
-    "message": "Enregistrer la page dans le Wallabag en arrière-plan",
+    "message": "Enregistrer la page dans Wallabag sans ouvrir la popup",
     "description": "Manifest.json"
   },
   "Wallabag_URL": {
