@@ -8,6 +8,21 @@
     <style>
         body { padding: 10px; min-width: 800px; background-color: transparent; font-size: 1.3rem }
         form, section { margin-top: 5px; }
+        .btn,
+        .form-input,
+        .input-group .input-group-addon {
+            height: auto;
+            line-height: 1.5;
+        }
+
+        .wallabag-url .input-group-addon {
+            flex-basis: 10%;
+            text-align: center;
+        }
+
+        .wallabag-url .form-input {
+            max-width: 60%;
+        }
     </style>
 </head>
 
@@ -17,7 +32,7 @@
             <form action="." id="wallabagurl-section">
                 <div class="form-group">
                     <label class="form-label" for="input-wallabagurl" data-i18n="Wallabag_URL">Wallabag URL</label>
-                    <div class="input-group">
+                    <div class="input-group wallabag-url">
                         <span class="input-group-addon" id="input-group-wallabagurl">https://</span>
                         <input class="form-input" type="text" id="input-wallabagurl" placeholder="app.wallabag.it" />
                         <button class="btn input-group-btn" id="checkurl-button" data-i18n="Check_URL">Check URL</button>

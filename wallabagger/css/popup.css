@@ -63,3 +63,8 @@ span.icon {
 .chip-selected {
    border: 1px solid black;
 }
+
+.form-autocomplete .form-autocomplete-input .form-input {
+    height: auto;
+    line-height: 1.5;
+}
