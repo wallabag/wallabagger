@@ -39,11 +39,11 @@
     "message": "Clé secrète",
     "description": "Options"
   },
-  "day": {
+  "day_one": {
     "message": "jour",
     "description": "Options"
   },
-  "days": {
+  "day_many": {
     "message": "jours",
     "description": "Options"
   },
@@ -99,11 +99,11 @@
     "message": "Accordé",
     "description": "Options"
   },
-  "hour": {
+  "hour_one": {
     "message": "heure",
     "description": "Options"
   },
-  "hours": {
+  "hour_many": {
     "message": "heures",
     "description": "Options"
   },
@@ -119,11 +119,11 @@
     "message": "Chargement de l'API de wallabag…",
     "description": "Popup"
   },
-  "minute": {
+  "minute_one": {
     "message": "minute",
     "description": "Options"
   },
-  "minutes": {
+  "minute_many": {
     "message": "minutes",
     "description": "Options"
   },

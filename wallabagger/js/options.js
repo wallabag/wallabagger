@@ -162,8 +162,9 @@ OptionsController.prototype = {
         this.tokenLabel_.textContent = Common.translate('Granted');
         this.tokenExpire.textContent = this.getTokenExpireTime();
     },
+
     getTokenExpireTime: function () {
-        if (Common.getLocale() === 'ru') return this.getTokenExpireTimeRu();
+        const locale = Common.getLocale();
         const expMs = this.data.ExpireDate - Date.now();
         if (expMs < 0) {
             return Common.translate('Expired');
@@ -171,41 +172,27 @@ OptionsController.prototype = {
         const expSec = Math.floor(expMs / 1000);
         const expMin = Math.floor(expSec / 60);
         if (expMin < 60) {
-            const unit = expMin > 1 ? Common.translate('minutes') : Common.translate('minute');
+            const unit = this._getUnit(expMin, 'minute', locale);
             return `${expMin} ${unit}`;
         }
         const expHours = Math.floor(expMin / 60);
         if (expHours < 24) {
-            const unit = expHours > 1 ? Common.translate('hours') : Common.translate('hour');
+            const unit = this._getUnit(expHours, 'hour', locale);
             return `${expHours} ${unit}`;
         }
         const expDays = Math.floor(expHours / 24);
-        const unit = expDays > 1 ? Common.translate('days') : Common.translate('day');
+        const unit = this._getUnit(expDays, 'day', locale);
         return `${expDays} ${unit}`;
     },
 
-    getTokenExpireTimeRu: function () {
-        const expMs = this.data.ExpireDate - Date.now();
-        if (expMs < 0) {
-            return Common.translate('Expired');
+    _getUnit(value, key, locale) {
+        switch(locale) {
+            case 'ru':
+                const declension = value % 10;
+                return declension === 1 ? Common.translate(`${key}_one`) : declension < 5 ? Common.translate(`${key}_few`) : Common.translate(`${key}_many`);
+            default:
+                return value > 1 ? Common.translate(`${key}_many`) : Common.translate(`${key}_one`);
         }
-        const expSec = Math.floor(expMs / 1000);
-        const expMin = Math.floor(expSec / 60);
-        const expMinD = expMin % 10;
-        if (expMin < 60) {
-            const unit = expMinD === 1 ? Common.translate('minute') : expMinD < 5 ? Common.translate('minutes24') : Common.translate('minutes');
-            return `${expMin} ${unit}`;
-        }
-        const expHours = Math.floor(expMin / 60);
-        const expHoursD = expHours % 10;
-        if (expHours < 24) {
-            const unit = expHoursD === 1 ? Common.translate('hour') : expHoursD < 5 ? Common.translate('hours24') : Common.translate('hours');
-            return `${expHours} ${unit}`;
-        }
-        const expDays = Math.floor(expHours / 24);
-        const expDaysD = expDays % 10;
-        const unit = expDaysD === 1 ? Common.translate('day') : expDaysD < 5 ? Common.translate('days24') : Common.translate('days');
-        return `${expDays} ${unit}`;
     },
 
     wallabagApiTokenNotGot: function () {

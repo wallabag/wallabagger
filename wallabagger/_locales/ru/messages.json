@@ -39,15 +39,15 @@
     "message": "Client secret",
     "description": "Options"
   },
-  "day": {
+  "day_one": {
     "message": "день",
     "description": "Options"
   },
-  "days24": {
+  "day_few": {
     "message": "дня",
     "description": "Options"
   },
-  "days": {
+  "day_many": {
     "message": "дней",
     "description": "Options"
   },
@@ -103,15 +103,15 @@
     "message": "Предоставлен",
     "description": "Options"
   },
-  "hour": {
+  "hour_one": {
     "message": "час",
     "description": "Options"
   },
-  "hours24": {
+  "hour_few": {
     "message": "часa",
     "description": "Options"
   },
-  "hours": {
+  "hour_many": {
     "message": "часов",
     "description": "Options"
   },
@@ -127,15 +127,15 @@
     "message": "Загрузка wallabag API…",
     "description": "Popup"
   },
-  "minute": {
+  "minute_one": {
     "message": "минуту",
     "description": "Options"
   },
-  "minutes24": {
+  "minute_few": {
     "message": "минуты",
     "description": "Options"
   },
-  "minutes": {
+  "minute_many": {
     "message": "минут",
     "description": "Options"
   },

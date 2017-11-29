@@ -39,11 +39,11 @@
     "message": "Client secret",
     "description": "Options"
   },
-  "day": {
+  "day_one": {
     "message": "day",
     "description": "Options"
   },
-  "days": {
+  "day_many": {
     "message": "days",
     "description": "Options"
   },
@@ -99,11 +99,11 @@
     "message": "Granted",
     "description": "Options"
   },
-  "hour": {
+  "hour_one": {
     "message": "hour",
     "description": "Options"
   },
-  "hours": {
+  "hour_many": {
     "message": "hours",
     "description": "Options"
   },
@@ -119,11 +119,11 @@
     "message": "Loading wallabag API…",
     "description": "Popup"
   },
-  "minute": {
+  "minute_one": {
     "message": "minute",
     "description": "Options"
   },
-  "minutes": {
+  "minute_many": {
     "message": "minutes",
     "description": "Options"
   },
