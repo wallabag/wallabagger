@@ -164,6 +164,7 @@ OptionsController.prototype = {
     },
 
     getTokenExpireTime: function () {
+        const locale = Common.getLocale();
         const expMs = this.data.ExpireDate - Date.now();
         if (expMs < 0) {
             return Common.translate('Expired');
@@ -171,17 +172,27 @@ OptionsController.prototype = {
         const expSec = Math.floor(expMs / 1000);
         const expMin = Math.floor(expSec / 60);
         if (expMin < 60) {
-            const unit = expMin > 1 ? Common.translate('minutes') : Common.translate('minute');
+            const unit = this._getUnit(expMin, 'minute', locale);
             return `${expMin} ${unit}`;
         }
         const expHours = Math.floor(expMin / 60);
         if (expHours < 24) {
-            const unit = expHours > 1 ? Common.translate('hours') : Common.translate('hour');
+            const unit = this._getUnit(expHours, 'hour', locale);
             return `${expHours} ${unit}`;
         }
         const expDays = Math.floor(expHours / 24);
-        const unit = expDays > 1 ? Common.translate('days') : Common.translate('day');
+        const unit = this._getUnit(expDays, 'day', locale);
         return `${expDays} ${unit}`;
+    },
+
+    _getUnit(value, key, locale) {
+        switch(locale) {
+            case 'ru':
+                const declension = value % 10;
+                return (value <= 14 && value >=11) ? Common.translate(`${key}_many`) : declension === 1 ? Common.translate(`${key}_one`) : declension < 5 ? Common.translate(`${key}_few`) : Common.translate(`${key}_many`);
+            default:
+                return value > 1 ? Common.translate(`${key}_many`) : Common.translate(`${key}_one`);
+        }
     },
 
     wallabagApiTokenNotGot: function () {
