@@ -39,16 +39,16 @@
     "message": "Client secret",
     "description": "Options"
   },
-  "day_one": {
-    "message": "день",
-    "description": "Options"
-  },
   "day_few": {
     "message": "дня",
     "description": "Options"
   },
   "day_many": {
     "message": "дней",
+    "description": "Options"
+  },
+  "day_one": {
+    "message": "день",
     "description": "Options"
   },
   "Delete_this_article": {
@@ -103,16 +103,16 @@
     "message": "Предоставлен",
     "description": "Options"
   },
-  "hour_one": {
-    "message": "час",
-    "description": "Options"
-  },
   "hour_few": {
     "message": "часa",
     "description": "Options"
   },
   "hour_many": {
     "message": "часов",
+    "description": "Options"
+  },
+  "hour_one": {
+    "message": "час",
     "description": "Options"
   },
   "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
@@ -127,16 +127,16 @@
     "message": "Загрузка wallabag API…",
     "description": "Popup"
   },
-  "minute_one": {
-    "message": "минуту",
-    "description": "Options"
-  },
   "minute_few": {
     "message": "минуты",
     "description": "Options"
   },
   "minute_many": {
     "message": "минут",
+    "description": "Options"
+  },
+  "minute_one": {
+    "message": "минуту",
     "description": "Options"
   },
   "No_leave_it": {

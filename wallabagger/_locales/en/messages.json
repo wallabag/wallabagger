@@ -39,12 +39,12 @@
     "message": "Client secret",
     "description": "Options"
   },
-  "day_one": {
-    "message": "day",
-    "description": "Options"
-  },
   "day_many": {
     "message": "days",
+    "description": "Options"
+  },
+  "day_one": {
+    "message": "day",
     "description": "Options"
   },
   "Delete_this_article": {
@@ -99,12 +99,12 @@
     "message": "Granted",
     "description": "Options"
   },
-  "hour_one": {
-    "message": "hour",
-    "description": "Options"
-  },
   "hour_many": {
     "message": "hours",
+    "description": "Options"
+  },
+  "hour_one": {
+    "message": "hour",
     "description": "Options"
   },
   "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
@@ -119,12 +119,12 @@
     "message": "Loading wallabag API…",
     "description": "Popup"
   },
-  "minute_one": {
-    "message": "minute",
-    "description": "Options"
-  },
   "minute_many": {
     "message": "minutes",
+    "description": "Options"
+  },
+  "minute_one": {
+    "message": "minute",
     "description": "Options"
   },
   "No_leave_it": {

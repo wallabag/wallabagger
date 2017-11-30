@@ -11,12 +11,12 @@
     "message": "Lus",
     "description": "background"
   },
-  "Article_s_title": {
-    "message": "Titre de l'article",
-    "description": "Popup"
-  },
   "Article_s_link": {
     "message": "Lien de l'article",
+    "description": "Popup"
+  },
+  "Article_s_title": {
+    "message": "Titre de l'article",
     "description": "Popup"
   },
   "Cancel": {
@@ -39,12 +39,12 @@
     "message": "Clé secrète",
     "description": "Options"
   },
-  "day_one": {
-    "message": "jour",
-    "description": "Options"
-  },
   "day_many": {
     "message": "jours",
+    "description": "Options"
+  },
+  "day_one": {
+    "message": "jour",
     "description": "Options"
   },
   "Delete_this_article": {
@@ -99,12 +99,12 @@
     "message": "Accordé",
     "description": "Options"
   },
-  "hour_one": {
-    "message": "heure",
-    "description": "Options"
-  },
   "hour_many": {
     "message": "heures",
+    "description": "Options"
+  },
+  "hour_one": {
+    "message": "heure",
     "description": "Options"
   },
   "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
@@ -119,12 +119,12 @@
     "message": "Chargement de l'API de wallabag…",
     "description": "Popup"
   },
-  "minute_one": {
-    "message": "minute",
-    "description": "Options"
-  },
   "minute_many": {
     "message": "minutes",
+    "description": "Options"
+  },
+  "minute_one": {
+    "message": "minute",
     "description": "Options"
   },
   "No_leave_it": {
@@ -163,13 +163,13 @@
     "message": "Enregistrer dans un fichier",
     "description": "Options"
   },
-  "State": {
-    "message": "État",
-    "description": "Options"
-  },
   "Saving_tags": {
     "message": "Enregistrement des tags…",
     "description": "Popup"
+  },
+  "Saving_the_page_to_wallabag": {
+    "message": "Enregistrement de la page dans wallabag…",
+    "description": "background"
   },
   "Set_this_article_as_archived_into_Wallabag": {
     "message": "Marquer cet article comme lu dans Wallabag",
@@ -183,9 +183,9 @@
     "message": "Favoris",
     "description": "background"
   },
-  "Saving_the_page_to_wallabag": {
-    "message": "Enregistrement de la page dans wallabag…",
-    "description": "background"
+  "State": {
+    "message": "État",
+    "description": "Options"
   },
   "Tag_already_exists": {
     "message": "Tag déjà existant",
