@@ -6,13 +6,17 @@
     <title>Wallabagger options</title>
     <link rel="stylesheet" href="css/spectre.min.css">
     <style>
-        body { padding: 10px; min-width: 800px; background-color: transparent; font-size: 1.3rem }
+        body { padding: 0 10px 10px; min-width: 800px; background-color: transparent; font-size: 1.3rem }
         form, section { margin-top: 5px; }
         .btn,
         .form-input,
         .input-group .input-group-addon {
             height: auto;
             line-height: 1.5;
+        }
+
+        .form-group:not(:last-child) {
+            margin-bottom: 0.5rem;
         }
 
         .wallabag-url .input-group-addon {
