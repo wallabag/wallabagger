@@ -10,6 +10,9 @@
   ],
   "scripts": {
     "eslint": "eslint wallabagger/js/*",
+    "manifest": "npm run manifest:firefox && npm run manifest:chrome",
+    "manifest:firefox": "wemf --browser firefox --validate wallabagger/manifest.json",
+    "manifest:chrome": "wemf --browser chrome --validate wallabagger/manifest.json",
     "test": "npm run eslint"
   },
   "repository": {
@@ -33,6 +36,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "wemf": "^1.2.1"
   }
 }
