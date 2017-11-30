@@ -185,11 +185,11 @@ OptionsController.prototype = {
         return `${expDays} ${unit}`;
     },
 
-    _getUnit(value, key, locale) {
-        switch(locale) {
+    _getUnit (value, key, locale) {
+        switch (locale) {
             case 'ru':
                 const declension = value % 10;
-                return (value <= 14 && value >=11) ? Common.translate(`${key}_many`) : declension === 1 ? Common.translate(`${key}_one`) : declension < 5 ? Common.translate(`${key}_few`) : Common.translate(`${key}_many`);
+                return (value <= 14 && value >= 11) ? Common.translate(`${key}_many`) : declension === 1 ? Common.translate(`${key}_one`) : declension < 5 ? Common.translate(`${key}_few`) : Common.translate(`${key}_many`);
             default:
                 return value > 1 ? Common.translate(`${key}_many`) : Common.translate(`${key}_one`);
         }

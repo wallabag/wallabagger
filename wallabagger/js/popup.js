@@ -235,11 +235,16 @@ PopupController.prototype = {
     },
 
     findTags: function (search) {
-        this.foundTags = this.allTags.filter(tag => (this.articleTags.concat(this.dirtyTags).map(t => t.id).indexOf(tag.id) === -1) &&
-            (this.tagsInput.value.length >= 3 &&
-            tag.label.toUpperCase().indexOf(this.tagsInput.value.toUpperCase()) !== -1) ||
-            (this.tagsInput.value === tag.label) &&
-            (this.articleTags.concat(this.dirtyTags).map(t => t.label).indexOf(this.tagsInput.value) === -1)
+        this.foundTags = this.allTags.filter(tag =>
+            (
+                (this.articleTags.concat(this.dirtyTags).map(t => t.id).indexOf(tag.id) === -1) &&
+                (this.tagsInput.value.length >= 3 &&
+                tag.label.toUpperCase().indexOf(this.tagsInput.value.toUpperCase()) !== -1)
+            ) ||
+            (
+                (this.tagsInput.value === tag.label) &&
+                (this.articleTags.concat(this.dirtyTags).map(t => t.label).indexOf(this.tagsInput.value) === -1)
+            )
         );
 
         this.foundTags.map(tag => this.tagsAutoCompleteList.appendChild(this.createTagChipNoClose(tag.id, tag.label)));

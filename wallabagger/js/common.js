@@ -1,3 +1,4 @@
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Common" }] */
 'use strict';
 
 const Common = (() => {
