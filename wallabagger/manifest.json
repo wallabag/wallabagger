@@ -1,43 +1,50 @@
 {
-   "manifest_version": 2,
-   "name": "Wallabagger",
-   "default_locale": "en",
-    "version": "1.4.4",
-    "description": "__MSG_Extension_description__",
-    "icons": { "16": "img/wallabag-icon-48a.png",
-               "128": "img/wallabag-icon-128.png" },
-    "browser_action": {
-        "default_title": "Wallabagger",
-        "default_icon": "img/wallabag-icon-48a.png",
-        "default_popup": "popup.html"
+  "name": "Wallabagger",
+  "manifest_version": 2,
+  "default_locale": "en",
+  "version": "1.4.4",
+  "description": "__MSG_Extension_description__",
+  "icons": {
+    "16": "img/wallabag-icon-48a.png",
+    "128": "img/wallabag-icon-128.png"
+  },
+  "browser_action": {
+    "default_title": "Wallabagger",
+    "default_icon": "img/wallabag-icon-48a.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": [
+      "js/common.js",
+      "js/fetch-api.js",
+      "js/wallabag-api.js",
+      "js/background.js"
+    ]
+  },
+  "permissions": [
+    "*://*/",
+    "tabs",
+    "storage",
+    "contextMenus"
+  ],
+  "options_ui": {
+    "page": "options.html"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+W",
+        "windows": "Alt+W",
+        "mac": "Alt+W"
+      }
     },
-    "background": {
-        "scripts": [ "js/common.js", "js/fetch-api.js", "js/wallabag-api.js", "js/background.js" ]
-    },
-    "permissions": [
-        "*://*/",
-        "tabs",
-        "storage",
-        "contextMenus"
-    ],
-    "options_ui": {
-        "page": "options.html"
-    },
-    "commands": {
-        "_execute_browser_action": {
-            "suggested_key": {
-              "default": "Alt+W",
-              "windows": "Alt+W",
-              "mac": "Alt+W"
-            }
-        },
-        "wallabag-it": {
-            "suggested_key": {
-              "default": "Alt+Shift+W",
-              "windows": "Alt+Shift+W",
-              "mac": "Alt+Shift+W"
-            },
-            "description": "__MSG_Wallabag_it_description__"
-        }
+    "wallabag-it": {
+      "suggested_key": {
+        "default": "Alt+Shift+W",
+        "windows": "Alt+Shift+W",
+        "mac": "Alt+Shift+W"
+      },
+      "description": "__MSG_Wallabag_it_description__"
     }
+  }
 }
