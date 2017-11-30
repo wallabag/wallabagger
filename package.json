@@ -12,8 +12,17 @@
     "eslint": "eslint wallabagger/js/*",
     "manifest": "npm run manifest:firefox && npm run manifest:chrome",
     "manifest:firefox": "wemf --browser firefox --validate wallabagger/manifest.json",
+    "manifest:firefox:update": "wemf --browser firefox wallabagger/manifest.json -U",
     "manifest:chrome": "wemf --browser chrome --validate wallabagger/manifest.json",
     "test": "npm run eslint"
+  },
+  "webextension": {
+    "name": "Wallabagger",
+    "applications": {
+      "gecko": {
+        "strict_min_version": "52.0"
+      }
+    }
   },
   "repository": {
     "type": "git",
