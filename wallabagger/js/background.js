@@ -123,9 +123,8 @@ function onTabCreatedListener (tab) {
 }
 
 function onTabUpdatedListener (tabId, changeInfo, tab) {
-    if (changeInfo.status === 'loading' && tab.active) {
-        saveExistFlag(tab.url, existStates.notexists);
-        requestExists(tab.url);
+    if ((changeInfo.status === 'loading') && tab.active) {
+        checkExist(tab.url);
     }
 }
 
@@ -491,7 +490,10 @@ const saveExistFlag = (url, exists) => {
     existCache.set(url, exists);
 };
 
-const isServicePage = (url) => RegExp('((chrome|about|browser):(.*)|' + api.data.Url + ')', 'g').test(url);
+const isServicePage = (url) => {
+    return RegExp('^(?!http(s?):(.*))').test(url) ||
+      RegExp('^' + api.data.Url + '(.*)').test(url);
+};
 
 const addToAllTags = (tags) => {
     if (tags.length === 0) { return; }
