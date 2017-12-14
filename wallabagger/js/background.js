@@ -456,8 +456,9 @@ function savePageToWallabag (url, resetIcon) {
 
 const GotoWallabag = (part) => api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${part}/list` });
 
-const checkExist = (url) => {
-    if (isServicePage(url)) { return; }
+const checkExist = (dirtyUrl) => {
+    if (isServicePage(dirtyUrl)) { return; }
+    const url = dirtyUrl.split('#')[0];
     if (existCache.check(url)) {
         const existsFlag = existCache.get(url);
         if (existsFlag === existStates.exists) {
