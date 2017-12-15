@@ -491,10 +491,7 @@ const saveExistFlag = (url, exists) => {
     existCache.set(url, exists);
 };
 
-const isServicePage = (url) => {
-    return RegExp('^(?!http(s?):(.*))').test(url) ||
-      RegExp('^' + api.data.Url + '(.*)').test(url);
-};
+const isServicePage = (url) => !/^https?:\/\/.+/.test(url) || RegExp('^' + api.data.Url).test(url);
 
 const addToAllTags = (tags) => {
     if (tags.length === 0) { return; }
