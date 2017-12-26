@@ -80,7 +80,7 @@
     "description": "Options"
   },
   "Extension_description": {
-    "message": "This wallabag v2 extension has the ability to edit title and tags and set starred, archived, or delete states. You can add a page from the icon or through the right click menu on a link or on a blank page spot.",
+    "message": "This wallabag v2 extension has the ability to edit title and tags and set starred, archived, or delete states.",
     "description": "Manifest.json"
   },
   "Get_token": {

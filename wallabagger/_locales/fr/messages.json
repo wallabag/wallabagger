@@ -80,7 +80,7 @@
     "description": "Options"
   },
   "Extension_description": {
-    "message": "Cette extension pour Wallabag v2 permet d'éditer le titre de la page, les tags, changer l'état en tant que favori, archivé ou supprimé. Ajoutez une page depuis l'icône ou via le menu du clic droit sur un lien ou une partie vide de la page.",
+    "message": "Extension pour Wallabag qui permet d'éditer le titre de la page, les tags, changer l'état en tant que favori, archivé ou supprimé.",
     "description": "Manifest.json"
   },
   "Get_token": {
