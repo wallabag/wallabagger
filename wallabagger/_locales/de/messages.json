@@ -12,11 +12,11 @@
     "description": "background"
   },
   "Article_s_link": {
-    "message": "Artikel-Link",
+    "message": "Artikellink",
     "description": "Popup"
   },
   "Article_s_title": {
-    "message": "Artikel-Titel",
+    "message": "Artikeltitel",
     "description": "Popup"
   },
   "Cancel": {
@@ -36,7 +36,7 @@
     "description": "Options"
   },
   "Client_secret": {
-    "message": "Client secret",
+    "message": "Client Secret",
     "description": "Options"
   },
   "day_many": {
@@ -52,7 +52,7 @@
     "description": "Popup"
   },
   "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
-    "message": "Möchten Sie diesen Artikel dauerhaft aus Wallabag entfernen?",
+    "message": "Möchten Sie diesen Artikel dauerhaft aus wallabag entfernen?",
     "description": "Popup"
   },
   "Download_file": {
@@ -60,11 +60,11 @@
     "description": "Options"
   },
   "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
-    "message": Aus Sicherheitsgründen kann diese Option nur bei aktiviertem HTTPS-Protokoll genutzt werden.",
+    "message": "Aus Sicherheitsgründen kann diese Option nur bei aktiviertem HTTPS-Protokoll genutzt werden.",
     "description": "Options"
   },
   "Edit_the_Wallabag_title_of_this_article": {
-    "message": "Wallabag Artikel-Titel bearbeiten",
+    "message": "Wallabag Artikeltitel bearbeiten",
     "description": "Popup"
   },
   "Enable_this_only_if_developers_told_you_to": {
@@ -92,7 +92,7 @@
     "description": "Popup"
   },
   "Go_to_Wallabag_s_article_page": {
-    "message": "Gehe zu Wallabags Artikelseite",
+    "message": "Gehe zu wallabags Artikelseite",
     "description": "Popup"
   },
   "Granted": {
@@ -116,7 +116,7 @@
     "description": "Options"
   },
   "Loading_wallabag_API": {
-    "message": "Lade Wallabag-API…",
+    "message": "Lade wallabag-API…",
     "description": "Popup"
   },
   "minute_many": {
@@ -144,15 +144,15 @@
     "description": "Options"
   },
   "Ok_I_understand": {
-    "message": "OK, ich hab's verstanden.",
+    "message": "OK, ich hab's verstanden",
     "description": "Options"
   },
   "Remove_this_article_from_Wallabag": {
-    "message": "Diesen Artikel aus Wallabag löschen",
+    "message": "Diesen Artikel aus wallabag löschen",
     "description": "Popup"
   },
   "Reset_parameters": {
-    "message": "Parameter-Reset",
+    "message": "Parameter zurücksetzen",
     "description": "Options"
   },
   "Save": {
@@ -168,15 +168,15 @@
     "description": "Popup"
   },
   "Saving_the_page_to_wallabag": {
-    "message": "Speichere Seite in Wallabag…",
+    "message": "Speichere Seite in wallabag…",
     "description": "background"
   },
   "Set_this_article_as_archived_into_Wallabag": {
-    "message": "Diesen Artikel in Wallabag als gelesen markieren",
+    "message": "Diesen Artikel in wallabag als gelesen markieren",
     "description": "Popup"
   },
   "Set_this_article_as_starred_into_Wallabag": {
-    "message": "Diesen Artikel in Wallabag als Favorit markieren",
+    "message": "Diesen Artikel in wallabag als Favorit markieren",
     "description": "Popup"
   },
   "Starred": {
@@ -208,11 +208,11 @@
     "description": "background"
   },
   "Unset_this_article_as_archived_into_Wallabag": {
-    "message": "Diesen Artikel in Wallabag als ungelesen markieren",
+    "message": "Diesen Artikel in wallabag als ungelesen markieren",
     "description": "Popup"
   },
   "Unset_this_article_as_starred_into_Wallabag": {
-    "message": "Diesen Artikel in Wallabag aus den Favoriten entfernen",
+    "message": "Diesen Artikel in wallabag aus den Favoriten entfernen",
     "description": "Popup"
   },
   "Use_HTTPS": {
@@ -224,7 +224,7 @@
     "description": "Options"
   },
   "User_password": {
-    "message": "Benutzer Passwort",
+    "message": "Benutzerpasswort",
     "description": "Options"
   },
   "Wallabag_API_token": {
@@ -240,7 +240,7 @@
     "description": "background"
   },
   "Wallabag_it_description": {
-    "message": "Seite in Wallabag speichern, ohne das Popup zu öffnen",
+    "message": "Seite in wallabag speichern, ohne das Popup zu öffnen",
     "description": "Manifest.json"
   },
   "Wallabag_URL": {
