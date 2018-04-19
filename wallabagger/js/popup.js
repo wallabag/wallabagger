@@ -78,7 +78,8 @@ PopupController.prototype = {
 
     decodeStr: function (param) {
         for (let prop in this.decodeMap) {
-            param = param.replace(prop, this.decodeMap[prop]);
+            let propRegExp = new RegExp(prop, 'g');
+            param = param.replace(propRegExp, this.decodeMap[prop]);
         }
         return param;
     },
