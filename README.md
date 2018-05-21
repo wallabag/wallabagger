@@ -19,6 +19,7 @@ More informations on website: [wallabag.org](https://wallabag.org) and [github.c
 
 - Wallabag v.2 on server side.
 - Chrome-based browser or Firefox browser v.48 and higher
+- Edge browser v.14 and higher
 
 ## Installation
 
@@ -27,6 +28,7 @@ More informations on website: [wallabag.org](https://wallabag.org) and [github.c
 - As unpacked folder (developer mode)
 - Opera and Yandex browsers users can install the extension from [Opera extension site](https://addons.opera.com/ru/extensions/details/wallabagger/)
 - Firefox browsers users can install the extension from [Mozilla add-ons storage](https://addons.mozilla.org/en-US/firefox/addon/wallabagger/)
+- Edge browser users can install the extension from [Microsoft store](https://www.microsoft.com/en-us/store/p/wallabagger/9p41cnlppmfz)
 
 ## Configuration
 
