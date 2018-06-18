@@ -114,6 +114,9 @@ function onTabActivatedListener (activeInfo) {
     browserIcon.set('default');
     const { tabId } = activeInfo;
     browser.tabs.get(tabId, function (tab) {
+        if (tab.incognito) {
+            return;
+        }
         checkExist(tab.url);
     });
 }
@@ -123,6 +126,9 @@ function onTabCreatedListener (tab) {
 }
 
 function onTabUpdatedListener (tabId, changeInfo, tab) {
+    if (tab.incognito) {
+        return;
+    }
     if ((changeInfo.status === 'loading') && tab.active) {
         checkExist(tab.url);
     }
