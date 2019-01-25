@@ -7,7 +7,8 @@ FetchApi.prototype = {
             method: method,
             headers: this.getHeaders(token),
             mode: 'cors',
-            cache: 'default'
+            cache: 'default',
+            credentials: 'omit'
         };
         if (content !== '') {
             options = Object.assign(options, { body: JSON.stringify(content) });
