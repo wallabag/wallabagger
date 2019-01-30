@@ -425,8 +425,6 @@ PopupController.prototype = {
             data.preview_picture.length > 0 &&
             data.preview_picture.indexOf('http') === 0) {
             this.cardImage.src = data.preview_picture;
-        } else {
-            this.hide(this.cardImage);
         }
 
         if (data.is_starred !== undefined) {
