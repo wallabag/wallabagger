@@ -51,6 +51,7 @@ span.icon {
     max-width: 444px;
     max-height: 250px;
     overflow: hidden;
+    margin: 10px auto auto;
 }
 
 .pb-30 {
