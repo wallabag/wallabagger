@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Wallabagger options</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/spectre.min.css">
     <style>
         body {
@@ -21,11 +22,7 @@
             height: 64px;
         }
         .columns {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .col-6 {
-            min-width: 400px;
+            display: block;
         }
         .btn,
         .form-input,
@@ -49,11 +46,8 @@
 
         .url-group {
             display: flex;
+            min-width: 70%;
             flex-grow: 1;
-        }
-
-        .wallabag-url {
-            flex: 1 0 180px;
         }
 
         .wallabag-url-group {
@@ -69,13 +63,29 @@
         .params-button {
             margin-bottom: 5px;
         }
+
+        @media (min-width: 500px) {
+            .columns {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-column {
+                min-width: 500px;
+            }
+
+            .side-column {
+                min-width: 300px;
+            }
+        }
     </style>
 </head>
 
 <body>
     <img src="img/wallabag-icon-128.png" alt="wallabag logo" class="main-logo">
     <div class="columns">
-        <div class="column col-6">
+        <div class="column main-column">
             <form action="." id="wallabagurl-section">
                 <div class="form-group">
                     <label class="form-label" for="input-wallabagurl" data-i18n="Wallabag_URL">Wallabag URL</label>
@@ -128,7 +138,7 @@
 
             </form>
         </div>
-        <div class="column col-6">
+        <div class="column side-column">
             <table class="table">
                 <thead>
                     <tr>
