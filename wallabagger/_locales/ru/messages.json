@@ -216,7 +216,7 @@
     "description": "Options"
   },
   "Unread": {
-    "message": "Нерочитано",
+    "message": "Непрочитано",
     "description": "background"
   },
   "Unset_this_article_as_archived_into_Wallabag": {
