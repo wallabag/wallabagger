@@ -310,10 +310,19 @@ function onRuntimeConnect (port) {
     Port.onMessage.addListener(onPortMessage);
 }
 
+function onRuntimeInstalled (details) {
+    if (details.reason === 'install') {
+        browser.tabs.create({
+            url: chrome.runtime.getURL('/options.html')
+        });
+    }
+}
+
 function addListeners () {
     browser.contextMenus.onClicked.addListener(onContextMenusClicked);
     browser.commands.onCommand.addListener(onCommandsCommand);
     browser.runtime.onConnect.addListener(onRuntimeConnect);
+    browser.runtime.onInstalled.addListener(onRuntimeInstalled);
 }
 
 const browserIcon = {
