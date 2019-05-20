@@ -152,6 +152,20 @@ function addExistCheckListeners (enable) {
     }
 }
 
+function openOptionsPage () {
+    postIfConnected({ response: 'close' });
+    const optionsPageUrl = browser.runtime.getManifest().options_ui.page;
+    browser.tabs.query({url: optionsPageUrl}).then(function (res) {
+        if (res.length === 0) {
+            browser.tabs.create({
+                url: chrome.runtime.getURL(optionsPageUrl)
+            });
+        } else {
+            browser.tabs.update(res[0].id, {active: true});
+        }
+    });
+}
+
 function onContextMenusClicked (info) {
     switch (info.menuItemId) {
         case 'wallabagger-add-link':
@@ -230,6 +244,9 @@ function onPortMessage (msg) {
                 else {
                   postIfConnected({ response: 'setup', data: api.data }); 
                 }
+                break;
+            case 'setup-open':
+                openOptionsPage();
                 break;
             case 'setup-save':
                 api.setsave(msg.data);
@@ -317,9 +334,7 @@ function onRuntimeConnect (port) {
 
 function onRuntimeInstalled (details) {
     if (details.reason === 'install') {
-        browser.tabs.create({
-            url: chrome.runtime.getURL('/options.html')
-        });
+        openOptionsPage();
     }
 }
 
@@ -427,6 +442,10 @@ function moveToDirtyCache (url) {
 function savePageToWallabag (url, resetIcon) {
     if (isServicePage(url)) {
         return;
+    }
+    if (api.data.Url === null) {
+        openOptionsPage();
+        return false;
     }
     // if WIP and was some dirty changes, return dirtyCache
     let exists = existCache.check(url) ? existCache.get(url) : existStates.notexists;
