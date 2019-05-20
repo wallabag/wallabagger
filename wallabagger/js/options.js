@@ -301,26 +301,46 @@ OptionsController.prototype = {
 
     checkUrlClick: function (e) {
         e.preventDefault();
-
-        if (this.wallabagurlinput_.value !== '') {
-            this.wallabagurlinput_.value = this._urlSanitized(this.wallabagurlinput_.value);
-            Object.assign(this.data, { Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value });
+        const urlDirty = this._getUrl();
+        if (urlDirty !== '') {
+            this._setProtocolCheck(urlDirty);
+            this._setUrl(urlDirty);
+            Object.assign(this.data, { Url: this.protocolLabel_.textContent + this._getUrl() });
             this.port.postMessage({request: 'setup-checkurl', data: this.data});
         }
     },
 
-    _urlSanitized: function (url) {
-        return url.replace(/\/$/, '');
+    _urlSanitized: function (urlDirty) {
+        const url = urlDirty
+            .replace(new RegExp(/^http(s?):\/\//, 'gm'), '')
+            .replace(/\/$/, '');
+        return url;
+    },
+
+    _setProtocolCheck (url) {
+        const re = /^(http|https):\/\/(.*)/;
+        if (re.test(url)) {
+            const res = re.exec(url);
+            this.protocolCheck_.checked = (res[1] === 'https');
+            this.protocolLabel_.textContent = res[1] + '://';
+        };
+    },
+
+    _getUrl () {
+        return this.wallabagurlinput_.value;
+    },
+
+    _setUrl (urlDirty) {
+        const url = this._urlSanitized(urlDirty);
+        this.wallabagurlinput_.value = url;
     },
 
     setFields: function () {
-        const re = /^(http|https):\/\/(.*)/;
-        if (re.test(this.data.Url)) {
-            const res = re.exec(this.data.Url);
-            this.protocolCheck_.checked = (res[1] === 'https');
-            this.protocolLabel_.textContent = res[1] + '://';
-            this.wallabagurlinput_.value = res[2];
-        };
+        const urlDirty = this.data.Url;
+        if (typeof (urlDirty) === 'string' && urlDirty.length > 0) {
+            this._setProtocolCheck(urlDirty);
+            this._setUrl(urlDirty);
+        }
 
         if (this.wallabagurlinput_.value !== '') {
             this._show(this.tokenSection_);

@@ -310,10 +310,19 @@ function onRuntimeConnect (port) {
     Port.onMessage.addListener(onPortMessage);
 }
 
+function onRuntimeInstalled (details) {
+    if (details.reason === 'install') {
+        browser.tabs.create({
+            url: chrome.runtime.getURL('/options.html')
+        });
+    }
+}
+
 function addListeners () {
     browser.contextMenus.onClicked.addListener(onContextMenusClicked);
     browser.commands.onCommand.addListener(onCommandsCommand);
     browser.runtime.onConnect.addListener(onRuntimeConnect);
+    browser.runtime.onInstalled.addListener(onRuntimeInstalled);
 }
 
 const browserIcon = {
@@ -444,7 +453,7 @@ function savePageToWallabag (url, resetIcon) {
                     postIfConnected({ response: 'article', article: cutArticle(data) });
                     cache.set(url, cutArticle(data));
                     saveExistFlag(url, existStates.exists);
-                    if (api.data.AllowExistCheck === false || resetIcon) {
+                    if (api.data.AllowExistCheck !== true || resetIcon) {
                         browserIcon.timedToDefault();
                     }
                 } else {
@@ -484,7 +493,7 @@ const requestExists = (url) =>
             let icon = 'default';
             if (data.exists) {
                 icon = 'good';
-                if (api.data.AllowExistCheck === false) {
+                if (api.data.AllowExistCheck !== true) {
                     browserIcon.setTimed(icon);
                 }
             }

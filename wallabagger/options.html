@@ -4,10 +4,26 @@
 <head>
     <meta charset="utf-8" />
     <title>Wallabagger options</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/spectre.min.css">
     <style>
-        body { padding: 0 10px 10px; min-width: 800px; background-color: transparent; font-size: 1.3rem }
+        body {
+            display: flex;
+            margin: 10px auto;
+            max-width: 800px;
+            flex-direction: column;
+            background-color: transparent;
+            font-size: 1.3rem;
+        }
         form, section { margin-top: 5px; }
+        .main-logo {
+            margin: 0 auto;
+            width: 64px;
+            height: 64px;
+        }
+        .columns {
+            display: block;
+        }
         .btn,
         .form-input,
         .input-group .input-group-addon {
@@ -27,18 +43,57 @@
         .wallabag-url .form-input {
             max-width: 60%;
         }
+
+        .url-group {
+            display: flex;
+            min-width: 70%;
+            flex-grow: 1;
+        }
+
+        .wallabag-url-group {
+            flex-wrap: wrap;
+        }
+
+        .params-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .params-button {
+            margin-bottom: 5px;
+        }
+
+        @media (min-width: 500px) {
+            .columns {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-column {
+                min-width: 500px;
+            }
+
+            .side-column {
+                min-width: 300px;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <img src="img/wallabag-icon-128.png" alt="wallabag logo" class="main-logo">
     <div class="columns">
-        <div class="column col-6">
+        <div class="column main-column">
             <form action="." id="wallabagurl-section">
                 <div class="form-group">
                     <label class="form-label" for="input-wallabagurl" data-i18n="Wallabag_URL">Wallabag URL</label>
-                    <div class="input-group wallabag-url">
-                        <span class="input-group-addon" id="input-group-wallabagurl">https://</span>
-                        <input class="form-input" type="text" id="input-wallabagurl" placeholder="app.wallabag.it" />
+                    <div class="input-group wallabag-url-group">
+                        <span class="url-group">
+                            <span class="input-group-addon" id="input-group-wallabagurl">https://</span>
+                            <input class="form-input wallabag-url" type="text" id="input-wallabagurl" placeholder="app.wallabag.it" />
+                        </span>
                         <button class="btn input-group-btn" id="checkurl-button" data-i18n="Check_URL">Check URL</button>
 
                     </div>
@@ -83,7 +138,7 @@
 
             </form>
         </div>
-        <div class="column col-6">
+        <div class="column side-column">
             <table class="table">
                 <thead>
                     <tr>
@@ -136,10 +191,10 @@
             </div>
         </div>
     </div>
-    <div class="column col-12 pt-10">
-        <button class="btn" id="clear-button" data-i18n="Reset_parameters">Reset parameters</button>
-        <button class="btn" id="saveToFile-button" data-i18n="Save_to_file">Save to file</button>
-        <button class="btn" id="loadFromFile-button" data-i18n="Load_from_file">Load from file</button>
+    <div class="column col-12 pt-10 params-buttons">
+        <button class="btn params-button" id="clear-button" data-i18n="Reset_parameters">Reset parameters</button>
+        <button class="btn params-button" id="saveToFile-button" data-i18n="Save_to_file">Save to file</button>
+        <button class="btn params-button" id="loadFromFile-button" data-i18n="Load_from_file">Load from file</button>
         <input type="file" style="display:none" id="openFile-dialog"/>
     </div>
 
