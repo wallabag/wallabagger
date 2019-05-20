@@ -497,6 +497,9 @@ PopupController.prototype = {
                 this.archived = msg.value.archived;
                 this.starred = msg.value.starred;
                 break;
+            case 'close':
+                window.close();
+                break;
             default:
                 console.log(`unknown message: ${msg}`);
         };
