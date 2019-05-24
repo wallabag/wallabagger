@@ -189,7 +189,7 @@ function onPortMessage (msg) {
     try {
         switch (msg.request) {
             case 'save':
-                savePageToWallabag(msg.tabUrl, false);
+                  savePageToWallabag(msg.tabUrl, false);
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
@@ -224,7 +224,12 @@ function onPortMessage (msg) {
                 saveExistFlag(msg.tabUrl, existStates.notexists);
                 break;
             case 'setup':
-                postIfConnected({ response: 'setup', data: api.data });
+                if (!api.checkParams()) { 
+                  postIfConnected({ response: 'error', error: { message: Common.translate('Options_not_defined') } });
+                }
+                else {
+                  postIfConnected({ response: 'setup', data: api.data }); 
+                }
                 break;
             case 'setup-save':
                 api.setsave(msg.data);

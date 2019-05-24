@@ -254,5 +254,9 @@
   "Yes_delete_it": {
     "message": "Oui, le supprimer",
     "description": "Popup"
+  },
+  "Options_not_defined": {
+    "message": "Wallabagger non configuré",
+    "description": "Background"
   }
 }

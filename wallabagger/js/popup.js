@@ -481,6 +481,14 @@ PopupController.prototype = {
             case 'setup':
                 this.AllowSpaceInTags = msg.data.AllowSpaceInTags || 0;
                 this.apiUrl = msg.data.Url;
+                this.port.postMessage({request: 'tags'});
+                this.activeTab().then(tab => {
+                    this.tabUrl = tab.url;
+                    this.cardTitle.textContent = tab.title;
+                    this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
+                    this.enableTagsInput();
+                    this.port.postMessage({request: 'save', tabUrl: tab.url});
+                });
                 break;
             case 'articleTags':
                 this.createTags(msg.tags);
@@ -498,14 +506,6 @@ PopupController.prototype = {
         this.port = browser.runtime.connect({name: 'popup'});
         this.port.onMessage.addListener(this.messageListener.bind(this));
         this.port.postMessage({request: 'setup'});
-        this.activeTab().then(tab => {
-            this.tabUrl = tab.url;
-            this.cardTitle.textContent = tab.title;
-            this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
-            this.enableTagsInput();
-            this.port.postMessage({request: 'save', tabUrl: tab.url});
-        });
-        this.port.postMessage({request: 'tags'});
     },
 
     showError: function (infoString) {
