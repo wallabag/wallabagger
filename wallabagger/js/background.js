@@ -250,9 +250,8 @@ function onPortMessage (msg) {
             case 'setup':
                 if (!api.checkParams()) {
                     postIfConnected({ response: 'error', error: { message: Common.translate('Options_not_defined') } });
-                } else {
-                    postIfConnected({ response: 'setup', data: api.data });
                 }
+                postIfConnected({ response: 'setup', data: api.data });
                 break;
             case 'setup-open':
                 openOptionsPage();
