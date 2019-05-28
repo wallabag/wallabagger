@@ -481,14 +481,7 @@ PopupController.prototype = {
             case 'setup':
                 this.AllowSpaceInTags = msg.data.AllowSpaceInTags || 0;
                 this.apiUrl = msg.data.Url;
-                this.port.postMessage({request: 'tags'});
-                this.activeTab().then(tab => {
-                    this.tabUrl = tab.url;
-                    this.cardTitle.textContent = tab.title;
-                    this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
-                    this.enableTagsInput();
-                    this.port.postMessage({request: 'save', tabUrl: tab.url});
-                });
+                this.afterSetup();
                 break;
             case 'articleTags':
                 this.createTags(msg.tags);
@@ -531,6 +524,21 @@ PopupController.prototype = {
 
     isHidden: function (element) {
         return element.classList.contains('hide');
+    },
+    
+    afterSetup: function() {
+        this.port.postMessage({request: 'tags'});
+        this.saveArticle();
+    },
+
+    saveArticle: function() {
+        this.activeTab().then(tab => {
+            this.tabUrl = tab.url;
+            this.cardTitle.textContent = tab.title;
+            this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
+            this.enableTagsInput();
+            this.port.postMessage({request: 'save', tabUrl: tab.url});
+        });
     }
 
 };
