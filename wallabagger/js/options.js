@@ -397,7 +397,7 @@ OptionsController.prototype = {
                 }
                 break;
             default:
-                if (this.data.Debug) {
+                if (this.data !== null && this.data.Debug) {
                     console.log(`unknown message: ${msg}`);
                 }
         };
