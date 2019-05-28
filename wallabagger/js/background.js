@@ -152,18 +152,28 @@ function addExistCheckListeners (enable) {
     }
 }
 
+function goToOptionsPage (optionsPageUrl, res) {
+    if (typeof (res) === 'undefined' || res.length === 0) {
+        browser.tabs.create({
+            url: optionsPageUrl
+        });
+    } else {
+        browser.tabs.update(res[0].id, {active: true});
+    }
+}
+
 function openOptionsPage () {
     postIfConnected({ response: 'close' });
-    const optionsPageUrl = browser.runtime.getManifest().options_ui.page;
-    browser.tabs.query({url: optionsPageUrl}).then(function (res) {
-        if (res.length === 0) {
-            browser.tabs.create({
-                url: chrome.runtime.getURL(optionsPageUrl)
-            });
-        } else {
-            browser.tabs.update(res[0].id, {active: true});
-        }
-    });
+    const optionsPageUrlFromManifest = browser.runtime.getManifest().options_ui.page;
+    const optionsPageUrl = browser.runtime.getURL(optionsPageUrlFromManifest);
+    try {
+        browser.tabs.query({url: optionsPageUrl}).then(goToOptionsPage(optionsPageUrl));
+    } catch (e) {
+        // @Opera
+        browser.tabs.query({url: optionsPageUrl}, function (res) {
+            goToOptionsPage(optionsPageUrl, res);
+        });
+    }
 }
 
 function onContextMenusClicked (info) {
