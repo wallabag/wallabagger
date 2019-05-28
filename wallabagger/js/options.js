@@ -285,6 +285,11 @@ OptionsController.prototype = {
             if (this.data.ApiVersion.split('.')[0] === '2') {
                 this.checkedLabel_.textContent = Common.translate('Ok');
                 this._green(this.wallabagurlinput_);
+                [...document.querySelectorAll('[data-wallabag-url]')].map(el => {
+                    const href = this.data.Url + el.innerText;
+                    el.href = href;
+                    el.innerText = href;
+                });
                 this._show(this.tokenSection_);
                 this._show(this.togglesSection);
             }

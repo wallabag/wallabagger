@@ -255,6 +255,10 @@
     "message": "Oui, le supprimer",
     "description": "Popup"
   },
+  "You_can_find_your_credentials_here": {
+    "message": "Vous pouvez trouver vos identifiants ici :",
+    "description": "Options"
+  },
   "Options_not_defined": {
     "message": "Wallabagger non configuré",
     "description": "Background"
