@@ -170,7 +170,7 @@ WallabagApi.prototype = {
             if (this.needNewAppToken()) {
                 resolve(this.PasswordToken());
             }
-            resolve(1);
+            resolve('Token ok.');
         });
     },
 
@@ -238,8 +238,7 @@ WallabagApi.prototype = {
                 return fetchData;
             })
             .catch(error => {
-                throw new Error(`Failed to get tags ${entriesUrl}
-                ${error.error_description}`);
+                throw new Error(`Failed to get tags ${entriesUrl} ${error.message}`);
             });
     },
 
