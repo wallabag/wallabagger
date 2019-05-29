@@ -451,7 +451,7 @@ function savePageToWallabag (url, resetIcon) {
     if (isServicePage(url)) {
         return;
     }
-    if (api.data.Url === null) {
+    if (api.checkParams() === false) {
         openOptionsPage();
         return false;
     }
