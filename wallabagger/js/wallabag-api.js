@@ -164,6 +164,9 @@ WallabagApi.prototype = {
 
     CheckToken: function () {
         return new Promise((resolve, reject) => {
+            if (!this.checkParams()) {
+                reject(new Error('Parameters not ok.'));
+            }
             if (this.needNewAppToken()) {
                 resolve(this.PasswordToken());
             }
@@ -223,6 +226,9 @@ WallabagApi.prototype = {
     },
 
     GetTags: function () {
+        if (!this.checkParams()) {
+            return false;
+        }
         let entriesUrl = `${this.data.Url}/api/tags.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Get(entriesUrl, this.data.ApiToken)
