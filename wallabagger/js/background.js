@@ -167,7 +167,7 @@ function openOptionsPage () {
     const optionsPageUrlFromManifest = browser.runtime.getManifest().options_ui.page;
     const optionsPageUrl = browser.runtime.getURL(optionsPageUrlFromManifest);
     try {
-        browser.tabs.query({url: optionsPageUrl}).then(goToOptionsPage(optionsPageUrl));
+        browser.tabs.query({url: optionsPageUrl}).then(res => goToOptionsPage(optionsPageUrl, res));
     } catch (e) {
         // @Opera
         browser.tabs.query({url: optionsPageUrl}, function (res) {

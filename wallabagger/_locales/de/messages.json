@@ -255,6 +255,10 @@
     "message": "Ja, löschen",
     "description": "Popup"
   },
+  "You_can_find_your_credentials_here": {
+    "message": "Ihre Zugangsdaten finden Sie hier:",
+    "description": "Options"
+  },
   "Options_not_defined": {
     "message": "Wallabagger nicht konfiguriert",
     "description": "Background"
