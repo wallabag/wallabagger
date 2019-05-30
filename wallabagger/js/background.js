@@ -497,6 +497,7 @@ function savePageToWallabag (url, resetIcon) {
         .catch(error => {
             browserIcon.setTimed('bad');
             saveExistFlag(url, existStates.notexists);
+            postIfConnected({ response: 'error', error: { message: Common.translate('Save_Error') } });
             throw error;
         });
 };

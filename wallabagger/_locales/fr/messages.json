@@ -262,5 +262,9 @@
   "Options_not_defined": {
     "message": "Wallabagger non configuré",
     "description": "Background"
+  },
+  "Save_Error": {
+    "message": "An error occurred while saving the article",
+    "description": "Background"
   }
 }
