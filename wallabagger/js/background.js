@@ -158,7 +158,7 @@ function goToOptionsPage (optionsPageUrl, res) {
             url: optionsPageUrl
         });
     } else {
-        browser.tabs.update(res[0].id, {active: true});
+        browser.tabs.update(res[0].id, { active: true });
     }
 }
 
@@ -167,10 +167,10 @@ function openOptionsPage () {
     const optionsPageUrlFromManifest = browser.runtime.getManifest().options_ui.page;
     const optionsPageUrl = browser.runtime.getURL(optionsPageUrlFromManifest);
     try {
-        browser.tabs.query({url: optionsPageUrl}).then(res => goToOptionsPage(optionsPageUrl, res));
+        browser.tabs.query({ url: optionsPageUrl }).then(res => goToOptionsPage(optionsPageUrl, res));
     } catch (e) {
         // @Opera
-        browser.tabs.query({url: optionsPageUrl}, function (res) {
+        browser.tabs.query({ url: optionsPageUrl }, function (res) {
             goToOptionsPage(optionsPageUrl, res);
         });
     }
@@ -218,10 +218,10 @@ function onPortMessage (msg) {
             case 'tags':
                 if (!cache.check('allTags')) {
                     api.GetTags()
-                            .then(data => {
-                                postIfConnected({ response: 'tags', tags: data });
-                                cache.set('allTags', data);
-                            });
+                        .then(data => {
+                            postIfConnected({ response: 'tags', tags: data });
+                            cache.set('allTags', data);
+                        });
                 } else {
                     postIfConnected({ response: 'tags', tags: cache.get('allTags') });
                 }
@@ -233,7 +233,7 @@ function onPortMessage (msg) {
                         cache.set(msg.tabUrl, cutArticle(data));
                     });
                 } else {
-                    dirtyCacheSet(msg.tabUrl, {title: msg.title});
+                    dirtyCacheSet(msg.tabUrl, { title: msg.title });
                 }
                 break;
             case 'deleteArticle':
@@ -242,7 +242,7 @@ function onPortMessage (msg) {
                         cache.clear(msg.tabUrl);
                     });
                 } else {
-                    dirtyCacheSet(msg.tabUrl, {deleted: true});
+                    dirtyCacheSet(msg.tabUrl, { deleted: true });
                 }
                 browserIcon.set('default');
                 saveExistFlag(msg.tabUrl, existStates.notexists);
@@ -264,27 +264,27 @@ function onPortMessage (msg) {
             case 'setup-gettoken':
                 api.setsave(msg.data);
                 api.PasswordToken()
-                        .then(a => {
-                            postIfConnected({ response: 'setup-gettoken', data: api.data, result: true });
-                            if (!cache.check('allTags')) {
-                                api.GetTags()
+                    .then(a => {
+                        postIfConnected({ response: 'setup-gettoken', data: api.data, result: true });
+                        if (!cache.check('allTags')) {
+                            api.GetTags()
                                 .then(data => { cache.set('allTags', data); });
-                            }
-                        })
-                        .catch(a => {
-                            postIfConnected({ response: 'setup-gettoken', data: api.data, result: false });
-                        });
+                        }
+                    })
+                    .catch(a => {
+                        postIfConnected({ response: 'setup-gettoken', data: api.data, result: false });
+                    });
                 break;
             case 'setup-checkurl':
                 api.setsave(msg.data);
                 api.CheckUrl()
-                        .then(a => {
-                            postIfConnected({ response: 'setup-checkurl', data: api.data, result: true });
-                        })
-                        .catch(a => {
-                            api.clear();
-                            postIfConnected({ response: 'setup-checkurl', data: api.data, result: false });
-                        });
+                    .then(a => {
+                        postIfConnected({ response: 'setup-checkurl', data: api.data, result: true });
+                    })
+                    .catch(a => {
+                        api.clear();
+                        postIfConnected({ response: 'setup-checkurl', data: api.data, result: false });
+                    });
                 break;
             case 'deleteArticleTag':
                 if (msg.articleId !== -1) {
@@ -293,7 +293,7 @@ function onPortMessage (msg) {
                         cache.set(msg.tabUrl, cutArticle(data));
                     });
                 } else {
-                    dirtyCacheSet(msg.tabUrl, {tagList: msg.tags});
+                    dirtyCacheSet(msg.tabUrl, { tagList: msg.tags });
                 }
                 break;
             case 'saveTags':
@@ -303,23 +303,23 @@ function onPortMessage (msg) {
                         cache.set(msg.tabUrl, cutArticle(data));
                         return data;
                     })
-                    .then(data => {
-                        addToAllTags(data.tags);
-                    });
+                        .then(data => {
+                            addToAllTags(data.tags);
+                        });
                 } else {
                     addDirtyToAllTags(msg.tags);
-                    dirtyCacheSet(msg.tabUrl, {tagList: msg.tags});
+                    dirtyCacheSet(msg.tabUrl, { tagList: msg.tags });
                 }
                 break;
             case 'SaveStarred':
             case 'SaveArchived':
                 if (msg.articleId !== -1) {
                     api[msg.request](msg.articleId, msg.value ? 1 : 0).then(data => {
-                        postIfConnected({ response: 'action', value: {starred: data.is_starred, archived: data.is_archived} });
+                        postIfConnected({ response: 'action', value: { starred: data.is_starred, archived: data.is_archived } });
                         cache.set(msg.tabUrl, cutArticle(data));
                     });
                 } else {
-                    dirtyCacheSet(msg.tabUrl, (msg.request === 'SaveStarred') ? {is_starred: msg.value} : {is_archived: msg.value});
+                    dirtyCacheSet(msg.tabUrl, (msg.request === 'SaveStarred') ? { is_starred: msg.value } : { is_archived: msg.value });
                 }
                 break;
             default: {
@@ -387,7 +387,7 @@ function applyDirtyCacheLight (key, data) {
         const dirtyObject = dirtyCache.get(key);
         if (!dirtyObject.deleted) {
             if ((dirtyObject.title !== undefined) || (dirtyObject.is_archived !== undefined) ||
-                 (dirtyObject.is_starred !== undefined) || (dirtyObject.tagList !== undefined)) {
+                (dirtyObject.is_starred !== undefined) || (dirtyObject.tagList !== undefined)) {
                 data.changed = true;
             }
             data.title = dirtyObject.title !== undefined ? dirtyObject.title : data.title;
@@ -395,9 +395,9 @@ function applyDirtyCacheLight (key, data) {
             data.is_starred = dirtyObject.is_starred !== undefined ? dirtyObject.is_starred : data.is_starred;
             data.tagList =
             (dirtyObject.tagList !== undefined ? dirtyObject.tagList.split(',') : [])
-            .concat(data.tags.map(t => t.label))
-            .filter((v, i, a) => a.indexOf(v) === i)
-            .join(',');
+                .concat(data.tags.map(t => t.label))
+                .filter((v, i, a) => a.indexOf(v) === i)
+                .join(',');
         } else {
             data.deleted = true;
         }
@@ -413,8 +413,8 @@ function applyDirtyCacheReal (key, data) {
         } else {
             if (data.changed !== undefined) {
                 return api.PatchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList })
-                .then(data => cache.set(key, cutArticle(data)))
-                .then(a => { dirtyCache.clear(key); });
+                    .then(data => cache.set(key, cutArticle(data)))
+                    .then(a => { dirtyCache.clear(key); });
             }
         }
     }
@@ -478,27 +478,27 @@ function savePageToWallabag (url, resetIcon) {
     existCache.set(url, existStates.wip);
     postIfConnected({ response: 'info', text: Common.translate('Saving_the_page_to_wallabag') });
     api.SavePage(url)
-            .then(data => applyDirtyCacheLight(url, data))
-            .then(data => {
-                if (!data.deleted) {
-                    browserIcon.set('good');
-                    postIfConnected({ response: 'article', article: cutArticle(data) });
-                    cache.set(url, cutArticle(data));
-                    saveExistFlag(url, existStates.exists);
-                    if (api.data.AllowExistCheck !== true || resetIcon) {
-                        browserIcon.timedToDefault();
-                    }
-                } else {
-                    cache.clear(url);
+        .then(data => applyDirtyCacheLight(url, data))
+        .then(data => {
+            if (!data.deleted) {
+                browserIcon.set('good');
+                postIfConnected({ response: 'article', article: cutArticle(data) });
+                cache.set(url, cutArticle(data));
+                saveExistFlag(url, existStates.exists);
+                if (api.data.AllowExistCheck !== true || resetIcon) {
+                    browserIcon.timedToDefault();
                 }
-                return data;
-            })
-            .then(data => applyDirtyCacheReal(url, data))
-            .catch(error => {
-                browserIcon.setTimed('bad');
-                saveExistFlag(url, existStates.notexists);
-                throw error;
-            });
+            } else {
+                cache.clear(url);
+            }
+            return data;
+        })
+        .then(data => applyDirtyCacheReal(url, data))
+        .catch(error => {
+            browserIcon.setTimed('bad');
+            saveExistFlag(url, existStates.notexists);
+            throw error;
+        });
 };
 
 const GotoWallabag = (part) => api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${part}/list` });
@@ -520,7 +520,7 @@ const checkExist = (dirtyUrl) => {
 };
 
 const requestExists = (url) =>
-        api.EntryExists(url)
+    api.EntryExists(url)
         .then(data => {
             let icon = 'default';
             if (data.exists) {
@@ -563,6 +563,6 @@ const addToAllTags = (tags) => {
 const addDirtyToAllTags = (tagList) => {
     if (!tagList || tagList === '') { return; }
     let dirtyId = -1;
-    const dirtyTags = tagList.split(',').map(label => Object.assign({}, {id: dirtyId--, label: label, slug: label}));
+    const dirtyTags = tagList.split(',').map(label => Object.assign({}, { id: dirtyId--, label: label, slug: label }));
     addToAllTags(dirtyTags);
 };
