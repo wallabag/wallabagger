@@ -274,5 +274,9 @@
   "Options_not_defined": {
     "message": "Wallabagger не настроен",
     "description": "Background"
+  },
+  "Save_Error": {
+    "message": "Во время сохранения статьи произошла ошибкf",
+    "description": "Background"
   }
 }
