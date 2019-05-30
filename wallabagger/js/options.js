@@ -92,7 +92,7 @@ OptionsController.prototype = {
         this.tokenExpire.textContent = '';
 
         this.setDataFromFields();
-        this.port.postMessage({request: 'setup-save', data: this.data});
+        this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
     loadFromFileClick: function () {
@@ -113,7 +113,7 @@ OptionsController.prototype = {
                 }
                 this.data = Object.assign({}, obj);
                 this.setFields();
-                this.port.postMessage({request: 'setup-save', data: this.data});
+                this.port.postMessage({ request: 'setup-save', data: this.data });
             }.bind(this);
             fileReader.readAsText(fileToLoad, 'UTF-8');
         }
@@ -136,13 +136,13 @@ OptionsController.prototype = {
 
     allowSpaceCheckClick: function (e) {
         Object.assign(this.data, { AllowSpaceInTags: this.allowSpaceCheck.checked });
-        this.port.postMessage({request: 'setup-save', data: this.data});
+        this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
     allowExistCheckClick: function (e) {
         if (this.protocolCheck_.checked) {
             Object.assign(this.data, { AllowExistCheck: this.allowExistCheck.checked });
-            this.port.postMessage({request: 'setup-save', data: this.data});
+            this.port.postMessage({ request: 'setup-save', data: this.data });
         } else {
             this.allowExistCheck.checked = false;
             this.httpsMessage.classList.add('active');
@@ -151,7 +151,7 @@ OptionsController.prototype = {
 
     debugClick: function () {
         Object.assign(this.data, { Debug: this.debugEl.checked });
-        this.port.postMessage({request: 'setup-save', data: this.data});
+        this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
     wallabagApiTokenGot: function () {
@@ -233,7 +233,7 @@ OptionsController.prototype = {
 
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
             this.setDataFromFields();
-            this.port.postMessage({request: 'setup-gettoken', data: this.data});
+            this.port.postMessage({ request: 'setup-gettoken', data: this.data });
         }
     },
 
@@ -311,7 +311,7 @@ OptionsController.prototype = {
             this._setProtocolCheck(urlDirty);
             this._setUrl(urlDirty);
             Object.assign(this.data, { Url: this.protocolLabel_.textContent + this._getUrl() });
-            this.port.postMessage({request: 'setup-checkurl', data: this.data});
+            this.port.postMessage({ request: 'setup-checkurl', data: this.data });
         }
     },
 
@@ -409,9 +409,9 @@ OptionsController.prototype = {
     },
 
     init: function () {
-        this.port = browser.runtime.connect({name: 'setup'});
+        this.port = browser.runtime.connect({ name: 'setup' });
         this.port.onMessage.addListener(this.messageListener.bind(this));
-        this.port.postMessage({request: 'setup'});
+        this.port.postMessage({ request: 'setup' });
     }
 
 };
