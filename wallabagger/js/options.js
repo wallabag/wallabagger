@@ -286,7 +286,7 @@ OptionsController.prototype = {
                 this.checkedLabel_.textContent = Common.translate('Ok');
                 this._green(this.wallabagurlinput_);
                 [...document.querySelectorAll('[data-wallabag-url]')].map(el => {
-                    const href = this.data.Url + el.innerText;
+                    const href = this.data.Url + el.dataset.wallabagUrl;
                     el.href = href;
                     el.innerText = href;
                 });
