@@ -38,12 +38,13 @@ body {
     color: #039be5;
 }
 
-span.icon {
+.icon {
+    color: #b3b3b3;
     cursor: pointer;
     margin-left: 5px;
 }
 
-.chip-sm {
+.chip {
    margin-left: 5px;
 }
 
@@ -51,7 +52,7 @@ span.icon {
     max-width: 444px;
     max-height: 250px;
     overflow: hidden;
-    margin: 10px auto auto;
+    margin: auto;
 }
 
 .pb-30 {
@@ -63,6 +64,11 @@ span.icon {
 }
 .chip-selected {
    border: 1px solid black;
+}
+
+.form-autocomplete-input {
+    display: flex;
+    align-items: center;
 }
 
 .form-autocomplete .form-autocomplete-input .form-input {

@@ -257,11 +257,11 @@ OptionsController.prototype = {
     },
 
     _hide: function (element) {
-        element.classList.add('hide');
+        element.classList.add('d-hide');
     },
 
     _show: function (element) {
-        element.classList.remove('hide');
+        element.classList.remove('d-hide');
     },
 
     _grey: function (element) {
