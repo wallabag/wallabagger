@@ -223,7 +223,7 @@ PopupController.prototype = {
 
     getTagsStr: function () {
         return Array.prototype.slice.call(this.tagsInputContainer.childNodes)
-            .filter(e => (e.classList != null) && e.classList.contains('chip-sm'))
+            .filter(e => (e.classList != null) && e.classList.contains('chip'))
             .map(e => e.dataset.taglabel).join(',');
     },
 
@@ -231,7 +231,7 @@ PopupController.prototype = {
         this.foundTags.length = 0;
 
         Array.prototype.slice.call(this.tagsAutoCompleteList.childNodes)
-            .filter(e => (e.classList != null) && e.classList.contains('chip-sm'))
+            .filter(e => (e.classList != null) && e.classList.contains('chip'))
             .map(e => this.tagsAutoCompleteList.removeChild(e));
     },
 
@@ -366,7 +366,7 @@ PopupController.prototype = {
 
     _createContainerEl: function (id, label) {
         const container = document.createElement('div');
-        container.setAttribute('class', 'chip-sm');
+        container.setAttribute('class', 'chip');
         container.setAttribute('data-tagid', id);
         container.setAttribute('data-taglabel', label);
         container.appendChild(this._createTagEl(label));
@@ -401,7 +401,7 @@ PopupController.prototype = {
 
     clearTagInput: function () {
         let tagsA = Array.prototype.slice.call(this.tagsInputContainer.childNodes);
-        return tagsA.filter(e => (e.classList != null) && e.classList.contains('chip-sm'))
+        return tagsA.filter(e => (e.classList != null) && e.classList.contains('chip'))
             .map(e => { this.tagsInputContainer.removeChild(e); return 0; });
     },
 
@@ -515,15 +515,15 @@ PopupController.prototype = {
     },
 
     hide: function (element) {
-        element.classList.add('hide');
+        element.classList.add('d-hide');
     },
 
     show: function (element) {
-        element.classList.remove('hide');
+        element.classList.remove('d-hide');
     },
 
     isHidden: function (element) {
-        return element.classList.contains('hide');
+        return element.classList.contains('d-hide');
     },
 
     afterSetup: function () {

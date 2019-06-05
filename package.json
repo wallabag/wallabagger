@@ -9,6 +9,7 @@
     "Edge > 14"
   ],
   "scripts": {
+    "deps:update": "cp node_modules/spectre.css/dist/spectre.min.css wallabagger/css/spectre.min.css && cp node_modules/spectre.css/dist/spectre-exp.min.css wallabagger/css/spectre-exp.min.css",
     "eslint": "eslint wallabagger/js/*",
     "locales:sort": "sort-json -i -d=1 wallabagger/_locales/**/messages.json",
     "manifest": "npm run manifest:firefox && npm run manifest:chrome",
@@ -49,5 +50,8 @@
     "eslint-plugin-standard": "^3.0.1",
     "sort-json": "^1.6.0",
     "wemf": "^1.2.1"
+  },
+  "dependencies": {
+    "spectre.css": "^0.5.8"
   }
 }

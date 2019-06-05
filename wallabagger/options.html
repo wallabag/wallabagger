@@ -13,7 +13,10 @@
             max-width: 800px;
             flex-direction: column;
             background-color: transparent;
-            font-size: 1.3rem;
+            font-size: 0.6rem;
+        }
+        p {
+            margin-bottom: 0;
         }
         form, section { margin-top: 5px; }
         .main-logo {
@@ -23,25 +26,34 @@
         }
         .columns {
             display: block;
+            margin-bottom: 15px;
         }
         .btn,
         .form-input,
         .input-group .input-group-addon {
             height: auto;
+            font-size: 0.7rem;
             line-height: 1.5;
+        }
+        .btn:active,
+        .btn:hover,
+        .btn:focus {
+            color: #fff;
+            background-color: #5764c6;
+            border-color: #4452c0;
+        }
+
+        .input-group .input-group-addon {
+            display: flex;
+            align-items: center;
         }
 
         .form-group:not(:last-child) {
             margin-bottom: 0.5rem;
         }
 
-        .wallabag-url .input-group-addon {
-            flex-basis: 10%;
-            text-align: center;
-        }
-
-        .wallabag-url .form-input {
-            max-width: 60%;
+        .form-label {
+            padding: 0;
         }
 
         .url-group {
@@ -106,8 +118,8 @@
                     </label>
                 </div>
             </form>
-            <form action="." class="hide" id="token-section">
-                <p><span data-i18n="You_can_find_your_credentials_here">You can find your credentials here:</span> <a target="_blank" data-wallabag-url="prefix">/developer</a>.</p>
+            <form action="." class="token-section d-hide" id="token-section">
+                <p><span data-i18n="You_can_find_your_credentials_here">You can find your credentials here:</span> <a target="_blank" data-wallabag-url="/developer"></a>.</p>
                 <div class="form-group">
                     <label class="form-label" for="clientid-input" data-i18n="Client_ID">Client ID</label>
                     <div class="input-group">
@@ -168,7 +180,7 @@
             </table>
         </div>
     </div>
-    <div id="toggles-section" class="hide columns">
+    <div id="toggles-section" class="d-hide columns">
         <div class="column col-12">
             <div class="form-group">
                 <label class="form-switch">
