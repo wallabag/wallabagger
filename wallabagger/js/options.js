@@ -103,10 +103,10 @@ OptionsController.prototype = {
     loadFromFile: function () {
         if (this.openFileDialog.value !== '') {
             var fileToLoad = this.openFileDialog.files[0];
-            let fileReader = new FileReader();
+            const fileReader = new FileReader();
             fileReader.onload = function (fileLoadedEvent) {
-                let textFromFileLoaded = fileLoadedEvent.target.result;
-                let obj = JSON.parse(textFromFileLoaded);
+                const textFromFileLoaded = fileLoadedEvent.target.result;
+                const obj = JSON.parse(textFromFileLoaded);
                 if (this.debugEl.checked) {
                     console.log(textFromFileLoaded);
                     console.log(obj);
@@ -120,11 +120,11 @@ OptionsController.prototype = {
     },
 
     saveToFileClick: function () {
-        let textToSave = JSON.stringify(this.data);
-        let textToSaveAsBlob = new Blob([textToSave], { type: 'text/plain' });
-        let textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
-        let fileNameToSaveAs = 'wallabag.json';
-        let downloadLink = document.createElement('a');
+        const textToSave = JSON.stringify(this.data);
+        const textToSaveAsBlob = new Blob([textToSave], { type: 'text/plain' });
+        const textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+        const fileNameToSaveAs = 'wallabag.json';
+        const downloadLink = document.createElement('a');
         downloadLink.download = fileNameToSaveAs;
         downloadLink.textContent = Common.translate('Download_file');
         downloadLink.href = textToSaveAsURL;
@@ -187,9 +187,10 @@ OptionsController.prototype = {
 
     _getUnit (value, key, locale) {
         switch (locale) {
-            case 'ru':
+            case 'ru': {
                 const declension = value % 10;
                 return (value <= 14 && value >= 11) ? Common.translate(`${key}_many`) : declension === 1 ? Common.translate(`${key}_one`) : declension < 5 ? Common.translate(`${key}_few`) : Common.translate(`${key}_many`);
+            }
             default:
                 return value > 1 ? Common.translate(`${key}_many`) : Common.translate(`${key}_one`);
         }

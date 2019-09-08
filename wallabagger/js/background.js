@@ -197,7 +197,7 @@ function onContextMenusClicked (info) {
 
 function onCommandsCommand (command) {
     if (command === 'wallabag-it') {
-        browser.tabs.query({ 'active': true, 'currentWindow': true }, function (tabs) {
+        browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             if (tabs[0] != null) {
                 savePageToWallabag(tabs[0].url, false);
             }
@@ -355,10 +355,10 @@ function addListeners () {
 
 const browserIcon = {
     images: {
-        'default': browser.runtime.getManifest().browser_action.default_icon,
-        'good': 'img/wallabagger-green.svg',
-        'wip': 'img/wallabagger-yellow.svg',
-        'bad': 'img/wallabagger-red.svg'
+        default: browser.runtime.getManifest().browser_action.default_icon,
+        good: 'img/wallabagger-green.svg',
+        wip: 'img/wallabagger-yellow.svg',
+        bad: 'img/wallabagger-red.svg'
     },
 
     timedToDefault: function () {
@@ -435,7 +435,7 @@ function cutArticle (data) {
 
 function moveToDirtyCache (url) {
     if (cache.check(url)) {
-        let art = cache.get(url);
+        const art = cache.get(url);
         // api.data.Debug && console.log(`article to move to dirtyCache ${JSON.stringify(art)}`);
         dirtyCacheSet(url, {
             title: art.title,
@@ -456,10 +456,10 @@ function savePageToWallabag (url, resetIcon) {
         return false;
     }
     // if WIP and was some dirty changes, return dirtyCache
-    let exists = existCache.check(url) ? existCache.get(url) : existStates.notexists;
+    const exists = existCache.check(url) ? existCache.get(url) : existStates.notexists;
     if (exists === existStates.wip) {
         if (dirtyCache.check(url)) {
-            let dc = dirtyCache.get(url);
+            const dc = dirtyCache.get(url);
             postIfConnected({ response: 'article', article: cutArticle(dc) });
         }
         return;
