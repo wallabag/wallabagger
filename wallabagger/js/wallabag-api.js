@@ -38,7 +38,7 @@ WallabagApi.prototype = {
     },
 
     save: function () {
-        browser.storage.local.set({ 'wallabagdata': this.data });
+        browser.storage.local.set({ wallabagdata: this.data });
     },
 
     load: function () {
@@ -65,7 +65,7 @@ WallabagApi.prototype = {
     },
 
     needNewAppToken: function () {
-        let need = (
+        const need = (
             (this.data.ApiToken === '') ||
                   (this.data.ApiToken === null) ||
                   this.isTokenExpired()
@@ -102,7 +102,7 @@ WallabagApi.prototype = {
     },
 
     CheckUrl: function () {
-        let url_ = this.data.Url + '/api/version';
+        const url_ = this.data.Url + '/api/version';
         return this.fetchApi.Get(url_, '')
             .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData; })
             .catch(error => {
@@ -128,7 +128,7 @@ WallabagApi.prototype = {
     },
 
     PatchArticle: function (articleId, content) {
-        let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
+        const entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Patch(entryUrl, this.data.ApiToken, content)
         )
@@ -141,7 +141,7 @@ WallabagApi.prototype = {
      * @param articleId {number} Article identificator
      */
     DeleteArticle: function (articleId) {
-        let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
+        const entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Delete(entryUrl, this.data.ApiToken)
         )
@@ -152,7 +152,7 @@ WallabagApi.prototype = {
     },
 
     DeleteArticleTag: function (articleId, tagid) {
-        let entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
+        const entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Delete(entryUrl, this.data.ApiToken)
         )
@@ -175,8 +175,8 @@ WallabagApi.prototype = {
     },
 
     SavePage: function (pageUrl) {
-        let content = { url: pageUrl };
-        let entriesUrl = `${this.data.Url}/api/entries.json`;
+        const content = { url: pageUrl };
+        const entriesUrl = `${this.data.Url}/api/entries.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
         )
@@ -197,7 +197,7 @@ WallabagApi.prototype = {
     },
 
     PasswordToken: function () {
-        let content = {
+        const content = {
             grant_type: 'password',
             client_id: this.data.ClientId,
             client_secret: this.data.ClientSecret,
@@ -229,7 +229,7 @@ WallabagApi.prototype = {
         if (!this.checkParams()) {
             return false;
         }
-        let entriesUrl = `${this.data.Url}/api/tags.json`;
+        const entriesUrl = `${this.data.Url}/api/tags.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Get(entriesUrl, this.data.ApiToken)
         )
@@ -243,7 +243,7 @@ WallabagApi.prototype = {
     },
 
     EntryExists: function (url) {
-        let entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
+        const entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
 
         return this.CheckToken().then(a =>
             this.fetchApi.Get(entriesUrl, this.data.ApiToken)
@@ -255,7 +255,7 @@ WallabagApi.prototype = {
     },
 
     GetArticle: function (articleId) {
-        let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
+        const entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Get(entriesUrl, this.data.ApiToken)
         )
@@ -266,7 +266,7 @@ WallabagApi.prototype = {
     },
 
     GetArticleTags: function (articleId) {
-        let entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
+        const entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Get(entriesUrl, this.data.ApiToken)
         )

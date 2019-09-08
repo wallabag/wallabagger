@@ -20,8 +20,8 @@ const Common = (() => {
     const getLocale = () => browser.i18n.getUILanguage();
 
     return {
-        'translate': translate,
-        'translateAll': translateAll,
-        'getLocale': getLocale
+        translate: translate,
+        translateAll: translateAll,
+        getLocale: getLocale
     };
 })();

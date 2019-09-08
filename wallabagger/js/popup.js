@@ -77,8 +77,8 @@ PopupController.prototype = {
     },
 
     decodeStr: function (param) {
-        for (let prop in this.decodeMap) {
-            let propRegExp = new RegExp(prop, 'g');
+        for (const prop in this.decodeMap) {
+            const propRegExp = new RegExp(prop, 'g');
             param = param.replace(propRegExp, this.decodeMap[prop]);
         }
         return param;
@@ -105,7 +105,7 @@ PopupController.prototype = {
 
     onIconClick: function (event) {
         event.preventDefault();
-        let icon = event.currentTarget;
+        const icon = event.currentTarget;
         this.toggleIcon(icon);
         this.toggleAction(icon);
         if (icon.id === 'starred-icon') {
@@ -212,8 +212,8 @@ PopupController.prototype = {
     },
 
     deleteTag: function (ev) {
-        let chip = ev.currentTarget.parentNode;
-        let tagid = chip.dataset.tagid;
+        const chip = ev.currentTarget.parentNode;
+        const tagid = chip.dataset.tagid;
         this.dirtyTags = this.dirtyTags.filter(tag => tag.id !== tagid);
         chip.parentNode.removeChild(chip);
         this.port.postMessage({ request: 'deleteArticleTag', articleId: this.articleId, tagId: tagid, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl });
@@ -354,7 +354,7 @@ PopupController.prototype = {
 
     activeTab: function () {
         return new Promise((resolve, reject) => {
-            browser.tabs.query({ 'active': true, 'currentWindow': true }, function (tabs) {
+            browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                 if (tabs[0] != null) {
                     return resolve(tabs[0]);
                 } else {
@@ -400,7 +400,7 @@ PopupController.prototype = {
     },
 
     clearTagInput: function () {
-        let tagsA = Array.prototype.slice.call(this.tagsInputContainer.childNodes);
+        const tagsA = Array.prototype.slice.call(this.tagsInputContainer.childNodes);
         return tagsA.filter(e => (e.classList != null) && e.classList.contains('chip'))
             .map(e => { this.tagsInputContainer.removeChild(e); return 0; });
     },
