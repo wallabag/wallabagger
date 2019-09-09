@@ -147,6 +147,10 @@
     "message": "OK, ich hab's verstanden",
     "description": "Options"
   },
+  "Options_not_defined": {
+    "message": "Wallabagger nicht konfiguriert",
+    "description": "Background"
+  },
   "Remove_this_article_from_Wallabag": {
     "message": "Diesen Artikel aus wallabag löschen",
     "description": "Popup"
@@ -158,6 +162,10 @@
   "Save": {
     "message": "Speichern",
     "description": "Popup"
+  },
+  "Save_Error": {
+    "message": "An error occurred while saving the article",
+    "description": "Background"
   },
   "Save_to_file": {
     "message": "In Datei speichern",
@@ -258,13 +266,5 @@
   "You_can_find_your_credentials_here": {
     "message": "Ihre Zugangsdaten finden Sie hier:",
     "description": "Options"
-  },
-  "Options_not_defined": {
-    "message": "Wallabagger nicht konfiguriert",
-    "description": "Background"
-  },
-  "Save_Error": {
-    "message": "An error occurred while saving the article",
-    "description": "Background"
   }
 }

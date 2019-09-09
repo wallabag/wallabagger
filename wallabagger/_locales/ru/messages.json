@@ -159,6 +159,10 @@
     "message": "Ok, Я понял",
     "description": "Options"
   },
+  "Options_not_defined": {
+    "message": "Wallabagger не настроен",
+    "description": "Background"
+  },
   "Remove_this_article_from_Wallabag": {
     "message": "Удалить эту статью из Wallabag",
     "description": "Popup"
@@ -170,6 +174,10 @@
   "Save": {
     "message": "Сохранить",
     "description": "Popup"
+  },
+  "Save_Error": {
+    "message": "Во время сохранения статьи произошла ошибкf",
+    "description": "Background"
   },
   "Save_to_file": {
     "message": "Сохранить в файл",
@@ -270,13 +278,5 @@
   "You_can_find_your_credentials_here": {
     "message": "Ваши учётные данные ищите здесь",
     "description": "Options"
-  },
-  "Options_not_defined": {
-    "message": "Wallabagger не настроен",
-    "description": "Background"
-  },
-  "Save_Error": {
-    "message": "Во время сохранения статьи произошла ошибкf",
-    "description": "Background"
   }
 }
