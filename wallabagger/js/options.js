@@ -18,6 +18,7 @@ var OptionsController = function () {
 
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
     this.allowExistCheck = document.getElementById('allow-exist-checkbox');
+    this.archiveByDefault = document.getElementById('archive-by-default-checkbox');
     this.debugEl = document.getElementById('debug');
     this.saveToFileButton = document.getElementById('saveToFile-button');
     this.loadFromFileButton = document.getElementById('loadFromFile-button');
@@ -52,6 +53,7 @@ OptionsController.prototype = {
     clearButton: null,
 
     allowSpaceCheck: null,
+    archiveByDefault: null,
     allowExistCheck: null,
     debugEl: null,
     httpsButton: null,
@@ -62,6 +64,7 @@ OptionsController.prototype = {
 
     addListeners_: function () {
         this.allowSpaceCheck.addEventListener('click', this.allowSpaceCheckClick.bind(this));
+        this.archiveByDefault.addEventListener('click', this.archiveByDefaultClick.bind(this));
         this.allowExistCheck.addEventListener('click', this.allowExistCheckClick.bind(this));
         this.debugEl.addEventListener('click', this.debugClick.bind(this));
         this.protocolCheck_.addEventListener('click', this.handleProtocolClick.bind(this));
@@ -136,6 +139,11 @@ OptionsController.prototype = {
 
     allowSpaceCheckClick: function (e) {
         Object.assign(this.data, { AllowSpaceInTags: this.allowSpaceCheck.checked });
+        this.port.postMessage({ request: 'setup-save', data: this.data });
+    },
+
+    archiveByDefaultClick: function (e) {
+        Object.assign(this.data, { ArchiveByDefault: this.archiveByDefault.checked });
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
