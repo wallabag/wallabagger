@@ -38,7 +38,7 @@ More informations on website: [wallabag.org](https://wallabag.org) and [github.c
 
 Many thanks to:
 
-- All wallabag mantainers, espesially [Nicolas Lœuillet](https://github.com/nicosomb) and [Jeremy Benoist](https://github.com/j0k3r)
+- All wallabag mantainers, especially [Nicolas Lœuillet](https://github.com/nicosomb) and [Jeremy Benoist](https://github.com/j0k3r)
 - [Yan Zhu](https://github.com/picturepan2) for the [Spectre CSS framework](https://github.com/picturepan2/spectre)
 
 ## License
