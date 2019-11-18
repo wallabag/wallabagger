@@ -266,5 +266,9 @@
   "You_can_find_your_credentials_here": {
     "message": "Vous pouvez trouver vos identifiants ici :",
     "description": "Options"
-  }
+  },
+    "Archive_by_default_when_saving_page": {
+        "message": "Par défaut, marque la page comme lue lors de son enregistrement",
+        "description": "Options"
+    }
 }

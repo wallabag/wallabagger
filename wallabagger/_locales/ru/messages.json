@@ -278,5 +278,9 @@
   "You_can_find_your_credentials_here": {
     "message": "Ваши учётные данные ищите здесь",
     "description": "Options"
-  }
+  },
+    "Archive_by_default_when_saving_page": {
+        "message": "Архивировать при сохранении",
+        "description": "Options"
+    }
 }

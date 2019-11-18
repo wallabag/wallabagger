@@ -266,5 +266,9 @@
   "You_can_find_your_credentials_here": {
     "message": "You can find your credentials here:",
     "description": "Options"
+  },
+  "Archive_by_default_when_saving_page": {
+    "message": "Archive by default when saving the page",
+    "description": "Options"
   }
 }
