@@ -200,7 +200,7 @@
     "description": "Popup"
   },
   "Token_expires_in": {
-    "message": "Token过期时间",
+    "message": "Token 过期时间",
     "description": "Options"
   },
   "Unread": {
@@ -220,11 +220,11 @@
     "description": "Options"
   },
   "User_login": {
-    "message": "用户登录",
+    "message": "用户账号",
     "description": "Options"
   },
   "User_password": {
-    "message": "用户名 密码",
+    "message": "用户密码",
     "description": "Options"
   },
   "Wallabag_API_token": {
