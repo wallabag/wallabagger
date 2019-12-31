@@ -13,7 +13,7 @@ Wallabagger is an extension for add pages to wallabag, with ability to:
 ## What is wallabag
 
 wallabag is a self hostable application allowing you to not miss any content anymore.
-More informations on website: [wallabag.org](https://wallabag.org) and [github.com](https://github.com/wallabag/wallabag)
+More information on websites: [wallabag.org](https://wallabag.org) and [github.com](https://github.com/wallabag/wallabag).
 
 ## Requirement
 
