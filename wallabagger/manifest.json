@@ -5,7 +5,7 @@
   "version": "1.7.0",
   "description": "__MSG_Extension_description__",
   "icons": {
-    "128": "img/wallabagger.svg"
+    "48": "img/wallabagger.svg"
   },
   "browser_action": {
     "default_title": "Wallabagger",
