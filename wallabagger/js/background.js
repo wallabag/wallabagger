@@ -327,7 +327,7 @@ function addListeners () {
 
 const browserIcon = {
     images: {
-        'default': browser.runtime.getManifest().browser_action.default_icon,
+        'default': null,
         'good': 'img/wallabagger-green.svg',
         'wip': 'img/wallabagger-yellow.svg',
         'bad': 'img/wallabagger-red.svg'
