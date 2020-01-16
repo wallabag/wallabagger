@@ -4,7 +4,7 @@
     "description": "background"
   },
   "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
-    "message": "Allow Space in tags (this disables Space as send-tags key, use Enter key instead)",
+    "message": "允许标签中有空格（这会禁用“空格”作为发送标签键，而应使用Enter键）",
     "description": "Options"
   },
   "Archive": {
