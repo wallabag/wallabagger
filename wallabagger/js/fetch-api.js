@@ -47,7 +47,7 @@ FetchApi.prototype = {
     },
 
     Fetch: function (url, method, token, content) {
-        let options = this.getRequestOptions(method, token, content);
+        const options = this.getRequestOptions(method, token, content);
         return this.isEdge()
             ? this.xhrFetch(url, options)
             : this.apiFetch(url, options);
@@ -57,7 +57,7 @@ FetchApi.prototype = {
 
     xhrFetch: function (url, options) {
         return new Promise(function (resolve, reject) {
-            let xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             // checks if CORS available
             if ('withCredentials' in xhr) {
                 xhr.onreadystatechange = function () {

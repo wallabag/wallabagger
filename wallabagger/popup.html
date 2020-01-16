@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Wallabagger</title>
     <link rel="stylesheet" href="css/spectre.min.css">
+    <link rel="stylesheet" href="css/spectre-exp.min.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/popup.css">
 </head>
@@ -25,7 +26,7 @@
                 data-i18n="Article_s_title">Article's title</a>
         </div>
 
-        <div class="card-body hide" id="card-body">
+        <div class="card-body d-hide" id="card-body">
             <textarea class="form-input" id="title-input" rows="3"></textarea>
             <button class="btn btn-link" id="save-title-button" data-i18n="Save">Save</button>
             <button class="btn btn-link" id="cancel-title-button" data-i18n="Cancel">Cancel</button>
@@ -79,13 +80,13 @@
 
         <div class="card-footer" id="tags">
             <div class="form-autocomplete">
-                <div class="form-autocomplete-input" id="tags-input-container">
-                    <span class="card-meta float-left icon icon-tags" style="margin-top: 5px;"></span>
+                <div class="form-autocomplete-input form-input" id="tags-input-container">
+                    <span class="card-meta float-left icon icon-tags"></span>
                     <!--here we add tag chips-->
                     <input class="form-input" type="text" placeholder="type tags here" id="tags-input"/>
-                    <ul class="form-autocomplete-list hide" id="tags-autocomplete-list">
-                        <li class="card-meta float-left form-autocomplete-item" style="margin-top: 5px;" data-i18n="Tags_found">Tags found:</li>
-                    </ul>
+                </div>
+                <div class="menu d-hide" id="tags-autocomplete-list">
+                    <div class="card-meta form-autocomplete-item" data-i18n="Tags_found">Tags found:</div>
                 </div>
             </div>
         </div>
@@ -94,7 +95,7 @@
 
 
     <div class="toast" id="info-toast" data-i18n="Loading_wallabag_API">Loading wallabag API...</div>
-    <div class="toast toast-danger hide" id="error-toast"></div>
+    <div class="toast toast-danger d-hide" id="error-toast"></div>
 
     <div class="modal modal-sm" id="delete_confirmation">
         <div class="modal-overlay"></div>

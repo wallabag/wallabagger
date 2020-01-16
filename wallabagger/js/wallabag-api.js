@@ -38,7 +38,7 @@ WallabagApi.prototype = {
     },
 
     save: function () {
-        browser.storage.local.set({ 'wallabagdata': this.data });
+        browser.storage.local.set({ wallabagdata: this.data });
     },
 
     load: function () {
@@ -65,11 +65,11 @@ WallabagApi.prototype = {
     },
 
     needNewAppToken: function () {
-        let need = (
-                  (this.data.ApiToken === '') ||
+        const need = (
+            (this.data.ApiToken === '') ||
                   (this.data.ApiToken === null) ||
                   this.isTokenExpired()
-                   );
+        );
         return need;
     },
 
@@ -102,7 +102,7 @@ WallabagApi.prototype = {
     },
 
     CheckUrl: function () {
-        let url_ = this.data.Url + '/api/version';
+        const url_ = this.data.Url + '/api/version';
         return this.fetchApi.Get(url_, '')
             .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData; })
             .catch(error => {
@@ -128,10 +128,10 @@ WallabagApi.prototype = {
     },
 
     PatchArticle: function (articleId, content) {
-        let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
+        const entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
-                this.fetchApi.Patch(entryUrl, this.data.ApiToken, content)
-            )
+            this.fetchApi.Patch(entryUrl, this.data.ApiToken, content)
+        )
             .catch(error => {
                 throw new Error(`Failed to update article ${entryUrl}
                 ${error.message}`);
@@ -141,21 +141,21 @@ WallabagApi.prototype = {
      * @param articleId {number} Article identificator
      */
     DeleteArticle: function (articleId) {
-        let entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
+        const entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
-                this.fetchApi.Delete(entryUrl, this.data.ApiToken)
-            )
-             .catch(error => {
-                 throw new Error(`Failed to delete article ${entryUrl}
+            this.fetchApi.Delete(entryUrl, this.data.ApiToken)
+        )
+            .catch(error => {
+                throw new Error(`Failed to delete article ${entryUrl}
                 ${error.message}`);
-             });
+            });
     },
 
     DeleteArticleTag: function (articleId, tagid) {
-        let entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
+        const entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
         return this.CheckToken().then(a =>
-                this.fetchApi.Delete(entryUrl, this.data.ApiToken)
-            )
+            this.fetchApi.Delete(entryUrl, this.data.ApiToken)
+        )
             .catch(error => {
                 throw new Error(`Failed to delete article tag ${entryUrl}
                 ${error.message}`);
@@ -164,19 +164,22 @@ WallabagApi.prototype = {
 
     CheckToken: function () {
         return new Promise((resolve, reject) => {
+            if (!this.checkParams()) {
+                reject(new Error('Parameters not ok.'));
+            }
             if (this.needNewAppToken()) {
                 resolve(this.PasswordToken());
             }
-            resolve(1);
+            resolve('Token ok.');
         });
     },
 
     SavePage: function (pageUrl) {
-        let content = { url: pageUrl };
-        let entriesUrl = `${this.data.Url}/api/entries.json`;
+        const content = { url: pageUrl, archive: this.data.ArchiveByDefault ? 1 : 0 };
+        const entriesUrl = `${this.data.Url}/api/entries.json`;
         return this.CheckToken().then(a =>
-                this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
-            )
+            this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
+        )
             .catch(error => {
                 throw new Error(`Failed to save page ${entriesUrl}
                 ${error.message}`);
@@ -194,7 +197,7 @@ WallabagApi.prototype = {
     },
 
     PasswordToken: function () {
-        let content = {
+        const content = {
             grant_type: 'password',
             client_id: this.data.ClientId,
             client_secret: this.data.ClientSecret,
@@ -223,26 +226,28 @@ WallabagApi.prototype = {
     },
 
     GetTags: function () {
-        let entriesUrl = `${this.data.Url}/api/tags.json`;
+        if (!this.checkParams()) {
+            return false;
+        }
+        const entriesUrl = `${this.data.Url}/api/tags.json`;
         return this.CheckToken().then(a =>
-                this.fetchApi.Get(entriesUrl, this.data.ApiToken)
-            )
+            this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+        )
             .then(fetchData => {
                 this.tags = fetchData;
                 return fetchData;
             })
             .catch(error => {
-                throw new Error(`Failed to get tags ${entriesUrl}
-                ${error.error_description}`);
+                throw new Error(`Failed to get tags ${entriesUrl} ${error.message}`);
             });
     },
 
     EntryExists: function (url) {
-        let entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
+        const entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
 
         return this.CheckToken().then(a =>
-              this.fetchApi.Get(entriesUrl, this.data.ApiToken)
-            )
+            this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+        )
             .catch(error => {
                 throw new Error(`Failed to check if exists ${entriesUrl}
                 ${error.message}`);
@@ -250,10 +255,10 @@ WallabagApi.prototype = {
     },
 
     GetArticle: function (articleId) {
-        let entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
+        const entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
-                this.fetchApi.Get(entriesUrl, this.data.ApiToken)
-            )
+            this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+        )
             .catch(error => {
                 throw new Error(`Failed to get article ${entriesUrl}
                 ${error.message}`);
@@ -261,10 +266,10 @@ WallabagApi.prototype = {
     },
 
     GetArticleTags: function (articleId) {
-        let entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
+        const entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
         return this.CheckToken().then(a =>
-                this.fetchApi.Get(entriesUrl, this.data.ApiToken)
-            )
+            this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+        )
             .catch(error => {
                 throw new Error(`Failed to get article tags ${entriesUrl}
                 ${error.message}`);

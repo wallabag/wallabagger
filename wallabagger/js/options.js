@@ -18,6 +18,7 @@ var OptionsController = function () {
 
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
     this.allowExistCheck = document.getElementById('allow-exist-checkbox');
+    this.archiveByDefault = document.getElementById('archive-by-default-checkbox');
     this.debugEl = document.getElementById('debug');
     this.saveToFileButton = document.getElementById('saveToFile-button');
     this.loadFromFileButton = document.getElementById('loadFromFile-button');
@@ -52,6 +53,7 @@ OptionsController.prototype = {
     clearButton: null,
 
     allowSpaceCheck: null,
+    archiveByDefault: null,
     allowExistCheck: null,
     debugEl: null,
     httpsButton: null,
@@ -62,6 +64,7 @@ OptionsController.prototype = {
 
     addListeners_: function () {
         this.allowSpaceCheck.addEventListener('click', this.allowSpaceCheckClick.bind(this));
+        this.archiveByDefault.addEventListener('click', this.archiveByDefaultClick.bind(this));
         this.allowExistCheck.addEventListener('click', this.allowExistCheckClick.bind(this));
         this.debugEl.addEventListener('click', this.debugClick.bind(this));
         this.protocolCheck_.addEventListener('click', this.handleProtocolClick.bind(this));
@@ -92,7 +95,7 @@ OptionsController.prototype = {
         this.tokenExpire.textContent = '';
 
         this.setDataFromFields();
-        this.port.postMessage({request: 'setup-save', data: this.data});
+        this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
     loadFromFileClick: function () {
@@ -103,28 +106,28 @@ OptionsController.prototype = {
     loadFromFile: function () {
         if (this.openFileDialog.value !== '') {
             var fileToLoad = this.openFileDialog.files[0];
-            let fileReader = new FileReader();
+            const fileReader = new FileReader();
             fileReader.onload = function (fileLoadedEvent) {
-                let textFromFileLoaded = fileLoadedEvent.target.result;
-                let obj = JSON.parse(textFromFileLoaded);
+                const textFromFileLoaded = fileLoadedEvent.target.result;
+                const obj = JSON.parse(textFromFileLoaded);
                 if (this.debugEl.checked) {
                     console.log(textFromFileLoaded);
                     console.log(obj);
                 }
                 this.data = Object.assign({}, obj);
                 this.setFields();
-                this.port.postMessage({request: 'setup-save', data: this.data});
+                this.port.postMessage({ request: 'setup-save', data: this.data });
             }.bind(this);
             fileReader.readAsText(fileToLoad, 'UTF-8');
         }
     },
 
     saveToFileClick: function () {
-        let textToSave = JSON.stringify(this.data);
-        let textToSaveAsBlob = new Blob([textToSave], { type: 'text/plain' });
-        let textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
-        let fileNameToSaveAs = 'wallabag.json';
-        let downloadLink = document.createElement('a');
+        const textToSave = JSON.stringify(this.data);
+        const textToSaveAsBlob = new Blob([textToSave], { type: 'text/plain' });
+        const textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+        const fileNameToSaveAs = 'wallabag.json';
+        const downloadLink = document.createElement('a');
         downloadLink.download = fileNameToSaveAs;
         downloadLink.textContent = Common.translate('Download_file');
         downloadLink.href = textToSaveAsURL;
@@ -136,13 +139,18 @@ OptionsController.prototype = {
 
     allowSpaceCheckClick: function (e) {
         Object.assign(this.data, { AllowSpaceInTags: this.allowSpaceCheck.checked });
-        this.port.postMessage({request: 'setup-save', data: this.data});
+        this.port.postMessage({ request: 'setup-save', data: this.data });
+    },
+
+    archiveByDefaultClick: function (e) {
+        Object.assign(this.data, { ArchiveByDefault: this.archiveByDefault.checked });
+        this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
     allowExistCheckClick: function (e) {
         if (this.protocolCheck_.checked) {
             Object.assign(this.data, { AllowExistCheck: this.allowExistCheck.checked });
-            this.port.postMessage({request: 'setup-save', data: this.data});
+            this.port.postMessage({ request: 'setup-save', data: this.data });
         } else {
             this.allowExistCheck.checked = false;
             this.httpsMessage.classList.add('active');
@@ -151,7 +159,7 @@ OptionsController.prototype = {
 
     debugClick: function () {
         Object.assign(this.data, { Debug: this.debugEl.checked });
-        this.port.postMessage({request: 'setup-save', data: this.data});
+        this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
     wallabagApiTokenGot: function () {
@@ -187,9 +195,10 @@ OptionsController.prototype = {
 
     _getUnit (value, key, locale) {
         switch (locale) {
-            case 'ru':
+            case 'ru': {
                 const declension = value % 10;
                 return (value <= 14 && value >= 11) ? Common.translate(`${key}_many`) : declension === 1 ? Common.translate(`${key}_one`) : declension < 5 ? Common.translate(`${key}_few`) : Common.translate(`${key}_many`);
+            }
             default:
                 return value > 1 ? Common.translate(`${key}_many`) : Common.translate(`${key}_one`);
         }
@@ -233,7 +242,7 @@ OptionsController.prototype = {
 
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
             this.setDataFromFields();
-            this.port.postMessage({request: 'setup-gettoken', data: this.data});
+            this.port.postMessage({ request: 'setup-gettoken', data: this.data });
         }
     },
 
@@ -257,11 +266,11 @@ OptionsController.prototype = {
     },
 
     _hide: function (element) {
-        element.classList.add('hide');
+        element.classList.add('d-hide');
     },
 
     _show: function (element) {
-        element.classList.remove('hide');
+        element.classList.remove('d-hide');
     },
 
     _grey: function (element) {
@@ -285,6 +294,11 @@ OptionsController.prototype = {
             if (this.data.ApiVersion.split('.')[0] === '2') {
                 this.checkedLabel_.textContent = Common.translate('Ok');
                 this._green(this.wallabagurlinput_);
+                [...document.querySelectorAll('[data-wallabag-url]')].map(el => {
+                    const href = this.data.Url + el.dataset.wallabagUrl;
+                    el.href = href;
+                    el.innerText = href;
+                });
                 this._show(this.tokenSection_);
                 this._show(this.togglesSection);
             }
@@ -306,7 +320,7 @@ OptionsController.prototype = {
             this._setProtocolCheck(urlDirty);
             this._setUrl(urlDirty);
             Object.assign(this.data, { Url: this.protocolLabel_.textContent + this._getUrl() });
-            this.port.postMessage({request: 'setup-checkurl', data: this.data});
+            this.port.postMessage({ request: 'setup-checkurl', data: this.data });
         }
     },
 
@@ -397,16 +411,16 @@ OptionsController.prototype = {
                 }
                 break;
             default:
-                if (this.data.Debug) {
+                if (this.data !== null && this.data.Debug) {
                     console.log(`unknown message: ${msg}`);
                 }
         };
     },
 
     init: function () {
-        this.port = browser.runtime.connect({name: 'setup'});
+        this.port = browser.runtime.connect({ name: 'setup' });
         this.port.onMessage.addListener(this.messageListener.bind(this));
-        this.port.postMessage({request: 'setup'});
+        this.port.postMessage({ request: 'setup' });
     }
 
 };

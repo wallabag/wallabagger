@@ -77,8 +77,8 @@ PopupController.prototype = {
     },
 
     decodeStr: function (param) {
-        for (let prop in this.decodeMap) {
-            let propRegExp = new RegExp(prop, 'g');
+        for (const prop in this.decodeMap) {
+            const propRegExp = new RegExp(prop, 'g');
             param = param.replace(propRegExp, this.decodeMap[prop]);
         }
         return param;
@@ -105,7 +105,7 @@ PopupController.prototype = {
 
     onIconClick: function (event) {
         event.preventDefault();
-        let icon = event.currentTarget;
+        const icon = event.currentTarget;
         this.toggleIcon(icon);
         this.toggleAction(icon);
         if (icon.id === 'starred-icon') {
@@ -129,7 +129,7 @@ PopupController.prototype = {
     },
 
     toggleAction: function (icon) {
-        this.port.postMessage({request: icon.dataset.apicall, articleId: this.articleId, value: JSON.parse(icon.dataset.isset) + 0, tabUrl: this.tabUrl});
+        this.port.postMessage({ request: icon.dataset.apicall, articleId: this.articleId, value: JSON.parse(icon.dataset.isset) + 0, tabUrl: this.tabUrl });
     },
 
     onTagsInputKeyUp: function (event) {
@@ -201,7 +201,7 @@ PopupController.prototype = {
             if (tagid <= 0) {
                 this.tmpTagId = this.tmpTagId - 1;
             }
-            this.port.postMessage({request: 'saveTags', articleId: this.articleId, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl});
+            this.port.postMessage({ request: 'saveTags', articleId: this.articleId, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl });
             this.checkAutocompleteState();
         } else {
             this.tagsInput.placeholder = Common.translate('Tag_already_exists');
@@ -212,27 +212,27 @@ PopupController.prototype = {
     },
 
     deleteTag: function (ev) {
-        let chip = ev.currentTarget.parentNode;
-        let tagid = chip.dataset.tagid;
+        const chip = ev.currentTarget.parentNode;
+        const tagid = chip.dataset.tagid;
         this.dirtyTags = this.dirtyTags.filter(tag => tag.id !== tagid);
         chip.parentNode.removeChild(chip);
-        this.port.postMessage({request: 'deleteArticleTag', articleId: this.articleId, tagId: tagid, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl});
+        this.port.postMessage({ request: 'deleteArticleTag', articleId: this.articleId, tagId: tagid, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl });
         this.checkAutocompleteState();
         this.tagsInput.focus();
     },
 
     getTagsStr: function () {
         return Array.prototype.slice.call(this.tagsInputContainer.childNodes)
-             .filter(e => (e.classList != null) && e.classList.contains('chip-sm'))
-             .map(e => e.dataset.taglabel).join(',');
+            .filter(e => (e.classList != null) && e.classList.contains('chip'))
+            .map(e => e.dataset.taglabel).join(',');
     },
 
     clearAutocompleteList: function () {
         this.foundTags.length = 0;
 
         Array.prototype.slice.call(this.tagsAutoCompleteList.childNodes)
-         .filter(e => (e.classList != null) && e.classList.contains('chip-sm'))
-         .map(e => this.tagsAutoCompleteList.removeChild(e));
+            .filter(e => (e.classList != null) && e.classList.contains('chip'))
+            .map(e => this.tagsAutoCompleteList.removeChild(e));
     },
 
     findTags: function (search) {
@@ -333,7 +333,7 @@ PopupController.prototype = {
 
     saveTitleClick: function (e) {
         e.preventDefault();
-        this.port.postMessage({request: 'saveTitle', articleId: this.articleId, title: this.getSaveHtml(this.titleInput.value), tabUrl: this.tabUrl});
+        this.port.postMessage({ request: 'saveTitle', articleId: this.articleId, title: this.getSaveHtml(this.titleInput.value), tabUrl: this.tabUrl });
         this.cardTitle.textContent = this.titleInput.value;
         this.hide(this.cardBody);
         this.show(this.cardHeader);
@@ -348,13 +348,13 @@ PopupController.prototype = {
 
     openUrl: function (e) {
         e.preventDefault();
-        browser.tabs.create({url: this.href});
+        browser.tabs.create({ url: this.href });
         window.close();
     },
 
     activeTab: function () {
         return new Promise((resolve, reject) => {
-            browser.tabs.query({ 'active': true, 'currentWindow': true }, function (tabs) {
+            browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                 if (tabs[0] != null) {
                     return resolve(tabs[0]);
                 } else {
@@ -366,7 +366,7 @@ PopupController.prototype = {
 
     _createContainerEl: function (id, label) {
         const container = document.createElement('div');
-        container.setAttribute('class', 'chip-sm');
+        container.setAttribute('class', 'chip');
         container.setAttribute('data-tagid', id);
         container.setAttribute('data-taglabel', label);
         container.appendChild(this._createTagEl(label));
@@ -400,9 +400,9 @@ PopupController.prototype = {
     },
 
     clearTagInput: function () {
-        let tagsA = Array.prototype.slice.call(this.tagsInputContainer.childNodes);
-        return tagsA.filter(e => (e.classList != null) && e.classList.contains('chip-sm'))
-                    .map(e => { this.tagsInputContainer.removeChild(e); return 0; });
+        const tagsA = Array.prototype.slice.call(this.tagsInputContainer.childNodes);
+        return tagsA.filter(e => (e.classList != null) && e.classList.contains('chip'))
+            .map(e => { this.tagsInputContainer.removeChild(e); return 0; });
     },
 
     createTags: function (data) {
@@ -481,6 +481,7 @@ PopupController.prototype = {
             case 'setup':
                 this.AllowSpaceInTags = msg.data.AllowSpaceInTags || 0;
                 this.apiUrl = msg.data.Url;
+                this.afterSetup();
                 break;
             case 'articleTags':
                 this.createTags(msg.tags);
@@ -489,23 +490,18 @@ PopupController.prototype = {
                 this.archived = msg.value.archived;
                 this.starred = msg.value.starred;
                 break;
+            case 'close':
+                window.close();
+                break;
             default:
                 console.log(`unknown message: ${msg}`);
         };
     },
 
     init: function () {
-        this.port = browser.runtime.connect({name: 'popup'});
+        this.port = browser.runtime.connect({ name: 'popup' });
         this.port.onMessage.addListener(this.messageListener.bind(this));
-        this.port.postMessage({request: 'setup'});
-        this.activeTab().then(tab => {
-            this.tabUrl = tab.url;
-            this.cardTitle.textContent = tab.title;
-            this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
-            this.enableTagsInput();
-            this.port.postMessage({request: 'save', tabUrl: tab.url});
-        });
-        this.port.postMessage({request: 'tags'});
+        this.port.postMessage({ request: 'setup' });
     },
 
     showError: function (infoString) {
@@ -519,15 +515,30 @@ PopupController.prototype = {
     },
 
     hide: function (element) {
-        element.classList.add('hide');
+        element.classList.add('d-hide');
     },
 
     show: function (element) {
-        element.classList.remove('hide');
+        element.classList.remove('d-hide');
     },
 
     isHidden: function (element) {
-        return element.classList.contains('hide');
+        return element.classList.contains('d-hide');
+    },
+
+    afterSetup: function () {
+        this.port.postMessage({ request: 'tags' });
+        this.saveArticle();
+    },
+
+    saveArticle: function () {
+        this.activeTab().then(tab => {
+            this.tabUrl = tab.url;
+            this.cardTitle.textContent = tab.title;
+            this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
+            this.enableTagsInput();
+            this.port.postMessage({ request: 'save', tabUrl: tab.url });
+        });
     }
 
 };

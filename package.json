@@ -9,6 +9,7 @@
     "Edge > 14"
   ],
   "scripts": {
+    "deps:update": "cp node_modules/spectre.css/dist/spectre.min.css wallabagger/css/spectre.min.css && cp node_modules/spectre.css/dist/spectre-exp.min.css wallabagger/css/spectre-exp.min.css",
     "eslint": "eslint wallabagger/js/*",
     "locales:sort": "sort-json -i -d=1 wallabagger/_locales/**/messages.json",
     "manifest": "npm run manifest:firefox && npm run manifest:chrome",
@@ -40,14 +41,17 @@
   },
   "homepage": "https://github.com/wallabag/wallabagger#readme",
   "devDependencies": {
-    "eslint": "^3.12.1",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-compat": "^2.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "sort-json": "^1.6.0",
+    "eslint": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-compat": "^3.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "sort-json": "^2.0.0",
     "wemf": "^1.2.1"
+  },
+  "dependencies": {
+    "spectre.css": "^0.5.8"
   }
 }
