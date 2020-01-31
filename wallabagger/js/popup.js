@@ -70,7 +70,8 @@ PopupController.prototype = {
     encodeMap: { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' },
     decodeMap: { '&amp;': '&', '&#039;': '\'', '&quot;': '"', '&lt;': '<', '&gt;': '>' },
 
-    selectedTag: 0,
+    selectedTag: -1,
+    selectedFoundTag: 0,
 
     getSaveHtml: function (param) {
         return param.replace(/[<'&">]/g, symb => this.encodeMap[symb]);
@@ -98,6 +99,7 @@ PopupController.prototype = {
 
         this.tagsInput.addEventListener('input', this.onTagsInputChanged.bind(this));
         this.tagsInput.addEventListener('keyup', this.onTagsInputKeyUp.bind(this));
+        this.tagsInput.addEventListener('keydown', this.onTagsInputKeyDown.bind(this));
 
         this.starredIcon.addEventListener('click', this.onIconClick.bind(this));
         this.archivedIcon.addEventListener('click', this.onIconClick.bind(this));
@@ -132,22 +134,43 @@ PopupController.prototype = {
         this.port.postMessage({ request: icon.dataset.apicall, articleId: this.articleId, value: JSON.parse(icon.dataset.isset) + 0, tabUrl: this.tabUrl });
     },
 
+    onTagsInputKeyDown: function (event) {
+        if ((event.key === 'Backspace') && (event.target.value === '')) {
+            const lastChip = event.target.previousElementSibling;
+            if (lastChip.classList.contains('chip')) {
+                const cross = lastChip.childNodes[1];
+                if (cross.classList.contains('btn-clear')) {
+                    cross.click();
+                }
+            }
+        }
+        if (((event.key === 'ArrowLeft') || (event.key === 'Left')) && (this.selectedFoundTag === 0)) {
+            this.selectPreviousTag();
+        }
+        if (((event.key === 'ArrowRight') || (event.key === 'Right')) && (this.selectedFoundTag === 0)) {
+            this.selectNextTag();
+        }
+        if ((this.selectedTag >= 0) && (event.key === 'Delete')) {
+            this.DeleteSelectedTag();
+        }
+    },
+
     onTagsInputKeyUp: function (event) {
         if ((event.key === 'ArrowRight') || (event.key === 'Right')) {
-            if (!event.ctrlKey) { this.addFoundTag(this.selectedTag); } else {
-                if ((this.foundTags.length > 1) && (this.selectedTag < this.foundTags.length - 1)) {
+            if (!event.ctrlKey) { this.addFoundTag(this.selectedFoundTag); } else {
+                if ((this.foundTags.length > 1) && (this.selectedFoundTag < this.foundTags.length - 1)) {
                     this.selectNextFoundTag();
                 }
             };
         }
         if (((event.key === 'ArrowLeft') || (event.key === 'Left')) && (event.ctrlKey)) {
-            if ((this.foundTags.length > 1) && (this.selectedTag > 0)) {
+            if ((this.foundTags.length > 1) && (this.selectedFoundTag > 0)) {
                 this.selectPreviousFoundTag();
             }
         }
         if (event.key === 'Enter') {
-            if (this.selectedTag > 0) {
-                this.addFoundTag(this.selectedTag);
+            if (this.selectedFoundTag > 0) {
+                this.addFoundTag(this.selectedFoundTag);
             } else {
                 if (this.tagsInput.value.trim() !== '') {
                     this.addTag(this.tmpTagId, this.tagsInput.value.trim());
@@ -208,11 +231,22 @@ PopupController.prototype = {
             var self = this;
             setTimeout(function () { self.enableTagsInput(); }, 1000);
         }
-        this.selectedTag = 0;
+        this.selectedFoundTag = 0;
+        this.selectedTag = -1;
     },
 
-    deleteTag: function (ev) {
+    deleteChip: function (ev) {
         const chip = ev.currentTarget.parentNode;
+        this.deleteTag(chip);
+    },
+
+    DeleteSelectedTag: function () {
+        const chip = this.tagsInputContainer.children[this.selectedTag + 1];
+        this.deleteTag(chip);
+        this.selectedTag = -1;
+    },
+
+    deleteTag: function (chip) {
         const tagid = chip.dataset.tagid;
         this.dirtyTags = this.dirtyTags.filter(tag => tag.id !== tagid);
         chip.parentNode.removeChild(chip);
@@ -251,7 +285,35 @@ PopupController.prototype = {
         this.foundTags.map(tag => this.tagsAutoCompleteList.appendChild(this.createTagChipNoClose(tag.id, tag.label)));
         if (this.foundTags.length > 2) {
             this.selectFoundTag(0);
-            this.selectedTag = 0;
+            this.selectedFoundTag = 0;
+        }
+    },
+
+    selectTag: function (index) {
+      //  alert(`index=${index} tag=${this.tagsInputContainer.children[index + 1].dataset.taglabel}`);
+        [...this.tagsInputContainer.children].map(e => e.classList.remove('chip-selected'));
+        if ((index >= 0) && (index < (this.articleTags.length + this.dirtyTags.length))) {
+            this.tagsInputContainer.children[index + 1].classList.add('chip-selected');
+        }
+        this.tagsInput.focus();
+    },
+
+    selectPreviousTag: function () {
+        if (this.selectedTag === -1) {
+            this.selectedTag = this.articleTags.length + this.dirtyTags.length - 1;
+            this.selectTag(this.selectedTag);
+        } else {
+            this.selectTag(--this.selectedTag);
+        }
+    },
+
+    selectNextTag: function () {
+        if (this.selectedTag === -1) { return; }
+        if (this.selectedTag === this.articleTags.length + this.dirtyTags.length - 1) {
+            this.selectTag(-1);
+            this.selectedTag = -1;
+        } else {
+            this.selectTag(++this.selectedTag);
         }
     },
 
@@ -263,11 +325,11 @@ PopupController.prototype = {
     },
 
     selectNextFoundTag: function () {
-        this.selectFoundTag(++this.selectedTag);
+        this.selectFoundTag(++this.selectedFoundTag);
     },
 
     selectPreviousFoundTag: function () {
-        this.selectFoundTag(--this.selectedTag);
+        this.selectFoundTag(--this.selectedFoundTag);
     },
 
     checkAutocompleteState: function () {
@@ -285,13 +347,13 @@ PopupController.prototype = {
         if (this.tagsInput.value !== '') {
             const lastChar = this.tagsInput.value.slice(-1);
             const value = this.tagsInput.value.slice(0, -1);
-            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags) && (this.selectedTag <= 0))) {
+            if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags) && (this.selectedFoundTag <= 0))) {
                 if (value !== '') {
                     this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
                 }
                 this.tagsInput.value = '';
-            } else if ((lastChar === ' ') && (this.selectedTag > 0)) {
-                this.addFoundTag(this.selectedTag);
+            } else if ((lastChar === ' ') && (this.selectedFoundTag > 0)) {
+                this.addFoundTag(this.selectedFoundTag);
             } else {
                 this.clearAutocompleteList();
                 this.findTags(this.tagsInput.value);
@@ -385,7 +447,7 @@ PopupController.prototype = {
 
         const button = document.createElement('button');
         button.setAttribute('class', 'btn btn-clear');
-        button.addEventListener('click', this.deleteTag.bind(this));
+        button.addEventListener('click', this.deleteChip.bind(this));
 
         container.appendChild(button);
 
