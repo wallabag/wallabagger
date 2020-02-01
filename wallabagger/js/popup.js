@@ -140,6 +140,8 @@ PopupController.prototype = {
             if (lastChip.classList.contains('chip')) {
                 const cross = lastChip.childNodes[1];
                 if (cross.classList.contains('btn-clear')) {
+                    const s = lastChip.dataset.taglabel;
+                    this.tagsInput.value = s+s.slice(-1);
                     cross.click();
                 }
             }
