@@ -141,7 +141,7 @@ PopupController.prototype = {
                 const cross = lastChip.childNodes[1];
                 if (cross.classList.contains('btn-clear')) {
                     const s = lastChip.dataset.taglabel;
-                    this.tagsInput.value = s+s.slice(-1);
+                    this.tagsInput.value = s + '!';
                     cross.click();
                 }
             }
@@ -292,7 +292,7 @@ PopupController.prototype = {
     },
 
     selectTag: function (index) {
-      //  alert(`index=${index} tag=${this.tagsInputContainer.children[index + 1].dataset.taglabel}`);
+        //  alert(`index=${index} tag=${this.tagsInputContainer.children[index + 1].dataset.taglabel}`);
         [...this.tagsInputContainer.children].map(e => e.classList.remove('chip-selected'));
         if ((index >= 0) && (index < (this.articleTags.length + this.dirtyTags.length))) {
             this.tagsInputContainer.children[index + 1].classList.add('chip-selected');
