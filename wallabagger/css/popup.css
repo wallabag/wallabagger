@@ -45,7 +45,23 @@ body {
 }
 
 .chip {
-   margin-left: 5px;
+    margin-left: 5px;
+}
+
+.chip-name {
+    padding: 0;
+    background: no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.chip-name:hover,
+.chip-name:focus {
+    color: #039be5;
+}
+
+.btn-clear:hover {
+    box-shadow: 0 0 0 0.1rem rgba(87, 85, 217, 0.2);
 }
 
 #card-image {

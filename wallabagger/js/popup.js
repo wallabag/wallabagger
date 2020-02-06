@@ -438,7 +438,7 @@ PopupController.prototype = {
     },
 
     _createTagEl: (label) => {
-        const tag = document.createElement('span');
+        const tag = document.createElement('button');
         tag.setAttribute('class', 'chip-name');
         tag.textContent = label;
         return tag;
