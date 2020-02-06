@@ -45,7 +45,23 @@ body {
 }
 
 .chip {
-   margin-left: 5px;
+    margin-left: 5px;
+}
+
+.chip-name {
+    padding: 0;
+    background: no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.chip-name:hover,
+.chip-name:focus {
+    color: #039be5;
+}
+
+.btn-clear:hover {
+    box-shadow: 0 0 0 0.1rem rgba(87, 85, 217, 0.2);
 }
 
 #card-image {
@@ -74,4 +90,20 @@ body {
 .form-autocomplete .form-autocomplete-input .form-input {
     height: auto;
     line-height: 1.5;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
