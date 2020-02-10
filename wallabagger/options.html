@@ -62,6 +62,10 @@
             flex-grow: 1;
         }
 
+        .permission-text {
+          margin-top: 5px;
+        }
+
         .wallabag-url-group {
             flex-wrap: wrap;
         }
@@ -109,7 +113,7 @@
                         <button class="btn input-group-btn" id="checkurl-button" data-i18n="Check_URL">Check URL</button>
 
                     </div>
-
+                    <p id="permission-text" class="permission-text d-hide text-error" data-i18n="We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request">We need an access to your wallabag instance to read, write and update content. Please, test the URL again and accept the request.</p>
                 </div>
                 <div class="form-group">
                     <label class="form-switch">
@@ -163,6 +167,10 @@
                     <tr>
                         <td data-i18n="Wallabag_URL_checked">Wallabag URL checked</td>
                         <td class="text-right" id="checked-label" data-i18n="Not_checked">Not checked</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="Wallabag_permission_checked">Permission checked</td>
+                        <td class="text-right" id="permission-label" data-i18n="Not_checked">Not checked</td>
                     </tr>
                     <tr>
                         <td data-i18n="Wallabag_API_version">Wallabag API version</td>
