@@ -274,17 +274,17 @@ OptionsController.prototype = {
     },
 
     _grey: function (element) {
-        element.classList.remove('is-danger');
+        element.classList.remove('is-error');
         element.classList.remove('is-success');
     },
 
     _green: function (element) {
-        element.classList.remove('is-danger');
+        element.classList.remove('is-error');
         element.classList.add('is-success');
     },
 
     _red: function (element) {
-        element.classList.add('is-danger');
+        element.classList.add('is-error');
         element.classList.remove('is-success');
     },
 
