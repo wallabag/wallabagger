@@ -319,8 +319,17 @@ OptionsController.prototype = {
         if (urlDirty !== '') {
             this._setProtocolCheck(urlDirty);
             this._setUrl(urlDirty);
-            Object.assign(this.data, { Url: this.protocolLabel_.textContent + this._getUrl() });
-            this.port.postMessage({ request: 'setup-checkurl', data: this.data });
+            const url = this.protocolLabel_.textContent + this._getUrl();
+            browser.permissions.request({
+                origins: [url + '/*']
+            }, granted => {
+                if (granted) {
+                    Object.assign(this.data, { Url: url, isFetchPermissionGranted: true });
+                    this.port.postMessage({ request: 'setup-checkurl', data: this.data });
+                } else {
+                    this._red(this.wallabagurlinput_);
+                }
+            });
         }
     },
 
