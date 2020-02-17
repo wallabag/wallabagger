@@ -171,6 +171,7 @@ OptionsController.prototype = {
         this._green(this.clientSecret_);
         this._green(this.userLogin_);
         this._green(this.userPassword_);
+        this._textSuccess(this.tokenLabel_);
         this.tokenLabel_.textContent = Common.translate('Granted');
         this.tokenExpire.textContent = this.getTokenExpireTime();
     },
@@ -301,6 +302,7 @@ OptionsController.prototype = {
         if (this.data.ApiVersion) {
             this.versionLabel_.textContent = this.data.ApiVersion;
             if (this.data.ApiVersion.split('.')[0] === '2') {
+                this._textSuccess(this.checkedLabel_);
                 this.checkedLabel_.textContent = Common.translate('Ok');
                 this._green(this.wallabagurlinput_);
                 [...document.querySelectorAll('[data-wallabag-url]')].map(el => {
@@ -404,11 +406,13 @@ OptionsController.prototype = {
         this.userPassword_.value = this.data.UserPassword || '';
 
         if (this.data.ApiToken) {
+            this._textSuccess(this.tokenLabel_);
             this.tokenLabel_.textContent = Common.translate('Granted');
             this.tokenExpire.textContent = this.getTokenExpireTime();
         }
 
         if (this.data.isTokenExpired) {
+            this._textError(this.tokenLabel_);
             this.tokenLabel_.textContent = Common.translate('Expired');
             this.tokenExpire.textContent = '';
         }
