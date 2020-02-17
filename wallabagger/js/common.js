@@ -2,8 +2,9 @@
 'use strict';
 
 const Common = (() => {
-    const translate = (message) => {
-        return browser.i18n.getMessage(message);
+    const translate = (key) => {
+        const message = browser.i18n.getMessage(key);
+        return message || `[TODO] ${key}`;
     };
 
     const translateAll = () => {
