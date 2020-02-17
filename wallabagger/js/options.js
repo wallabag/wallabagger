@@ -277,11 +277,6 @@ OptionsController.prototype = {
         element.classList.remove('d-hide');
     },
 
-    _grey: function (element) {
-        element.classList.remove('is-error');
-        element.classList.remove('is-success');
-    },
-
     _green: function (element) {
         element.classList.remove('is-error');
         element.classList.add('is-success');
