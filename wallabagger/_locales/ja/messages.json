@@ -1,4 +1,8 @@
 {
+  "Agreed": {
+    "message": "同意",
+    "description": "Options"
+  },
   "All_entries": {
     "message": "全ての記事",
     "description": "background"
@@ -45,6 +49,10 @@
   },
   "day_one": {
     "message": "日",
+    "description": "Options"
+  },
+  "Denied": {
+    "message": "拒否",
     "description": "Options"
   },
   "Delete_this_article": {
@@ -239,6 +247,10 @@
     "message": "Wallabag API トークン",
     "description": "Options"
   },
+  "Wallabag_permission_checked": {
+    "message": "Wallabag の権限の確認状況",
+    "description": "Options"
+  },
   "Wallabag_API_version": {
     "message": "Wallabag API バージョン",
     "description": "Options"
@@ -257,6 +269,10 @@
   },
   "Wallabag_URL_checked": {
     "message": "Wallabag URL の確認状況",
+    "description": "Options"
+  },
+  "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+    "message": "コンテンツの読み込み・書き込み・更新を行うには、 Wallabag インスタンスへのアクセスが必要です。 URL を再度確認して、リクエストを許可してください。",
     "description": "Options"
   },
   "Yes_delete_it": {
