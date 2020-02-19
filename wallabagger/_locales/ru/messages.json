@@ -1,4 +1,8 @@
 {
+    "Agreed": {
+    "message": "Согласовано",
+    "description": "Options"
+  },
   "All_entries": {
     "message": "Все статьи",
     "description": "background"
@@ -51,7 +55,10 @@
     "message": "день",
     "description": "Options"
   },
-  "Delete_this_article": {
+  "Denied": {
+    "message": "Отказано",
+    "description": "Options"
+  },  "Delete_this_article": {
     "message": "Удалить эту статью",
     "description": "Popup"
   },
@@ -251,6 +258,10 @@
     "message": "Wallabag API токен",
     "description": "Options"
   },
+  "Wallabag_permission_checked": {
+    "message": "Разрешение Wallabag проверено",
+    "description": "Options"
+  },
   "Wallabag_API_version": {
     "message": "Версия Wallabag API",
     "description": "Options"
@@ -269,6 +280,10 @@
   },
   "Wallabag_URL_checked": {
     "message": "Wallabag URL проверен",
+    "description": "Options"
+  },
+   "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+    "message": "Нам нужен доступ к вашему экземпляру wallabag для чтения, записи и обновления статей. Проверьте URL ещё раз и согласитесь с запросом прав.",
     "description": "Options"
   },
   "Yes_delete_it": {
