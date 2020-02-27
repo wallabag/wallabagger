@@ -344,6 +344,9 @@ function onRuntimeInstalled (details) {
     if (details.reason === 'install') {
         openOptionsPage();
     }
+    if (details.reason === 'update' && api.data.isFetchPermissionGranted !== true) {
+        openOptionsPage();
+    }
 }
 
 function addListeners () {

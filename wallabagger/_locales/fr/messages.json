@@ -1,4 +1,8 @@
 {
+  "Agreed": {
+    "message": "Accepté",
+    "description": "Options"
+  },
   "All_entries": {
     "message": "Tous les articles",
     "description": "background"
@@ -50,6 +54,10 @@
   "Delete_this_article": {
     "message": "Supprimer cet article",
     "description": "Popup"
+  },
+  "Denied": {
+    "message": "Refusé",
+    "description": "Options"
   },
   "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
     "message": "Souhaitez-vous supprimer de wallabag cet article de façon permanente ?",
@@ -251,12 +259,20 @@
     "message": "Enregistrer la page dans Wallabag sans ouvrir la popup",
     "description": "Manifest.json"
   },
+  "Wallabag_permission_checked": {
+    "message": "Wallabag permission testée",
+    "description": "Options"
+  },
   "Wallabag_URL": {
     "message": "URL de Wallabag",
     "description": "Options"
   },
   "Wallabag_URL_checked": {
     "message": "Wallabag URL testée",
+    "description": "Options"
+  },
+  "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+    "message": "Nous avons besoin d'accéder à votre instance wallabag pour lire, écrire et mettre à jour votre contenu. Merci de relancer le test de l'URL et acceptez la demande de droits.",
     "description": "Options"
   },
   "Yes_delete_it": {

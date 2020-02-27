@@ -3,6 +3,8 @@ var OptionsController = function () {
     this.protocolLabel_ = document.getElementById('input-group-wallabagurl');
     this.wallabagurlinput_ = document.getElementById('input-wallabagurl');
     this.checkedLabel_ = document.getElementById('checked-label');
+    this.permissionLabel_ = document.getElementById('permission-label');
+    this.permissionText_ = document.getElementById('permission-text');
     this.versionLabel_ = document.getElementById('apiversion-label');
     this.checkurlbutton_ = document.getElementById('checkurl-button');
     this.tokenSection_ = document.getElementById('token-section');
@@ -38,6 +40,7 @@ OptionsController.prototype = {
     versionLabel_: null,
     _debug: false,
     checkedLabel_: null,
+    permissionLabel_: null,
     tokenSection_: null,
     togglesSection: null,
     clientId_: null,
@@ -90,6 +93,7 @@ OptionsController.prototype = {
         this.protocolLabel_.textContent = 'https://';
         this.protocolCheck_.checked = true;
         this.checkedLabel_.textContent = Common.translate('Not_checked');
+        this.permissionLabel_.textContent = Common.translate('Not_checked');
         this.versionLabel_.textContent = Common.translate('Not_checked');
         this.tokenLabel_.textContent = Common.translate('Not_granted');
         this.tokenExpire.textContent = '';
@@ -167,6 +171,7 @@ OptionsController.prototype = {
         this._green(this.clientSecret_);
         this._green(this.userLogin_);
         this._green(this.userPassword_);
+        this._textSuccess(this.tokenLabel_);
         this.tokenLabel_.textContent = Common.translate('Granted');
         this.tokenExpire.textContent = this.getTokenExpireTime();
     },
@@ -273,11 +278,6 @@ OptionsController.prototype = {
         element.classList.remove('d-hide');
     },
 
-    _grey: function (element) {
-        element.classList.remove('is-error');
-        element.classList.remove('is-success');
-    },
-
     _green: function (element) {
         element.classList.remove('is-error');
         element.classList.add('is-success');
@@ -288,10 +288,21 @@ OptionsController.prototype = {
         element.classList.remove('is-success');
     },
 
+    _textSuccess: function (element) {
+        element.classList.remove('text-error');
+        element.classList.add('text-success');
+    },
+
+    _textError: function (element) {
+        element.classList.add('text-error');
+        element.classList.remove('text-success');
+    },
+
     wallabagUrlChecked: function () {
         if (this.data.ApiVersion) {
             this.versionLabel_.textContent = this.data.ApiVersion;
             if (this.data.ApiVersion.split('.')[0] === '2') {
+                this._textSuccess(this.checkedLabel_);
                 this.checkedLabel_.textContent = Common.translate('Ok');
                 this._green(this.wallabagurlinput_);
                 [...document.querySelectorAll('[data-wallabag-url]')].map(el => {
@@ -310,17 +321,41 @@ OptionsController.prototype = {
         this._hide(this.tokenSection_);
         this._hide(this.togglesSection);
         this.checkedLabel_.textContent = Common.translate('Not_checked');
+        this.permissionLabel_.textContent = Common.translate('Not_checked');
         this.versionLabel_.textContent = Common.translate('Not_checked');
     },
 
-    checkUrlClick: function (e) {
+    checkUrlClick: async function (e) {
         e.preventDefault();
         const urlDirty = this._getUrl();
         if (urlDirty !== '') {
             this._setProtocolCheck(urlDirty);
             this._setUrl(urlDirty);
-            Object.assign(this.data, { Url: this.protocolLabel_.textContent + this._getUrl() });
-            this.port.postMessage({ request: 'setup-checkurl', data: this.data });
+            const url = this.protocolLabel_.textContent + this._getUrl();
+            if (this.data.isFetchPermissionGranted !== true) {
+                this.data.isFetchPermissionGranted = await browser.permissions.request({
+                    origins: [url + '/*']
+                });
+                this.permissionLabelChecked();
+            }
+            if (this.data.isFetchPermissionGranted === true) {
+                Object.assign(this.data, { Url: url });
+                this.port.postMessage({ request: 'setup-checkurl', data: this.data });
+            }
+        }
+    },
+
+    permissionLabelChecked: function () {
+        const granted = this.data.isFetchPermissionGranted;
+        const permissionMethod = granted ? '_textSuccess' : '_textError';
+        const permissionKey = granted ? 'Agreed' : 'Denied';
+        this[permissionMethod](this.permissionLabel_);
+        this.permissionLabel_.textContent = Common.translate(permissionKey);
+        if (granted === false) {
+            this._red(this.wallabagurlinput_);
+            this._show(this.permissionText_);
+        } else {
+            this._hide(this.permissionText_);
         }
     },
 
@@ -361,6 +396,9 @@ OptionsController.prototype = {
             this._show(this.togglesSection);
         }
         this.wallabagUrlChecked();
+        if (this.data.isFetchPermissionGranted) {
+            this.permissionLabelChecked();
+        }
 
         this.clientId_.value = this.data.ClientId || '';
         this.clientSecret_.value = this.data.ClientSecret || '';
@@ -368,11 +406,13 @@ OptionsController.prototype = {
         this.userPassword_.value = this.data.UserPassword || '';
 
         if (this.data.ApiToken) {
+            this._textSuccess(this.tokenLabel_);
             this.tokenLabel_.textContent = Common.translate('Granted');
             this.tokenExpire.textContent = this.getTokenExpireTime();
         }
 
         if (this.data.isTokenExpired) {
+            this._textError(this.tokenLabel_);
             this.tokenLabel_.textContent = Common.translate('Expired');
             this.tokenExpire.textContent = '';
         }

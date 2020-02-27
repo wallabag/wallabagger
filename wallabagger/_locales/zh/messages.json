@@ -1,4 +1,8 @@
 {
+  "Agreed": {
+    "message": "",
+    "description": "Options"
+  },
   "All_entries": {
     "message": "所有文章",
     "description": "background"
@@ -50,6 +54,10 @@
   "Delete_this_article": {
     "message": "删除这篇文章",
     "description": "Popup"
+  },
+  "Denied": {
+    "message": "",
+    "description": "Options"
   },
   "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
     "message": "您想从wallabag永久删除这篇文章吗？",
@@ -147,6 +155,10 @@
     "message": "好，我明白了",
     "description": "Options"
   },
+  "Options_not_defined": {
+    "message": "",
+    "description": "Background"
+  },
   "Remove_this_article_from_Wallabag": {
     "message": "从Wallabag删除这篇文章",
     "description": "Popup"
@@ -158,6 +170,10 @@
   "Save": {
     "message": "保存",
     "description": "Popup"
+  },
+  "Save_Error": {
+    "message": "",
+    "description": "Background"
   },
   "Save_to_file": {
     "message": "保存到文件",
@@ -243,6 +259,10 @@
     "message": "在不打开弹出窗口的情况下将页面保存到Wallabag中",
     "description": "Manifest.json"
   },
+  "Wallabag_permission_checked": {
+    "message": "",
+    "description": "Options"
+  },
   "Wallabag_URL": {
     "message": "Wallabag URL",
     "description": "Options"
@@ -251,8 +271,20 @@
     "message": "Wallabag URL 检查",
     "description": "Options"
   },
+  "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+    "message": "",
+    "description": "Options"
+  },
   "Yes_delete_it": {
     "message": "是的，删除它",
     "description": "Popup"
+  },
+  "You_can_find_your_credentials_here": {
+    "message": "",
+    "description": "Options"
+  },
+  "Archive_by_default_when_saving_page": {
+      "message": "",
+      "description": "Options"
   }
 }
