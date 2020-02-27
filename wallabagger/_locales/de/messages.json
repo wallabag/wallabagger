@@ -1,4 +1,8 @@
 {
+  "Agreed": {
+    "message": "Einverstanden",
+    "description": "Options"
+  },
   "All_entries": {
     "message": "Alle Artikel",
     "description": "background"
@@ -50,6 +54,10 @@
   "Delete_this_article": {
     "message": "Diesen Artikel löschen",
     "description": "Popup"
+  },
+  "Denied": {
+    "message": "Abgelehnt",
+    "description": "Options"
   },
   "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
     "message": "Möchten Sie diesen Artikel dauerhaft aus wallabag entfernen?",
@@ -251,12 +259,20 @@
     "message": "Seite in wallabag speichern, ohne das Popup zu öffnen",
     "description": "Manifest.json"
   },
+  "Wallabag_permission_checked": {
+    "message": "Wallabag Berechtigungen geprüft",
+    "description": "Options"
+  },
   "Wallabag_URL": {
     "message": "Wallabag URL",
     "description": "Options"
   },
   "Wallabag_URL_checked": {
     "message": "Wallabag URL getestet",
+    "description": "Options"
+  },
+  "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+    "message": "Wir benötigen Zugriff auf Ihre wallabag-Instanz zum Lesen, Schreiben und Aktualisieren von Inhalten. Bitte prüfen Sie die URL noch einmal und akzeptieren Sie die Anfrage.",
     "description": "Options"
   },
   "Yes_delete_it": {
@@ -267,8 +283,8 @@
     "message": "Ihre Zugangsdaten finden Sie hier:",
     "description": "Options"
   },
-    "Archive_by_default_when_saving_page": {
-        "message": "Standardmäßig markieren Sie die Seite beim Speichern als gelesen",
-        "description": "Options"
-    }
+  "Archive_by_default_when_saving_page": {
+    "message": "Standardmäßig markieren Sie die Seite beim Speichern als gelesen",
+    "description": "Options"
+  }
 }
