@@ -398,6 +398,9 @@ OptionsController.prototype = {
         this.wallabagUrlChecked();
         if (this.data.isFetchPermissionGranted) {
             this.permissionLabelChecked();
+        } else {
+            this._red(this.wallabagurlinput_);
+            this._show(this.permissionText_);
         }
 
         this.clientId_.value = this.data.ClientId || '';

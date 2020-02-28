@@ -77,7 +77,6 @@ WallabagApi.prototype = {
     checkParams: function () {
         return ((this.data.ClientId !== null) &&
                  (this.data.ClientSecret !== null) &&
-                 (this.data.isFetchPermissionGranted === true) &&
                  (this.data.userLogin !== null) &&
                  (this.data.UserPassword !== null) &&
                  (this.data.ClientId !== '') &&
