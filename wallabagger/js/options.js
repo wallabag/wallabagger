@@ -333,9 +333,12 @@ OptionsController.prototype = {
             this._setUrl(urlDirty);
             const url = this.protocolLabel_.textContent + this._getUrl();
             if (this.data.isFetchPermissionGranted !== true) {
-                this.data.isFetchPermissionGranted = await browser.permissions.request({
-                    origins: [url + '/*']
-                });
+                const granted = await new Promise((resolve, reject) => {
+                    browser.permissions.request({
+                        origins: [url + '/*']
+                    }, resolve);
+                }).then(granted => granted);
+                this.data.isFetchPermissionGranted = granted;
                 this.permissionLabelChecked();
             }
             if (this.data.isFetchPermissionGranted === true) {
