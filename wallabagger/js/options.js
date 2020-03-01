@@ -97,7 +97,7 @@ OptionsController.prototype = {
         this.versionLabel_.textContent = Common.translate('Not_checked');
         this.tokenLabel_.textContent = Common.translate('Not_granted');
         this.tokenExpire.textContent = '';
-
+        this.data.isFetchPermissionGranted = false;
         this.setDataFromFields();
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
@@ -120,6 +120,8 @@ OptionsController.prototype = {
                 }
                 this.data = Object.assign({}, obj);
                 this.setFields();
+                this.data.isFetchPermissionGranted = false;
+                this.permissionLabel_.textContent = Common.translate('Not_checked');
                 this.port.postMessage({ request: 'setup-save', data: this.data });
             }.bind(this);
             fileReader.readAsText(fileToLoad, 'UTF-8');
@@ -332,6 +334,7 @@ OptionsController.prototype = {
             this._setProtocolCheck(urlDirty);
             this._setUrl(urlDirty);
             const url = this.protocolLabel_.textContent + this._getUrl();
+            if (url !== this.data.Url) this.data.isFetchPermissionGranted = false;
             if (this.data.isFetchPermissionGranted !== true) {
                 const granted = await new Promise((resolve, reject) => {
                     browser.permissions.request({
