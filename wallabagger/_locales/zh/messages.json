@@ -23,6 +23,10 @@
     "message": "文章标题",
     "description": "Popup"
   },
+  "Auto_add_single_tag": {
+    "message": "Auto add single tag",
+    "description": "Options"
+  },
   "Cancel": {
     "message": "取消",
     "description": "Popup"
