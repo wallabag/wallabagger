@@ -23,6 +23,10 @@
     "message": "Заголовок статьи",
     "description": "Popup"
   },
+  "Auto_add_single_tag": {
+    "message": "Автоматически добавлять тег, если найден только один",
+    "description": "Options"
+  },
   "Cancel": {
     "message": "Отмена",
     "description": "Popup"

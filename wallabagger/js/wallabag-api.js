@@ -16,7 +16,8 @@ WallabagApi.prototype = {
         isFetchPermissionGranted: null,
         AllowSpaceInTags: false,
         AllowExistCheck: false,
-        Debug: false
+        Debug: false,
+        AutoAddSingleTag: false
     },
 
     data: {},

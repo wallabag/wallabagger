@@ -28,6 +28,7 @@ var OptionsController = function () {
     this.openFileDialog = document.getElementById('openFile-dialog');
     this.httpsMessage = document.getElementById('https-message');
     this.httpsButton = document.getElementById('https-button');
+    this.autoAddSingleTag = document.getElementById('single-tag');
     this.addListeners_();
 };
 
@@ -59,9 +60,9 @@ OptionsController.prototype = {
     archiveByDefault: null,
     allowExistCheck: null,
     debugEl: null,
+    autoAddSingleTag: null,
     httpsButton: null,
     httpsMessage: null,
-
     data: null,
     port: null,
 
@@ -78,6 +79,7 @@ OptionsController.prototype = {
         this.clearButton.addEventListener('click', this.clearClick.bind(this));
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
+        this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
     },
 
     httpsButtonClick: function () {
@@ -141,6 +143,11 @@ OptionsController.prototype = {
         downloadLink.style.display = 'none';
         document.body.appendChild(downloadLink);
         downloadLink.click();
+    },
+
+    autoAddSingleTagClick: function(e){
+        Object.assign(this.data, { AutoAddSingleTag: this.autoAddSingleTag.checked });
+        this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
     allowSpaceCheckClick: function (e) {
@@ -428,6 +435,7 @@ OptionsController.prototype = {
 
         this.allowSpaceCheck.checked = this.data.AllowSpaceInTags;
         this.allowExistCheck.checked = this.data.AllowExistCheck;
+        this.autoAddSingleTag.checked = this.data.AutoAddSingleTag;
         this.debugEl.checked = this.data.Debug;
     },
 

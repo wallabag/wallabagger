@@ -63,6 +63,7 @@ PopupController.prototype = {
     archived: 0,
     tmpTagId: 0,
     AllowSpaceInTags: false,
+    AutoAddSingleTag: false,
     tabUrl: null,
 
     port: null,
@@ -72,6 +73,7 @@ PopupController.prototype = {
 
     selectedTag: -1,
     selectedFoundTag: 0,
+    backspacePressed: false,
 
     getSaveHtml: function (param) {
         return param.replace(/[<'&">]/g, symb => this.encodeMap[symb]);
@@ -135,6 +137,7 @@ PopupController.prototype = {
     },
 
     onTagsInputKeyDown: function (event) {
+        if (event.key === 'Backspace') this.backspacePressed = true;
         if ((event.key === 'Backspace') && (event.target.value === '')) {
             const lastChip = event.target.previousElementSibling;
             if (lastChip.classList.contains('chip')) {
@@ -347,6 +350,7 @@ PopupController.prototype = {
     onTagsInputChanged: function (e) {
         e.preventDefault();
         if (this.tagsInput.value !== '') {
+            console.log('bs state='+this.backspacePressed);
             const lastChar = this.tagsInput.value.slice(-1);
             const value = this.tagsInput.value.slice(0, -1);
             if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags) && (this.selectedFoundTag <= 0))) {
@@ -354,12 +358,16 @@ PopupController.prototype = {
                     this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
                 }
                 this.tagsInput.value = '';
-            } else if ((lastChar === ' ') && (this.selectedFoundTag > 0)) {
+            } else if ((lastChar === ' ') && (this.selectedFoundTag > 0) ) {
                 this.addFoundTag(this.selectedFoundTag);
             } else {
                 this.clearAutocompleteList();
                 this.findTags(this.tagsInput.value);
+                if ((!this.backspacePressed) && (this.AutoAddSingleTag) && (this.foundSingleTag())) {
+                    this.addFoundTag(this.selectedFoundTag);
+                }
             }
+            this.backspacePressed = false;
         }
         this.checkAutocompleteState();
     },
@@ -544,6 +552,7 @@ PopupController.prototype = {
                 break;
             case 'setup':
                 this.AllowSpaceInTags = msg.data.AllowSpaceInTags || 0;
+                this.AutoAddSingleTag = msg.data.AutoAddSingleTag || 0;
                 this.apiUrl = msg.data.Url;
                 this.afterSetup();
                 break;
@@ -603,6 +612,10 @@ PopupController.prototype = {
             this.enableTagsInput();
             this.port.postMessage({ request: 'save', tabUrl: tab.url });
         });
+    },
+
+    foundSingleTag: function() {
+        return this.foundTags.length === 1;
     }
 
 };
