@@ -52,6 +52,6 @@
     "wemf": "^1.2.1"
   },
   "dependencies": {
-    "spectre.css": "^0.5.8"
+    "spectre.css": "^0.5.9"
   }
 }
