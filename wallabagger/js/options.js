@@ -145,7 +145,7 @@ OptionsController.prototype = {
         downloadLink.click();
     },
 
-    autoAddSingleTagClick: function(e){
+    autoAddSingleTagClick: function (e) {
         Object.assign(this.data, { AutoAddSingleTag: this.autoAddSingleTag.checked });
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
