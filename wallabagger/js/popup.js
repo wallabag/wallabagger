@@ -350,7 +350,7 @@ PopupController.prototype = {
     onTagsInputChanged: function (e) {
         e.preventDefault();
         if (this.tagsInput.value !== '') {
-            console.log('bs state='+this.backspacePressed);
+            console.log('bs state=' + this.backspacePressed);
             const lastChar = this.tagsInput.value.slice(-1);
             const value = this.tagsInput.value.slice(0, -1);
             if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags) && (this.selectedFoundTag <= 0))) {
@@ -358,7 +358,7 @@ PopupController.prototype = {
                     this.addTag(this.tmpTagId, this.tagsInput.value.slice(0, -1));
                 }
                 this.tagsInput.value = '';
-            } else if ((lastChar === ' ') && (this.selectedFoundTag > 0) ) {
+            } else if ((lastChar === ' ') && (this.selectedFoundTag > 0)) {
                 this.addFoundTag(this.selectedFoundTag);
             } else {
                 this.clearAutocompleteList();
@@ -614,7 +614,7 @@ PopupController.prototype = {
         });
     },
 
-    foundSingleTag: function() {
+    foundSingleTag: function () {
         return this.foundTags.length === 1;
     }
 
