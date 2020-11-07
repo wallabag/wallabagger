@@ -256,16 +256,17 @@ OptionsController.prototype = {
 
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
             this.setDataFromFields();
+            this.setFields();
             this.port.postMessage({ request: 'setup-gettoken', data: this.data });
         }
     },
 
     setDataFromFields: function () {
         Object.assign(this.data, {
-            Url: this.protocolLabel_.textContent + this.wallabagurlinput_.value,
-            ClientId: this.clientId_.value,
-            ClientSecret: this.clientSecret_.value,
-            UserLogin: this.userLogin_.value,
+            Url: this.protocolLabel_.textContent + this.cleanStr(this.wallabagurlinput_.value),
+            ClientId: this.cleanStr(this.clientId_.value),
+            ClientSecret: this.cleanStr(this.clientSecret_.value),
+            UserLogin: this.cleanStr(this.userLogin_.value),
             UserPassword: this.userPassword_.value
         });
     },
@@ -339,7 +340,7 @@ OptionsController.prototype = {
         const urlDirty = this._getUrl();
         if (urlDirty !== '') {
             this._setProtocolCheck(urlDirty);
-            this._setUrl(urlDirty);
+            this._setUrlInput(urlDirty);
             const url = this.protocolLabel_.textContent + this._getUrl();
             if (url !== this.data.Url) this.data.isFetchPermissionGranted = false;
             if (this.data.isFetchPermissionGranted !== true) {
@@ -373,7 +374,7 @@ OptionsController.prototype = {
     },
 
     _urlSanitized: function (urlDirty) {
-        const url = urlDirty
+        const url = this.cleanStr(urlDirty)
             .replace(new RegExp(/^http(s?):\/\//, 'gm'), '')
             .replace(/\/$/, '');
         return url;
@@ -392,16 +393,35 @@ OptionsController.prototype = {
         return this.wallabagurlinput_.value;
     },
 
-    _setUrl (urlDirty) {
-        const url = this._urlSanitized(urlDirty);
-        this.wallabagurlinput_.value = url;
+    _setUrlInput (urlDirty) {
+        this.wallabagurlinput_.value = this._urlSanitized(urlDirty) || '';
+    },
+
+    _setClientIdInput (clientId) {
+        this.clientId_.value = typeof (clientId) === 'string' ? this.cleanStr(clientId) : '';
+    },
+
+    _setClientSecretInput (clientSecret) {
+        this.clientSecret_.value = typeof (clientSecret) === 'string' ? this.cleanStr(clientSecret) : '';
+    },
+
+    _setUserLoginInput (userLogin) {
+        this.userLogin_.value = typeof (userLogin) === 'string' ? this.cleanStr(userLogin) : '';
+    },
+
+    _setUserPasswordInput (userPassword) {
+        this.userPassword_.value = userPassword || '';
+    },
+
+    cleanStr (strDirty) {
+        return strDirty.trim();
     },
 
     setFields: function () {
         const urlDirty = this.data.Url;
         if (typeof (urlDirty) === 'string' && urlDirty.length > 0) {
             this._setProtocolCheck(urlDirty);
-            this._setUrl(urlDirty);
+            this._setUrlInput(urlDirty);
         }
 
         if (this.wallabagurlinput_.value !== '') {
@@ -416,10 +436,10 @@ OptionsController.prototype = {
             this._show(this.permissionText_);
         }
 
-        this.clientId_.value = this.data.ClientId || '';
-        this.clientSecret_.value = this.data.ClientSecret || '';
-        this.userLogin_.value = this.data.UserLogin || '';
-        this.userPassword_.value = this.data.UserPassword || '';
+        this._setClientIdInput(this.data.ClientId);
+        this._setClientSecretInput(this.data.ClientSecret);
+        this._setUserLoginInput(this.data.UserLogin);
+        this._setUserPasswordInput(this.data.UserPassword);
 
         if (this.data.ApiToken) {
             this._textSuccess(this.tokenLabel_);
