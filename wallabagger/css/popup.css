@@ -64,11 +64,17 @@ body {
     box-shadow: 0 0 0 0.1rem rgba(87, 85, 217, 0.2);
 }
 
-#card-image {
+.card-image {
     max-width: 444px;
     max-height: 250px;
     overflow: hidden;
     margin: auto;
+}
+
+.card-image--default {
+    max-height: 100px;
+    margin-top: 14px;
+    margin-bottom: 14px;
 }
 
 .pb-30 {

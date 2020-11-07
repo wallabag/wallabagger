@@ -496,6 +496,7 @@ PopupController.prototype = {
         if (typeof (data.preview_picture) === 'string' &&
             data.preview_picture.length > 0 &&
             data.preview_picture.indexOf('http') === 0) {
+            this.cardImage.classList.remove('card-image--default');
             this.cardImage.src = data.preview_picture;
         }
 
