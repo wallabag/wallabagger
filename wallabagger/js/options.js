@@ -1,4 +1,4 @@
-var OptionsController = function () {
+const OptionsController = function () {
     this.protocolCheck_ = document.getElementById('protocol-checkbox');
     this.protocolLabel_ = document.getElementById('input-group-wallabagurl');
     this.wallabagurlinput_ = document.getElementById('input-wallabagurl');
@@ -111,7 +111,7 @@ OptionsController.prototype = {
 
     loadFromFile: function () {
         if (this.openFileDialog.value !== '') {
-            var fileToLoad = this.openFileDialog.files[0];
+            const fileToLoad = this.openFileDialog.files[0];
             const fileReader = new FileReader();
             fileReader.onload = function (fileLoadedEvent) {
                 const textFromFileLoaded = fileLoadedEvent.target.result;
@@ -319,6 +319,7 @@ OptionsController.prototype = {
                     const href = this.data.Url + el.dataset.wallabagUrl;
                     el.href = href;
                     el.innerText = href;
+                    return el;
                 });
                 this._show(this.tokenSection_);
                 this._show(this.togglesSection);
@@ -375,7 +376,7 @@ OptionsController.prototype = {
 
     _urlSanitized: function (urlDirty) {
         const url = this.cleanStr(urlDirty)
-            .replace(new RegExp(/^http(s?):\/\//, 'gm'), '')
+            .replace(/^http(s?):\/\//gm, '')
             .replace(/\/$/, '');
         return url;
     },

@@ -1,4 +1,4 @@
-var FetchApi = function () {};
+const FetchApi = function () {};
 
 FetchApi.prototype = {
 

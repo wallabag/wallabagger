@@ -1,4 +1,4 @@
-var PopupController = function () {
+const PopupController = function () {
     this.mainCard = document.getElementById('main-card');
     this.errorToast = document.getElementById('error-toast');
     this.infoToast = document.getElementById('info-toast');
@@ -233,7 +233,7 @@ PopupController.prototype = {
             this.checkAutocompleteState();
         } else {
             this.tagsInput.placeholder = Common.translate('Tag_already_exists');
-            var self = this;
+            const self = this;
             setTimeout(function () { self.enableTagsInput(); }, 1000);
         }
         this.selectedFoundTag = 0;
@@ -323,7 +323,7 @@ PopupController.prototype = {
     },
 
     selectFoundTag: function (index) {
-        for (var i = 0; i < this.tagsAutoCompleteList.children.length; i++) {
+        for (let i = 0; i < this.tagsAutoCompleteList.children.length; i++) {
             this.tagsAutoCompleteList.children[i].classList.remove('chip-selected');
         }
         this.tagsAutoCompleteList.children[index + 1].classList.add('chip-selected');
@@ -481,9 +481,7 @@ PopupController.prototype = {
         this.articleTags = data;
         this.dirtyTags = this.dirtyTags.filter(tag => this.articleTags.filter(atag => atag.label.toLowerCase() === tag.label.toLowerCase()).length === 0);
         this.clearTagInput();
-        this.articleTags.concat(this.dirtyTags).map(tag => {
-            this.tagsInputContainer.insertBefore(this.createTagChip(tag.id, tag.label), this.tagsInput);
-        });
+        this.articleTags.concat(this.dirtyTags).map(tag => this.tagsInputContainer.insertBefore(this.createTagChip(tag.id, tag.label), this.tagsInput));
     },
 
     setArticle: function (data) {

@@ -1,4 +1,4 @@
-var WallabagApi = function () { };
+const WallabagApi = function () { };
 
 WallabagApi.prototype = {
 

@@ -9,7 +9,7 @@ if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
 let Port = null;
 let portConnected = false;
 
-var CacheType = function (enable) {
+const CacheType = function (enable) {
     this.enabled = enable;
     this._cache = [];
 };
@@ -107,7 +107,7 @@ createContextMenus();
 
 // Functions
 function createContextMenus () {
-    wallabagContextMenus.map(menu => { browser.contextMenus.create(menu); });
+    wallabagContextMenus.map(menu => browser.contextMenus.create(menu));
 }
 
 function onTabActivatedListener (activeInfo) {
