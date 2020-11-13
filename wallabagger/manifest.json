@@ -5,13 +5,25 @@
   "version": "1.11.0",
   "description": "__MSG_Extension_description__",
   "icons": {
-    "16": "img/wallabag-icon-48a.png",
+    "16": "img/wallabagger-16-dark.png",
     "128": "img/wallabag-icon-128.png"
   },
   "browser_action": {
     "default_title": "Wallabagger",
     "default_icon": "img/wallabag-icon-48a.png",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "theme_icons": [
+      {
+        "dark": "img/wallabagger-16-dark.png",
+        "light": "img/wallabagger-16-light.png",
+        "size": 16
+      },
+      {
+        "dark": "img/wallabagger-32-dark.png",
+        "light": "img/wallabagger-32-light.png",
+        "size": 32
+      }
+    ]
   },
   "background": {
     "scripts": [
