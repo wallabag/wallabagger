@@ -17,11 +17,12 @@ FetchApi.prototype = {
     },
 
     getHeaders: function (token) {
-        const headers = new Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Content-Type', 'application/json');
+        const headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        };
         if (token !== '') {
-            headers.append('Authorization', `Bearer ${token}`);
+            headers.Authorization = `Bearer ${token}`;
         }
         return headers;
     },
@@ -42,46 +43,8 @@ FetchApi.prototype = {
         return this.Fetch(url, 'GET', token, '');
     },
 
-    isEdge: function () {
-        return /Edge/.test(navigator.userAgent);
-    },
-
     Fetch: function (url, method, token, content) {
         const options = this.getRequestOptions(method, token, content);
-        return this.isEdge()
-            ? this.xhrFetch(url, options)
-            : this.apiFetch(url, options);
-    },
-
-    apiFetch: (url, options) => fetch(url, options).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err))),
-
-    xhrFetch: function (url, options) {
-        return new Promise(function (resolve, reject) {
-            const xhr = new XMLHttpRequest();
-            // checks if CORS available
-            if ('withCredentials' in xhr) {
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status >= 200 && xhr.status < 400) {
-                            resolve(JSON.parse(xhr.responseText)); // load();
-                        } else {
-                            reject(new Error(
-                                `XHR error ${xhr.status || ''} ${xhr.statusText || ''} loading ${url} 
-                                ----
-                                ${xhr.responseText}
-                                ----`)); // error();
-                        }
-                    }
-                };
-                xhr.open(options.method, url, true);
-                for (const key of options.headers.keys()) {
-                    xhr.setRequestHeader(key, options.headers.get(key));
-                }
-                xhr.send(options.body);
-            } else {
-                reject(new Error('Browser doesn\'t suppotr CORS requests!'));
-            }
-        });
+        return fetch(url, options).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
     }
-
 };
