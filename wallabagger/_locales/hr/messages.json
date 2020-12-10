@@ -8,7 +8,7 @@
     "description": "background"
   },
   "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
-    "message": "Dozvoli upotrebu razmaknice u oznakama (time se deaktivira razmaknica kao tipka za slanje oznaka, koristi tipku Enter umjesto toga)",
+    "message": "Dozvoli upotrebu razmaka u oznakama (time se deaktivira razmaknica kao tipka za slanje oznaka, koristi tipku Enter umjesto toga)",
     "description": "Options"
   },
   "Archive": {
@@ -22,6 +22,10 @@
   "Article_s_title": {
     "message": "Naslov članka",
     "description": "Popup"
+  },
+  "Auto_add_single_tag": {
+    "message": "Automatski dodaj jedinu oznaku",
+    "description": "Options"
   },
   "Cancel": {
     "message": "Odustani",
@@ -72,7 +76,7 @@
     "description": "Options"
   },
   "Edit_the_Wallabag_title_of_this_article": {
-    "message": "Uredi Wallabagov naslov za ovaj članak",
+    "message": "Uredi naslov ovog članka za Wallabag",
     "description": "Popup"
   },
   "Enable_this_only_if_developers_told_you_to": {
@@ -100,7 +104,7 @@
     "description": "Popup"
   },
   "Go_to_Wallabag_s_article_page": {
-    "message": "Idi na Wallabag stranicu ovog članka",
+    "message": "Idi na Wallabagovu stranicu ovog članka",
     "description": "Popup"
   },
   "Granted": {
