@@ -1,294 +1,294 @@
 {
-  "Agreed": {
-    "message": "",
-    "description": "Options"
-  },
-  "All_entries": {
-    "message": "所有文章",
-    "description": "background"
-  },
-  "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
-    "message": "允许标签中有空格（这会禁用“空格”作为发送标签键，而应使用Enter键）",
-    "description": "Options"
-  },
-  "Archive": {
-    "message": "存档",
-    "description": "background"
-  },
-  "Article_s_link": {
-    "message": "文章链接",
-    "description": "Popup"
-  },
-  "Article_s_title": {
-    "message": "文章标题",
-    "description": "Popup"
-  },
-  "Auto_add_single_tag": {
-    "message": "Auto add single tag",
-    "description": "Options"
-  },
-  "Cancel": {
-    "message": "取消",
-    "description": "Popup"
-  },
-  "Check_URL": {
-    "message": "检查URL",
-    "description": "Options"
-  },
-  "Checklist": {
-    "message": "检查列表",
-    "description": "Options"
-  },
-  "Client_ID": {
-    "message": "客户端ID",
-    "description": "Options"
-  },
-  "Client_secret": {
-    "message": "客户端密钥",
-    "description": "Options"
-  },
-  "day_many": {
-    "message": "天",
-    "description": "Options"
-  },
-  "day_one": {
-    "message": "天",
-    "description": "Options"
-  },
-  "Delete_this_article": {
-    "message": "删除这篇文章",
-    "description": "Popup"
-  },
-  "Denied": {
-    "message": "",
-    "description": "Options"
-  },
-  "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
-    "message": "您想从wallabag永久删除这篇文章吗？",
-    "description": "Popup"
-  },
-  "Download_file": {
-    "message": "Download file",
-    "description": "Options"
-  },
-  "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
-    "message": "由于安全原因，我们只允许HTTPS协议选项",
-    "description": "Options"
-  },
-  "Edit_the_Wallabag_title_of_this_article": {
-    "message": "编辑这篇文章标题",
-    "description": "Popup"
-  },
-  "Enable_this_only_if_developers_told_you_to": {
-    "message": "只有当开发人员告诉您",
-    "description": "Options"
-  },
-  "Enter_your_tags_here": {
-    "message": "在此处输入您的标签",
-    "description": "Popup"
-  },
-  "Expired": {
-    "message": "过期",
-    "description": "Options"
-  },
-  "Extension_description": {
-    "message": "这个wallabag v2扩展可以编辑标题和标签，并设置星号、存档或删除状态。",
-    "description": "Manifest.json"
-  },
-  "Get_token": {
-    "message": "获取token",
-    "description": "Options"
-  },
-  "Go_to_this_article_page": {
-    "message": "转到此文章页",
-    "description": "Popup"
-  },
-  "Go_to_Wallabag_s_article_page": {
-    "message": "转到Wallabag的文章页",
-    "description": "Popup"
-  },
-  "Granted": {
-    "message": "授予",
-    "description": "Options"
-  },
-  "hour_many": {
-    "message": "小时",
-    "description": "Options"
-  },
-  "hour_one": {
-    "message": "小时",
-    "description": "Options"
-  },
-  "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
-    "message": "显示页面是否已保存（这会将每个选项卡的URL发送到wallabag，使用HTTPS协议以获得更好的安全性！)",
-    "description": "Options"
-  },
-  "Load_from_file": {
-    "message": "从文件加载",
-    "description": "Options"
-  },
-  "Loading_wallabag_API": {
-    "message": "加载 wallabag API…",
-    "description": "Popup"
-  },
-  "minute_many": {
-    "message": "分钟",
-    "description": "Options"
-  },
-  "minute_one": {
-    "message": "分钟",
-    "description": "Options"
-  },
-  "No_leave_it": {
-    "message": "离开",
-    "description": "Popup"
-  },
-  "Not_checked": {
-    "message": "未检查",
-    "description": "Options"
-  },
-  "Not_granted": {
-    "message": "未授予",
-    "description": "Options"
-  },
-  "Ok": {
-    "message": "好",
-    "description": "Options"
-  },
-  "Ok_I_understand": {
-    "message": "好，我明白了",
-    "description": "Options"
-  },
-  "Options_not_defined": {
-    "message": "",
-    "description": "Background"
-  },
-  "Remove_this_article_from_Wallabag": {
-    "message": "从Wallabag删除这篇文章",
-    "description": "Popup"
-  },
-  "Reset_parameters": {
-    "message": "重置参数",
-    "description": "Options"
-  },
-  "Save": {
-    "message": "保存",
-    "description": "Popup"
-  },
-  "Save_Error": {
-    "message": "",
-    "description": "Background"
-  },
-  "Save_to_file": {
-    "message": "保存到文件",
-    "description": "Options"
-  },
-  "Saving_tags": {
-    "message": "保存标签中...",
-    "description": "Popup"
-  },
-  "Saving_the_page_to_wallabag": {
-    "message": "正在保存页面到wallabag...",
-    "description": "background"
-  },
-  "Set_this_article_as_archived_into_Wallabag": {
-    "message": "将此文章存档到Wallbag中",
-    "description": "Popup"
-  },
-  "Set_this_article_as_starred_into_Wallabag": {
-    "message": "将此文章标星在Wallbag中",
-    "description": "Popup"
-  },
-  "Starred": {
-    "message": "标星",
-    "description": "background"
-  },
-  "State": {
-    "message": "状态",
-    "description": "Options"
-  },
-  "Tag_already_exists": {
-    "message": "标签已经存在",
-    "description": "Popup"
-  },
-  "Tags": {
-    "message": "标签",
-    "description": "background"
-  },
-  "Tags_found": {
-    "message": "找到标签：",
-    "description": "Popup"
-  },
-  "Token_expires_in": {
-    "message": "Token 过期时间",
-    "description": "Options"
-  },
-  "Unread": {
-    "message": "未读",
-    "description": "background"
-  },
-  "Unset_this_article_as_archived_into_Wallabag": {
-    "message": "将此文章从Wallbag中存档中移除",
-    "description": "Popup"
-  },
-  "Unset_this_article_as_starred_into_Wallabag": {
-    "message": "将此文章从Wallbag中标星中去掉",
-    "description": "Popup"
-  },
-  "Use_HTTPS": {
-    "message": "使用 HTTPS 协议",
-    "description": "Options"
-  },
-  "User_login": {
-    "message": "用户账号",
-    "description": "Options"
-  },
-  "User_password": {
-    "message": "用户密码",
-    "description": "Options"
-  },
-  "Wallabag_API_token": {
-    "message": "Wallabag API token",
-    "description": "Options"
-  },
-  "Wallabag_API_version": {
-    "message": "Wallabag API 版本",
-    "description": "Options"
-  },
-  "Wallabag_it": {
-    "message": "Wallabag it!",
-    "description": "background"
-  },
-  "Wallabag_it_description": {
-    "message": "在不打开弹出窗口的情况下将页面保存到Wallabag中",
-    "description": "Manifest.json"
-  },
-  "Wallabag_permission_checked": {
-    "message": "",
-    "description": "Options"
-  },
-  "Wallabag_URL": {
-    "message": "Wallabag URL",
-    "description": "Options"
-  },
-  "Wallabag_URL_checked": {
-    "message": "Wallabag URL 检查",
-    "description": "Options"
-  },
-  "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
-    "message": "",
-    "description": "Options"
-  },
-  "Yes_delete_it": {
-    "message": "是的，删除它",
-    "description": "Popup"
-  },
-  "You_can_find_your_credentials_here": {
-    "message": "",
-    "description": "Options"
-  },
-  "Archive_by_default_when_saving_page": {
-      "message": "",
-      "description": "Options"
-  }
+    "Agreed": {
+        "message": "已同意",
+        "description": "Options"
+    },
+    "All_entries": {
+        "message": "所有文章",
+        "description": "background"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "允许标签中有空格（这会禁用“空格”作为发送标签键，而应使用Enter键）",
+        "description": "Options"
+    },
+    "Archive": {
+        "message": "存档",
+        "description": "background"
+    },
+    "Article_s_link": {
+        "message": "文章链接",
+        "description": "Popup"
+    },
+    "Article_s_title": {
+        "message": "文章标题",
+        "description": "Popup"
+    },
+    "Auto_add_single_tag": {
+        "message": "自动添加单一标签",
+        "description": "Options"
+    },
+    "Cancel": {
+        "message": "取消",
+        "description": "Popup"
+    },
+    "Check_URL": {
+        "message": "检查URL",
+        "description": "Options"
+    },
+    "Checklist": {
+        "message": "检查列表",
+        "description": "Options"
+    },
+    "Client_ID": {
+        "message": "客户端ID",
+        "description": "Options"
+    },
+    "Client_secret": {
+        "message": "客户端密钥",
+        "description": "Options"
+    },
+    "day_many": {
+        "message": "天",
+        "description": "Options"
+    },
+    "day_one": {
+        "message": "天",
+        "description": "Options"
+    },
+    "Delete_this_article": {
+        "message": "删除这篇文章",
+        "description": "Popup"
+    },
+    "Denied": {
+        "message": "已拒绝",
+        "description": "Options"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "您想从wallabag永久删除这篇文章吗？",
+        "description": "Popup"
+    },
+    "Download_file": {
+        "message": "Download file",
+        "description": "Options"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "由于安全原因，我们只允许HTTPS协议选项",
+        "description": "Options"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "编辑这篇文章标题",
+        "description": "Popup"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "只有当开发人员告诉您",
+        "description": "Options"
+    },
+    "Enter_your_tags_here": {
+        "message": "在此处输入您的标签",
+        "description": "Popup"
+    },
+    "Expired": {
+        "message": "过期",
+        "description": "Options"
+    },
+    "Extension_description": {
+        "message": "这个wallabag v2扩展可以编辑标题和标签，并设置星号、存档或删除状态。",
+        "description": "Manifest.json"
+    },
+    "Get_token": {
+        "message": "获取token",
+        "description": "Options"
+    },
+    "Go_to_this_article_page": {
+        "message": "转到此文章页",
+        "description": "Popup"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "转到Wallabag的文章页",
+        "description": "Popup"
+    },
+    "Granted": {
+        "message": "授予",
+        "description": "Options"
+    },
+    "hour_many": {
+        "message": "小时",
+        "description": "Options"
+    },
+    "hour_one": {
+        "message": "小时",
+        "description": "Options"
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": "显示页面是否已保存（这会将每个选项卡的URL发送到wallabag，使用HTTPS协议以获得更好的安全性！)",
+        "description": "Options"
+    },
+    "Load_from_file": {
+        "message": "从文件加载",
+        "description": "Options"
+    },
+    "Loading_wallabag_API": {
+        "message": "加载 wallabag API…",
+        "description": "Popup"
+    },
+    "minute_many": {
+        "message": "分钟",
+        "description": "Options"
+    },
+    "minute_one": {
+        "message": "分钟",
+        "description": "Options"
+    },
+    "No_leave_it": {
+        "message": "离开",
+        "description": "Popup"
+    },
+    "Not_checked": {
+        "message": "未检查",
+        "description": "Options"
+    },
+    "Not_granted": {
+        "message": "未授予",
+        "description": "Options"
+    },
+    "Ok": {
+        "message": "好",
+        "description": "Options"
+    },
+    "Ok_I_understand": {
+        "message": "好，我明白了",
+        "description": "Options"
+    },
+    "Options_not_defined": {
+        "message": "Wallabagger 处于未配置状态",
+        "description": "Background"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "从Wallabag删除这篇文章",
+        "description": "Popup"
+    },
+    "Reset_parameters": {
+        "message": "重置参数",
+        "description": "Options"
+    },
+    "Save": {
+        "message": "保存",
+        "description": "Popup"
+    },
+    "Save_Error": {
+        "message": "保存文章时出错",
+        "description": "Background"
+    },
+    "Save_to_file": {
+        "message": "保存到文件",
+        "description": "Options"
+    },
+    "Saving_tags": {
+        "message": "保存标签中...",
+        "description": "Popup"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "正在保存页面到 wallabag…",
+        "description": "background"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "将此文章存档到Wallbag中",
+        "description": "Popup"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "将此文章标星在Wallbag中",
+        "description": "Popup"
+    },
+    "Starred": {
+        "message": "标星",
+        "description": "background"
+    },
+    "State": {
+        "message": "状态",
+        "description": "Options"
+    },
+    "Tag_already_exists": {
+        "message": "标签已经存在",
+        "description": "Popup"
+    },
+    "Tags": {
+        "message": "标签",
+        "description": "background"
+    },
+    "Tags_found": {
+        "message": "找到标签：",
+        "description": "Popup"
+    },
+    "Token_expires_in": {
+        "message": "Token 过期时间",
+        "description": "Options"
+    },
+    "Unread": {
+        "message": "未读",
+        "description": "background"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "将此文章从Wallbag中存档中移除",
+        "description": "Popup"
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": "将此文章从Wallbag中标星中去掉",
+        "description": "Popup"
+    },
+    "Use_HTTPS": {
+        "message": "使用 HTTPS 协议",
+        "description": "Options"
+    },
+    "User_login": {
+        "message": "用户账号",
+        "description": "Options"
+    },
+    "User_password": {
+        "message": "用户密码",
+        "description": "Options"
+    },
+    "Wallabag_API_token": {
+        "message": "Wallabag API token",
+        "description": "Options"
+    },
+    "Wallabag_API_version": {
+        "message": "Wallabag API 版本",
+        "description": "Options"
+    },
+    "Wallabag_it": {
+        "message": "Wallabag it!",
+        "description": "background"
+    },
+    "Wallabag_it_description": {
+        "message": "在不打开弹出窗口的情况下将页面保存到Wallabag中",
+        "description": "Manifest.json"
+    },
+    "Wallabag_permission_checked": {
+        "message": "已检查 Wallabag 权限",
+        "description": "Options"
+    },
+    "Wallabag_URL": {
+        "message": "Wallabag URL",
+        "description": "Options"
+    },
+    "Wallabag_URL_checked": {
+        "message": "Wallabag URL 检查",
+        "description": "Options"
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": "我们需要访问您的 wallabag 实例来读取、写入和更新内容。请再次测试 URL 并接受请求。",
+        "description": "Options"
+    },
+    "Yes_delete_it": {
+        "message": "是的，删除它",
+        "description": "Popup"
+    },
+    "You_can_find_your_credentials_here": {
+        "message": "你可以在这里找到你的凭证：",
+        "description": "Options"
+    },
+    "Archive_by_default_when_saving_page": {
+        "message": "保存页面时默认存档",
+        "description": "Options"
+    }
 }
