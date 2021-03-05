@@ -371,6 +371,19 @@ const browserIcon = {
     },
 
     set: function (icon) {
+        if (icon === 'default') {
+            // On Firefox, we want to reset to the default icon suitable for the active theme
+            // but Chromium does not support resetting icons.
+            try {
+                browser.browserAction.setIcon({ path: null });
+
+                return;
+            } catch {
+                // Chromium does not support themed icons either,
+                // so let’s just fall back to the default icon.
+            }
+        }
+
         browser.browserAction.setIcon({ path: this.images[icon] });
     },
 
