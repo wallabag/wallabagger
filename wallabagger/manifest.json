@@ -11,6 +11,13 @@
   "browser_action": {
     "default_title": "Wallabagger",
     "default_icon": "img/wallabag-icon-48a.png",
+    "theme_icons": [
+      {
+        "dark": "img/wallabagger.svg",
+        "light": "img/wallabagger-light.svg",
+        "size": 32
+      }
+    ],
     "default_popup": "popup.html"
   },
   "background": {
