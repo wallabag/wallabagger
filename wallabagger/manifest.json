@@ -5,12 +5,12 @@
   "version": "1.12.0",
   "description": "__MSG_Extension_description__",
   "icons": {
-    "16": "img/wallabag-icon-48a.png",
+    "48": "img/wallabag-icon-48.png",
     "128": "img/wallabag-icon-128.png"
   },
   "browser_action": {
     "default_title": "Wallabagger",
-    "default_icon": "img/wallabag-icon-48a.png",
+    "default_icon": "img/wallabag-icon-48.png",
     "theme_icons": [
       {
         "dark": "img/wallabagger.svg",
