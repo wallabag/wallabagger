@@ -199,6 +199,10 @@
     "message": "Set this article as starred into Wallabag",
     "description": "Popup"
   },
+  "Sites_locally": {
+    "message": "Retrieve content from the browser (an URL by line)",
+    "description": "Options"
+  },
   "Starred": {
     "message": "Starred",
     "description": "background"
