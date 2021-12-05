@@ -17,7 +17,8 @@ WallabagApi.prototype = {
         AllowSpaceInTags: false,
         AllowExistCheck: false,
         Debug: false,
-        AutoAddSingleTag: false
+        AutoAddSingleTag: false,
+        SitesToFetchLocally: null
     },
 
     data: {},
@@ -174,6 +175,18 @@ WallabagApi.prototype = {
             }
             resolve('Token ok.');
         });
+    },
+
+    IsSiteToFtchLocally: function (pageUrl) {
+        if (!this.data.SitesToFetchLocally) {
+            return false
+        }
+
+        var sites = this.data.SitesToFetchLocally.split("\n");
+
+        return sites.filter(function(item) {
+            return -1 !== pageUrl.indexOf(item);
+        }).length > 0;
     },
 
     SavePage: function (pageUrl) {

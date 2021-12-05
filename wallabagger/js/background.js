@@ -494,8 +494,8 @@ function savePageToWallabag (url, resetIcon, title, content) {
     existCache.set(url, existStates.wip);
     postIfConnected({ response: 'info', text: Common.translate('Saving_the_page_to_wallabag') });
 
-    // api.SavePage(url);
-    api.SavePageWithLocalFetch(url, title, content)
+    var promise = api.IsSiteToFtchLocally(url) ? api.SavePageWithLocalFetch(url, title, content) : api.SavePage(url);
+    promise
         .then(data => applyDirtyCacheLight(url, data))
         .then(data => {
             if (!data.deleted) {
