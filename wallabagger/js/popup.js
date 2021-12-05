@@ -609,7 +609,24 @@ PopupController.prototype = {
             this.cardTitle.textContent = tab.title;
             this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
             this.enableTagsInput();
-            this.port.postMessage({ request: 'save', tabUrl: tab.url });
+
+            var port = this.port;
+
+            browser.runtime.onMessage.addListener(function(event) {
+            console.log({event: event})
+                if (typeof event.wallabagSaveArticleContent === 'undefined') {
+                    return;
+                }
+
+                port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
+            });
+
+            browser.tabs.executeScript(
+                tab.id,
+                {
+                    code: `browser.runtime.sendMessage({"wallabagSaveArticleContent": window.document.body.innerHTML});`
+                }
+            );
         });
     },
 

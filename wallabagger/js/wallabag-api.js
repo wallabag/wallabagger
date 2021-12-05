@@ -188,6 +188,18 @@ WallabagApi.prototype = {
             });
     },
 
+    SavePageWithLocalFetch: function (pageUrl, pageTitle, pageContent) {
+        const content = { url: pageUrl, archive: this.data.ArchiveByDefault ? 1 : 0, title: pageTitle, content: pageContent };
+        const entriesUrl = `${this.data.Url}/api/entries.json`;
+        return this.CheckToken().then(a =>
+            this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
+        )
+            .catch(error => {
+                throw new Error(`Failed to save page ${entriesUrl}
+                ${error.message}`);
+            });
+    },
+
     RefreshToken: function () {
         const content = {
             grant_type: 'refresh_token',

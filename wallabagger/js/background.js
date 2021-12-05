@@ -213,7 +213,7 @@ function onPortMessage (msg) {
     try {
         switch (msg.request) {
             case 'save':
-                savePageToWallabag(msg.tabUrl, false);
+                savePageToWallabag(msg.tabUrl, false, msg.title, msg.content);
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
@@ -463,7 +463,7 @@ function moveToDirtyCache (url) {
     }
 }
 
-function savePageToWallabag (url, resetIcon) {
+function savePageToWallabag (url, resetIcon, title, content) {
     if (isServicePage(url)) {
         return;
     }
@@ -493,7 +493,9 @@ function savePageToWallabag (url, resetIcon) {
     browserIcon.set('wip');
     existCache.set(url, existStates.wip);
     postIfConnected({ response: 'info', text: Common.translate('Saving_the_page_to_wallabag') });
-    api.SavePage(url)
+
+    // api.SavePage(url);
+    api.SavePageWithLocalFetch(url, title, content)
         .then(data => applyDirtyCacheLight(url, data))
         .then(data => {
             if (!data.deleted) {
