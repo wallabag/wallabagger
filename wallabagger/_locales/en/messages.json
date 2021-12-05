@@ -247,6 +247,10 @@
     "message": "User password",
     "description": "Options"
   },
+  "Sites_locally": {
+    "message": "Sites to fetch locally",
+    "description": "Options"
+  },
   "Wallabag_API_token": {
     "message": "Wallabag API token",
     "description": "Options"
