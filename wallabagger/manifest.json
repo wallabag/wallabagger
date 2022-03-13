@@ -2,7 +2,7 @@
   "name": "Wallabagger",
   "manifest_version": 2,
   "default_locale": "en",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "description": "__MSG_Extension_description__",
   "icons": {
     "48": "img/wallabag-icon-48.png",
