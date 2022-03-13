@@ -177,7 +177,10 @@ WallabagApi.prototype = {
     },
 
     SavePage: function (pageUrl) {
-        const content = { url: pageUrl, archive: this.data.ArchiveByDefault ? 1 : 0 };
+        const content = { url: pageUrl };
+        if (this.data.ArchiveByDefault === true) {
+            content.archive = 1;
+        }
         const entriesUrl = `${this.data.Url}/api/entries.json`;
         return this.CheckToken().then(a =>
             this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
