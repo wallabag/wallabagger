@@ -131,6 +131,7 @@ OptionsController.prototype = {
     },
 
     saveToFileClick: function () {
+        const body = document.querySelector('body');
         const textToSave = JSON.stringify(this.data);
         const textToSaveAsBlob = new Blob([textToSave], { type: 'text/plain' });
         const textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
@@ -139,9 +140,9 @@ OptionsController.prototype = {
         downloadLink.download = fileNameToSaveAs;
         downloadLink.textContent = Common.translate('Download_file');
         downloadLink.href = textToSaveAsURL;
-        downloadLink.onclick = (event) => { document.body.removeChild(event.target); };
+        downloadLink.onclick = (event) => { body.removeChild(event.target); };
         downloadLink.style.display = 'none';
-        document.body.appendChild(downloadLink);
+        body.appendChild(downloadLink);
         downloadLink.click();
     },
 
