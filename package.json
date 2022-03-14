@@ -10,13 +10,12 @@
   ],
   "scripts": {
     "deps:update": "cp node_modules/spectre.css/dist/spectre.min.css wallabagger/css/spectre.min.css && cp node_modules/spectre.css/dist/spectre-exp.min.css wallabagger/css/spectre-exp.min.css",
-    "eslint": "eslint wallabagger/js/*",
+    "lint": "eslint wallabagger/js/*",
     "locales:sort": "sort-json -i -d=1 wallabagger/_locales/**/messages.json",
     "manifest": "npm run manifest:firefox && npm run manifest:chrome",
     "manifest:firefox": "wemf --browser firefox --validate wallabagger/manifest.json",
     "manifest:firefox:update": "wemf --browser firefox wallabagger/manifest.json -U",
-    "manifest:chrome": "wemf --browser chrome --validate wallabagger/manifest.json",
-    "test": "npm run eslint"
+    "manifest:chrome": "wemf --browser chrome --validate wallabagger/manifest.json"
   },
   "webextension": {
     "name": "Wallabagger",
