@@ -473,6 +473,7 @@ function savePageToWallabag (url, resetIcon, title, content) {
     }
     // if WIP and was some dirty changes, return dirtyCache
     const exists = existCache.check(url) ? existCache.get(url) : existStates.notexists;
+    const isToFetchLocally = api.IsSiteToFetchLocally(url);
     if (exists === existStates.wip) {
         if (dirtyCache.check(url)) {
             const dc = dirtyCache.get(url);
@@ -482,7 +483,7 @@ function savePageToWallabag (url, resetIcon, title, content) {
     }
 
     // if article was saved, return cache
-    if (cache.check(url)) {
+    if (!isToFetchLocally && cache.check(url)) {
         postIfConnected({ response: 'article', article: cutArticle(cache.get(url)) });
         moveToDirtyCache(url);
         savePageToWallabag(url, resetIcon);
@@ -498,7 +499,7 @@ function savePageToWallabag (url, resetIcon, title, content) {
         url: url
     };
 
-    if (api.IsSiteToFetchLocally(url)) {
+    if (isToFetchLocally) {
         savePageOptions.title = title;
         savePageOptions.content = content;
     }
