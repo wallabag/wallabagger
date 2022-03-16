@@ -213,7 +213,7 @@ function onPortMessage (msg) {
     try {
         switch (msg.request) {
             case 'save':
-                savePageToWallabag(msg.tabUrl, false);
+                savePageToWallabag(msg.tabUrl, false, msg.title, msg.content);
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
@@ -463,7 +463,7 @@ function moveToDirtyCache (url) {
     }
 }
 
-function savePageToWallabag (url, resetIcon) {
+function savePageToWallabag (url, resetIcon, title, content) {
     if (isServicePage(url)) {
         return;
     }
@@ -473,6 +473,7 @@ function savePageToWallabag (url, resetIcon) {
     }
     // if WIP and was some dirty changes, return dirtyCache
     const exists = existCache.check(url) ? existCache.get(url) : existStates.notexists;
+    const isToFetchLocally = api.IsSiteToFetchLocally(url);
     if (exists === existStates.wip) {
         if (dirtyCache.check(url)) {
             const dc = dirtyCache.get(url);
@@ -482,7 +483,7 @@ function savePageToWallabag (url, resetIcon) {
     }
 
     // if article was saved, return cache
-    if (cache.check(url)) {
+    if (!isToFetchLocally && cache.check(url)) {
         postIfConnected({ response: 'article', article: cutArticle(cache.get(url)) });
         moveToDirtyCache(url);
         savePageToWallabag(url, resetIcon);
@@ -493,7 +494,18 @@ function savePageToWallabag (url, resetIcon) {
     browserIcon.set('wip');
     existCache.set(url, existStates.wip);
     postIfConnected({ response: 'info', text: Common.translate('Saving_the_page_to_wallabag') });
-    api.SavePage(url)
+
+    const savePageOptions = {
+        url: url
+    };
+
+    if (isToFetchLocally) {
+        savePageOptions.title = title;
+        savePageOptions.content = content;
+    }
+
+    const promise = api.SavePage(savePageOptions);
+    promise
         .then(data => applyDirtyCacheLight(url, data))
         .then(data => {
             if (!data.deleted) {

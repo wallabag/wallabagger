@@ -199,6 +199,10 @@
     "message": "Marquer cet article comme favori dans Wallabag",
     "description": "Popup"
   },
+  "Sites_locally": {
+    "message": "Récupérer le contenu depuis le navigateur (une URL par ligne)",
+    "description": "Options"
+  },
   "Starred": {
     "message": "Favoris",
     "description": "background"

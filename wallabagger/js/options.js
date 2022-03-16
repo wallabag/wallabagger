@@ -14,6 +14,7 @@ const OptionsController = function () {
     this.clientSecret_ = document.getElementById('clientsecret-input');
     this.userLogin_ = document.getElementById('userlogin-input');
     this.userPassword_ = document.getElementById('userpassword-input');
+    this.sitesToFetchLocally_ = document.getElementById('sites_to_fetch_locally-textarea');
     this.getAppTokenButton_ = document.getElementById('getapptoken-button');
     this.tokenLabel_ = document.getElementById('apitoken-label');
     this.tokenExpire = document.getElementById('expiretoken-label');
@@ -55,6 +56,7 @@ OptionsController.prototype = {
     loadFromFileButton: null,
     openFileDialog: null,
     clearButton: null,
+    sitesToFetchLocally: null,
 
     allowSpaceCheck: null,
     archiveByDefault: null,
@@ -80,6 +82,7 @@ OptionsController.prototype = {
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
+        this.sitesToFetchLocally_.addEventListener('input', this.sitesToFetchInput.bind(this));
     },
 
     httpsButtonClick: function () {
@@ -148,6 +151,11 @@ OptionsController.prototype = {
 
     autoAddSingleTagClick: function (e) {
         Object.assign(this.data, { AutoAddSingleTag: this.autoAddSingleTag.checked });
+        this.port.postMessage({ request: 'setup-save', data: this.data });
+    },
+
+    sitesToFetchInput: function (e) {
+        Object.assign(this.data, { sitesToFetchLocally: this.sitesToFetchLocally_.value });
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
@@ -459,6 +467,7 @@ OptionsController.prototype = {
         this.allowExistCheck.checked = this.data.AllowExistCheck;
         this.autoAddSingleTag.checked = this.data.AutoAddSingleTag;
         this.debugEl.checked = this.data.Debug;
+        this.sitesToFetchLocally_.value = this.data.sitesToFetchLocally;
     },
 
     messageListener: function (msg) {

@@ -609,7 +609,21 @@ PopupController.prototype = {
             this.cardTitle.textContent = tab.title;
             this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
             this.enableTagsInput();
-            this.port.postMessage({ request: 'save', tabUrl: tab.url });
+
+            browser.runtime.onMessage.addListener(event => {
+                if (typeof event.wallabagSaveArticleContent === 'undefined') {
+                    return;
+                }
+
+                this.port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
+            });
+
+            browser.tabs.executeScript(
+                tab.id,
+                {
+                    code: 'browser.runtime.sendMessage({"wallabagSaveArticleContent": window.document.body.innerHTML});'
+                }
+            );
         });
     },
 
