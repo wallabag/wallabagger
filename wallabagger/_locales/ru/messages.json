@@ -210,6 +210,10 @@
     "message": "Проставить признак избранное на Wallabag",
     "description": "Popup"
   },
+  "Sites_locally": {
+    "message": "Брать содержимое из браузера (один URL на строку)",
+    "description": "Options"
+  },
   "Starred": {
     "message": "Избранное",
     "description": "background"
