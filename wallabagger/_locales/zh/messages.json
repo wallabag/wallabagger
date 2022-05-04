@@ -290,5 +290,9 @@
     "Archive_by_default_when_saving_page": {
         "message": "保存页面时默认存档",
         "description": "Options"
+    },
+    "Sites_locally": {
+        "message": "从浏览器获取内容（每行一条 URL)",
+        "description": "Options"
     }
 }
