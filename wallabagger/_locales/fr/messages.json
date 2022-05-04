@@ -290,5 +290,9 @@
     "Archive_by_default_when_saving_page": {
         "message": "Par défaut, marque la page comme lue lors de son enregistrement",
         "description": "Options"
+    },
+    "Sites_locally": {
+        "message": "Récupérer le contenu depuis le navigateur (une URL par ligne)",
+        "description": "Options"
     }
 }
