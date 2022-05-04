@@ -1,296 +1,292 @@
 {
-  "Agreed": {
-    "message": "Accepté",
-    "description": "Options"
-  },
-  "All_entries": {
-    "message": "Tous les articles",
-    "description": "background"
-  },
-  "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
-    "message": "Autoriser les espaces dans les tags (vous devrez alors utiliser la touche \"entrée\" de votre clavier pour valider)",
-    "description": "Options"
-  },
-  "Archive": {
-    "message": "Lus",
-    "description": "background"
-  },
-  "Article_s_link": {
-    "message": "Lien de l'article",
-    "description": "Popup"
-  },
-  "Article_s_title": {
-    "message": "Titre de l'article",
-    "description": "Popup"
-  },
-  "Auto_add_single_tag": {
-    "message": "Auto add single tag",
-    "description": "Options"
-  },
-  "Cancel": {
-    "message": "Annuler",
-    "description": "Popup"
-  },
-  "Check_URL": {
-    "message": "Tester l'URL",
-    "description": "Options"
-  },
-  "Checklist": {
-    "message": "Liste de contrôle",
-    "description": "Options"
-  },
-  "Client_ID": {
-    "message": "ID Client",
-    "description": "Options"
-  },
-  "Client_secret": {
-    "message": "Clé secrète",
-    "description": "Options"
-  },
-  "day_many": {
-    "message": "jours",
-    "description": "Options"
-  },
-  "day_one": {
-    "message": "jour",
-    "description": "Options"
-  },
-  "Delete_this_article": {
-    "message": "Supprimer cet article",
-    "description": "Popup"
-  },
-  "Denied": {
-    "message": "Refusé",
-    "description": "Options"
-  },
-  "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
-    "message": "Souhaitez-vous supprimer de wallabag cet article de façon permanente ?",
-    "description": "Popup"
-  },
-  "Download_file": {
-    "message": "Télécharger le fichier",
-    "description": "Options"
-  },
-  "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
-    "message": "Pour des raisons de sécurité, vous ne pouvez activer cette option qu'en utilisant le protocole HTTPS",
-    "description": "Options"
-  },
-  "Edit_the_Wallabag_title_of_this_article": {
-    "message": "Editer le titre de cet article dans Wallabag",
-    "description": "Popup"
-  },
-  "Enable_this_only_if_developers_told_you_to": {
-    "message": "N'activez cette option que si un développeur vous y invite",
-    "description": "Options"
-  },
-  "Enter_your_tags_here": {
-    "message": "Entrez vos tags ici",
-    "description": "Popup"
-  },
-  "Expired": {
-    "message": "Expiré",
-    "description": "Options"
-  },
-  "Extension_description": {
-    "message": "Extension pour Wallabag qui permet d'éditer le titre de la page, les tags, changer l'état en tant que favori, archivé ou supprimé.",
-    "description": "Manifest.json"
-  },
-  "Get_token": {
-    "message": "Obtenir un jeton",
-    "description": "Options"
-  },
-  "Go_to_this_article_page": {
-    "message": "Aller sur la page de cet article",
-    "description": "Popup"
-  },
-  "Go_to_Wallabag_s_article_page": {
-    "message": "Aller sur la page de l'article sur Wallabag",
-    "description": "Popup"
-  },
-  "Granted": {
-    "message": "Accordé",
-    "description": "Options"
-  },
-  "hour_many": {
-    "message": "heures",
-    "description": "Options"
-  },
-  "hour_one": {
-    "message": "heure",
-    "description": "Options"
-  },
-  "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
-    "message": "Indique si la page est déjà sauvegardée (tout changement d'onglet entraîne l'envoie de l'URL en cours à wallabag, utilisez le protocole HTTPS pour une meilleure sécurité !)",
-    "description": "Options"
-  },
-  "Load_from_file": {
-    "message": "Charger depuis un fichier",
-    "description": "Options"
-  },
-  "Loading_wallabag_API": {
-    "message": "Chargement de l'API de wallabag…",
-    "description": "Popup"
-  },
-  "minute_many": {
-    "message": "minutes",
-    "description": "Options"
-  },
-  "minute_one": {
-    "message": "minute",
-    "description": "Options"
-  },
-  "No_leave_it": {
-    "message": "Non, le conserver",
-    "description": "Popup"
-  },
-  "Not_checked": {
-    "message": "Non testé",
-    "description": "Options"
-  },
-  "Not_granted": {
-    "message": "Pas accordé",
-    "description": "Options"
-  },
-  "Ok": {
-    "message": "Ok",
-    "description": "Options"
-  },
-  "Ok_I_understand": {
-    "message": "D'accord, j'ai compris",
-    "description": "Options"
-  },
-  "Options_not_defined": {
-    "message": "Wallabagger non configuré",
-    "description": "Background"
-  },
-  "Remove_this_article_from_Wallabag": {
-    "message": "Supprimer cet article de Wallabag",
-    "description": "Popup"
-  },
-  "Reset_parameters": {
-    "message": "Remise à zéro des paramètres",
-    "description": "Options"
-  },
-  "Save": {
-    "message": "Enregistrer",
-    "description": "Popup"
-  },
-  "Save_Error": {
-    "message": "An error occurred while saving the article",
-    "description": "Background"
-  },
-  "Save_to_file": {
-    "message": "Enregistrer dans un fichier",
-    "description": "Options"
-  },
-  "Saving_tags": {
-    "message": "Enregistrement des tags…",
-    "description": "Popup"
-  },
-  "Saving_the_page_to_wallabag": {
-    "message": "Enregistrement de la page dans wallabag…",
-    "description": "background"
-  },
-  "Set_this_article_as_archived_into_Wallabag": {
-    "message": "Marquer cet article comme lu dans Wallabag",
-    "description": "Popup"
-  },
-  "Set_this_article_as_starred_into_Wallabag": {
-    "message": "Marquer cet article comme favori dans Wallabag",
-    "description": "Popup"
-  },
-  "Sites_locally": {
-    "message": "Récupérer le contenu depuis le navigateur (une URL par ligne)",
-    "description": "Options"
-  },
-  "Starred": {
-    "message": "Favoris",
-    "description": "background"
-  },
-  "State": {
-    "message": "État",
-    "description": "Options"
-  },
-  "Tag_already_exists": {
-    "message": "Tag déjà existant",
-    "description": "Popup"
-  },
-  "Tags": {
-    "message": "Tags",
-    "description": "background"
-  },
-  "Tags_found": {
-    "message": "Tags trouvés :",
-    "description": "Popup"
-  },
-  "Token_expires_in": {
-    "message": "Le jeton expire dans",
-    "description": "Options"
-  },
-  "Unread": {
-    "message": "Non lus",
-    "description": "background"
-  },
-  "Unset_this_article_as_archived_into_Wallabag": {
-    "message": "Marquer cet article comme non lu dans Wallabag",
-    "description": "Popup"
-  },
-  "Unset_this_article_as_starred_into_Wallabag": {
-    "message": "Supprimer cet article des favoris dans Wallabag",
-    "description": "Popup"
-  },
-  "Use_HTTPS": {
-    "message": "Utiliser HTTPS",
-    "description": "Options"
-  },
-  "User_login": {
-    "message": "Nom d'utilisateur",
-    "description": "Options"
-  },
-  "User_password": {
-    "message": "Mot de passe",
-    "description": "Options"
-  },
-  "Wallabag_API_token": {
-    "message": "Jeton de l'API de Wallabag",
-    "description": "Options"
-  },
-  "Wallabag_API_version": {
-    "message": "Version de l'API de Wallabag",
-    "description": "Options"
-  },
-  "Wallabag_it": {
-    "message": "Wallabag it!",
-    "description": "background"
-  },
-  "Wallabag_it_description": {
-    "message": "Enregistrer la page dans Wallabag sans ouvrir la popup",
-    "description": "Manifest.json"
-  },
-  "Wallabag_permission_checked": {
-    "message": "Wallabag permission testée",
-    "description": "Options"
-  },
-  "Wallabag_URL": {
-    "message": "URL de Wallabag",
-    "description": "Options"
-  },
-  "Wallabag_URL_checked": {
-    "message": "Wallabag URL testée",
-    "description": "Options"
-  },
-  "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
-    "message": "Nous avons besoin d'accéder à votre instance wallabag pour lire, écrire et mettre à jour votre contenu. Merci de relancer le test de l'URL et acceptez la demande de droits.",
-    "description": "Options"
-  },
-  "Yes_delete_it": {
-    "message": "Oui, le supprimer",
-    "description": "Popup"
-  },
-  "You_can_find_your_credentials_here": {
-    "message": "Vous pouvez trouver vos identifiants ici :",
-    "description": "Options"
-  },
+    "Agreed": {
+        "message": "Accepté",
+        "description": "Options"
+    },
+    "All_entries": {
+        "message": "Tous les articles",
+        "description": "background"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "Autoriser les espaces dans les tags (vous devrez alors utiliser la touche \"entrée\" de votre clavier pour valider)",
+        "description": "Options"
+    },
+    "Archive": {
+        "message": "Lus",
+        "description": "background"
+    },
+    "Article_s_link": {
+        "message": "Lien de l'article",
+        "description": "Popup"
+    },
+    "Article_s_title": {
+        "message": "Titre de l'article",
+        "description": "Popup"
+    },
+    "Auto_add_single_tag": {
+        "message": "Ajout automatique d'un tag",
+        "description": "Options"
+    },
+    "Cancel": {
+        "message": "Annuler",
+        "description": "Popup"
+    },
+    "Check_URL": {
+        "message": "Tester l'URL",
+        "description": "Options"
+    },
+    "Checklist": {
+        "message": "Liste de contrôle",
+        "description": "Options"
+    },
+    "Client_ID": {
+        "message": "ID Client",
+        "description": "Options"
+    },
+    "Client_secret": {
+        "message": "Clé secrète",
+        "description": "Options"
+    },
+    "day_many": {
+        "message": "jours",
+        "description": "Options"
+    },
+    "day_one": {
+        "message": "jour",
+        "description": "Options"
+    },
+    "Delete_this_article": {
+        "message": "Supprimer cet article",
+        "description": "Popup"
+    },
+    "Denied": {
+        "message": "Refusé",
+        "description": "Options"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "Souhaitez-vous supprimer de wallabag cet article de façon permanente ?",
+        "description": "Popup"
+    },
+    "Download_file": {
+        "message": "Télécharger le fichier",
+        "description": "Options"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "Pour des raisons de sécurité, vous ne pouvez activer cette option qu'en utilisant le protocole HTTPS",
+        "description": "Options"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "Editer le titre de cet article dans Wallabag",
+        "description": "Popup"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "N'activez cette option que si un développeur vous y invite",
+        "description": "Options"
+    },
+    "Enter_your_tags_here": {
+        "message": "Entrez vos tags ici",
+        "description": "Popup"
+    },
+    "Expired": {
+        "message": "Expiré",
+        "description": "Options"
+    },
+    "Extension_description": {
+        "message": "Extension pour Wallabag qui permet d'éditer le titre de la page, les tags, changer l'état en tant que favori, archivé ou supprimé.",
+        "description": "Manifest.json"
+    },
+    "Get_token": {
+        "message": "Obtenir un jeton",
+        "description": "Options"
+    },
+    "Go_to_this_article_page": {
+        "message": "Aller sur la page de cet article",
+        "description": "Popup"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "Aller sur la page de l'article sur Wallabag",
+        "description": "Popup"
+    },
+    "Granted": {
+        "message": "Accordé",
+        "description": "Options"
+    },
+    "hour_many": {
+        "message": "heures",
+        "description": "Options"
+    },
+    "hour_one": {
+        "message": "heure",
+        "description": "Options"
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": "Indique si la page est déjà sauvegardée (tout changement d'onglet entraîne l'envoie de l'URL en cours à wallabag, utilisez le protocole HTTPS pour une meilleure sécurité !)",
+        "description": "Options"
+    },
+    "Load_from_file": {
+        "message": "Charger depuis un fichier",
+        "description": "Options"
+    },
+    "Loading_wallabag_API": {
+        "message": "Chargement de l'API de wallabag…",
+        "description": "Popup"
+    },
+    "minute_many": {
+        "message": "minutes",
+        "description": "Options"
+    },
+    "minute_one": {
+        "message": "minute",
+        "description": "Options"
+    },
+    "No_leave_it": {
+        "message": "Non, le conserver",
+        "description": "Popup"
+    },
+    "Not_checked": {
+        "message": "Non testé",
+        "description": "Options"
+    },
+    "Not_granted": {
+        "message": "Pas accordé",
+        "description": "Options"
+    },
+    "Ok": {
+        "message": "Ok",
+        "description": "Options"
+    },
+    "Ok_I_understand": {
+        "message": "D'accord, j'ai compris",
+        "description": "Options"
+    },
+    "Options_not_defined": {
+        "message": "Wallabagger non configuré",
+        "description": "Background"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "Supprimer cet article de Wallabag",
+        "description": "Popup"
+    },
+    "Reset_parameters": {
+        "message": "Remise à zéro des paramètres",
+        "description": "Options"
+    },
+    "Save": {
+        "message": "Enregistrer",
+        "description": "Popup"
+    },
+    "Save_Error": {
+        "message": "Une erreur est survenue lors de la sauvegarde de l'article",
+        "description": "Background"
+    },
+    "Save_to_file": {
+        "message": "Enregistrer dans un fichier",
+        "description": "Options"
+    },
+    "Saving_tags": {
+        "message": "Enregistrement des tags…",
+        "description": "Popup"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "Enregistrement de la page dans wallabag…",
+        "description": "background"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "Marquer cet article comme lu dans Wallabag",
+        "description": "Popup"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "Marquer cet article comme favori dans Wallabag",
+        "description": "Popup"
+    },
+    "Starred": {
+        "message": "Favoris",
+        "description": "background"
+    },
+    "State": {
+        "message": "État",
+        "description": "Options"
+    },
+    "Tag_already_exists": {
+        "message": "Tag déjà existant",
+        "description": "Popup"
+    },
+    "Tags": {
+        "message": "Tags",
+        "description": "background"
+    },
+    "Tags_found": {
+        "message": "Tags trouvés :",
+        "description": "Popup"
+    },
+    "Token_expires_in": {
+        "message": "Le jeton expire dans",
+        "description": "Options"
+    },
+    "Unread": {
+        "message": "Non lus",
+        "description": "background"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "Marquer cet article comme non lu dans Wallabag",
+        "description": "Popup"
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": "Supprimer cet article des favoris dans Wallabag",
+        "description": "Popup"
+    },
+    "Use_HTTPS": {
+        "message": "Utiliser HTTPS",
+        "description": "Options"
+    },
+    "User_login": {
+        "message": "Nom d'utilisateur",
+        "description": "Options"
+    },
+    "User_password": {
+        "message": "Mot de passe",
+        "description": "Options"
+    },
+    "Wallabag_API_token": {
+        "message": "Jeton de l'API de Wallabag",
+        "description": "Options"
+    },
+    "Wallabag_API_version": {
+        "message": "Version de l'API de Wallabag",
+        "description": "Options"
+    },
+    "Wallabag_it": {
+        "message": "Wallabag it !",
+        "description": "background"
+    },
+    "Wallabag_it_description": {
+        "message": "Enregistrer la page dans Wallabag sans ouvrir la popup",
+        "description": "Manifest.json"
+    },
+    "Wallabag_permission_checked": {
+        "message": "Wallabag permission testée",
+        "description": "Options"
+    },
+    "Wallabag_URL": {
+        "message": "URL de Wallabag",
+        "description": "Options"
+    },
+    "Wallabag_URL_checked": {
+        "message": "Wallabag URL testée",
+        "description": "Options"
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": "Nous avons besoin d'accéder à votre instance wallabag pour lire, écrire et mettre à jour votre contenu. Merci de relancer le test de l'URL et acceptez la demande de droits.",
+        "description": "Options"
+    },
+    "Yes_delete_it": {
+        "message": "Oui, le supprimer",
+        "description": "Popup"
+    },
+    "You_can_find_your_credentials_here": {
+        "message": "Vous pouvez trouver vos identifiants ici :",
+        "description": "Options"
+    },
     "Archive_by_default_when_saving_page": {
         "message": "Par défaut, marque la page comme lue lors de son enregistrement",
         "description": "Options"

@@ -1,0 +1,14 @@
+{
+    "Cancel": {
+        "message": "取消",
+        "description": "Popup"
+    },
+    "Unread": {
+        "message": "未讀",
+        "description": "background"
+    },
+    "Starred": {
+        "message": "已加星標",
+        "description": "background"
+    }
+}

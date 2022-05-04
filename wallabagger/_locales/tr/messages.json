@@ -1,0 +1,294 @@
+{
+    "Archive_by_default_when_saving_page": {
+        "message": "Sayfa kaydedilirken varsayılan olarak arşivlensin",
+        "description": "Options"
+    },
+    "You_can_find_your_credentials_here": {
+        "message": "Bilgilerinizi burada bulabilirsiniz:",
+        "description": "Options"
+    },
+    "Yes_delete_it": {
+        "message": "Evet, sil",
+        "description": "Popup"
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": "İçeriklerinizi okumak, yazmak ve de güncellemek için Wallabag kurulumunuza erişime ihtiyacımız var. Lütfen URL'inizi yeniden kontrol ederek talebi onaylayın.",
+        "description": "Options"
+    },
+    "Wallabag_URL_checked": {
+        "message": "Wallabag URL'i kontrol edildi",
+        "description": "Options"
+    },
+    "Wallabag_URL": {
+        "message": "Wallabag URL'i",
+        "description": "Options"
+    },
+    "Wallabag_permission_checked": {
+        "message": "Wallabag izinleri kontrol edildi",
+        "description": "Options"
+    },
+    "Wallabag_it_description": {
+        "message": "Bu sayfayı popup açmadan Wallabag'e kaydet",
+        "description": "Manifest.json"
+    },
+    "Wallabag_it": {
+        "message": "Wallabag'le!",
+        "description": "background"
+    },
+    "Wallabag_API_version": {
+        "message": "Wallabag API sürümü",
+        "description": "Options"
+    },
+    "Wallabag_API_token": {
+        "message": "Wallabag API jetonu",
+        "description": "Options"
+    },
+    "User_password": {
+        "message": "Kullanıcı parolası",
+        "description": "Options"
+    },
+    "User_login": {
+        "message": "Kullanıcı girişi",
+        "description": "Options"
+    },
+    "Use_HTTPS": {
+        "message": "HTTPS kullan",
+        "description": "Options"
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": "Bu makalenin Wallabag'deki yıldızlı durumunu kaldır",
+        "description": "Popup"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "Bu makalenin Wallabag'deki arşivlenmiş durumunu kaldır",
+        "description": "Popup"
+    },
+    "Token_expires_in": {
+        "message": "Jeton şu süre kadar daha geçerli",
+        "description": "Options"
+    },
+    "Tags_found": {
+        "message": "Bulunan etiketler:",
+        "description": "Popup"
+    },
+    "Tags": {
+        "message": "Etiketler",
+        "description": "background"
+    },
+    "Tag_already_exists": {
+        "message": "Etiket zaten mevcut",
+        "description": "Popup"
+    },
+    "State": {
+        "message": "Durum",
+        "description": "Options"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "Bu makaleyi Wallabag'de yıldızlanmış olarak işaretle",
+        "description": "Popup"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "Bu makaleyi Wallabag'de arşivlenmiş olarak işaretle",
+        "description": "Popup"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "Sayfa wallabag'e kaydediliyor…",
+        "description": "background"
+    },
+    "Saving_tags": {
+        "message": "Etiketler kaydediliyor…",
+        "description": "Popup"
+    },
+    "Save_to_file": {
+        "message": "Dosyaya kaydet",
+        "description": "Options"
+    },
+    "Save_Error": {
+        "message": "Makale kaydedilirken bir sorun yaşandı",
+        "description": "Background"
+    },
+    "Save": {
+        "message": "Kaydet",
+        "description": "Popup"
+    },
+    "Reset_parameters": {
+        "message": "Parametreleri sıfırla",
+        "description": "Options"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "Bu makaleyi Wallabag'den kaldır",
+        "description": "Popup"
+    },
+    "Options_not_defined": {
+        "message": "Wallabager henüz ayarlanmamış",
+        "description": "Background"
+    },
+    "Ok_I_understand": {
+        "message": "Tamam, anladım",
+        "description": "Options"
+    },
+    "Ok": {
+        "message": "Tamam",
+        "description": "Options"
+    },
+    "Not_granted": {
+        "message": "İmtiyaz edilmemiş",
+        "description": "Options"
+    },
+    "Not_checked": {
+        "message": "Kontrol edilmemiş",
+        "description": "Options"
+    },
+    "No_leave_it": {
+        "message": "Hayır, olduğu gibi bırak",
+        "description": "Popup"
+    },
+    "minute_one": {
+        "message": "dakika",
+        "description": "Options"
+    },
+    "minute_many": {
+        "message": "dakika",
+        "description": "Options"
+    },
+    "Loading_wallabag_API": {
+        "message": "Wallabag API yükleniyor…",
+        "description": "Popup"
+    },
+    "Load_from_file": {
+        "message": "Dosyadan yükle",
+        "description": "Options"
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": "Bu sayfanın hali hazırda kaydedilip kaydedilmediğini belirtir (Bu işlem her sekmenin linkini wallabag'e gönderir, daha güvenli veri alışverişi için HTTPS protokolünü kullanın!)",
+        "description": "Options"
+    },
+    "hour_one": {
+        "message": "saat",
+        "description": "Options"
+    },
+    "hour_many": {
+        "message": "saat",
+        "description": "Options"
+    },
+    "Granted": {
+        "message": "İmtiyazlı",
+        "description": "Options"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "Wallabag'in makale sayfasına git",
+        "description": "Popup"
+    },
+    "Go_to_this_article_page": {
+        "message": "Bu makale sayfasına git",
+        "description": "Popup"
+    },
+    "Get_token": {
+        "message": "Jeton al",
+        "description": "Options"
+    },
+    "Extension_description": {
+        "message": "Bu wallabag v2 eklentisi etiketleri düzenleme, makale yıldızlama, arşivleme veya durum silme gibi özellikler barındırmakta.",
+        "description": "Manifest.json"
+    },
+    "Expired": {
+        "message": "Süresi doldu",
+        "description": "Options"
+    },
+    "Enter_your_tags_here": {
+        "message": "Etiketlerinizi buraya girin",
+        "description": "Popup"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "Bu özelliği sadece geliştiriciler sizden talep ederse aktifleştirin",
+        "description": "Options"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "Bu makalenin Wallabag başlığını düzenle",
+        "description": "Popup"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "Güvenlik sebebi ile, bu seçeneklere sadece HTTPS protokolü üzerinden izin veriliyor",
+        "description": "Options"
+    },
+    "Download_file": {
+        "message": "Dosyayı indir",
+        "description": "Options"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "Bu makaleyi wallabag'den kalıcı olarak silmek istediğinize emin misiniz?",
+        "description": "Popup"
+    },
+    "Denied": {
+        "message": "Reddedildi",
+        "description": "Options"
+    },
+    "Delete_this_article": {
+        "message": "Makaleyi sil",
+        "description": "Popup"
+    },
+    "day_one": {
+        "message": "gün",
+        "description": "Options"
+    },
+    "day_many": {
+        "message": "gün",
+        "description": "Options"
+    },
+    "Client_secret": {
+        "message": "İstemci gizli anahtarı",
+        "description": "Options"
+    },
+    "Client_ID": {
+        "message": "İstemci ID",
+        "description": "Options"
+    },
+    "Checklist": {
+        "message": "Doğrulama Listesi",
+        "description": "Options"
+    },
+    "Check_URL": {
+        "message": "Link'i kontrol et",
+        "description": "Options"
+    },
+    "Auto_add_single_tag": {
+        "message": "Otomatik olarak tekil etiket ekle",
+        "description": "Options"
+    },
+    "Article_s_title": {
+        "message": "Makale başlığı",
+        "description": "Popup"
+    },
+    "Article_s_link": {
+        "message": "Makale linki",
+        "description": "Popup"
+    },
+    "Archive": {
+        "message": "Arşivle",
+        "description": "background"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "Etiketler arasında boşluğa izin ver (bunu aktifleştirdiğinizde etiket yollama tuşunun boşluk tuşu olması iptal edilir, bunun yerine Enter tuşunu kullanın)",
+        "description": "Options"
+    },
+    "All_entries": {
+        "message": "Tüm girdiler",
+        "description": "background"
+    },
+    "Agreed": {
+        "message": "Onaylandı",
+        "description": "Options"
+    },
+    "Cancel": {
+        "message": "İptal et",
+        "description": "Popup"
+    },
+    "Unread": {
+        "message": "Okunmamış",
+        "description": "background"
+    },
+    "Starred": {
+        "message": "Yıldızlılar",
+        "description": "background"
+    }
+}

@@ -1,294 +1,294 @@
 {
-  "Agreed": {
-    "message": "Dogovoreno",
-    "description": "Options"
-  },
-  "All_entries": {
-    "message": "Svi zapisi",
-    "description": "background"
-  },
-  "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
-    "message": "Dozvoli upotrebu razmaka u oznakama (time se deaktivira razmaknica kao tipka za slanje oznaka, koristi tipku Enter umjesto toga)",
-    "description": "Options"
-  },
-  "Archive": {
-    "message": "Arhiv",
-    "description": "background"
-  },
-  "Article_s_link": {
-    "message": "Poveznica članka",
-    "description": "Popup"
-  },
-  "Article_s_title": {
-    "message": "Naslov članka",
-    "description": "Popup"
-  },
-  "Auto_add_single_tag": {
-    "message": "Automatski dodaj jedinu oznaku",
-    "description": "Options"
-  },
-  "Cancel": {
-    "message": "Odustani",
-    "description": "Popup"
-  },
-  "Check_URL": {
-    "message": "Provjeri URL",
-    "description": "Options"
-  },
-  "Checklist": {
-    "message": "Popis zadataka",
-    "description": "Options"
-  },
-  "Client_ID": {
-    "message": "ID klijenta",
-    "description": "Options"
-  },
-  "Client_secret": {
-    "message": "Tajna klijenta",
-    "description": "Options"
-  },
-  "day_many": {
-    "message": "dana",
-    "description": "Options"
-  },
-  "day_one": {
-    "message": "dan",
-    "description": "Options"
-  },
-  "Delete_this_article": {
-    "message": "Izbriši ovaj članak",
-    "description": "Popup"
-  },
-  "Denied": {
-    "message": "Odbijeno",
-    "description": "Options"
-  },
-  "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
-    "message": "Želiš li trajno ukloniti ovaj članak iz wallabaga?",
-    "description": "Popup"
-  },
-  "Download_file": {
-    "message": "Preuzmi datoteku",
-    "description": "Options"
-  },
-  "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
-    "message": "Iz sigurnosnih razloga dozvoljavamo upotrebu ove opcije samo za HTTPS protokol",
-    "description": "Options"
-  },
-  "Edit_the_Wallabag_title_of_this_article": {
-    "message": "Uredi naslov ovog članka za Wallabag",
-    "description": "Popup"
-  },
-  "Enable_this_only_if_developers_told_you_to": {
-    "message": "Aktiviraj ovo samo, ako su ti programeri rekli da to učiniš",
-    "description": "Options"
-  },
-  "Enter_your_tags_here": {
-    "message": "Ovdje upiši tvoje oznake",
-    "description": "Popup"
-  },
-  "Expired": {
-    "message": "Isteklo",
-    "description": "Options"
-  },
-  "Extension_description": {
-    "message": "Ovo proširenje za wallabag v2 omogućuje uređivanje naslova i oznaka, kao i određivanje omiljenih članaka, arhiviranje ili brisanje.",
-    "description": "Manifest.json"
-  },
-  "Get_token": {
-    "message": "Nabavi token",
-    "description": "Options"
-  },
-  "Go_to_this_article_page": {
-    "message": "Idi na stranicu ovog članka",
-    "description": "Popup"
-  },
-  "Go_to_Wallabag_s_article_page": {
-    "message": "Idi na Wallabagovu stranicu ovog članka",
-    "description": "Popup"
-  },
-  "Granted": {
-    "message": "Odobreno",
-    "description": "Options"
-  },
-  "hour_many": {
-    "message": "h",
-    "description": "Options"
-  },
-  "hour_one": {
-    "message": "h",
-    "description": "Options"
-  },
-  "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
-    "message": "Naznači je li stranica već spremljena (time se šalje URL adresa svake kartice wallabagu, koristi HTTPS protokol za bolju sigurnost!)",
-    "description": "Options"
-  },
-  "Load_from_file": {
-    "message": "Učitaj iz datoteke",
-    "description": "Options"
-  },
-  "Loading_wallabag_API": {
-    "message": "Učitavanje wallabag sučelja …",
-    "description": "Popup"
-  },
-  "minute_many": {
-    "message": "min",
-    "description": "Options"
-  },
-  "minute_one": {
-    "message": "min",
-    "description": "Options"
-  },
-  "No_leave_it": {
-    "message": "Ne, ostavi",
-    "description": "Popup"
-  },
-  "Not_checked": {
-    "message": "Nije provjereno",
-    "description": "Options"
-  },
-  "Not_granted": {
-    "message": "Nije odobreno",
-    "description": "Options"
-  },
-  "Ok": {
-    "message": "U redu",
-    "description": "Options"
-  },
-  "Ok_I_understand": {
-    "message": "U redu, razumijem",
-    "description": "Options"
-  },
-  "Options_not_defined": {
-    "message": "Wallabagger nije konfiguriran",
-    "description": "Background"
-  },
-  "Remove_this_article_from_Wallabag": {
-    "message": "Ukloni ovaj članak iz Wallabaga",
-    "description": "Popup"
-  },
-  "Reset_parameters": {
-    "message": "Resetiraj parametre",
-    "description": "Options"
-  },
-  "Save": {
-    "message": "Spremi",
-    "description": "Popup"
-  },
-  "Save_Error": {
-    "message": "Došlo je do greške prilikom smpremanja članka",
-    "description": "Background"
-  },
-  "Save_to_file": {
-    "message": "Spremi u datoteku",
-    "description": "Options"
-  },
-  "Saving_tags": {
-    "message": "Spremanje oznaka …",
-    "description": "Popup"
-  },
-  "Saving_the_page_to_wallabag": {
-    "message": "Spremanje stranice u wallabag …",
-    "description": "background"
-  },
-  "Set_this_article_as_archived_into_Wallabag": {
-    "message": "Označi ovaj članak kao arhiviran u Wallabagu",
-    "description": "Popup"
-  },
-  "Set_this_article_as_starred_into_Wallabag": {
-    "message": "Označi ovaj članak kao omiljen u Wallabagu",
-    "description": "Popup"
-  },
-  "Starred": {
-    "message": "Omiljeni",
-    "description": "background"
-  },
-  "State": {
-    "message": "Stanje",
-    "description": "Options"
-  },
-  "Tag_already_exists": {
-    "message": "Oznaka već postoji",
-    "description": "Popup"
-  },
-  "Tags": {
-    "message": "Oznake",
-    "description": "background"
-  },
-  "Tags_found": {
-    "message": "Pronađene oznake:",
-    "description": "Popup"
-  },
-  "Token_expires_in": {
-    "message": "Rok tokena",
-    "description": "Options"
-  },
-  "Unread": {
-    "message": "Nepročitani",
-    "description": "background"
-  },
-  "Unset_this_article_as_archived_into_Wallabag": {
-    "message": "Označi ovaj članak kao nearhiviran u Wallabagu",
-    "description": "Popup"
-  },
-  "Unset_this_article_as_starred_into_Wallabag": {
-    "message": "Isključi ovaj članak iz omiljenih u Wallabagu",
-    "description": "Popup"
-  },
-  "Use_HTTPS": {
-    "message": "Koristi HTTPS",
-    "description": "Options"
-  },
-  "User_login": {
-    "message": "Korisnička prijava",
-    "description": "Options"
-  },
-  "User_password": {
-    "message": "Korisnička lozinka",
-    "description": "Options"
-  },
-  "Wallabag_API_token": {
-    "message": "Token Wallabag sučelja",
-    "description": "Options"
-  },
-  "Wallabag_API_version": {
-    "message": "Verzija Wallabag sučelja",
-    "description": "Options"
-  },
-  "Wallabag_it": {
-    "message": "Spremi!",
-    "description": "background"
-  },
-  "Wallabag_it_description": {
-    "message": "Spremi stranicu u Wallabag bez otvaranja skočnog prozora",
-    "description": "Manifest.json"
-  },
-  "Wallabag_permission_checked": {
-    "message": "Wallabag dozvola provjerena",
-    "description": "Options"
-  },
-  "Wallabag_URL": {
-    "message": "URL Wallabaga",
-    "description": "Options"
-  },
-  "Wallabag_URL_checked": {
-    "message": "URL Wallabaga provjeren",
-    "description": "Options"
-  },
-  "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
-    "message": "Za čitanje, pisanje i aktualiziranje sadržaja trebamo pristup tvom primjerku wallabaga. Ponovo provjeri URL i prihvati zahtjev.",
-    "description": "Options"
-  },
-  "Yes_delete_it": {
-    "message": "Da, izbriši",
-    "description": "Popup"
-  },
-  "You_can_find_your_credentials_here": {
-    "message": "Podatke za prijavu možeš pronaći ovdje:",
-    "description": "Options"
-  },
-  "Archive_by_default_when_saving_page": {
-    "message": "Standardno arhiviraj kad se stranica sprema",
-    "description": "Options"
-  }
+    "Agreed": {
+        "message": "Dogovoreno",
+        "description": "Options"
+    },
+    "All_entries": {
+        "message": "Svi zapisi",
+        "description": "background"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "Dozvoli upotrebu razmaknice u oznakama (time se deaktivira razmaknica kao tipka za slanje oznaka, koristi tipku Enter umjesto toga)",
+        "description": "Options"
+    },
+    "Archive": {
+        "message": "Arhiv",
+        "description": "background"
+    },
+    "Article_s_link": {
+        "message": "Poveznica članka",
+        "description": "Popup"
+    },
+    "Article_s_title": {
+        "message": "Naslov članka",
+        "description": "Popup"
+    },
+    "Cancel": {
+        "message": "Odustani",
+        "description": "Popup"
+    },
+    "Check_URL": {
+        "message": "Provjeri URL",
+        "description": "Options"
+    },
+    "Checklist": {
+        "message": "Popis zadataka",
+        "description": "Options"
+    },
+    "Client_ID": {
+        "message": "ID klijenta",
+        "description": "Options"
+    },
+    "Client_secret": {
+        "message": "Tajna klijenta",
+        "description": "Options"
+    },
+    "day_many": {
+        "message": "dana",
+        "description": "Options"
+    },
+    "day_one": {
+        "message": "dan",
+        "description": "Options"
+    },
+    "Delete_this_article": {
+        "message": "Izbriši ovaj članak",
+        "description": "Popup"
+    },
+    "Denied": {
+        "message": "Odbijeno",
+        "description": "Options"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "Želiš li trajno ukloniti ovaj članak iz wallabaga?",
+        "description": "Popup"
+    },
+    "Download_file": {
+        "message": "Preuzmi datoteku",
+        "description": "Options"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "Iz sigurnosnih razloga dozvoljavamo upotrebu ove opcije samo za HTTPS protokol",
+        "description": "Options"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "Uredi Wallabagov naslov za ovaj članak",
+        "description": "Popup"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "Aktiviraj ovo samo, ako su ti programeri rekli da to učiniš",
+        "description": "Options"
+    },
+    "Enter_your_tags_here": {
+        "message": "Ovdje upiši tvoje oznake",
+        "description": "Popup"
+    },
+    "Expired": {
+        "message": "Isteklo",
+        "description": "Options"
+    },
+    "Extension_description": {
+        "message": "Ovo proširenje za wallabag v2 omogućuje uređivanje naslova i oznaka, kao i određivanje omiljenih članaka, arhiviranje ili brisanje.",
+        "description": "Manifest.json"
+    },
+    "Get_token": {
+        "message": "Nabavi token",
+        "description": "Options"
+    },
+    "Go_to_this_article_page": {
+        "message": "Idi na stranicu ovog članka",
+        "description": "Popup"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "Idi na Wallabag stranicu ovog članka",
+        "description": "Popup"
+    },
+    "Granted": {
+        "message": "Odobreno",
+        "description": "Options"
+    },
+    "hour_many": {
+        "message": "h",
+        "description": "Options"
+    },
+    "hour_one": {
+        "message": "h",
+        "description": "Options"
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": "Naznači je li stranica već spremljena (time se šalje URL adresa svake kartice wallabagu, koristi HTTPS protokol za bolju sigurnost!)",
+        "description": "Options"
+    },
+    "Load_from_file": {
+        "message": "Učitaj iz datoteke",
+        "description": "Options"
+    },
+    "Loading_wallabag_API": {
+        "message": "Učitavanje wallabag sučelja …",
+        "description": "Popup"
+    },
+    "minute_many": {
+        "message": "min",
+        "description": "Options"
+    },
+    "minute_one": {
+        "message": "min",
+        "description": "Options"
+    },
+    "No_leave_it": {
+        "message": "Ne, ostavi",
+        "description": "Popup"
+    },
+    "Not_checked": {
+        "message": "Nije provjereno",
+        "description": "Options"
+    },
+    "Not_granted": {
+        "message": "Nije odobreno",
+        "description": "Options"
+    },
+    "Ok": {
+        "message": "U redu",
+        "description": "Options"
+    },
+    "Ok_I_understand": {
+        "message": "U redu, razumijem",
+        "description": "Options"
+    },
+    "Options_not_defined": {
+        "message": "Wallabagger nije konfiguriran",
+        "description": "Background"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "Ukloni ovaj članak iz Wallabaga",
+        "description": "Popup"
+    },
+    "Reset_parameters": {
+        "message": "Resetiraj parametre",
+        "description": "Options"
+    },
+    "Save": {
+        "message": "Spremi",
+        "description": "Popup"
+    },
+    "Save_Error": {
+        "message": "Došlo je do greške prilikom smpremanja članka",
+        "description": "Background"
+    },
+    "Save_to_file": {
+        "message": "Spremi u datoteku",
+        "description": "Options"
+    },
+    "Saving_tags": {
+        "message": "Spremanje oznaka …",
+        "description": "Popup"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "Spremanje stranice u wallabag …",
+        "description": "background"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "Označi ovaj članak kao arhiviran u Wallabagu",
+        "description": "Popup"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "Označi ovaj članak kao omiljen u Wallabagu",
+        "description": "Popup"
+    },
+    "Starred": {
+        "message": "Omiljeni",
+        "description": "background"
+    },
+    "State": {
+        "message": "Stanje",
+        "description": "Options"
+    },
+    "Tag_already_exists": {
+        "message": "Oznaka već postoji",
+        "description": "Popup"
+    },
+    "Tags": {
+        "message": "Oznake",
+        "description": "background"
+    },
+    "Tags_found": {
+        "message": "Pronađene oznake:",
+        "description": "Popup"
+    },
+    "Token_expires_in": {
+        "message": "Rok tokena",
+        "description": "Options"
+    },
+    "Unread": {
+        "message": "Nepročitani",
+        "description": "background"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "Označi ovaj članak kao nearhiviran u Wallabagu",
+        "description": "Popup"
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": "Isključi ovaj članak iz omiljenih u Wallabagu",
+        "description": "Popup"
+    },
+    "Use_HTTPS": {
+        "message": "Koristi HTTPS",
+        "description": "Options"
+    },
+    "User_login": {
+        "message": "Korisnička prijava",
+        "description": "Options"
+    },
+    "User_password": {
+        "message": "Korisnička lozinka",
+        "description": "Options"
+    },
+    "Wallabag_API_token": {
+        "message": "Token Wallabag sučelja",
+        "description": "Options"
+    },
+    "Wallabag_API_version": {
+        "message": "Verzija Wallabag sučelja",
+        "description": "Options"
+    },
+    "Wallabag_it": {
+        "message": "Spremi!",
+        "description": "background"
+    },
+    "Wallabag_it_description": {
+        "message": "Spremi stranicu u Wallabag bez otvaranja skočnog prozora",
+        "description": "Manifest.json"
+    },
+    "Wallabag_permission_checked": {
+        "message": "Wallabag dozvola provjerena",
+        "description": "Options"
+    },
+    "Wallabag_URL": {
+        "message": "URL Wallabaga",
+        "description": "Options"
+    },
+    "Wallabag_URL_checked": {
+        "message": "URL Wallabaga provjeren",
+        "description": "Options"
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": "Za čitanje, pisanje i aktualiziranje sadržaja trebamo pristup tvom primjerku wallabaga. Ponovo provjeri URL i prihvati zahtjev.",
+        "description": "Options"
+    },
+    "Yes_delete_it": {
+        "message": "Da, izbriši",
+        "description": "Popup"
+    },
+    "You_can_find_your_credentials_here": {
+        "message": "Podatke za prijavu možeš pronaći ovdje:",
+        "description": "Options"
+    },
+    "Archive_by_default_when_saving_page": {
+        "message": "Standardno arhiviraj kad se stranica sprema",
+        "description": "Options"
+    },
+    "Auto_add_single_tag": {
+        "message": "Automatski dodaj jednu oznaku",
+        "description": "Options"
+    }
 }
