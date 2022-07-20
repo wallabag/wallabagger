@@ -290,5 +290,9 @@
     "Starred": {
         "message": "Yıldızlılar",
         "description": "background"
+    },
+    "Sites_locally": {
+        "message": "Tarayıcıdan içerik aktar (her satırda bir URL)",
+        "description": "Options"
     }
 }
