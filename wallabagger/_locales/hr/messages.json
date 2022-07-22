@@ -290,5 +290,9 @@
     "Auto_add_single_tag": {
         "message": "Automatski dodaj jednu oznaku",
         "description": "Options"
+    },
+    "Sites_locally": {
+        "message": "Dohvati sadržaj iz preglednika (URL po retku)",
+        "description": "Options"
     }
 }
