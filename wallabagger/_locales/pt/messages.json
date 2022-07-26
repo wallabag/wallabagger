@@ -70,5 +70,165 @@
     "Delete_this_article": {
         "message": "Apagar este artigo",
         "description": "Popup"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "Salvando a página para wallabag…",
+        "description": "background"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "Defina este artigo como arquivado no Wallabag",
+        "description": "Popup"
+    },
+    "Auto_add_single_tag": {
+        "message": "Adicionar automaticamente uma única tag",
+        "description": "Options"
+    },
+    "Archive": {
+        "message": "Arquivo",
+        "description": "background"
+    },
+    "Article_s_link": {
+        "message": "Link do artigo",
+        "description": "Popup"
+    },
+    "Article_s_title": {
+        "message": "Título do artigo",
+        "description": "Popup"
+    },
+    "Expired": {
+        "message": "Expirado",
+        "description": "Options"
+    },
+    "Extension_description": {
+        "message": "Esta extensão wallabag v2 tem a capacidade de editar títulos e tags além de definir estados com estrela, arquivados ou excluir.",
+        "description": "Manifest.json"
+    },
+    "Get_token": {
+        "message": "Obter token",
+        "description": "Options"
+    },
+    "Go_to_this_article_page": {
+        "message": "Acesse esta página de artigo",
+        "description": "Popup"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "Ir para a página do artigo no Wallabag",
+        "description": "Popup"
+    },
+    "Granted": {
+        "message": "Concedido",
+        "description": "Options"
+    },
+    "hour_many": {
+        "message": "Horas",
+        "description": "Options"
+    },
+    "hour_one": {
+        "message": "hora",
+        "description": "Options"
+    },
+    "Load_from_file": {
+        "message": "Carregar a partir do arquivo",
+        "description": "Options"
+    },
+    "Loading_wallabag_API": {
+        "message": "Carregando API wallabag…",
+        "description": "Popup"
+    },
+    "minute_many": {
+        "message": "minutos",
+        "description": "Options"
+    },
+    "minute_one": {
+        "message": "minuto",
+        "description": "Options"
+    },
+    "No_leave_it": {
+        "message": "Não, deixa",
+        "description": "Popup"
+    },
+    "Not_checked": {
+        "message": "Não verificado",
+        "description": "Options"
+    },
+    "Not_granted": {
+        "message": "Não concedido",
+        "description": "Options"
+    },
+    "Ok": {
+        "message": "Ok",
+        "description": "Options"
+    },
+    "Ok_I_understand": {
+        "message": "Ok, eu entendo",
+        "description": "Options"
+    },
+    "Options_not_defined": {
+        "message": "Wallabagger não configurado",
+        "description": "Background"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "Remover este artigo do Wallabag",
+        "description": "Popup"
+    },
+    "Reset_parameters": {
+        "message": "Redefinir parâmetros",
+        "description": "Options"
+    },
+    "Save": {
+        "message": "Salvar",
+        "description": "Popup"
+    },
+    "Save_Error": {
+        "message": "Ocorreu um erro ao salvar o artigo",
+        "description": "Background"
+    },
+    "Save_to_file": {
+        "message": "Salvar para arquivo",
+        "description": "Options"
+    },
+    "Saving_tags": {
+        "message": "Salvando etiquetas…",
+        "description": "Popup"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "Marcar este artigo com estrela no Wallabag",
+        "description": "Popup"
+    },
+    "Starred": {
+        "message": "Com Estrela",
+        "description": "background"
+    },
+    "State": {
+        "message": "Estado",
+        "description": "Options"
+    },
+    "Sites_locally": {
+        "message": "Recupere conteúdo do navegador (uma URL por linha)",
+        "description": "Options"
+    },
+    "Tag_already_exists": {
+        "message": "A etiqueta já existe",
+        "description": "Popup"
+    },
+    "Tags": {
+        "message": "Etiquetas",
+        "description": "background"
+    },
+    "Tags_found": {
+        "message": "Etiquetas encontradas:",
+        "description": "Popup"
+    },
+    "Token_expires_in": {
+        "message": "O Token expira em",
+        "description": "Options"
+    },
+    "Unread": {
+        "message": "Não lido",
+        "description": "background"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "Desmarque este artigo como arquivado no Wallabag",
+        "description": "Popup"
     }
 }
