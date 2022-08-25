@@ -10,5 +10,25 @@
     "Starred": {
         "message": "已加星標",
         "description": "background"
+    },
+    "Agreed": {
+        "message": "同意",
+        "description": "Options"
+    },
+    "Archive": {
+        "message": "歸檔",
+        "description": "background"
+    },
+    "All_entries": {
+        "message": "全部文章",
+        "description": "background"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "允許標籤中包含空格（這會取消使用空格鍵完成建立標籤，需改由 Enter 鍵完成）",
+        "description": "Options"
+    },
+    "Article_s_link": {
+        "message": "文章連結",
+        "description": "Popup"
     }
 }
