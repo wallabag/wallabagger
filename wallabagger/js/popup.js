@@ -621,7 +621,7 @@ PopupController.prototype = {
             browser.tabs.executeScript(
                 tab.id,
                 {
-                    code: 'browser.runtime.sendMessage({"wallabagSaveArticleContent": window.document.body.innerHTML});'
+                    code: 'if(typeof(browser) === "undefined" && typeof (chrome) === "object") { browser = chrome; }; browser.runtime.sendMessage({"wallabagSaveArticleContent": window.document.body.innerHTML});'
                 }
             );
         });
