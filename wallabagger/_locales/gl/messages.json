@@ -168,7 +168,7 @@
         "description": "Popup"
     },
     "Starred": {
-        "message": "Preferido",
+        "message": "Destacado",
         "description": "background"
     },
     "State": {
@@ -192,7 +192,7 @@
         "description": "Options"
     },
     "Unread": {
-        "message": "Sen ler",
+        "message": "Non lido",
         "description": "background"
     },
     "Unset_this_article_as_starred_into_Wallabag": {
