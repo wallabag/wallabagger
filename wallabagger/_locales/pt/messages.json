@@ -128,7 +128,7 @@
         "description": "Options"
     },
     "Load_from_file": {
-        "message": "Carregar a partir do arquivo",
+        "message": "Carregar do ficheiro",
         "description": "Options"
     },
     "Loading_wallabag_API": {
@@ -184,7 +184,7 @@
         "description": "Background"
     },
     "Save_to_file": {
-        "message": "Salvar para arquivo",
+        "message": "Salvar para ficheiro",
         "description": "Options"
     },
     "Saving_tags": {
