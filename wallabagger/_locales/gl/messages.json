@@ -188,7 +188,7 @@
         "description": "Popup"
     },
     "Token_expires_in": {
-        "message": "A chave caducou o",
+        "message": "A chave caduca en",
         "description": "Options"
     },
     "Unread": {
