@@ -21,6 +21,7 @@ const OptionsController = function () {
 
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
     this.allowExistCheck = document.getElementById('allow-exist-checkbox');
+    this.fetchLocallyByDefault = document.getElementById('fetch-locally-by-default-checkbox');
     this.archiveByDefault = document.getElementById('archive-by-default-checkbox');
     this.debugEl = document.getElementById('debug');
     this.saveToFileButton = document.getElementById('saveToFile-button');
@@ -59,6 +60,7 @@ OptionsController.prototype = {
     sitesToFetchLocally: null,
 
     allowSpaceCheck: null,
+    fetchLocallyByDefault: null,
     archiveByDefault: null,
     allowExistCheck: null,
     debugEl: null,
@@ -70,6 +72,7 @@ OptionsController.prototype = {
 
     addListeners_: function () {
         this.allowSpaceCheck.addEventListener('click', this.allowSpaceCheckClick.bind(this));
+        this.fetchLocallyByDefault.addEventListener('click', this.fetchLocallyByDefaultClick.bind(this));
         this.archiveByDefault.addEventListener('click', this.archiveByDefaultClick.bind(this));
         this.allowExistCheck.addEventListener('click', this.allowExistCheckClick.bind(this));
         this.debugEl.addEventListener('click', this.debugClick.bind(this));
@@ -161,6 +164,11 @@ OptionsController.prototype = {
 
     allowSpaceCheckClick: function (e) {
         Object.assign(this.data, { AllowSpaceInTags: this.allowSpaceCheck.checked });
+        this.port.postMessage({ request: 'setup-save', data: this.data });
+    },
+
+    fetchLocallyByDefaultClick: function (e) {
+        Object.assign(this.data, { FetchLocallyByDefault: this.fetchLocallyByDefault.checked });
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 

@@ -200,7 +200,7 @@
     "description": "Popup"
   },
   "Sites_locally": {
-    "message": "Retrieve content from the browser (an URL by line)",
+    "message": "Retrieve content only from specific sites (an URL by line)",
     "description": "Options"
   },
   "Starred": {
@@ -289,6 +289,10 @@
   },
   "You_can_find_your_credentials_here": {
     "message": "You can find your credentials here:",
+    "description": "Options"
+  },
+  "Fetch_by_default_when_saving_page": {
+    "message": "Retrieve content from the browser by default when saving page",
     "description": "Options"
   },
   "Archive_by_default_when_saving_page": {
