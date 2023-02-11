@@ -153,13 +153,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="sites_to_fetch_locally-textarea" data-i18n="Sites_locally">Sites to fetch locally</label>
-                    <div class="input-group">
-                        <textarea class="form-input" id="sites_to_fetch_locally-textarea"></textarea>
-                    </div>
-                </div>
-
             </form>
         </div>
         <div class="column side-column">
@@ -196,21 +189,35 @@
         </div>
     </div>
     <div id="toggles-section" class="d-hide columns">
-        <div class="column col-12">
+        <div class="column col-12">  
             <div class="form-group">
                 <label class="form-switch">
                     <input type="checkbox" id="allow-space-checkbox"/>
                     <i class="form-icon"></i><span data-i18n="Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead">Allow Space in tags (this disables Space as send-tags key, use Enter key instead)</span>
                 </label>
             </div>
-
+            
             <div class="form-group">
                 <label class="form-switch">
                     <input type="checkbox" id="allow-exist-checkbox"/>
                     <i class="form-icon"></i><span data-i18n="Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security">Indicate if page already saved (this sends URL of each tab to wallabag, use HTTPS protocol for better security!)</span>
                 </label>
             </div>
+            
+            <div class="form-group">
+                <label class="form-switch">
+                    <input type="checkbox" id="fetch-locally-by-default-checkbox"/>
+                    <i class="form-icon"></i><span data-i18n="Fetch_by_default_when_saving_page">Retrieve content from the browser by default when saving page</span>
+                </label>
+            </div>
 
+            <div class="form-group">
+                <label class="form-label" for="sites_to_fetch_locally-textarea" data-i18n="Sites_locally">Sites to fetch locally</label>
+                <div class="input-group">
+                    <textarea class="form-input" id="sites_to_fetch_locally-textarea"></textarea>
+                </div>
+            </div>
+            
             <div class="form-group">
                 <label class="form-switch">
                     <input type="checkbox" id="archive-by-default-checkbox"/>
