@@ -14,6 +14,7 @@ const OptionsController = function () {
     this.clientSecret_ = document.getElementById('clientsecret-input');
     this.userLogin_ = document.getElementById('userlogin-input');
     this.userPassword_ = document.getElementById('userpassword-input');
+    this.sitesToFetchLocallyEl = document.getElementById('sites-to-fetch-locally');
     this.sitesToFetchLocallyInputEl = document.getElementById('sites-to-fetch-locally-input');
     this.getAppTokenButton_ = document.getElementById('getapptoken-button');
     this.tokenLabel_ = document.getElementById('apitoken-label');
@@ -169,6 +170,9 @@ OptionsController.prototype = {
 
     fetchLocallyByDefaultClick: function (e) {
         Object.assign(this.data, { FetchLocallyByDefault: this.fetchLocallyByDefault.checked });
+        this.fetchLocallyByDefault.checked
+            ? this._hide(this.sitesToFetchLocallyEl)
+            : this._show(this.sitesToFetchLocallyEl);
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
