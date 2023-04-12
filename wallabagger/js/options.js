@@ -55,7 +55,7 @@ OptionsController.prototype = {
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
-        this.sitesToFetchLocallyInputEl.addEventListener('input', this.sitesToFetchLocallyInput.bind(this));
+        this.sitesToFetchLocallyInputEl.addEventListener('blur', this.onSitesToFetchLocallyChanged.bind(this));
     },
 
     httpsButtonClick: function () {
@@ -127,7 +127,7 @@ OptionsController.prototype = {
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
-    sitesToFetchLocallyInput: function (e) {
+    onSitesToFetchLocallyChanged: function (e) {
         Object.assign(this.data, { sitesToFetchLocally: this.sitesToFetchLocallyInputEl.value });
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
