@@ -448,6 +448,13 @@ OptionsController.prototype = {
         this.allowExistCheck.checked = this.data.AllowExistCheck;
         this.autoAddSingleTag.checked = this.data.AutoAddSingleTag;
         this.debugEl.checked = this.data.Debug;
+
+        this.archiveByDefault.checked = this.data.ArchiveByDefault;
+
+        this.fetchLocallyByDefault.checked = this.data.FetchLocallyByDefault;
+        if (this.data.FetchLocallyByDefault) {
+            this._hide(this.sitesToFetchLocallyEl);
+        }
         this.sitesToFetchLocallyInputEl.value = this.data.sitesToFetchLocally;
     },
 
