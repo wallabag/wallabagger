@@ -18,7 +18,9 @@ WallabagApi.prototype = {
         AllowExistCheck: false,
         Debug: false,
         AutoAddSingleTag: false,
-        sitesToFetchLocally: null
+        ArchiveByDefault: false,
+        sitesToFetchLocally: null,
+        FetchLocallyByDefault: false
     },
 
     data: {},
