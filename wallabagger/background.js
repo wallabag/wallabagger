@@ -2,9 +2,6 @@
 
 // declarations
 
-if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-    browser = chrome;
-}
 
 let Port = null;
 let portConnected = false;
@@ -94,8 +91,8 @@ const api = new WallabagApi();
 
 // Code
 
-const version = browser.runtime.getManifest().version.split('.');
-version.length === 4 && browser.browserAction.setBadgeText({ text: 'ß' });
+const version = chrome.runtime.getManifest().version.split('.');
+version.length === 4 && chrome.browserAction.setBadgeText({ text: 'ß' });
 
 api.init().then(data => {
     addExistCheckListeners(api.data.AllowExistCheck);
@@ -107,13 +104,13 @@ createContextMenus();
 
 // Functions
 function createContextMenus () {
-    wallabagContextMenus.map(menu => browser.contextMenus.create(menu));
+    wallabagContextMenus.map(menu => chrome.contextMenus.create(menu));
 }
 
 function onTabActivatedListener (activeInfo) {
     browserIcon.set('default');
     const { tabId } = activeInfo;
-    browser.tabs.get(tabId, function (tab) {
+    chrome.tabs.get(tabId, function (tab) {
         if (tab.incognito) {
             return;
         }
@@ -136,41 +133,41 @@ function onTabUpdatedListener (tabId, changeInfo, tab) {
 
 function addExistCheckListeners (enable) {
     if (enable === true) {
-        browser.tabs.onActivated.addListener(onTabActivatedListener);
-        browser.tabs.onCreated.addListener(onTabCreatedListener);
-        browser.tabs.onUpdated.addListener(onTabUpdatedListener);
+        chrome.tabs.onActivated.addListener(onTabActivatedListener);
+        chrome.tabs.onCreated.addListener(onTabCreatedListener);
+        chrome.tabs.onUpdated.addListener(onTabUpdatedListener);
     } else {
-        if (browser.tabs && browser.tabs.onActivated.hasListener(onTabActivatedListener)) {
-            browser.tabs.onActivated.removeListener(onTabActivatedListener);
+        if (chrome.tabs && chrome.tabs.onActivated.hasListener(onTabActivatedListener)) {
+            chrome.tabs.onActivated.removeListener(onTabActivatedListener);
         }
-        if (browser.tabs && browser.tabs.onCreated.hasListener(onTabCreatedListener)) {
-            browser.tabs.onCreated.removeListener(onTabCreatedListener);
+        if (chrome.tabs && chrome.tabs.onCreated.hasListener(onTabCreatedListener)) {
+            chrome.tabs.onCreated.removeListener(onTabCreatedListener);
         }
-        if (browser.tabs && browser.tabs.onUpdated.hasListener(onTabUpdatedListener)) {
-            browser.tabs.onUpdated.removeListener(onTabUpdatedListener);
+        if (chrome.tabs && chrome.tabs.onUpdated.hasListener(onTabUpdatedListener)) {
+            chrome.tabs.onUpdated.removeListener(onTabUpdatedListener);
         }
     }
 }
 
 function goToOptionsPage (optionsPageUrl, res) {
     if (typeof (res) === 'undefined' || res.length === 0) {
-        browser.tabs.create({
+        chrome.tabs.create({
             url: optionsPageUrl
         });
     } else {
-        browser.tabs.update(res[0].id, { active: true });
+        chrome.tabs.update(res[0].id, { active: true });
     }
 }
 
 function openOptionsPage () {
     postIfConnected({ response: 'close' });
-    const optionsPageUrlFromManifest = browser.runtime.getManifest().options_ui.page;
-    const optionsPageUrl = browser.runtime.getURL(optionsPageUrlFromManifest);
+    const optionsPageUrlFromManifest = chrome.runtime.getManifest().options_ui.page;
+    const optionsPageUrl = chrome.runtime.getURL(optionsPageUrlFromManifest);
     try {
-        browser.tabs.query({ url: optionsPageUrl }).then(res => goToOptionsPage(optionsPageUrl, res));
+        chrome.tabs.query({ url: optionsPageUrl }).then(res => goToOptionsPage(optionsPageUrl, res));
     } catch (e) {
         // @Opera
-        browser.tabs.query({ url: optionsPageUrl }, function (res) {
+        chrome.tabs.query({ url: optionsPageUrl }, function (res) {
             goToOptionsPage(optionsPageUrl, res);
         });
     }
@@ -197,7 +194,7 @@ function onContextMenusClicked (info) {
 
 function onCommandsCommand (command) {
     if (command === 'wallabag-it') {
-        browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             if (tabs[0] != null) {
                 savePageToWallabag(tabs[0].url, false);
             }
@@ -350,15 +347,15 @@ function onRuntimeInstalled (details) {
 }
 
 function addListeners () {
-    browser.contextMenus.onClicked.addListener(onContextMenusClicked);
-    browser.commands.onCommand.addListener(onCommandsCommand);
-    browser.runtime.onConnect.addListener(onRuntimeConnect);
-    browser.runtime.onInstalled.addListener(onRuntimeInstalled);
+    chrome.contextMenus.onClicked.addListener(onContextMenusClicked);
+    chrome.commands.onCommand.addListener(onCommandsCommand);
+    chrome.runtime.onConnect.addListener(onRuntimeConnect);
+    chrome.runtime.onInstalled.addListener(onRuntimeInstalled);
 }
 
 const browserIcon = {
     images: {
-        default: browser.runtime.getManifest().browser_action.default_icon,
+        default: chrome.runtime.getManifest().browser_action.default_icon,
         good: 'img/wallabagger-green.svg',
         wip: 'img/wallabagger-yellow.svg',
         bad: 'img/wallabagger-red.svg'
@@ -375,7 +372,7 @@ const browserIcon = {
             // On Firefox, we want to reset to the default icon suitable for the active theme
             // but Chromium does not support resetting icons.
             try {
-                browser.browserAction.setIcon({ path: null });
+                chrome.browserAction.setIcon({ path: null });
 
                 return;
             } catch {
@@ -384,7 +381,7 @@ const browserIcon = {
             }
         }
 
-        browser.browserAction.setIcon({ path: this.images[icon] });
+        chrome.browserAction.setIcon({ path: this.images[icon] });
     },
 
     setTimed: function (icon) {
@@ -530,7 +527,7 @@ function savePageToWallabag (url, resetIcon, title, content) {
         });
 };
 
-const GotoWallabag = (part) => api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${part}/list` });
+const GotoWallabag = (part) => api.checkParams() && chrome.tabs.create({ url: `${api.data.Url}/${part}/list` });
 
 const checkExist = (dirtyUrl) => {
     if (isServicePage(dirtyUrl)) { return; }

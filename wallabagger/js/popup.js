@@ -420,13 +420,13 @@ PopupController.prototype = {
 
     openUrl: function (e) {
         e.preventDefault();
-        browser.tabs.create({ url: this.href });
+        chrome.tabs.create({ url: this.href });
         window.close();
     },
 
     activeTab: function () {
         return new Promise((resolve, reject) => {
-            browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                 if (tabs[0] != null) {
                     return resolve(tabs[0]);
                 } else {
@@ -571,7 +571,7 @@ PopupController.prototype = {
     },
 
     init: function () {
-        this.port = browser.runtime.connect({ name: 'popup' });
+        this.port = chrome.runtime.connect({ name: 'popup' });
         this.port.onMessage.addListener(this.messageListener.bind(this));
         this.port.postMessage({ request: 'setup' });
     },
@@ -610,7 +610,7 @@ PopupController.prototype = {
             this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
             this.enableTagsInput();
 
-            browser.runtime.onMessage.addListener(event => {
+            chrome.runtime.onMessage.addListener(event => {
                 if (typeof event.wallabagSaveArticleContent === 'undefined') {
                     return;
                 }
@@ -618,10 +618,10 @@ PopupController.prototype = {
                 this.port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
             });
 
-            browser.tabs.executeScript(
+            chrome.tabs.executeScript(
                 tab.id,
                 {
-                    code: 'if(typeof(browser) === "undefined" && typeof (chrome) === "object") { browser = chrome; }; browser.runtime.sendMessage({"wallabagSaveArticleContent": window.document.body.innerHTML});'
+                    code: 'chrome.runtime.sendMessage({"wallabagSaveArticleContent": window.document.body.innerHTML});'
                 }
             );
         });
@@ -634,9 +634,6 @@ PopupController.prototype = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-        browser = chrome;
-    }
     Common.translateAll();
     const PC = new PopupController();
     PC.init();

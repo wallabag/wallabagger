@@ -340,7 +340,7 @@ OptionsController.prototype = {
             if (url !== this.data.Url) this.data.isFetchPermissionGranted = false;
             if (this.data.isFetchPermissionGranted !== true) {
                 const granted = await new Promise((resolve, reject) => {
-                    browser.permissions.request({
+                    chrome.permissions.request({
                         origins: [url + '/*']
                     }, resolve);
                 }).then(granted => granted);
@@ -512,7 +512,7 @@ OptionsController.prototype = {
     },
 
     init: function () {
-        this.port = browser.runtime.connect({ name: 'setup' });
+        this.port = chrome.runtime.connect({ name: 'setup' });
         this.port.onMessage.addListener(this.messageListener.bind(this));
         this.port.postMessage({ request: 'setup' });
     }
@@ -520,9 +520,6 @@ OptionsController.prototype = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-        browser = chrome;
-    }
     Common.translateAll();
     const PC = new OptionsController();
     PC.init();
