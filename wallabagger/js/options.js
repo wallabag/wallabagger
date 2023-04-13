@@ -14,7 +14,8 @@ const OptionsController = function () {
     this.clientSecret_ = document.getElementById('clientsecret-input');
     this.userLogin_ = document.getElementById('userlogin-input');
     this.userPassword_ = document.getElementById('userpassword-input');
-    this.sitesToFetchLocally_ = document.getElementById('sites_to_fetch_locally-textarea');
+    this.sitesToFetchLocallyEl = document.getElementById('sites-to-fetch-locally');
+    this.sitesToFetchLocallyInputEl = document.getElementById('sites-to-fetch-locally-input');
     this.getAppTokenButton_ = document.getElementById('getapptoken-button');
     this.tokenLabel_ = document.getElementById('apitoken-label');
     this.tokenExpire = document.getElementById('expiretoken-label');
@@ -36,37 +37,6 @@ const OptionsController = function () {
 
 OptionsController.prototype = {
 
-    protocolCheck_: true,
-    protocolLabel_: null,
-    wallabagurlinput_: null,
-    checkurlbutton_: null,
-    versionLabel_: null,
-    _debug: false,
-    checkedLabel_: null,
-    permissionLabel_: null,
-    tokenSection_: null,
-    togglesSection: null,
-    clientId_: null,
-    clientSecret_: null,
-    userLogin_: null,
-    userPassword_: null,
-    getAppTokenButton_: null,
-    tokenLabel_: null,
-    tokenExpire: null,
-    saveToFileButton: null,
-    loadFromFileButton: null,
-    openFileDialog: null,
-    clearButton: null,
-    sitesToFetchLocally: null,
-
-    allowSpaceCheck: null,
-    fetchLocallyByDefault: null,
-    archiveByDefault: null,
-    allowExistCheck: null,
-    debugEl: null,
-    autoAddSingleTag: null,
-    httpsButton: null,
-    httpsMessage: null,
     data: null,
     port: null,
 
@@ -85,7 +55,7 @@ OptionsController.prototype = {
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
-        this.sitesToFetchLocally_.addEventListener('input', this.sitesToFetchInput.bind(this));
+        this.sitesToFetchLocallyInputEl.addEventListener('blur', this.onSitesToFetchLocallyChanged.bind(this));
     },
 
     httpsButtonClick: function () {
@@ -157,8 +127,8 @@ OptionsController.prototype = {
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
-    sitesToFetchInput: function (e) {
-        Object.assign(this.data, { sitesToFetchLocally: this.sitesToFetchLocally_.value });
+    onSitesToFetchLocallyChanged: function (e) {
+        Object.assign(this.data, { sitesToFetchLocally: this.sitesToFetchLocallyInputEl.value });
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
@@ -169,6 +139,9 @@ OptionsController.prototype = {
 
     fetchLocallyByDefaultClick: function (e) {
         Object.assign(this.data, { FetchLocallyByDefault: this.fetchLocallyByDefault.checked });
+        this.fetchLocallyByDefault.checked
+            ? this._hide(this.sitesToFetchLocallyEl)
+            : this._show(this.sitesToFetchLocallyEl);
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
@@ -475,7 +448,14 @@ OptionsController.prototype = {
         this.allowExistCheck.checked = this.data.AllowExistCheck;
         this.autoAddSingleTag.checked = this.data.AutoAddSingleTag;
         this.debugEl.checked = this.data.Debug;
-        this.sitesToFetchLocally_.value = this.data.sitesToFetchLocally;
+
+        this.archiveByDefault.checked = this.data.ArchiveByDefault;
+
+        this.fetchLocallyByDefault.checked = this.data.FetchLocallyByDefault;
+        if (this.data.FetchLocallyByDefault) {
+            this._hide(this.sitesToFetchLocallyEl);
+        }
+        this.sitesToFetchLocallyInputEl.value = this.data.sitesToFetchLocally;
     },
 
     messageListener: function (msg) {

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Wallabagger options</title>
+    <title>Wallabagger</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/spectre.min.css">
     <style>
@@ -15,14 +15,28 @@
             background-color: transparent;
             font-size: 0.6rem;
         }
+        h2 {
+            margin: 20px 0 10px;
+        }
+        h3 {
+            font-size: 1rem;
+            margin: 20px 0 15px;
+        }
         p {
             margin-bottom: 0;
         }
         form, section { margin-top: 5px; }
-        .main-logo {
-            margin: 0 auto;
+        .main-title {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .main-title::before {
+            display: inline-block;
+            margin-right: 20px;
             width: 64px;
             height: 64px;
+            content: '';
+            background: url(img/wallabag-icon-128.png) center / 64px no-repeat;
         }
         .columns {
             display: block;
@@ -99,7 +113,10 @@
 </head>
 
 <body>
-    <img src="img/wallabag-icon-128.png" alt="wallabag logo" class="main-logo">
+    <h1 class="main-title">Wallabagger</h1>
+
+    <h2 data-i18n="Settings">Settings</h2>
+
     <div class="columns">
         <div class="column main-column">
             <form action="." id="wallabagurl-section">
@@ -188,55 +205,67 @@
             </table>
         </div>
     </div>
-    <div id="toggles-section" class="d-hide columns">
-        <div class="column col-12">  
-            <div class="form-group">
-                <label class="form-switch">
-                    <input type="checkbox" id="allow-space-checkbox"/>
-                    <i class="form-icon"></i><span data-i18n="Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead">Allow Space in tags (this disables Space as send-tags key, use Enter key instead)</span>
-                </label>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-switch">
-                    <input type="checkbox" id="allow-exist-checkbox"/>
-                    <i class="form-icon"></i><span data-i18n="Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security">Indicate if page already saved (this sends URL of each tab to wallabag, use HTTPS protocol for better security!)</span>
-                </label>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-switch">
-                    <input type="checkbox" id="fetch-locally-by-default-checkbox"/>
-                    <i class="form-icon"></i><span data-i18n="Fetch_by_default_when_saving_page">Retrieve content from the browser by default when saving page</span>
-                </label>
-            </div>
 
-            <div class="form-group">
-                <label class="form-label" for="sites_to_fetch_locally-textarea" data-i18n="Sites_locally">Sites to fetch locally</label>
-                <div class="input-group">
-                    <textarea class="form-input" id="sites_to_fetch_locally-textarea"></textarea>
+
+    <div id="toggles-section" class="d-hide">
+        <h2 data-i18n="Options">Options</h2>
+
+        <div class="columns">
+            <div class="column col-12">
+                <h3 data-i18n="Fetch_from_the_browser">Fetch from the browser</h3>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="fetch-locally-by-default-checkbox"/>
+                        <i class="form-icon"></i><span data-i18n="Fetch_by_default_when_saving_page">Retrieve content from the browser by default when saving page</span>
+                    </label>
                 </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-switch">
-                    <input type="checkbox" id="archive-by-default-checkbox"/>
-                    <i class="form-icon"></i><span data-i18n="Archive_by_default_when_saving_page">Archive by default when saving page</span>
-                </label>
-            </div>
 
-            <div class="form-group">
-                <label class="form-switch">
-                    <input type="checkbox" id="debug"/>
-                    <i class="form-icon"></i><span data-i18n="Enable_this_only_if_developers_told_you_to">Enable this only if developers told you to.</span>
-                </label>
-            </div>
+                <div id="sites-to-fetch-locally" class="form-group">
+                    <label class="form-label" for="sites-to-fetch-locally-input" data-i18n="Sites_locally">Sites to fetch locally</label>
+                    <div class="input-group">
+                        <textarea class="form-input" id="sites-to-fetch-locally-input"></textarea>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label class="form-switch">
-                    <input type="checkbox" id="single-tag"/>
-                    <i class="form-icon"></i><span data-i18n="Auto_add_single_tag">Auto add tag if found only one</span>
-                </label>
+                <h3 data-i18n="Tags">Tags</h3>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="allow-space-checkbox"/>
+                        <i class="form-icon"></i><span data-i18n="Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead">Allow Space in tags (this disables Space as send-tags key, use Enter key instead)</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="single-tag"/>
+                        <i class="form-icon"></i><span data-i18n="Auto_add_single_tag">Auto add tag if found only one</span>
+                    </label>
+                </div>
+
+                <h3 data-i18n="Others">Others</h3>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="allow-exist-checkbox"/>
+                        <i class="form-icon"></i><span data-i18n="Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security">Indicate if page already saved (this sends URL of each tab to wallabag, use HTTPS protocol for better security!)</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="archive-by-default-checkbox"/>
+                        <i class="form-icon"></i><span data-i18n="Archive_by_default_when_saving_page">Archive by default when saving page</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="debug"/>
+                        <i class="form-icon"></i><span data-i18n="Enable_this_only_if_developers_told_you_to">Enable this only if developers told you to.</span>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
