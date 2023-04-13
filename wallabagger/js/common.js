@@ -1,6 +1,8 @@
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Common" }] */
 'use strict';
 
+import { browser } from './browser-polyfill.js';
+
 const Common = (() => {
     const translate = (key) => {
         const message = browser.i18n.getMessage(key);
@@ -26,3 +28,5 @@ const Common = (() => {
         getLocale: getLocale
     };
 })();
+
+export { Common };

@@ -1,3 +1,6 @@
+import { browser } from './browser-polyfill.js';
+import { Common } from './common.js';
+
 const PopupController = function () {
     this.mainCard = document.getElementById('main-card');
     this.errorToast = document.getElementById('error-toast');

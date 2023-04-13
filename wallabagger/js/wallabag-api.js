@@ -1,3 +1,6 @@
+import { browser } from './browser-polyfill.js';
+import { FetchApi } from './fetch-api.js';
+
 /**
  * @param {string} url
  * @returns {Promise<string>}
@@ -351,3 +354,5 @@ WallabagApi.prototype = {
             });
     }
 };
+
+export { WallabagApi };

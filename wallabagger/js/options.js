@@ -1,3 +1,6 @@
+import { browser } from './browser-polyfill.js';
+import { Common } from './common.js';
+
 const OptionsController = function () {
     this.protocolCheck_ = document.getElementById('protocol-checkbox');
     this.protocolLabel_ = document.getElementById('input-group-wallabagurl');
@@ -520,9 +523,6 @@ OptionsController.prototype = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-        browser = chrome;
-    }
     Common.translateAll();
     const PC = new OptionsController();
     PC.init();

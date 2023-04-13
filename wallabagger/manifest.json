@@ -1,35 +1,30 @@
 {
   "name": "Wallabagger",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "default_locale": "en",
   "version": "1.17.0",
   "description": "__MSG_Extension_description__",
+  "minimum_chrome_version": "93",
   "icons": {
-    "48": "img/wallabag-icon-48.png",
-    "128": "img/wallabag-icon-128.png"
+    "48": "/img/wallabag-icon-48.png",
+    "128": "/img/wallabag-icon-128.png"
   },
-  "browser_action": {
+  "action": {
     "default_title": "Wallabagger",
-    "default_icon": "img/wallabag-icon-48.png",
+    "default_icon": "/img/wallabag-icon-48.png",
     "theme_icons": [
       {
-        "dark": "img/wallabagger.svg",
-        "light": "img/wallabagger-light.svg",
+        "dark": "/img/wallabagger.svg",
+        "light": "/img/wallabagger-light.svg",
         "size": 32
       }
     ],
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": [
-      "js/common.js",
-      "js/deps/text.min.js",
-      "js/deps/asmcrypto.all.es5.min.js",
-      "js/deps/webcrypto-liner.shim.min.js",
-      "js/fetch-api.js",
-      "js/wallabag-api.js",
-      "js/background.js"
-    ]
+    "scripts": ["js/background.js"],
+    "service_worker": "js/background.js",
+    "type": "module"
   },
   "permissions": [
     "tabs",
@@ -37,7 +32,7 @@
     "contextMenus",
     "activeTab"
   ],
-  "optional_permissions": [
+  "optional_host_permissions": [
     "*://*/api/*"
   ],
   "options_ui": {
