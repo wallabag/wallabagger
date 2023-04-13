@@ -95,6 +95,10 @@
     "message": "This wallabag v2 extension has the ability to edit title and tags and set starred, archived, or delete states.",
     "description": "Manifest.json"
   },
+  "Fetch_from_the_browser": {
+      "message": "Content fetching from the browser",
+      "description": "Options"
+  },
   "Get_token": {
     "message": "Get token",
     "description": "Options"
@@ -159,9 +163,17 @@
     "message": "Ok, I understand",
     "description": "Options"
   },
+  "Options": {
+      "message": "Options",
+      "description": "Options"
+  },
   "Options_not_defined": {
     "message": "Wallabagger not configured",
     "description": "Background"
+  },
+  "Others": {
+      "message": "Others",
+      "description": "Options"
   },
   "Remove_this_article_from_Wallabag": {
     "message": "Remove this article from Wallabag",
@@ -202,6 +214,10 @@
   "Sites_locally": {
     "message": "Retrieve content only from specific sites (an URL by line)",
     "description": "Options"
+  },
+  "Settings": {
+      "message": "Settings",
+      "description": "Options"
   },
   "Starred": {
     "message": "Starred",
