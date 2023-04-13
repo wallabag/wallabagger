@@ -26,3 +26,5 @@ const Common = (() => {
         getLocale: getLocale
     };
 })();
+
+export { Common };

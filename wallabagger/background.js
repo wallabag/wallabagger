@@ -1,7 +1,5 @@
-//* globals WallabagApi */
-
-// declarations
-
+import { Common } from './js/common.js';
+import { WallabagApi } from './js/wallabag-api.js';
 
 let Port = null;
 let portConnected = false;
@@ -47,6 +45,7 @@ const wallabagContextMenus = [
         contexts: ['link', 'page']
     },
     {
+        id: 'separator',
         type: 'separator',
         contexts: ['browser_action']
     },
@@ -355,7 +354,7 @@ function addListeners () {
 
 const browserIcon = {
     images: {
-        default: chrome.runtime.getManifest().browser_action.default_icon,
+        default: chrome.runtime.getManifest().action.default_icon,
         good: 'img/wallabagger-green.svg',
         wip: 'img/wallabagger-yellow.svg',
         bad: 'img/wallabagger-red.svg'

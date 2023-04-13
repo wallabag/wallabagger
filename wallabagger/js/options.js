@@ -1,3 +1,5 @@
+import { Common } from './common.js';
+
 const OptionsController = function () {
     this.protocolCheck_ = document.getElementById('protocol-checkbox');
     this.protocolLabel_ = document.getElementById('input-group-wallabagurl');
