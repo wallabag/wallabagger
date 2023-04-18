@@ -1,7 +1,5 @@
 # Wallabagger
 
-[![Build Status](https://travis-ci.org/Simounet/wallabagger.svg?branch=feature%2Ftravisci)](https://travis-ci.org/Simounet/wallabagger)
-
 Wallabagger is an extension for add pages to wallabag, with ability to:
 
 - save current page
