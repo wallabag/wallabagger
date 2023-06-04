@@ -152,7 +152,7 @@
         "description": "Popup"
     },
     "Sites_locally": {
-        "message": "Obtener el contenido del navegador (una URL en cada línea)",
+        "message": "Obten el contenido del navegador para sitios web específicos (una URL por línea)",
         "description": "Options"
     },
     "Tag_already_exists": {
@@ -294,5 +294,25 @@
     "Unset_this_article_as_archived_into_Wallabag": {
         "message": "Marca este artículo como no archivado en Wallabag",
         "description": "Popup"
+    },
+    "Fetch_from_the_browser": {
+        "message": "Obtener el contenido del navegador",
+        "description": "Options"
+    },
+    "Options": {
+        "message": "Opciones",
+        "description": "Options"
+    },
+    "Others": {
+        "message": "Otros",
+        "description": "Options"
+    },
+    "Settings": {
+        "message": "Ajustes",
+        "description": "Options"
+    },
+    "Fetch_by_default_when_saving_page": {
+        "message": "Recuperar el contenido del navegador de forma predeterminada al guardar la página",
+        "description": "Options"
     }
 }
