@@ -152,7 +152,7 @@
         "description": "Popup"
     },
     "Saving_the_page_to_wallabag": {
-        "message": "Zapisywanie strony do wallabag…",
+        "message": "Zapisywanie strony w wallabag…",
         "description": "background"
     },
     "Set_this_article_as_archived_into_Wallabag": {
@@ -212,7 +212,7 @@
         "description": "Popup"
     },
     "Wallabag_it": {
-        "message": "Wallabaguj to!",
+        "message": "wallabaguj to!",
         "description": "background"
     },
     "Wallabag_permission_checked": {
