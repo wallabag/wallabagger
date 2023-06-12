@@ -76,7 +76,7 @@
         "description": "Options"
     },
     "Edit_the_Wallabag_title_of_this_article": {
-        "message": "Edit the Wallabag title of this article",
+        "message": "Edit the wallabag title of this article",
         "description": "Popup"
     },
     "Enable_this_only_if_developers_told_you_to": {
@@ -108,7 +108,7 @@
         "description": "Popup"
     },
     "Go_to_Wallabag_s_article_page": {
-        "message": "Go to Wallabag's article page",
+        "message": "Go to wallabag's article page",
         "description": "Popup"
     },
     "Granted": {
@@ -156,11 +156,11 @@
         "description": "Options"
     },
     "Ok": {
-        "message": "Ok",
+        "message": "OK",
         "description": "Options"
     },
     "Ok_I_understand": {
-        "message": "Ok, I understand",
+        "message": "OK, I understand",
         "description": "Options"
     },
     "Options": {
@@ -176,7 +176,7 @@
         "description": "Options"
     },
     "Remove_this_article_from_Wallabag": {
-        "message": "Remove this article from Wallabag",
+        "message": "Remove this article from wallabag",
         "description": "Popup"
     },
     "Reset_parameters": {
@@ -204,11 +204,11 @@
         "description": "background"
     },
     "Set_this_article_as_archived_into_Wallabag": {
-        "message": "Set this article as archived into Wallabag",
+        "message": "Set this article as archived in wallabag",
         "description": "Popup"
     },
     "Set_this_article_as_starred_into_Wallabag": {
-        "message": "Set this article as starred into Wallabag",
+        "message": "Set this article as starred in wallabag",
         "description": "Popup"
     },
     "Sites_locally": {
@@ -248,11 +248,11 @@
         "description": "background"
     },
     "Unset_this_article_as_archived_into_Wallabag": {
-        "message": "Unset this article as archived into Wallabag",
+        "message": "Unset this article as archived in wallabag",
         "description": "Popup"
     },
     "Unset_this_article_as_starred_into_Wallabag": {
-        "message": "Unset this article as starred into Wallabag",
+        "message": "Unset this article as starred in wallabag",
         "description": "Popup"
     },
     "Use_HTTPS": {
@@ -268,15 +268,15 @@
         "description": "Options"
     },
     "Wallabag_API_token": {
-        "message": "Wallabag API token",
+        "message": "wallabag API token",
         "description": "Options"
     },
     "Wallabag_API_version": {
-        "message": "Wallabag API version",
+        "message": "wallabag API version",
         "description": "Options"
     },
     "Wallabag_it": {
-        "message": "Wallabag it!",
+        "message": "wallabag it!",
         "description": "background"
     },
     "Wallabag_it_description": {
@@ -284,15 +284,15 @@
         "description": "Manifest.json"
     },
     "Wallabag_permission_checked": {
-        "message": "Wallabag permission checked",
+        "message": "wallabag permission checked",
         "description": "Options"
     },
     "Wallabag_URL": {
-        "message": "Wallabag URL",
+        "message": "wallabag URL",
         "description": "Options"
     },
     "Wallabag_URL_checked": {
-        "message": "Wallabag URL checked",
+        "message": "wallabag URL checked",
         "description": "Options"
     },
     "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
