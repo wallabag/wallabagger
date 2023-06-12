@@ -1,1 +1,158 @@
-{}
+{
+    "Article_s_title": {
+        "message": "Artikkelnavn",
+        "description": "Popup"
+    },
+    "Cancel": {
+        "message": "Avbryt",
+        "description": "Popup"
+    },
+    "All_entries": {
+        "message": "Alle oppføringer",
+        "description": "background"
+    },
+    "Article_s_link": {
+        "message": "Artikkellenke",
+        "description": "Popup"
+    },
+    "Check_URL": {
+        "message": "Sjekk nettadressen",
+        "description": "Options"
+    },
+    "Checklist": {
+        "message": "Sjekkliste",
+        "description": "Options"
+    },
+    "Client_ID": {
+        "message": "Klient-ID",
+        "description": "Options"
+    },
+    "Client_secret": {
+        "message": "Klienthemmelighet",
+        "description": "Options"
+    },
+    "day_many": {
+        "message": "dager",
+        "description": "Options"
+    },
+    "day_one": {
+        "message": "dag",
+        "description": "Options"
+    },
+    "Delete_this_article": {
+        "message": "Slett denne artikkelen",
+        "description": "Popup"
+    },
+    "Denied": {
+        "message": "Nektet",
+        "description": "Options"
+    },
+    "Download_file": {
+        "message": "Last ned fil",
+        "description": "Options"
+    },
+    "Starred": {
+        "message": "Stjernemerket",
+        "description": "background"
+    },
+    "State": {
+        "message": "Tilstand",
+        "description": "Options"
+    },
+    "Use_HTTPS": {
+        "message": "Bruk HTTPS",
+        "description": "Options"
+    },
+    "Granted": {
+        "message": "Innvilget",
+        "description": "Options"
+    },
+    "Load_from_file": {
+        "message": "Last inn fra fil",
+        "description": "Options"
+    },
+    "Loading_wallabag_API": {
+        "message": "Laster inn wallabag-API …",
+        "description": "Popup"
+    },
+    "minute_many": {
+        "message": "minutter",
+        "description": "Options"
+    },
+    "minute_one": {
+        "message": "minutt",
+        "description": "Options"
+    },
+    "Not_granted": {
+        "message": "Ikke innvilget",
+        "description": "Options"
+    },
+    "Ok": {
+        "message": "OK",
+        "description": "Options"
+    },
+    "Options": {
+        "message": "Alternativer",
+        "description": "Options"
+    },
+    "Ok_I_understand": {
+        "message": "OK, jeg forstår",
+        "description": "Options"
+    },
+    "Reset_parameters": {
+        "message": "Tilbakestill parametre",
+        "description": "Options"
+    },
+    "Save": {
+        "message": "Lagre",
+        "description": "Popup"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "Lagrer siden i wallabag …",
+        "description": "background"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "Fjern denne artikkelen fra wallabag",
+        "description": "Popup"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "Sett artikkel som arkivert i wallabag",
+        "description": "Popup"
+    },
+    "User_login": {
+        "message": "Brukerinnlogging",
+        "description": "Options"
+    },
+    "User_password": {
+        "message": "Brukerpassord",
+        "description": "Options"
+    },
+    "hour_one": {
+        "message": "time",
+        "description": "Options"
+    },
+    "hour_many": {
+        "message": "timer",
+        "description": "Options"
+    },
+    "Unread": {
+        "message": "Ulest",
+        "description": "background"
+    },
+    "Save_to_file": {
+        "message": "Lagre som fil",
+        "description": "Options"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "Sett artikkel som stjernemerket i wallabag",
+        "description": "Popup"
+    },
+    "Settings": {
+        "message": "Innstillinger",
+        "description": "Options"
+    },
+    "Token_expires_in": {
+        "message": "Symbol utløper om",
+        "description": "Options"
+    }
+}
