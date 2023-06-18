@@ -1,1 +1,318 @@
-{}
+{
+    "Granted": {
+        "message": "Uděleno",
+        "description": "Options"
+    },
+    "Agreed": {
+        "message": "Souhlasím",
+        "description": "Options"
+    },
+    "Archive": {
+        "message": "Archiv",
+        "description": "background"
+    },
+    "Article_s_link": {
+        "message": "Odkaz na článek",
+        "description": "Popup"
+    },
+    "Article_s_title": {
+        "message": "Název článku",
+        "description": "Popup"
+    },
+    "Auto_add_single_tag": {
+        "message": "Automaticky přidat jeden štítek",
+        "description": "Options"
+    },
+    "Cancel": {
+        "message": "Storno",
+        "description": "Popup"
+    },
+    "Check_URL": {
+        "message": "Zkontrolovat URL",
+        "description": "Options"
+    },
+    "Checklist": {
+        "message": "Kontrolní seznam",
+        "description": "Options"
+    },
+    "Client_ID": {
+        "message": "ID klienta",
+        "description": "Options"
+    },
+    "Client_secret": {
+        "message": "Tajný kód klienta",
+        "description": "Options"
+    },
+    "day_many": {
+        "message": "dní",
+        "description": "Options"
+    },
+    "day_one": {
+        "message": "den",
+        "description": "Options"
+    },
+    "Delete_this_article": {
+        "message": "Odstranit tento článek",
+        "description": "Popup"
+    },
+    "Denied": {
+        "message": "Zamítnuto",
+        "description": "Options"
+    },
+    "Download_file": {
+        "message": "Soubor ke stažení",
+        "description": "Options"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "Z bezpečnostních důvodů povolujeme tuto možnost pouze pro protokol HTTPS",
+        "description": "Options"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "Upravit název tohoto článku ve Wallabagu",
+        "description": "Popup"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "Toto povolte, pouze pokud vám to vývojáři řekli",
+        "description": "Options"
+    },
+    "Enter_your_tags_here": {
+        "message": "Sem zadejte své štítky",
+        "description": "Popup"
+    },
+    "Expired": {
+        "message": "Vypršela platnost",
+        "description": "Options"
+    },
+    "Get_token": {
+        "message": "Získat token",
+        "description": "Options"
+    },
+    "Reset_parameters": {
+        "message": "Obnovit parametry",
+        "description": "Options"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "Povolit mezeru ve štítcích (tím zakážete mezerník jako klávesu pro odesílání štítků, místo ní použijte klávesu Enter)",
+        "description": "Options"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "Chcete tento článek trvale odebrat z Wallabagu?",
+        "description": "Popup"
+    },
+    "Extension_description": {
+        "message": "Toto rozšíření Wallabag v2 umožňuje upravovat název a štítky a nastavit stavy s hvězdičkou, archivováno nebo odstranění.",
+        "description": "Manifest.json"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "Odebrat tento článek z Wallabagu",
+        "description": "Popup"
+    },
+    "All_entries": {
+        "message": "Všechny položky",
+        "description": "background"
+    },
+    "User_password": {
+        "message": "Heslo uživatele",
+        "description": "Options"
+    },
+    "Wallabag_API_token": {
+        "message": "Token API Wallabagu",
+        "description": "Options"
+    },
+    "Fetch_from_the_browser": {
+        "message": "Stahování obsahu z prohlížeče",
+        "description": "Options"
+    },
+    "Go_to_this_article_page": {
+        "message": "Přejít na stránku tohoto článku",
+        "description": "Popup"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "Přejít na stránku článku ve Wallabagu",
+        "description": "Popup"
+    },
+    "hour_many": {
+        "message": "hodin",
+        "description": "Options"
+    },
+    "hour_one": {
+        "message": "hodina",
+        "description": "Options"
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": "Uveďte, zda je stránka již uložena (tím se odešle URL každé karty do Wallabagu, pro lepší zabezpečení použijte protokol HTTPS!)",
+        "description": "Options"
+    },
+    "Load_from_file": {
+        "message": "Načíst ze souboru",
+        "description": "Options"
+    },
+    "Loading_wallabag_API": {
+        "message": "Načítání API Wallabagu…",
+        "description": "Popup"
+    },
+    "minute_many": {
+        "message": "minut",
+        "description": "Options"
+    },
+    "minute_one": {
+        "message": "minuta",
+        "description": "Options"
+    },
+    "No_leave_it": {
+        "message": "Ne, ponechat",
+        "description": "Popup"
+    },
+    "Not_checked": {
+        "message": "Nezkontrolováno",
+        "description": "Options"
+    },
+    "Not_granted": {
+        "message": "Neuděleno",
+        "description": "Options"
+    },
+    "Ok": {
+        "message": "OK",
+        "description": "Options"
+    },
+    "Ok_I_understand": {
+        "message": "Dobře, rozumím",
+        "description": "Options"
+    },
+    "Options": {
+        "message": "Možnosti",
+        "description": "Options"
+    },
+    "Options_not_defined": {
+        "message": "Wallabagger není nakonfigurován",
+        "description": "Background"
+    },
+    "Others": {
+        "message": "Jiné",
+        "description": "Options"
+    },
+    "Save": {
+        "message": "Uložit",
+        "description": "Popup"
+    },
+    "Save_to_file": {
+        "message": "Uložit do souboru",
+        "description": "Options"
+    },
+    "Save_Error": {
+        "message": "Při ukládání článku došlo k chybě",
+        "description": "Background"
+    },
+    "Saving_tags": {
+        "message": "Ukládání štítků…",
+        "description": "Popup"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "Ukládání stránky do Wallabagu…",
+        "description": "background"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "Nastavit tento článek jako archivovaný ve Wallabagu",
+        "description": "Popup"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "Nastavit tento článek jako s hvězdičkou ve Wallabagu",
+        "description": "Popup"
+    },
+    "Settings": {
+        "message": "Nastavení",
+        "description": "Options"
+    },
+    "Starred": {
+        "message": "S hvězdičkou",
+        "description": "background"
+    },
+    "State": {
+        "message": "Stav",
+        "description": "Options"
+    },
+    "Tag_already_exists": {
+        "message": "Štítek již existuje",
+        "description": "Popup"
+    },
+    "Tags": {
+        "message": "Štítky",
+        "description": "background"
+    },
+    "Tags_found": {
+        "message": "Nalezené štítky:",
+        "description": "Popup"
+    },
+    "Token_expires_in": {
+        "message": "Token vyprší",
+        "description": "Options"
+    },
+    "Unread": {
+        "message": "Nepřečtené",
+        "description": "background"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "Zrušit nastavení tohoto článku jako archivovaného ve Wallabagu",
+        "description": "Popup"
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": "Zrušit nastavení tohoto článku jako s hvězdičkou ve Wallabagu",
+        "description": "Popup"
+    },
+    "Use_HTTPS": {
+        "message": "Použít HTTPS",
+        "description": "Options"
+    },
+    "User_login": {
+        "message": "Přihlášení uživatele",
+        "description": "Options"
+    },
+    "Wallabag_API_version": {
+        "message": "Verze API Wallabagu",
+        "description": "Options"
+    },
+    "Wallabag_it": {
+        "message": "Uložit do Wallabagu!",
+        "description": "background"
+    },
+    "Wallabag_it_description": {
+        "message": "Uložit stránku do Wallabagu bez otevření vyskakovacího okna",
+        "description": "Manifest.json"
+    },
+    "Wallabag_permission_checked": {
+        "message": "Oprávnění Wallabagu zkontrolováno",
+        "description": "Options"
+    },
+    "Wallabag_URL": {
+        "message": "Adresa URL Wallabagu",
+        "description": "Options"
+    },
+    "Wallabag_URL_checked": {
+        "message": "Adresa URL Wallabagu zkontrolována",
+        "description": "Options"
+    },
+    "You_can_find_your_credentials_here": {
+        "message": "Zde můžete nalézt své přihlašovací údaje:",
+        "description": "Options"
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": "Ke čtení, zápisu a aktualizaci obsahu potřebujeme přístup k vaší instanci Wallabagu. Otestujte znovu adresu URL a přijměte požadavek.",
+        "description": "Options"
+    },
+    "Yes_delete_it": {
+        "message": "Ano, odstranit",
+        "description": "Popup"
+    },
+    "Fetch_by_default_when_saving_page": {
+        "message": "Při ukládání stránky ve výchozím nastavení stáhnout obsah z prohlížeče",
+        "description": "Options"
+    },
+    "Archive_by_default_when_saving_page": {
+        "message": "Při ukládání stránky ve výchozím nastavení archivovat",
+        "description": "Options"
+    },
+    "Sites_locally": {
+        "message": "Získat obsah z prohlížeče pro zadané stránky (adresa URL na řádek)",
+        "description": "Options"
+    }
+}
