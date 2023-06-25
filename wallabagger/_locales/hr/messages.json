@@ -72,7 +72,7 @@
         "description": "Options"
     },
     "Edit_the_Wallabag_title_of_this_article": {
-        "message": "Uredi Wallabagov naslov za ovaj članak",
+        "message": "Uredi wallabag naslov za ovaj članak",
         "description": "Popup"
     },
     "Enable_this_only_if_developers_told_you_to": {
@@ -100,7 +100,7 @@
         "description": "Popup"
     },
     "Go_to_Wallabag_s_article_page": {
-        "message": "Idi na Wallabag stranicu ovog članka",
+        "message": "Idi na stranicu wallabag članka",
         "description": "Popup"
     },
     "Granted": {
@@ -160,7 +160,7 @@
         "description": "Background"
     },
     "Remove_this_article_from_Wallabag": {
-        "message": "Ukloni ovaj članak iz Wallabaga",
+        "message": "Ukloni ovaj članak iz wallabaga",
         "description": "Popup"
     },
     "Reset_parameters": {
@@ -192,7 +192,7 @@
         "description": "Popup"
     },
     "Set_this_article_as_starred_into_Wallabag": {
-        "message": "Označi ovaj članak kao omiljen u Wallabagu",
+        "message": "Označi ovaj članak kao označen u Wallabagu",
         "description": "Popup"
     },
     "Starred": {
@@ -224,11 +224,11 @@
         "description": "background"
     },
     "Unset_this_article_as_archived_into_Wallabag": {
-        "message": "Označi ovaj članak kao nearhiviran u Wallabagu",
+        "message": "Odznači ovaj članak kao arhiviran u Wallabagu",
         "description": "Popup"
     },
     "Unset_this_article_as_starred_into_Wallabag": {
-        "message": "Isključi ovaj članak iz omiljenih u Wallabagu",
+        "message": "Odznači ovaj članak kao označen u Wallabagu",
         "description": "Popup"
     },
     "Use_HTTPS": {
@@ -244,15 +244,15 @@
         "description": "Options"
     },
     "Wallabag_API_token": {
-        "message": "Token Wallabag sučelja",
+        "message": "Wallabag API token",
         "description": "Options"
     },
     "Wallabag_API_version": {
-        "message": "Verzija Wallabag sučelja",
+        "message": "Wallabag API verzija",
         "description": "Options"
     },
     "Wallabag_it": {
-        "message": "Spremi!",
+        "message": "Spremi u Wallabag!",
         "description": "background"
     },
     "Wallabag_it_description": {
@@ -264,11 +264,11 @@
         "description": "Options"
     },
     "Wallabag_URL": {
-        "message": "URL Wallabaga",
+        "message": "Wallabag URL",
         "description": "Options"
     },
     "Wallabag_URL_checked": {
-        "message": "URL Wallabaga provjeren",
+        "message": "Wallabag URL adresa provjerena",
         "description": "Options"
     },
     "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
@@ -284,7 +284,7 @@
         "description": "Options"
     },
     "Archive_by_default_when_saving_page": {
-        "message": "Standardno arhiviraj kad se stranica sprema",
+        "message": "Standardno arhiviraj tijekom spremanja stranice",
         "description": "Options"
     },
     "Auto_add_single_tag": {
