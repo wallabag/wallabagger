@@ -16,11 +16,11 @@
         "description": "Options"
     },
     "Wallabag_URL_checked": {
-        "message": "Wallabag URL'i kontrol edildi",
+        "message": "Wallabag URL'si kontrol edildi",
         "description": "Options"
     },
     "Wallabag_URL": {
-        "message": "Wallabag URL'i",
+        "message": "Wallabag URL'si",
         "description": "Options"
     },
     "Wallabag_permission_checked": {
@@ -32,7 +32,7 @@
         "description": "Manifest.json"
     },
     "Wallabag_it": {
-        "message": "Wallabag'le!",
+        "message": "Wallabag'la!",
         "description": "background"
     },
     "Wallabag_API_version": {
@@ -56,11 +56,11 @@
         "description": "Options"
     },
     "Unset_this_article_as_starred_into_Wallabag": {
-        "message": "Bu makalenin Wallabag'deki yıldızlı durumunu kaldır",
+        "message": "Bu makalenin wallabag'daki yıldızlı durumunu kaldır",
         "description": "Popup"
     },
     "Unset_this_article_as_archived_into_Wallabag": {
-        "message": "Bu makalenin Wallabag'deki arşivlenmiş durumunu kaldır",
+        "message": "Bu makalenin wallabag'daki arşivlenmiş durumunu kaldır",
         "description": "Popup"
     },
     "Token_expires_in": {
@@ -84,11 +84,11 @@
         "description": "Options"
     },
     "Set_this_article_as_starred_into_Wallabag": {
-        "message": "Bu makaleyi Wallabag'de yıldızlanmış olarak işaretle",
+        "message": "Bu makaleyi wallabag'da yıldızlı olarak işaretle",
         "description": "Popup"
     },
     "Set_this_article_as_archived_into_Wallabag": {
-        "message": "Bu makaleyi Wallabag'de arşivlenmiş olarak işaretle",
+        "message": "Bu makaleyi wallabag'da arşivlenmiş olarak işaretle",
         "description": "Popup"
     },
     "Saving_the_page_to_wallabag": {
@@ -116,7 +116,7 @@
         "description": "Options"
     },
     "Remove_this_article_from_Wallabag": {
-        "message": "Bu makaleyi Wallabag'den kaldır",
+        "message": "Bu makaleyi wallabag'dan kaldır",
         "description": "Popup"
     },
     "Options_not_defined": {
@@ -204,7 +204,7 @@
         "description": "Options"
     },
     "Edit_the_Wallabag_title_of_this_article": {
-        "message": "Bu makalenin Wallabag başlığını düzenle",
+        "message": "Bu makalenin wallabag başlığını düzenle",
         "description": "Popup"
     },
     "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
@@ -292,7 +292,27 @@
         "description": "background"
     },
     "Sites_locally": {
-        "message": "Tarayıcıdan içerik aktar (her satırda bir URL)",
+        "message": "Tarayıcıdan belirli siteler için içerik aktar (her satırda bir URL)",
+        "description": "Options"
+    },
+    "Others": {
+        "message": "Diğerleri",
+        "description": "Options"
+    },
+    "Fetch_from_the_browser": {
+        "message": "Tarayıcıdan alınan içerik",
+        "description": "Options"
+    },
+    "Options": {
+        "message": "Seçenekler",
+        "description": "Options"
+    },
+    "Settings": {
+        "message": "Ayarlar",
+        "description": "Options"
+    },
+    "Fetch_by_default_when_saving_page": {
+        "message": "Sayfa kaydedilirken varsayılan olarak tarayıcıdan içeriği getir",
         "description": "Options"
     }
 }
