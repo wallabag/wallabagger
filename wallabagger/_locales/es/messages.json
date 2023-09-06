@@ -184,7 +184,7 @@
         "description": "Options"
     },
     "Wallabag_it": {
-        "message": "Wallabag it!",
+        "message": "wallabag it!",
         "description": "background"
     },
     "Wallabag_it_description": {
@@ -280,7 +280,7 @@
         "description": "Options"
     },
     "State": {
-        "message": "Situación",
+        "message": "Estado",
         "description": "Options"
     },
     "Tags_found": {
