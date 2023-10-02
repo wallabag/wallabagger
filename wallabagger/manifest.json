@@ -23,6 +23,7 @@
   "background": {
     "scripts": [
       "js/common.js",
+      "js/deps/text.min.js",
       "js/fetch-api.js",
       "js/wallabag-api.js",
       "js/background.js"
