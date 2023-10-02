@@ -142,7 +142,7 @@ WallabagApi.prototype = {
 
     SupportsHashedUrl: function () {
         return this.GetVersion().then(([major, minor]) => {
-            return (major > 2) || (major === 2 && minor >= 6);
+            return (major > 2) || (major === 2 && minor >= 4);
         });
     },
 
