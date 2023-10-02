@@ -141,10 +141,8 @@ WallabagApi.prototype = {
     },
 
     SupportsHashedUrl: function () {
-        const clientCanHashUrls = (typeof crypto === 'object') && (typeof crypto.subtle === 'object') && (typeof crypto.subtle.digest === 'function');
         return this.GetVersion().then(([major, minor]) => {
-            const serverSupportsHashedUrl = (major > 2) || (major === 2 && minor >= 6);
-            return serverSupportsHashedUrl && clientCanHashUrls;
+            return (major > 2) || (major === 2 && minor >= 6);
         });
     },
 
