@@ -9,7 +9,7 @@
     "Edge > 14"
   ],
   "scripts": {
-    "deps:update": "cp node_modules/spectre.css/dist/spectre.min.css wallabagger/css/spectre.min.css && cp node_modules/spectre.css/dist/spectre-exp.min.css wallabagger/css/spectre-exp.min.css && cp node_modules/fast-text-encoding/text.min.js wallabagger/js/deps/text.min.js",
+    "deps:update": "cp node_modules/spectre.css/dist/spectre.min.css wallabagger/css/spectre.min.css && cp node_modules/spectre.css/dist/spectre-exp.min.css wallabagger/css/spectre-exp.min.css && cp node_modules/fast-text-encoding/text.min.js wallabagger/js/deps/text.min.js && cp node_modules/asmcrypto.js/asmcrypto.all.es5.min.js wallabagger/js/deps/asmcrypto.all.es5.min.js && cp node_modules/webcrypto-liner/build/webcrypto-liner.shim.min.js wallabagger/js/deps/webcrypto-liner.shim.min.js",
     "lint": "eslint wallabagger/js/*.js",
     "locales:sort": "sort-json -i -d=1 wallabagger/_locales/**/messages.json",
     "manifest": "npm run manifest:firefox && npm run manifest:chrome",
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "fast-text-encoding": "^1.0.6",
-    "spectre.css": "^0.5.9"
+    "spectre.css": "^0.5.9",
+    "webcrypto-liner": "^1.4.2"
   }
 }
