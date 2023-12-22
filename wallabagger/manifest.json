@@ -30,7 +30,8 @@
     "tabs",
     "storage",
     "contextMenus",
-    "activeTab"
+    "activeTab",
+    "scripting"
   ],
   "optional_host_permissions": [
     "*://*/api/*"
