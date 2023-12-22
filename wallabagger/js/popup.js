@@ -620,12 +620,17 @@ PopupController.prototype = {
                 this.port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
             });
 
-            chrome.tabs.executeScript(
-                tab.id,
-                {
-                    code: 'chrome.runtime.sendMessage({"wallabagSaveArticleContent": window.document.body.innerHTML});'
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: () => {
+                    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
+                        browser = chrome;
+                    }
+                    browser.runtime.sendMessage({
+                        wallabagSaveArticleContent: window.document.documentElement.innerHTML
+                    });
                 }
-            );
+            });
         });
     },
 
