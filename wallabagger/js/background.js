@@ -48,32 +48,32 @@ const wallabagContextMenus = [
     {
         id: 'separator',
         type: 'separator',
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'unread',
         title: Common.translate('Unread'),
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'starred',
         title: Common.translate('Starred'),
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'archive',
         title: Common.translate('Archive'),
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'all',
         title: Common.translate('All_entries'),
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'tag',
         title: Common.translate('Tags'),
-        contexts: ['browser_action']
+        contexts: ['action']
     }
 ];
 
@@ -92,7 +92,7 @@ const api = new WallabagApi();
 // Code
 
 const version = browser.runtime.getManifest().version.split('.');
-version.length === 4 && browser.browserAction.setBadgeText({ text: 'ß' });
+version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
 
 api.init().then(data => {
     addExistCheckListeners(api.data.AllowExistCheck);
@@ -372,7 +372,7 @@ const browserIcon = {
             // On Firefox, we want to reset to the default icon suitable for the active theme
             // but Chromium does not support resetting icons.
             try {
-                browser.browserAction.setIcon({ path: null });
+                browser.action.setIcon({ path: null });
 
                 return;
             } catch {
@@ -381,7 +381,7 @@ const browserIcon = {
             }
         }
 
-        browser.browserAction.setIcon({ path: this.images[icon] });
+        browser.action.setIcon({ path: this.images[icon] });
     },
 
     setTimed: function (icon) {
