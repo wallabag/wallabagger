@@ -30,7 +30,7 @@ More information on websites: [wallabag.org](https://wallabag.org) and [github.c
 
 ## Configuration
 
-<https://wallabag.org/en/news/wallabagger-howto>
+<https://wallabag.org/news/wallabagger-howto/>
 
 ## Acknowledgement
 
