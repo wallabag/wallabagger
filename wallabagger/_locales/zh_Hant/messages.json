@@ -8,7 +8,7 @@
         "description": "background"
     },
     "Starred": {
-        "message": "已加星標",
+        "message": "收藏",
         "description": "background"
     },
     "Agreed": {
@@ -20,7 +20,7 @@
         "description": "background"
     },
     "All_entries": {
-        "message": "全部文章",
+        "message": "所有項目",
         "description": "background"
     },
     "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
@@ -30,5 +30,13 @@
     "Article_s_link": {
         "message": "文章連結",
         "description": "Popup"
+    },
+    "Tags": {
+        "message": "標籤",
+        "description": "background"
+    },
+    "Settings": {
+        "message": "設定",
+        "description": "Options"
     }
 }
