@@ -38,5 +38,37 @@
     "Settings": {
         "message": "設定",
         "description": "Options"
+    },
+    "hour_many": {
+        "message": "小時",
+        "description": "Options"
+    },
+    "hour_one": {
+        "message": "小時",
+        "description": "Options"
+    },
+    "minute_many": {
+        "message": "分鐘",
+        "description": "Options"
+    },
+    "minute_one": {
+        "message": "分鐘",
+        "description": "Options"
+    },
+    "Save": {
+        "message": "儲存",
+        "description": "Popup"
+    },
+    "Others": {
+        "message": "其他",
+        "description": "Options"
+    },
+    "Tag_already_exists": {
+        "message": "已有此標籤",
+        "description": "Popup"
+    },
+    "Wallabag_URL": {
+        "message": "wallabag 網址",
+        "description": "Options"
     }
 }
