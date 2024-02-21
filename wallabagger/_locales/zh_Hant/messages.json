@@ -8,7 +8,7 @@
         "description": "background"
     },
     "Starred": {
-        "message": "收藏",
+        "message": "已收藏",
         "description": "background"
     },
     "Agreed": {
@@ -69,6 +69,42 @@
     },
     "Wallabag_URL": {
         "message": "wallabag 網址",
+        "description": "Options"
+    },
+    "Client_ID": {
+        "message": "用戶端 ID",
+        "description": "Options"
+    },
+    "Article_s_title": {
+        "message": "文章標題",
+        "description": "Popup"
+    },
+    "Delete_this_article": {
+        "message": "刪除此文章",
+        "description": "Popup"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "你想自 wallabag 永久地移除此文章嗎？",
+        "description": "Popup"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "編輯此文章於 wallabag 的標題",
+        "description": "Popup"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "往 wallabag 的文章頁面",
+        "description": "Popup"
+    },
+    "Go_to_this_article_page": {
+        "message": "往此文章頁面",
+        "description": "Popup"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "自 wallabag 移除此文章",
+        "description": "Popup"
+    },
+    "Wallabag_API_version": {
+        "message": "wallabag API 版本",
         "description": "Options"
     }
 }
