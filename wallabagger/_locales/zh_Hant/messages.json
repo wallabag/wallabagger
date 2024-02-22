@@ -106,5 +106,17 @@
     "Wallabag_API_version": {
         "message": "wallabag API 版本",
         "description": "Options"
+    },
+    "State": {
+        "message": "狀態",
+        "description": "Options"
+    },
+    "User_login": {
+        "message": "使用者登入",
+        "description": "Options"
+    },
+    "User_password": {
+        "message": "使用者密碼",
+        "description": "Options"
     }
 }
