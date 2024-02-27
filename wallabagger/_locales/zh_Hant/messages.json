@@ -118,5 +118,9 @@
     "User_password": {
         "message": "使用者密碼",
         "description": "Options"
+    },
+    "Client_secret": {
+        "message": "用戶端密碼",
+        "description": "Options"
     }
 }
