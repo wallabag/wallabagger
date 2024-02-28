@@ -122,5 +122,17 @@
     "Client_secret": {
         "message": "用戶端密碼",
         "description": "Options"
+    },
+    "Token_expires_in": {
+        "message": "token 有效期至",
+        "description": "Options"
+    },
+    "Get_token": {
+        "message": "取得 token",
+        "description": "Options"
+    },
+    "Wallabag_API_token": {
+        "message": "wallabag API token",
+        "description": "Options"
     }
 }
