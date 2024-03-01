@@ -134,5 +134,21 @@
     "Wallabag_API_token": {
         "message": "wallabag API token",
         "description": "Options"
+    },
+    "Options": {
+        "message": "選項",
+        "description": "Options"
+    },
+    "Options_not_defined": {
+        "message": "尚未設置 Wallabagger",
+        "description": "Background"
+    },
+    "Use_HTTPS": {
+        "message": "使用 HTTPS 安全協定",
+        "description": "Options"
+    },
+    "Wallabag_it": {
+        "message": "wallabag 它！",
+        "description": "background"
     }
 }
