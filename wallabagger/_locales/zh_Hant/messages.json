@@ -124,7 +124,7 @@
         "description": "Options"
     },
     "Token_expires_in": {
-        "message": "token 有效期至",
+        "message": "token 有效期",
         "description": "Options"
     },
     "Get_token": {
@@ -230,5 +230,57 @@
     "Sites_locally": {
         "message": "自瀏覽器擷取指定頁面的內容（用行分隔網址）",
         "description": "Options"
+    },
+    "day_many": {
+        "message": "日",
+        "description": "Options"
+    },
+    "day_one": {
+        "message": "日",
+        "description": "Options"
+    },
+    "Denied": {
+        "message": "已拒絕",
+        "description": "Options"
+    },
+    "Download_file": {
+        "message": "下載檔案",
+        "description": "Options"
+    },
+    "Extension_description": {
+        "message": "這 wallabag v2 擴充功能可以編輯標題、標籤以及設定收藏、封存或刪除的狀態。",
+        "description": "Manifest.json"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "於 wallabag 設置為已封存文章",
+        "description": "Popup"
+    },
+    "Loading_wallabag_API": {
+        "message": "正在載入 wallabag API……",
+        "description": "Popup"
+    },
+    "No_leave_it": {
+        "message": "不，保留吧",
+        "description": "Popup"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "於 wallabag 設置為已收藏文章",
+        "description": "Popup"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "取消 wallabag 文章的已封存狀態",
+        "description": "Popup"
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": "取消 wallabag 文章的已收藏狀態",
+        "description": "Popup"
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": "我們需要讀取你的 wallabag 實例（instance） 以讀寫及更新內容。 請再次測試網址和接受請求。",
+        "description": "Options"
+    },
+    "Yes_delete_it": {
+        "message": "是，刪掉吧",
+        "description": "Popup"
     }
 }
