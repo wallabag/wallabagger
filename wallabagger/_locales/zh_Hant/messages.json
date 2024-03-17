@@ -282,5 +282,13 @@
     "Yes_delete_it": {
         "message": "是，刪掉吧",
         "description": "Popup"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "當開發人員告知才啟用此選項",
+        "description": "Options"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "基於安全因素，我們只允許 HTTPS 安全協定選擇此項",
+        "description": "Options"
     }
 }
