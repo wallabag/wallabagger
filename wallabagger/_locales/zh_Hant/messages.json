@@ -228,7 +228,7 @@
         "description": "Options"
     },
     "Sites_locally": {
-        "message": "自瀏覽器擷取指定頁面的內容（用行分隔網址）",
+        "message": "自瀏覽器擷取指定網站的內容（以行分隔每個網址）",
         "description": "Options"
     },
     "day_many": {
@@ -290,5 +290,29 @@
     "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
         "message": "基於安全因素，我們只允許 HTTPS 安全協定選擇此項",
         "description": "Options"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "正在儲存頁面至 wallabag ……",
+        "description": "background"
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": "顯示頁面是否已儲存（此舉會將所有分頁的網址傳送到 wallabag，基於安全理由請使用 HTTPS 安全協定！）",
+        "description": "Options"
+    },
+    "Ok_I_understand": {
+        "message": "好的，我瞭解",
+        "description": "Options"
+    },
+    "Save_Error": {
+        "message": "嘗試儲存文章時出現錯誤",
+        "description": "Background"
+    },
+    "Tags_found": {
+        "message": "已知標籤：",
+        "description": "Popup"
+    },
+    "Wallabag_it_description": {
+        "message": "儲存頁面至時 Wallabag 無須出現彈出式視窗",
+        "description": "Manifest.json"
     }
 }
