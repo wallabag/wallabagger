@@ -23,6 +23,9 @@
   "background": {
     "scripts": [
       "js/common.js",
+      "js/deps/text.min.js",
+      "js/deps/asmcrypto.all.es5.min.js",
+      "js/deps/webcrypto-liner.shim.min.js",
       "js/fetch-api.js",
       "js/wallabag-api.js",
       "js/background.js"

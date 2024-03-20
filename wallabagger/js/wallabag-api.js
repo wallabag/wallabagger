@@ -1,3 +1,19 @@
+/**
+ * @param {string} url
+ * @returns {Promise<string>}
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#converting_a_digest_to_a_hex_string
+ */
+const hashUrl = function (url) {
+    const urlByteArray = new TextEncoder().encode(url);
+    return crypto.subtle.digest('SHA-1', urlByteArray).then(hashBuffer => {
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray
+            .map((b) => b.toString(16).padStart(2, '0'))
+            .join(''); // convert bytes to hex string
+        return hashHex;
+    });
+};
+
 const WallabagApi = function () { };
 
 WallabagApi.prototype = {
@@ -114,6 +130,20 @@ WallabagApi.prototype = {
                 throw new Error(`Failed to get api version ${url_}
                 ${error.message}`);
             });
+    },
+
+    /**
+     * @returns {Promise<[number, number, number]>}
+     */
+    GetVersion: function () {
+        if (this.data.ApiVersion) return Promise.resolve(this.data.ApiVersion.split('.').map(Number));
+        return this.CheckUrl().then(() => this.GetVersion());
+    },
+
+    SupportsHashedUrl: function () {
+        return this.GetVersion().then(([major, minor]) => {
+            return (major > 2) || (major === 2 && minor >= 4);
+        });
     },
 
     SaveTitle: function (articleId, articleTitle) {
@@ -270,13 +300,15 @@ WallabagApi.prototype = {
     },
 
     EntryExists: function (url) {
-        const entriesUrl = `${this.data.Url}/api/entries/exists.json?url=${url}`;
+        const existsUrl = `${this.data.Url}/api/entries/exists.json`;
 
-        return this.CheckToken().then(a =>
-            this.fetchApi.Get(entriesUrl, this.data.ApiToken)
-        )
+        return this.CheckToken().then(() => this.SupportsHashedUrl()).then(useHashedUrl => {
+            const paramAsync = useHashedUrl ? hashUrl(url) : Promise.resolve(url);
+            return paramAsync.then(param => `${existsUrl}?${useHashedUrl ? 'hashed_url' : 'url'}=${encodeURIComponent(param)}`);
+        })
+            .then(url => this.fetchApi.Get(url, this.data.ApiToken))
             .catch(error => {
-                throw new Error(`Failed to check if exists ${entriesUrl}
+                throw new Error(`Failed to ask ${existsUrl} whether ${url} exists
                 ${error.message}`);
             });
     },
