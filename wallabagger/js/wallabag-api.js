@@ -32,6 +32,7 @@ WallabagApi.prototype = {
         isFetchPermissionGranted: null,
         AllowSpaceInTags: false,
         AllowExistCheck: false,
+        AllowExistSafe: null,
         Debug: false,
         AutoAddSingleTag: false,
         ArchiveByDefault: false,
@@ -49,7 +50,10 @@ WallabagApi.prototype = {
         Object.assign(this.data, this.defaultValues);
         this.fetchApi = new FetchApi();
         return this.load().then(
-            result => Promise.resolve(result)
+            result => {
+                this.setAllowExistSafe();
+                return Promise.resolve(result);
+            }
         );
     },
 
@@ -125,11 +129,22 @@ WallabagApi.prototype = {
     CheckUrl: function () {
         const url_ = this.data.Url + '/api/version';
         return this.fetchApi.Get(url_, '')
-            .then(fetchData => { this.data.ApiVersion = fetchData; return fetchData; })
+            .then(fetchData => {
+                this.data.ApiVersion = fetchData;
+                this.setAllowExistSafe();
+                return fetchData;
+            })
             .catch(error => {
                 throw new Error(`Failed to get api version ${url_}
                 ${error.message}`);
             });
+    },
+
+    setAllowExistSafe: async function () {
+        if (typeof (this.data.Url) !== 'string') {
+            return false;
+        }
+        this.data.AllowExistSafe = await this.SupportsHashedUrl();
     },
 
     /**
@@ -302,9 +317,9 @@ WallabagApi.prototype = {
     EntryExists: function (url) {
         const existsUrl = `${this.data.Url}/api/entries/exists.json`;
 
-        return this.CheckToken().then(() => this.SupportsHashedUrl()).then(useHashedUrl => {
-            const paramAsync = useHashedUrl ? hashUrl(url) : Promise.resolve(url);
-            return paramAsync.then(param => `${existsUrl}?${useHashedUrl ? 'hashed_url' : 'url'}=${encodeURIComponent(param)}`);
+        return this.CheckToken().then(() => {
+            const paramAsync = this.data.AllowExistSafe ? hashUrl(url) : Promise.resolve(url);
+            return paramAsync.then(param => `${existsUrl}?${this.data.AllowExistSafe ? 'hashed_url' : 'url'}=${encodeURIComponent(param)}`);
         })
             .then(url => this.fetchApi.Get(url, this.data.ApiToken))
             .catch(error => {
