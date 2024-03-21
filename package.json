@@ -45,7 +45,8 @@
     "eslint-plugin-compat": "^6.0.1",
     "eslint-plugin-import": "^2.31.0",
     "sort-json": "^2.0.1",
-    "wemf": "^1.3.0"
+    "wemf": "^1.3.0",
+    "web-ext": "^7.11.0"
   },
   "dependencies": {
     "fast-text-encoding": "^1.0.6",
