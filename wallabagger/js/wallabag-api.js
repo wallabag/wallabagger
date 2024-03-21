@@ -280,6 +280,7 @@ WallabagApi.prototype = {
     },
 
     GetAppToken: function (content) {
+        this.CheckUrl();
         const oauthurl = `${this.data.Url}/oauth/v2/token`;
         return this.fetchApi.Post(oauthurl, '', content)
             .then(data => {

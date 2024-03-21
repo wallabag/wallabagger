@@ -168,6 +168,7 @@ OptionsController.prototype = {
     },
 
     wallabagApiTokenGot: function () {
+        this.allowExistTextMessage();
         this._green(this.clientId_);
         this._green(this.clientSecret_);
         this._green(this.userLogin_);
@@ -491,6 +492,7 @@ OptionsController.prototype = {
             case 'setup-gettoken':
                 Object.assign(this.data, msg.data);
                 if (msg.result) {
+                    this.wallabagUrlChecked();
                     this.wallabagApiTokenGot();
                 } else {
                     this.wallabagApiTokenNotGot();
