@@ -22,6 +22,8 @@ const OptionsController = function () {
 
     this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
     this.allowExistCheck = document.getElementById('allow-exist-checkbox');
+    this.allowExistInsecureText = document.getElementById('allow-exist-insecure-text');
+    this.allowExistSecureText = document.getElementById('allow-exist-secure-text');
     this.fetchLocallyByDefault = document.getElementById('fetch-locally-by-default-checkbox');
     this.archiveByDefault = document.getElementById('archive-by-default-checkbox');
     this.debugEl = document.getElementById('debug');
@@ -166,6 +168,7 @@ OptionsController.prototype = {
     },
 
     wallabagApiTokenGot: function () {
+        this.allowExistTextMessage();
         this._green(this.clientId_);
         this._green(this.clientSecret_);
         this._green(this.userLogin_);
@@ -300,6 +303,7 @@ OptionsController.prototype = {
 
     wallabagUrlChecked: function () {
         if (this.data.ApiVersion) {
+            this.allowExistTextMessage();
             this.versionLabel_.textContent = this.data.ApiVersion;
             if (this.data.ApiVersion.split('.')[0] === '2') {
                 this._textSuccess(this.checkedLabel_);
@@ -445,7 +449,9 @@ OptionsController.prototype = {
         }
 
         this.allowSpaceCheck.checked = this.data.AllowSpaceInTags;
+
         this.allowExistCheck.checked = this.data.AllowExistCheck;
+
         this.autoAddSingleTag.checked = this.data.AutoAddSingleTag;
         this.debugEl.checked = this.data.Debug;
 
@@ -456,6 +462,17 @@ OptionsController.prototype = {
             this._hide(this.sitesToFetchLocallyEl);
         }
         this.sitesToFetchLocallyInputEl.value = this.data.sitesToFetchLocally;
+    },
+
+    allowExistTextMessage: function () {
+        const allowExistTextToShow = this.data.AllowExistSafe === false
+            ? this.allowExistInsecureText
+            : this.allowExistSecureText;
+        const allowExistTextToHide = this.data.AllowExistSafe === true
+            ? this.allowExistInsecureText
+            : this.allowExistSecureText;
+        this._hide(allowExistTextToHide);
+        this._show(allowExistTextToShow);
     },
 
     messageListener: function (msg) {
@@ -475,6 +492,7 @@ OptionsController.prototype = {
             case 'setup-gettoken':
                 Object.assign(this.data, msg.data);
                 if (msg.result) {
+                    this.wallabagUrlChecked();
                     this.wallabagApiTokenGot();
                 } else {
                     this.wallabagApiTokenNotGot();

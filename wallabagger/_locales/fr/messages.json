@@ -119,6 +119,10 @@
         "message": "heure",
         "description": "Options"
     },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "Indique si la page est déjà sauvegardée (l'icône de wallabagger est verte)",
+        "description": "Options"
+    },
     "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
         "message": "Indique si la page est déjà sauvegardée (tout changement d'onglet entraîne l'envoie de l'URL en cours à wallabag, utilisez le protocole HTTPS pour une meilleure sécurité !)",
         "description": "Options"
