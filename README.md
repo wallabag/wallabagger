@@ -21,10 +21,10 @@ More information on websites: [wallabag.org](https://wallabag.org) and [github.c
 
 ## Installation
 
-- Chrome browser users can install extension from [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj)
-- Edge browser users also use [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj) (need to 'Allow extensions from other stores')
-- Opera and Yandex browsers users can install the extension from [Opera extension site](https://addons.opera.com/ru/extensions/details/wallabagger/)
+- Chrome browsers users can install extension from [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj)
+- Edge browsers users also use [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj) (need to 'Allow extensions from other stores')
 - Firefox browsers users can install the extension from [Mozilla add-ons storage](https://addons.mozilla.org/en-US/firefox/addon/wallabagger/)
+- Opera and Yandex browsers users can install the extension from [Opera extension site](https://addons.opera.com/ru/extensions/details/wallabagger/)
 - By .crx file
 - As unpacked folder (developer mode)
 
