@@ -355,9 +355,9 @@ function addListeners () {
 const browserIcon = {
     images: {
         default: chrome.runtime.getManifest().action.default_icon,
-        good: 'img/wallabagger-green.svg',
-        wip: 'img/wallabagger-yellow.svg',
-        bad: 'img/wallabagger-red.svg'
+        good: 'img/wallabagger-green.png',
+        wip: 'img/wallabagger-yellow.png',
+        bad: 'img/wallabagger-red.png'
     },
 
     timedToDefault: function () {
