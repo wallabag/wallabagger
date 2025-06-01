@@ -32,12 +32,12 @@
     ]
   },
   "permissions": [
-    "tabs",
     "storage",
     "contextMenus",
     "activeTab"
   ],
   "optional_permissions": [
+    "tabs",
     "*://*/api/*"
   ],
   "options_ui": {
