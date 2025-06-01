@@ -27,11 +27,13 @@
     "type": "module"
   },
   "permissions": [
-    "tabs",
     "storage",
     "contextMenus",
     "activeTab",
     "scripting"
+  ],
+  "optional_permissions": [
+    "tabs"
   ],
   "optional_host_permissions": [
     "*://*/api/*"
