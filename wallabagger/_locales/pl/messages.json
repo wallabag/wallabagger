@@ -314,5 +314,8 @@
     "Fetch_by_default_when_saving_page": {
         "message": "Domyślnie pobieraj zawartość z przeglądarki podczas zapisywania strony",
         "description": "Options"
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "Wskaż, czy strona została już zapisana (ikona wallabaggera jest zielona)"
     }
 }
