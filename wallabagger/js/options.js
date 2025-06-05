@@ -152,7 +152,16 @@ OptionsController.prototype = {
         this.port.postMessage({ request: 'setup-save', data: this.data });
     },
 
-    allowExistCheckClick: function (e) {
+    allowExistCheckClick: async function (e) {
+        const granted = await new Promise((resolve, reject) => {
+            browser.permissions.request({
+                permissions: ["tabs"]
+            }, resolve);
+        }).then(granted => granted);
+        if (!granted) {
+            this.allowExistCheck.checked = false;
+            return;
+        }
         if (this.protocolCheck_.checked) {
             Object.assign(this.data, { AllowExistCheck: this.allowExistCheck.checked });
             this.port.postMessage({ request: 'setup-save', data: this.data });
