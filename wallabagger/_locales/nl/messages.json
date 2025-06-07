@@ -3,7 +3,7 @@
         "message": "mee eens"
     },
     "All_entries": {
-        "message": "Alle items"
+        "message": "Alle artikelen"
     },
     "Archive": {
         "message": "Archief"
@@ -235,5 +235,8 @@
     },
     "Extension_description": {
         "message": "Deze wallabag v2 extensie kan titels en labels wijzigen, en verzamelingen een ster geven, archiveren of verwijderen."
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "Geeft aan of de pagina al opgeslagen is (het wallabagger pictogram is groen)"
     }
 }
