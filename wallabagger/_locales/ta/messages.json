@@ -1,1 +1,242 @@
-{}
+{
+    "Agreed": {
+        "message": "ஒப்புக்கொண்டார்"
+    },
+    "All_entries": {
+        "message": "அனைத்து உள்ளீடுகளும்"
+    },
+    "Archive": {
+        "message": "காப்பகம்"
+    },
+    "Article_s_title": {
+        "message": "கட்டுரையின் தலைப்பு"
+    },
+    "Auto_add_single_tag": {
+        "message": "ஆட்டோ ஒற்றை குறிச்சொல்லைச் சேர்க்கவும்"
+    },
+    "Check_URL": {
+        "message": "முகவரி ஐ சரிபார்க்கவும்"
+    },
+    "Cancel": {
+        "message": "நீக்கறல்"
+    },
+    "Checklist": {
+        "message": "சரிபார்ப்பு பட்டியல்"
+    },
+    "Client_ID": {
+        "message": "வாங்கி அடையாளம்"
+    },
+    "Client_secret": {
+        "message": "வாங்கி மறைபொருள்"
+    },
+    "day_many": {
+        "message": "நாட்கள்"
+    },
+    "Download_file": {
+        "message": "கோப்பைப் பதிவிறக்கவும்"
+    },
+    "Enter_your_tags_here": {
+        "message": "உங்கள் குறிச்சொற்களை இங்கே உள்ளிடவும்"
+    },
+    "Get_token": {
+        "message": "கிள்ளாக்கு பெறுங்கள்"
+    },
+    "Fetch_from_the_browser": {
+        "message": "உலாவியில் இருந்து உள்ளடக்கம்"
+    },
+    "Go_to_this_article_page": {
+        "message": "இந்த கட்டுரை பக்கத்திற்குச் செல்லுங்கள்"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "வாலபேக்கின் கட்டுரை பக்கத்திற்குச் செல்லுங்கள்"
+    },
+    "hour_one": {
+        "message": "மணி"
+    },
+    "hour_many": {
+        "message": "மணிநேரம்"
+    },
+    "Load_from_file": {
+        "message": "கோப்பிலிருந்து ஏற்றவும்"
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": "பக்கம் ஏற்கனவே சேமிக்கப்பட்டிருந்தால் குறிக்கவும் (இது ஒவ்வொரு தாவலின் முகவரி ஐ வாலபாக்கிற்கு அனுப்புகிறது, சிறந்த பாதுகாப்பிற்கு HTTPS நெறிமுறையைப் பயன்படுத்தவும்!)"
+    },
+    "Not_checked": {
+        "message": "சரிபார்க்கப்படவில்லை"
+    },
+    "Not_granted": {
+        "message": "வழங்கப்படவில்லை"
+    },
+    "Options_not_defined": {
+        "message": "வாலபாகர் கட்டமைக்கப்படவில்லை"
+    },
+    "Reset_parameters": {
+        "message": "அளவுருக்களை மீட்டமைக்கவும்"
+    },
+    "Others": {
+        "message": "மற்றவர்கள்"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "பக்கத்தை வாலபாக்கிற்கு சேமிக்கிறது…"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "இந்த கட்டுரையை வாலபாக்கில் காப்பகப்படுத்தியதாக அமைக்கவும்"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "இந்த கட்டுரையை வாலபேக்கில் நடித்தபடி அமைக்கவும்"
+    },
+    "Settings": {
+        "message": "அமைப்புகள்"
+    },
+    "Starred": {
+        "message": "நடித்தார்"
+    },
+    "State": {
+        "message": "மாநிலம்"
+    },
+    "Tag_already_exists": {
+        "message": "குறிச்சொல் ஏற்கனவே உள்ளது"
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": "இந்த கட்டுரையை வாலபேக்கில் நடித்துள்ளார்"
+    },
+    "Use_HTTPS": {
+        "message": "HTTPS ஐப் பயன்படுத்தவும்"
+    },
+    "User_login": {
+        "message": "பயனர் உள்நுழைவு"
+    },
+    "User_password": {
+        "message": "பயனர் கடவுச்சொல்"
+    },
+    "Wallabag_it": {
+        "message": "அதை வாலபாக்!"
+    },
+    "Wallabag_permission_checked": {
+        "message": "வாலபாக் இசைவு சரிபார்க்கப்பட்டது"
+    },
+    "Wallabag_URL": {
+        "message": "vallabag முகவரி"
+    },
+    "Wallabag_it_description": {
+        "message": "பாப்அப்பைத் திறக்காமல் பக்கத்தை வாலபாகில் சேமிக்கவும்"
+    },
+    "Yes_delete_it": {
+        "message": "ஆம், அதை நீக்கு"
+    },
+    "You_can_find_your_credentials_here": {
+        "message": "உங்கள் சான்றுகளை இங்கே காணலாம்:"
+    },
+    "Fetch_by_default_when_saving_page": {
+        "message": "பக்கத்தைச் சேமிக்கும்போது இயல்பாக உலாவியில் இருந்து உள்ளடக்கத்தை மீட்டெடுக்கவும்"
+    },
+    "Archive_by_default_when_saving_page": {
+        "message": "பக்கத்தை சேமிக்கும்போது இயல்பாக காப்பகப்படுத்தவும்"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "குறிச்சொற்களில் இடத்தை அனுமதிக்கவும் (இது இடத்தை அனுப்பு-குறிச்சொற்களாக முடக்குகிறது, அதற்கு பதிலாக Enter விசையைப் பயன்படுத்தவும்)"
+    },
+    "Article_s_link": {
+        "message": "கட்டுரையின் இணைப்பு"
+    },
+    "day_one": {
+        "message": "நாள்"
+    },
+    "Delete_this_article": {
+        "message": "இந்த கட்டுரையை நீக்கு"
+    },
+    "Denied": {
+        "message": "மறுக்கப்பட்டது"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "இந்த கட்டுரையை வாலபேக்கிலிருந்து நிரந்தரமாக அகற்ற விரும்புகிறீர்களா?"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "பாதுகாப்பு காரணம் காரணமாக, இந்த விருப்பத்தை HTTPS நெறிமுறைக்கு மட்டுமே அனுமதிக்கிறோம்"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "இந்த கட்டுரையின் வாலபாக் தலைப்பைத் திருத்தவும்"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "உருவாக்குபவர்கள் உங்களிடம் சொன்னால் மட்டுமே இதை இயக்கவும்"
+    },
+    "Expired": {
+        "message": "காலாவதியான"
+    },
+    "Granted": {
+        "message": "வழங்கப்பட்டது"
+    },
+    "Loading_wallabag_API": {
+        "message": "வாலபாக் பநிஇ ஏற்றுகிறது…"
+    },
+    "Extension_description": {
+        "message": "இந்த வாலபாக் வி 2 நீட்டிப்பு தலைப்பு மற்றும் குறிச்சொற்களைத் திருத்தும் திறனைக் கொண்டுள்ளது மற்றும் ச்டார்ட், காப்பகப்படுத்தப்பட்ட அல்லது மாநிலங்களை நீக்குகிறது."
+    },
+    "Save_Error": {
+        "message": "கட்டுரையைச் சேமிக்கும்போது பிழை ஏற்பட்டது"
+    },
+    "Save_to_file": {
+        "message": "கோப்பில் சேமிக்கவும்"
+    },
+    "Saving_tags": {
+        "message": "குறிச்சொற்களைச் சேமித்தல்…"
+    },
+    "Sites_locally": {
+        "message": "குறிப்பிட்ட தளங்களுக்கான உலாவியில் இருந்து உள்ளடக்கத்தை மீட்டெடுக்கவும் (வரி மூலம் ஒரு URL)"
+    },
+    "Tags": {
+        "message": "குறிச்சொற்கள்"
+    },
+    "Tags_found": {
+        "message": "குறிச்சொற்கள் காணப்பட்டன:"
+    },
+    "Wallabag_API_token": {
+        "message": "வாலபாக் பநிஇ கிள்ளாக்கு"
+    },
+    "Wallabag_API_version": {
+        "message": "வாலபாக் பநிஇ பதிப்பு"
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "பக்கம் ஏற்கனவே சேமிக்கப்பட்டிருந்தால் குறிக்கவும் (வாலபாகர் படவுரு பச்சை)"
+    },
+    "No_leave_it": {
+        "message": "இல்லை, அதை விட்டு விடுங்கள்"
+    },
+    "Ok": {
+        "message": "சரி"
+    },
+    "Ok_I_understand": {
+        "message": "சரி, எனக்கு புரிகிறது"
+    },
+    "Options": {
+        "message": "விருப்பங்கள்"
+    },
+    "minute_many": {
+        "message": "நிமையங்கள்"
+    },
+    "minute_one": {
+        "message": "நிமையம்"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "இந்த கட்டுரையை வாலபேக்கிலிருந்து அகற்றவும்"
+    },
+    "Save": {
+        "message": "சேமி"
+    },
+    "Token_expires_in": {
+        "message": "கிள்ளாக்கு காலாவதியாகிறது"
+    },
+    "Unread": {
+        "message": "படிக்காதது"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "இந்த கட்டுரை வாலபேக்கில் காப்பகப்படுத்தப்பட்டதாக அமைக்கவும்"
+    },
+    "Wallabag_URL_checked": {
+        "message": "வாலபாக் முகவரி சரிபார்க்கப்பட்டது"
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": "உள்ளடக்கத்தைப் படிக்க, எழுத மற்றும் புதுப்பிக்க உங்கள் வாலபாக் நிகழ்வுக்கான அணுகல் எங்களுக்கு தேவை. தயவுசெய்து, முகவரி ஐ மீண்டும் சோதித்து கோரிக்கையை ஏற்றுக்கொள்ளுங்கள்."
+    }
+}
