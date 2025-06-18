@@ -1,1 +1,242 @@
-{}
+{
+    "hour_one": {
+        "message": "시간"
+    },
+    "Agreed": {
+        "message": "동의함"
+    },
+    "All_entries": {
+        "message": "모든 항목"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "태그에 공백 허용 (이 경우 공백은 태그 전송 키가 비활성화되고, Enter 키를 대신 사용하세요)"
+    },
+    "Archive": {
+        "message": "보관함"
+    },
+    "Article_s_link": {
+        "message": "기사 링크"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "이 기사의 wallabag 제목 편집"
+    },
+    "Extension_description": {
+        "message": "이 wallabag v2 확장 프로그램은 제목 및 태그를 편집하고 별표, 보관 또는 삭제 상태를 설정하는 기능을 가집니다."
+    },
+    "Load_from_file": {
+        "message": "파일에서 불러오기"
+    },
+    "Tags_found": {
+        "message": "찾은 태그:"
+    },
+    "Token_expires_in": {
+        "message": "토큰 만료"
+    },
+    "User_password": {
+        "message": "사용자 비밀번호"
+    },
+    "Archive_by_default_when_saving_page": {
+        "message": "페이지 저장 시 기본적으로 보관함에 저장"
+    },
+    "Fetch_from_the_browser": {
+        "message": "브라우저에서 콘텐츠 가져오기"
+    },
+    "Granted": {
+        "message": "허용됨"
+    },
+    "hour_many": {
+        "message": "시간"
+    },
+    "Options": {
+        "message": "옵션"
+    },
+    "Options_not_defined": {
+        "message": "Wallabagger가 구성되지 않았습니다"
+    },
+    "Others": {
+        "message": "기타"
+    },
+    "Sites_locally": {
+        "message": "지정된 사이트에 대해 브라우저에서 콘텐츠 검색 (한 줄에 하나의 URL)"
+    },
+    "Wallabag_it": {
+        "message": "wallabag에 저장!"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "wallabag 기사 페이지로 이동"
+    },
+    "Article_s_title": {
+        "message": "기사 제목"
+    },
+    "Auto_add_single_tag": {
+        "message": "단일 태그 자동 추가"
+    },
+    "Cancel": {
+        "message": "취소"
+    },
+    "Check_URL": {
+        "message": "URL 확인"
+    },
+    "Checklist": {
+        "message": "체크리스트"
+    },
+    "Client_ID": {
+        "message": "클라이언트 ID"
+    },
+    "Client_secret": {
+        "message": "클라이언트 시크릿"
+    },
+    "day_many": {
+        "message": "일"
+    },
+    "day_one": {
+        "message": "일"
+    },
+    "Delete_this_article": {
+        "message": "이 기사 삭제"
+    },
+    "Denied": {
+        "message": "거부됨"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "wallabag에서 이 기사를 영구적으로 삭제하시겠습니까?"
+    },
+    "Download_file": {
+        "message": "파일 다운로드"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "보안상의 이유로 이 옵션은 HTTPS 프로토콜에서만 허용됩니다"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "개발자가 지시한 경우에만 활성화하세요"
+    },
+    "Go_to_this_article_page": {
+        "message": "이 기사 페이지로 이동"
+    },
+    "Enter_your_tags_here": {
+        "message": "여기에 태그를 입력하세요"
+    },
+    "Expired": {
+        "message": "만료됨"
+    },
+    "Get_token": {
+        "message": "토큰 받기"
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "페이지가 이미 wallabag에 저장되었는지 표시 (wallabagger 아이콘이 초록색으로 표시됨)"
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": "페이지가 이미 저장되었는지 표시 (각 탭의 URL을 wallabag으로 전송합니다. 보안 강화를 위해 HTTPS 프로토콜을 사용하세요!)"
+    },
+    "minute_one": {
+        "message": "분"
+    },
+    "No_leave_it": {
+        "message": "아니요, 그대로 두세요"
+    },
+    "Not_checked": {
+        "message": "확인되지 않음"
+    },
+    "Not_granted": {
+        "message": "허용되지 않음"
+    },
+    "Ok": {
+        "message": "확인"
+    },
+    "Ok_I_understand": {
+        "message": "네, 알겠습니다"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "wallabag에서 이 기사 제거"
+    },
+    "Reset_parameters": {
+        "message": "매개변수 재설정"
+    },
+    "Save": {
+        "message": "저장"
+    },
+    "Save_Error": {
+        "message": "기사 저장 중 오류가 발생했습니다"
+    },
+    "Save_to_file": {
+        "message": "파일로 저장"
+    },
+    "Saving_tags": {
+        "message": "태그 저장 중…"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "페이지를 wallabag에 저장 중…"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "이 기사를 wallabag에 보관함으로 설정"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "이 기사를 wallabag에 별표 표시로 설정"
+    },
+    "Settings": {
+        "message": "설정"
+    },
+    "Starred": {
+        "message": "별표 표시됨"
+    },
+    "State": {
+        "message": "상태"
+    },
+    "Tag_already_exists": {
+        "message": "태그가 이미 존재합니다"
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": "이 기사를 wallabag에서 보관함 해제"
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": "이 기사를 wallabag에서 별표 표시 해제"
+    },
+    "User_login": {
+        "message": "사용자 로그인"
+    },
+    "Wallabag_API_token": {
+        "message": "wallabag API 토큰"
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": "콘텐츠를 읽고, 쓰고, 업데이트하기 위해 wallabag 인스턴스에 대한 접근이 필요합니다. URL을 다시 테스트하고 권한 요청을 수락해주세요."
+    },
+    "Loading_wallabag_API": {
+        "message": "wallabag API 로드 중…"
+    },
+    "minute_many": {
+        "message": "분"
+    },
+    "Tags": {
+        "message": "태그"
+    },
+    "Unread": {
+        "message": "읽지 않음"
+    },
+    "Use_HTTPS": {
+        "message": "HTTPS 사용"
+    },
+    "Wallabag_API_version": {
+        "message": "wallabag API 버전"
+    },
+    "Wallabag_it_description": {
+        "message": "팝업을 열지 않고 페이지를 Wallabag에 저장"
+    },
+    "Wallabag_permission_checked": {
+        "message": "wallabag 권한 확인됨"
+    },
+    "Wallabag_URL": {
+        "message": "wallabag URL"
+    },
+    "Wallabag_URL_checked": {
+        "message": "wallabag URL 확인됨"
+    },
+    "Yes_delete_it": {
+        "message": "네, 삭제합니다"
+    },
+    "You_can_find_your_credentials_here": {
+        "message": "여기에서 자격 증명을 찾을 수 있습니다:"
+    },
+    "Fetch_by_default_when_saving_page": {
+        "message": "페이지 저장 시 기본적으로 브라우저에서 콘텐츠 검색"
+    }
+}
