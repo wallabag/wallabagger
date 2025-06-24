@@ -1,9 +1,9 @@
 # Options
 
-First of all: you have to create new client on your wallabag installation. How to do that is described in [Documentation](http://doc.wallabag.org/en/master/developer/api.html#creating-a-new-api-client)
+First of all: you have to create new client on your wallabag installation. How to do that is described in [Documentation](https://doc.wallabag.org/developer/api/oauth/#creating-a-new-api-client)
 What we need from that client is two strings: Client ID and Client secret:
 
-    ![Client](images/opt-client.png)
+![Client](images/opt-client.png)
 
 ## Access options page
 
