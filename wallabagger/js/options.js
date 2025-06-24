@@ -11,6 +11,7 @@ class OptionsController {
         this.permissionText_ = document.getElementById('permission-text');
         this.versionLabel_ = document.getElementById('apiversion-label');
         this.checkurlbutton_ = document.getElementById('checkurl-button');
+        this.checkUrlMessage_ = document.getElementById('checkurl-message');
         this.tokenSection_ = document.getElementById('token-section');
         this.togglesSection = document.getElementById('toggles-section');
 
@@ -38,6 +39,7 @@ class OptionsController {
         this.httpsMessage = document.getElementById('https-message');
         this.httpsButton = document.getElementById('https-button');
         this.autoAddSingleTag = document.getElementById('single-tag');
+        this.clientSelector = new ClientSelector(document.getElementById('client-selector'));
         this.addListeners_();
         this.data = null;
         this.port = null;
@@ -316,8 +318,6 @@ class OptionsController {
                     el.innerText = href;
                     return el;
                 });
-                this._show(this.tokenSection_);
-                this._show(this.togglesSection);
             }
         }
     }
@@ -333,6 +333,8 @@ class OptionsController {
 
     async checkUrlClick (e) {
         e.preventDefault();
+        this.clearMessage(this.checkUrlMessage_);
+        this.clientSelector.clear();
         const urlDirty = this._getUrl();
         if (urlDirty !== '') {
             this._setProtocolCheck(urlDirty);
@@ -350,9 +352,59 @@ class OptionsController {
             }
             if (this.data.isFetchPermissionGranted === true) {
                 Object.assign(this.data, { Url: url });
+                await this.autoFillApiToken();
                 this.port.postMessage({ request: 'setup-checkurl', data: this.data });
             }
         }
+    }
+
+    async autoFillApiToken () {
+        // @TODO extract these URLs to wallabag-api.js
+        const urls = {
+            developer: this.data.Url + '/developer',
+            clientCreate: this.data.Url + '/developer/client/create',
+            login: this.data.Url + '/login'
+        };
+
+        this.clientSelector.containerElement.innerHTML = '<div class="loading"></div>';
+
+        const result = await fetch(urls.developer, { redirect: 'manual' });
+        if (result.status === 200) {
+            const html = await result.text();
+            const parser = new DOMParser();
+            const wallabagDeveloperDocument = parser.parseFromString(html, 'text/html');
+            const clients = [...wallabagDeveloperDocument.getElementsByClassName('collapsible-body')].map(client => {
+                const info = [...client.getElementsByTagName('code')].map(info => info.innerText);
+                return {
+                    name: client.parentElement.getElementsByClassName('collapsible-header')[0].innerText,
+                    id: info[0],
+                    secret: info[1]
+                };
+            });
+            if (clients.length > 0) {
+                const onOptionSelected = (clientIdValue, clientSecretValue) => {
+                    this.clientId_.value = clientIdValue;
+                    this.clientId_.disabled = true;
+                    this.clientSecret_.value = clientSecretValue;
+                    this.clientSecret_.disabled = true;
+                    this._show(this.tokenSection_);
+                    this._show(this.togglesSection);
+                };
+                this.clientSelector.set(clients, onOptionSelected);
+            } else {
+                this.setMessage(this.checkUrlMessage_, Common.translate(`First, you need to create <a href="${urls.clientCreate}" target="_blank">a new client</a>. Then you need to try again.`));
+            }
+        } else {
+            this.setMessage(this.checkUrlMessage_, Common.translate(`You need to be logged in <a href="${urls.login}" target="_blank">your wallabag</a>. Then you need to try again.`));
+        }
+    }
+
+    setMessage (el, content) {
+        el.innerHTML = content;
+    }
+
+    clearMessage (el) {
+        el.innerHTML = '';
     }
 
     permissionLabelChecked () {
@@ -526,6 +578,42 @@ class OptionsController {
     init () {
         this.connectPort();
         this.port.postMessage({ request: 'setup' });
+    }
+}
+
+class ClientSelector {
+    constructor (containerElement) {
+        this.containerElement = containerElement;
+    }
+
+    set (clients, onOptionSelected) {
+        const selectElement = document.createElement('select');
+        selectElement.id = 'client-selector';
+        selectElement.classList.add('form-select');
+        selectElement.addEventListener('change', function (event) {
+            const clientId = event.target.value;
+            const clientSecret = clients.find(client => client.id === clientId).secret;
+            onOptionSelected(clientId, clientSecret);
+        });
+
+        const initialOption = document.createElement('option');
+        initialOption.text = Common.translate('Pick_a_client');
+        initialOption.selected = true;
+        initialOption.disabled = true;
+        selectElement.appendChild(initialOption);
+
+        clients.forEach(client => {
+            const option = document.createElement('option');
+            option.text = client.name;
+            option.value = client.id;
+            selectElement.appendChild(option);
+        });
+        this.clear();
+        this.containerElement.appendChild(selectElement);
+    }
+
+    clear () {
+        this.containerElement.innerHTML = '';
     }
 }
 

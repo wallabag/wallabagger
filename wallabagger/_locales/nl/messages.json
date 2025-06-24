@@ -227,9 +227,6 @@
     "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
         "message": "Er is toegang nodig tot jouw wallabag installatie om inhoud te lezen, schrijven en wijzigen. Test de URL nog een keer en accepteer het verzoek."
     },
-    "You_can_find_your_credentials_here": {
-        "message": "Je kunt de inloggegevens hier vinden:"
-    },
     "Set_this_article_as_starred_into_Wallabag": {
         "message": "Geef dit artikel een ster in wallabag"
     },

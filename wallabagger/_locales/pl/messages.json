@@ -291,10 +291,6 @@
         "message": "Potrzebujemy dostępu do instancji wallabag, aby czytać, pisać i aktualizować zawartość. Przetestuj ponownie adres URL i zaakceptuj prośbę.",
         "description": "Options"
     },
-    "You_can_find_your_credentials_here": {
-        "message": "Tutaj możesz znaleźć swoje dane uwierzytelniające:",
-        "description": "Options"
-    },
     "Fetch_from_the_browser": {
         "message": "Pobieranie treści z przeglądarki",
         "description": "Options"

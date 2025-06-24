@@ -3,10 +3,6 @@
         "message": "Sayfa kaydedilirken varsayılan olarak arşivlensin",
         "description": "Options"
     },
-    "You_can_find_your_credentials_here": {
-        "message": "Bilgilerinizi burada bulabilirsiniz:",
-        "description": "Options"
-    },
     "Yes_delete_it": {
         "message": "Evet, sil",
         "description": "Popup"
