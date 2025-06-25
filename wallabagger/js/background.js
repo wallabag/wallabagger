@@ -353,12 +353,13 @@ function addListeners () {
     browser.runtime.onInstalled.addListener(onRuntimeInstalled);
 }
 
+const imageExtension = globalThis.wallabaggerBrowser ? 'png' : 'svg';
 const browserIcon = {
     images: {
         default: browser.runtime.getManifest().action.default_icon,
-        good: 'img/wallabagger-green.svg',
-        wip: 'img/wallabagger-yellow.svg',
-        bad: 'img/wallabagger-red.svg'
+        good: '/img/wallabagger-green.' + imageExtension,
+        wip: '/img/wallabagger-yellow.' + imageExtension,
+        bad: '/img/wallabagger-red.' + imageExtension
     },
 
     timedToDefault: function () {
