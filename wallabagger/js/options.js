@@ -529,8 +529,6 @@ class OptionsController {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    Common.translateAll();
-    const PC = new OptionsController();
-    PC.init();
-});
+Common.translateAll();
+const PC = new OptionsController();
+PC.init();
