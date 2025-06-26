@@ -23,7 +23,6 @@ class OptionsController {
         this.sitesToFetchLocallyInputEl = document.getElementById('sites-to-fetch-locally-input');
         this.getAppTokenButton_ = document.getElementById('getapptoken-button');
         this.tokenLabel_ = document.getElementById('apitoken-label');
-        this.tokenExpire = document.getElementById('expiretoken-label');
 
         this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
         this.allowExistCheck = document.getElementById('allow-exist-checkbox');
@@ -79,7 +78,6 @@ class OptionsController {
         this.permissionLabel_.textContent = Common.translate('Not_checked');
         this.versionLabel_.textContent = Common.translate('Not_checked');
         this.tokenLabel_.textContent = Common.translate('Not_checked');
-        this.tokenExpire.textContent = '';
         this.data.isFetchPermissionGranted = false;
         this.setDataFromFields();
         this.port.postMessage({ request: 'setup-save', data: this.data });
@@ -178,29 +176,6 @@ class OptionsController {
         this._green(this.userPassword_);
         this._textSuccess(this.tokenLabel_);
         this.tokenLabel_.textContent = Common.translate('Granted');
-        this.tokenExpire.textContent = this.getTokenExpireTime();
-    }
-
-    getTokenExpireTime () {
-        const locale = Common.getLocale();
-        const expMs = this.data.ExpireDate - Date.now();
-        if (expMs < 0) {
-            return Common.translate('Expired');
-        }
-        const expSec = Math.floor(expMs / 1000);
-        const expMin = Math.floor(expSec / 60);
-        if (expMin < 60) {
-            const unit = this._getUnit(expMin, 'minute', locale);
-            return `${expMin} ${unit}`;
-        }
-        const expHours = Math.floor(expMin / 60);
-        if (expHours < 24) {
-            const unit = this._getUnit(expHours, 'hour', locale);
-            return `${expHours} ${unit}`;
-        }
-        const expDays = Math.floor(expHours / 24);
-        const unit = this._getUnit(expDays, 'day', locale);
-        return `${expDays} ${unit}`;
     }
 
     _getUnit (value, key, locale) {
@@ -220,7 +195,6 @@ class OptionsController {
         this._red(this.userLogin_);
         this._red(this.userPassword_);
         this.tokenLabel_.textContent = Common.translate('Not_granted');
-        this.tokenExpire.textContent = '';
     }
 
     getAppTokenClick (e) {
@@ -494,13 +468,11 @@ class OptionsController {
         if (this.data.ApiToken) {
             this._textSuccess(this.tokenLabel_);
             this.tokenLabel_.textContent = Common.translate('Granted');
-            this.tokenExpire.textContent = this.getTokenExpireTime();
         }
 
         if (this.data.isFetchPermissionGranted && this.data.isTokenExpired) {
             this._textError(this.tokenLabel_);
             this.tokenLabel_.textContent = Common.translate('Expired');
-            this.tokenExpire.textContent = '';
         }
 
         this.allowSpaceCheck.checked = this.data.AllowSpaceInTags;

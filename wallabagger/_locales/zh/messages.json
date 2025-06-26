@@ -219,10 +219,6 @@
         "message": "找到标签：",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "Token 过期时间",
-        "description": "Options"
-    },
     "Unread": {
         "message": "未读",
         "description": "background"

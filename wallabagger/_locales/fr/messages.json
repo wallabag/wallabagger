@@ -223,10 +223,6 @@
         "message": "Tags trouvés :",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "Le jeton expire dans",
-        "description": "Options"
-    },
     "Unread": {
         "message": "Non lus",
         "description": "background"

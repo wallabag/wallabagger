@@ -231,10 +231,6 @@
         "message": "Найденные теги:",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "Токен просрочен через",
-        "description": "Options"
-    },
     "Unread": {
         "message": "Непрочитано",
         "description": "background"

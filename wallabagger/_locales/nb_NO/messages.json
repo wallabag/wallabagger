@@ -151,10 +151,6 @@
         "message": "Innstillinger",
         "description": "Options"
     },
-    "Token_expires_in": {
-        "message": "Symbol utløper om",
-        "description": "Options"
-    },
     "Enter_your_tags_here": {
         "message": "Legg til dine stikkord her",
         "description": "Popup"

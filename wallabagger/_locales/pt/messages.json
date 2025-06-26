@@ -219,10 +219,6 @@
         "message": "Etiquetas encontradas:",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "O Token expira em",
-        "description": "Options"
-    },
     "Unread": {
         "message": "Não lido",
         "description": "background"

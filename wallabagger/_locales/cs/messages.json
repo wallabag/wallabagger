@@ -243,10 +243,6 @@
         "message": "Nalezené štítky:",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "Token vyprší",
-        "description": "Options"
-    },
     "Unread": {
         "message": "Nepřečtené",
         "description": "background"

@@ -219,10 +219,6 @@
         "message": "候補タグ：",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "トークン期限",
-        "description": "Options"
-    },
     "Unread": {
         "message": "未読",
         "description": "background"

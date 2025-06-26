@@ -247,10 +247,6 @@
         "message": "Tags found:",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "Token expires in",
-        "description": "Options"
-    },
     "Unread": {
         "message": "Unread",
         "description": "background"

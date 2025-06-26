@@ -59,10 +59,6 @@
         "message": "Bu makalenin wallabag'daki arşivlenmiş durumunu kaldır",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "Jeton şu süre kadar daha geçerli",
-        "description": "Options"
-    },
     "Tags_found": {
         "message": "Bulunan etiketler:",
         "description": "Popup"

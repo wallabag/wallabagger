@@ -283,10 +283,6 @@
         "message": "Etiquetas encontradas:",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "El token expira en",
-        "description": "Options"
-    },
     "Unset_this_article_as_archived_into_Wallabag": {
         "message": "Desmarcar este artículo como archivado en wallabag",
         "description": "Popup"

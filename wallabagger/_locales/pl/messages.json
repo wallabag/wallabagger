@@ -227,10 +227,6 @@
         "message": "Wyróżnione",
         "description": "background"
     },
-    "Token_expires_in": {
-        "message": "Token wygasa za",
-        "description": "Options"
-    },
     "Tags_found": {
         "message": "Znalezione tagi:",
         "description": "Popup"

@@ -219,10 +219,6 @@
         "message": "Gefundene Tags:",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "Token verfällt in",
-        "description": "Options"
-    },
     "Unread": {
         "message": "Ungelesene",
         "description": "background"

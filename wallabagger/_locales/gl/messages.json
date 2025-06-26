@@ -187,10 +187,6 @@
         "message": "Etiquetas atopadas:",
         "description": "Popup"
     },
-    "Token_expires_in": {
-        "message": "A chave caduca en",
-        "description": "Options"
-    },
     "Unread": {
         "message": "Non lido",
         "description": "background"
