@@ -424,6 +424,8 @@ class OptionsController {
     _urlSanitized (urlDirty) {
         const url = this.cleanStr(urlDirty)
             .replace(/^http(s?):\/\//gm, '')
+            .replace(/login(\/?)$/gm, '')
+            .replace(/developer(\/?)$/gm, '')
             .replace(/\/$/, '');
         return url;
     }
