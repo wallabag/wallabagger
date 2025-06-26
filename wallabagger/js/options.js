@@ -78,7 +78,7 @@ class OptionsController {
         this.checkedLabel_.textContent = Common.translate('Not_checked');
         this.permissionLabel_.textContent = Common.translate('Not_checked');
         this.versionLabel_.textContent = Common.translate('Not_checked');
-        this.tokenLabel_.textContent = Common.translate('Not_granted');
+        this.tokenLabel_.textContent = Common.translate('Not_checked');
         this.tokenExpire.textContent = '';
         this.data.isFetchPermissionGranted = false;
         this.setDataFromFields();
@@ -497,7 +497,7 @@ class OptionsController {
             this.tokenExpire.textContent = this.getTokenExpireTime();
         }
 
-        if (this.data.isTokenExpired) {
+        if (this.data.isFetchPermissionGranted && this.data.isTokenExpired) {
             this._textError(this.tokenLabel_);
             this.tokenLabel_.textContent = Common.translate('Expired');
             this.tokenExpire.textContent = '';
