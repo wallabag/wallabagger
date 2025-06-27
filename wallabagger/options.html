@@ -6,6 +6,7 @@
     <title>Wallabagger</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/spectre.min.css">
+    <link rel="stylesheet" href="css/icomoon.css">
     <style>
         body {
             display: flex;
@@ -92,6 +93,17 @@
 
         .params-button {
             margin-bottom: 5px;
+        }
+
+        .sites-list {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sites-list-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         @media (min-width: 500px) {
@@ -227,7 +239,7 @@
                         <input type="url" id="sites-to-fetch-locally-add-input" autocomplete="off" />
                         <button data-i18n="Add_site">Add site</button>
                     </form>
-                    <ol id="sites-to-fetch-locally-add-list"></ol>
+                    <ol id="sites-to-fetch-locally-add-list" class="sites-list"></ol>
                 </div>
 
                 <h3 data-i18n="Tags">Tags</h3>

@@ -514,7 +514,7 @@ class OptionsController {
         };
 
         const setList = (listElement, lastItemAdded) => {
-            const sites = [...new Set(this.data.sitesToFetchLocally.split('\n'))].sort();
+            const sites = [...getSites()].sort();
             listElement.innerHTML = '';
             if (sites.length === 0) {
                 return false;
@@ -526,10 +526,33 @@ class OptionsController {
 
         const addItemElement = (itemValue, listElement, lastItemAdded) => {
             const itemElement = document.createElement('li');
-            itemElement.innerText = itemValue;
+            itemElement.classList.add('sites-list-item');
+            itemElement.dataset.url = itemValue;
             if (lastItemAdded === itemValue) {
                 itemElement.classList.add('text-success');
             }
+
+            const removeIcon = document.createElement('i');
+            removeIcon.classList.add('icon', 'icon-delete');
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.title = Common.translate('Remove_site');
+            removeButton.classList.add('btn');
+            removeButton.addEventListener('click', function () {
+                const sites = getSites();
+                sites.delete(itemElement.dataset.url);
+                Object.assign(this.data, { sitesToFetchLocally: [...sites].join('\n') });
+                setList(listElement, inputElement.value);
+                this.port.postMessage({ request: 'setup-save', data: this.data });
+            }.bind(this));
+
+            const textElement = document.createElement('span');
+            textElement.innerText = itemValue;
+
+            removeButton.appendChild(removeIcon);
+            itemElement.appendChild(removeButton);
+            itemElement.appendChild(textElement);
             listElement.appendChild(itemElement);
         };
 

@@ -45,3 +45,42 @@
     content: "\ea11";
 }
 
+.icon-delete {
+    box-sizing:border-box;
+    display:inline-block;
+    font-size:inherit;
+    font-style:normal;
+    height:1em;
+    position:relative;
+    text-indent:-9999px;
+    vertical-align:middle;
+    width:1em
+}
+
+.icon-delete::after,
+.icon-delete::before {
+    content:"";
+    display:block;
+    left:50%;
+    position:absolute;
+    top:50%;
+    transform:translate(-50%,-50%)
+}
+
+.icon-delete::before {
+    border: .1rem solid currentColor;
+    border-bottom-left-radius: .1rem;
+    border-bottom-right-radius: .1rem;
+    border-top: 0;
+    height: .6em;
+    top: 70%;
+    width: .75em;
+}
+
+.icon-delete::after {
+    background: currentColor;
+    box-shadow: -.2em .2em, .2em .2em;
+    height: .1rem;
+    top: .05rem;
+    width: .5em;
+}
