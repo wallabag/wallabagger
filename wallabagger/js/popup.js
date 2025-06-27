@@ -1,3 +1,6 @@
+import { browser } from './browser-polyfill.js';
+import { Common } from './common.js';
+
 const PopupController = function () {
     this.mainCard = document.getElementById('main-card');
     this.errorToast = document.getElementById('error-toast');
@@ -618,12 +621,17 @@ PopupController.prototype = {
                 this.port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
             });
 
-            browser.tabs.executeScript(
-                tab.id,
-                {
-                    code: 'if(typeof(browser) === "undefined" && typeof (chrome) === "object") { browser = chrome; }; browser.runtime.sendMessage({"wallabagSaveArticleContent": window.document.body.innerHTML});'
+            browser.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: () => {
+                    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
+                        browser = chrome;
+                    }
+                    browser.runtime.sendMessage({
+                        wallabagSaveArticleContent: window.document.documentElement.innerHTML
+                    });
                 }
-            );
+            });
         });
     },
 
@@ -633,11 +641,6 @@ PopupController.prototype = {
 
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-        browser = chrome;
-    }
-    Common.translateAll();
-    const PC = new PopupController();
-    PC.init();
-});
+Common.translateAll();
+const PC = new PopupController();
+PC.init();

@@ -1,48 +1,49 @@
-const OptionsController = function () {
-    this.protocolCheck_ = document.getElementById('protocol-checkbox');
-    this.protocolLabel_ = document.getElementById('input-group-wallabagurl');
-    this.wallabagurlinput_ = document.getElementById('input-wallabagurl');
-    this.checkedLabel_ = document.getElementById('checked-label');
-    this.permissionLabel_ = document.getElementById('permission-label');
-    this.permissionText_ = document.getElementById('permission-text');
-    this.versionLabel_ = document.getElementById('apiversion-label');
-    this.checkurlbutton_ = document.getElementById('checkurl-button');
-    this.tokenSection_ = document.getElementById('token-section');
-    this.togglesSection = document.getElementById('toggles-section');
+import { browser } from './browser-polyfill.js';
+import { Common } from './common.js';
 
-    this.clientId_ = document.getElementById('clientid-input');
-    this.clientSecret_ = document.getElementById('clientsecret-input');
-    this.userLogin_ = document.getElementById('userlogin-input');
-    this.userPassword_ = document.getElementById('userpassword-input');
-    this.sitesToFetchLocallyEl = document.getElementById('sites-to-fetch-locally');
-    this.sitesToFetchLocallyInputEl = document.getElementById('sites-to-fetch-locally-input');
-    this.getAppTokenButton_ = document.getElementById('getapptoken-button');
-    this.tokenLabel_ = document.getElementById('apitoken-label');
-    this.tokenExpire = document.getElementById('expiretoken-label');
+class OptionsController {
+    constructor () {
+        this.protocolCheck_ = document.getElementById('protocol-checkbox');
+        this.protocolLabel_ = document.getElementById('input-group-wallabagurl');
+        this.wallabagurlinput_ = document.getElementById('input-wallabagurl');
+        this.checkedLabel_ = document.getElementById('checked-label');
+        this.permissionLabel_ = document.getElementById('permission-label');
+        this.permissionText_ = document.getElementById('permission-text');
+        this.versionLabel_ = document.getElementById('apiversion-label');
+        this.checkurlbutton_ = document.getElementById('checkurl-button');
+        this.tokenSection_ = document.getElementById('token-section');
+        this.togglesSection = document.getElementById('toggles-section');
 
-    this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
-    this.allowExistCheck = document.getElementById('allow-exist-checkbox');
-    this.allowExistInsecureText = document.getElementById('allow-exist-insecure-text');
-    this.allowExistSecureText = document.getElementById('allow-exist-secure-text');
-    this.fetchLocallyByDefault = document.getElementById('fetch-locally-by-default-checkbox');
-    this.archiveByDefault = document.getElementById('archive-by-default-checkbox');
-    this.debugEl = document.getElementById('debug');
-    this.saveToFileButton = document.getElementById('saveToFile-button');
-    this.loadFromFileButton = document.getElementById('loadFromFile-button');
-    this.clearButton = document.getElementById('clear-button');
-    this.openFileDialog = document.getElementById('openFile-dialog');
-    this.httpsMessage = document.getElementById('https-message');
-    this.httpsButton = document.getElementById('https-button');
-    this.autoAddSingleTag = document.getElementById('single-tag');
-    this.addListeners_();
-};
+        this.clientId_ = document.getElementById('clientid-input');
+        this.clientSecret_ = document.getElementById('clientsecret-input');
+        this.userLogin_ = document.getElementById('userlogin-input');
+        this.userPassword_ = document.getElementById('userpassword-input');
+        this.sitesToFetchLocallyEl = document.getElementById('sites-to-fetch-locally');
+        this.sitesToFetchLocallyInputEl = document.getElementById('sites-to-fetch-locally-input');
+        this.getAppTokenButton_ = document.getElementById('getapptoken-button');
+        this.tokenLabel_ = document.getElementById('apitoken-label');
+        this.tokenExpire = document.getElementById('expiretoken-label');
 
-OptionsController.prototype = {
+        this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
+        this.allowExistCheck = document.getElementById('allow-exist-checkbox');
+        this.allowExistInsecureText = document.getElementById('allow-exist-insecure-text');
+        this.allowExistSecureText = document.getElementById('allow-exist-secure-text');
+        this.fetchLocallyByDefault = document.getElementById('fetch-locally-by-default-checkbox');
+        this.archiveByDefault = document.getElementById('archive-by-default-checkbox');
+        this.debugEl = document.getElementById('debug');
+        this.saveToFileButton = document.getElementById('saveToFile-button');
+        this.loadFromFileButton = document.getElementById('loadFromFile-button');
+        this.clearButton = document.getElementById('clear-button');
+        this.openFileDialog = document.getElementById('openFile-dialog');
+        this.httpsMessage = document.getElementById('https-message');
+        this.httpsButton = document.getElementById('https-button');
+        this.autoAddSingleTag = document.getElementById('single-tag');
+        this.addListeners_();
+        this.data = null;
+        this.port = null;
+    }
 
-    data: null,
-    port: null,
-
-    addListeners_: function () {
+    addListeners_ () {
         this.allowSpaceCheck.addEventListener('click', this.allowSpaceCheckClick.bind(this));
         this.fetchLocallyByDefault.addEventListener('click', this.fetchLocallyByDefaultClick.bind(this));
         this.archiveByDefault.addEventListener('click', this.archiveByDefaultClick.bind(this));
@@ -58,13 +59,13 @@ OptionsController.prototype = {
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
         this.sitesToFetchLocallyInputEl.addEventListener('blur', this.onSitesToFetchLocallyChanged.bind(this));
-    },
+    }
 
-    httpsButtonClick: function () {
+    httpsButtonClick () {
         this.httpsMessage.classList.remove('active');
-    },
+    }
 
-    clearClick: function () {
+    clearClick () {
         this.userLogin_.value = '';
         this.userPassword_.value = '';
         this.clientSecret_.value = '';
@@ -80,14 +81,14 @@ OptionsController.prototype = {
         this.data.isFetchPermissionGranted = false;
         this.setDataFromFields();
         this.port.postMessage({ request: 'setup-save', data: this.data });
-    },
+    }
 
-    loadFromFileClick: function () {
+    loadFromFileClick () {
         this.openFileDialog.value = null;
         this.openFileDialog.click();
-    },
+    }
 
-    loadFromFile: function () {
+    loadFromFile () {
         if (this.openFileDialog.value !== '') {
             const fileToLoad = this.openFileDialog.files[0];
             const fileReader = new FileReader();
@@ -106,9 +107,9 @@ OptionsController.prototype = {
             }.bind(this);
             fileReader.readAsText(fileToLoad, 'UTF-8');
         }
-    },
+    }
 
-    saveToFileClick: function () {
+    saveToFileClick () {
         const body = document.querySelector('body');
         const textToSave = JSON.stringify(this.data);
         const textToSaveAsBlob = new Blob([textToSave], { type: 'text/plain' });
@@ -122,37 +123,37 @@ OptionsController.prototype = {
         downloadLink.style.display = 'none';
         body.appendChild(downloadLink);
         downloadLink.click();
-    },
+    }
 
-    autoAddSingleTagClick: function (e) {
+    autoAddSingleTagClick (e) {
         Object.assign(this.data, { AutoAddSingleTag: this.autoAddSingleTag.checked });
         this.port.postMessage({ request: 'setup-save', data: this.data });
-    },
+    }
 
-    onSitesToFetchLocallyChanged: function (e) {
+    onSitesToFetchLocallyChanged (e) {
         Object.assign(this.data, { sitesToFetchLocally: this.sitesToFetchLocallyInputEl.value });
         this.port.postMessage({ request: 'setup-save', data: this.data });
-    },
+    }
 
-    allowSpaceCheckClick: function (e) {
+    allowSpaceCheckClick (e) {
         Object.assign(this.data, { AllowSpaceInTags: this.allowSpaceCheck.checked });
         this.port.postMessage({ request: 'setup-save', data: this.data });
-    },
+    }
 
-    fetchLocallyByDefaultClick: function (e) {
+    fetchLocallyByDefaultClick (e) {
         Object.assign(this.data, { FetchLocallyByDefault: this.fetchLocallyByDefault.checked });
         this.fetchLocallyByDefault.checked
             ? this._hide(this.sitesToFetchLocallyEl)
             : this._show(this.sitesToFetchLocallyEl);
         this.port.postMessage({ request: 'setup-save', data: this.data });
-    },
+    }
 
-    archiveByDefaultClick: function (e) {
+    archiveByDefaultClick (e) {
         Object.assign(this.data, { ArchiveByDefault: this.archiveByDefault.checked });
         this.port.postMessage({ request: 'setup-save', data: this.data });
-    },
+    }
 
-    allowExistCheckClick: function (e) {
+    allowExistCheckClick (e) {
         if (this.protocolCheck_.checked) {
             Object.assign(this.data, { AllowExistCheck: this.allowExistCheck.checked });
             this.port.postMessage({ request: 'setup-save', data: this.data });
@@ -160,14 +161,14 @@ OptionsController.prototype = {
             this.allowExistCheck.checked = false;
             this.httpsMessage.classList.add('active');
         }
-    },
+    }
 
-    debugClick: function () {
+    debugClick () {
         Object.assign(this.data, { Debug: this.debugEl.checked });
         this.port.postMessage({ request: 'setup-save', data: this.data });
-    },
+    }
 
-    wallabagApiTokenGot: function () {
+    wallabagApiTokenGot () {
         this.allowExistTextMessage();
         this._green(this.clientId_);
         this._green(this.clientSecret_);
@@ -176,9 +177,9 @@ OptionsController.prototype = {
         this._textSuccess(this.tokenLabel_);
         this.tokenLabel_.textContent = Common.translate('Granted');
         this.tokenExpire.textContent = this.getTokenExpireTime();
-    },
+    }
 
-    getTokenExpireTime: function () {
+    getTokenExpireTime () {
         const locale = Common.getLocale();
         const expMs = this.data.ExpireDate - Date.now();
         if (expMs < 0) {
@@ -198,7 +199,7 @@ OptionsController.prototype = {
         const expDays = Math.floor(expHours / 24);
         const unit = this._getUnit(expDays, 'day', locale);
         return `${expDays} ${unit}`;
-    },
+    }
 
     _getUnit (value, key, locale) {
         switch (locale) {
@@ -209,18 +210,18 @@ OptionsController.prototype = {
             default:
                 return value > 1 ? Common.translate(`${key}_many`) : Common.translate(`${key}_one`);
         }
-    },
+    }
 
-    wallabagApiTokenNotGot: function () {
+    wallabagApiTokenNotGot () {
         this._red(this.clientId_);
         this._red(this.clientSecret_);
         this._red(this.userLogin_);
         this._red(this.userPassword_);
         this.tokenLabel_.textContent = Common.translate('Not_granted');
         this.tokenExpire.textContent = '';
-    },
+    }
 
-    getAppTokenClick: function (e) {
+    getAppTokenClick (e) {
         e.preventDefault();
 
         if (this.clientId_.value === '') {
@@ -252,9 +253,9 @@ OptionsController.prototype = {
             this.setFields();
             this.port.postMessage({ request: 'setup-gettoken', data: this.data });
         }
-    },
+    }
 
-    setDataFromFields: function () {
+    setDataFromFields () {
         Object.assign(this.data, {
             Url: this.protocolLabel_.textContent + this.cleanStr(this.wallabagurlinput_.value),
             ClientId: this.cleanStr(this.clientId_.value),
@@ -262,46 +263,46 @@ OptionsController.prototype = {
             UserLogin: this.cleanStr(this.userLogin_.value),
             UserPassword: this.userPassword_.value
         });
-    },
+    }
 
-    handleProtocolClick: function () {
+    handleProtocolClick () {
         if (this.protocolCheck_.checked) {
             this.protocolLabel_.textContent = 'https://';
         } else {
             this.protocolLabel_.textContent = 'http://';
             this.allowExistCheck.checked = false;
         }
-    },
+    }
 
-    _hide: function (element) {
+    _hide (element) {
         element.classList.add('d-hide');
-    },
+    }
 
-    _show: function (element) {
+    _show (element) {
         element.classList.remove('d-hide');
-    },
+    }
 
-    _green: function (element) {
+    _green (element) {
         element.classList.remove('is-error');
         element.classList.add('is-success');
-    },
+    }
 
-    _red: function (element) {
+    _red (element) {
         element.classList.add('is-error');
         element.classList.remove('is-success');
-    },
+    }
 
-    _textSuccess: function (element) {
+    _textSuccess (element) {
         element.classList.remove('text-error');
         element.classList.add('text-success');
-    },
+    }
 
-    _textError: function (element) {
+    _textError (element) {
         element.classList.add('text-error');
         element.classList.remove('text-success');
-    },
+    }
 
-    wallabagUrlChecked: function () {
+    wallabagUrlChecked () {
         if (this.data.ApiVersion) {
             this.allowExistTextMessage();
             this.versionLabel_.textContent = this.data.ApiVersion;
@@ -319,18 +320,18 @@ OptionsController.prototype = {
                 this._show(this.togglesSection);
             }
         }
-    },
+    }
 
-    wallabagUrlNotChecked: function () {
+    wallabagUrlNotChecked () {
         this._red(this.wallabagurlinput_);
         this._hide(this.tokenSection_);
         this._hide(this.togglesSection);
         this.checkedLabel_.textContent = Common.translate('Not_checked');
         this.permissionLabel_.textContent = Common.translate('Not_checked');
         this.versionLabel_.textContent = Common.translate('Not_checked');
-    },
+    }
 
-    checkUrlClick: async function (e) {
+    async checkUrlClick (e) {
         e.preventDefault();
         const urlDirty = this._getUrl();
         if (urlDirty !== '') {
@@ -352,9 +353,9 @@ OptionsController.prototype = {
                 this.port.postMessage({ request: 'setup-checkurl', data: this.data });
             }
         }
-    },
+    }
 
-    permissionLabelChecked: function () {
+    permissionLabelChecked () {
         const granted = this.data.isFetchPermissionGranted;
         const permissionMethod = granted ? '_textSuccess' : '_textError';
         const permissionKey = granted ? 'Agreed' : 'Denied';
@@ -366,14 +367,14 @@ OptionsController.prototype = {
         } else {
             this._hide(this.permissionText_);
         }
-    },
+    }
 
-    _urlSanitized: function (urlDirty) {
+    _urlSanitized (urlDirty) {
         const url = this.cleanStr(urlDirty)
             .replace(/^http(s?):\/\//gm, '')
             .replace(/\/$/, '');
         return url;
-    },
+    }
 
     _setProtocolCheck (url) {
         const re = /^(http|https):\/\/(.*)/;
@@ -382,37 +383,37 @@ OptionsController.prototype = {
             this.protocolCheck_.checked = (res[1] === 'https');
             this.protocolLabel_.textContent = res[1] + '://';
         };
-    },
+    }
 
     _getUrl () {
         return this.wallabagurlinput_.value;
-    },
+    }
 
     _setUrlInput (urlDirty) {
         this.wallabagurlinput_.value = this._urlSanitized(urlDirty) || '';
-    },
+    }
 
     _setClientIdInput (clientId) {
         this.clientId_.value = typeof (clientId) === 'string' ? this.cleanStr(clientId) : '';
-    },
+    }
 
     _setClientSecretInput (clientSecret) {
         this.clientSecret_.value = typeof (clientSecret) === 'string' ? this.cleanStr(clientSecret) : '';
-    },
+    }
 
     _setUserLoginInput (userLogin) {
         this.userLogin_.value = typeof (userLogin) === 'string' ? this.cleanStr(userLogin) : '';
-    },
+    }
 
     _setUserPasswordInput (userPassword) {
         this.userPassword_.value = userPassword || '';
-    },
+    }
 
     cleanStr (strDirty) {
         return strDirty.trim();
-    },
+    }
 
-    setFields: function () {
+    setFields () {
         const urlDirty = this.data.Url;
         if (typeof (urlDirty) === 'string' && urlDirty.length > 0) {
             this._setProtocolCheck(urlDirty);
@@ -462,9 +463,9 @@ OptionsController.prototype = {
             this._hide(this.sitesToFetchLocallyEl);
         }
         this.sitesToFetchLocallyInputEl.value = this.data.sitesToFetchLocally;
-    },
+    }
 
-    allowExistTextMessage: function () {
+    allowExistTextMessage () {
         const allowExistTextToShow = this.data.AllowExistSafe === false
             ? this.allowExistInsecureText
             : this.allowExistSecureText;
@@ -473,9 +474,9 @@ OptionsController.prototype = {
             : this.allowExistSecureText;
         this._hide(allowExistTextToHide);
         this._show(allowExistTextToShow);
-    },
+    }
 
-    messageListener: function (msg) {
+    messageListener (msg) {
         switch (msg.response) {
             case 'setup':
                 this.data = Object.assign({}, msg.data);
@@ -509,21 +510,25 @@ OptionsController.prototype = {
                     console.log(`unknown message: ${msg}`);
                 }
         };
-    },
+    }
 
-    init: function () {
+    connectPort () {
         this.port = browser.runtime.connect({ name: 'setup' });
+
         this.port.onMessage.addListener(this.messageListener.bind(this));
+
+        this.port.onDisconnect.addListener(() => {
+            console.warn('Port disconnected, attempting to reconnect...');
+            setTimeout(this.connectPort.bind(this), 1000); // Retry after 1 second
+        });
+    }
+
+    init () {
+        this.connectPort();
         this.port.postMessage({ request: 'setup' });
     }
+}
 
-};
-
-document.addEventListener('DOMContentLoaded', function () {
-    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-        browser = chrome;
-    }
-    Common.translateAll();
-    const PC = new OptionsController();
-    PC.init();
-});
+Common.translateAll();
+const PC = new OptionsController();
+PC.init();

@@ -1,10 +1,6 @@
-//* globals WallabagApi */
-
-// declarations
-
-if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-    browser = chrome;
-}
+import { browser } from './browser-polyfill.js';
+import { Common } from './common.js';
+import { WallabagApi } from './wallabag-api.js';
 
 let Port = null;
 let portConnected = false;
@@ -50,33 +46,34 @@ const wallabagContextMenus = [
         contexts: ['link', 'page']
     },
     {
+        id: 'separator',
         type: 'separator',
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'unread',
         title: Common.translate('Unread'),
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'starred',
         title: Common.translate('Starred'),
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'archive',
         title: Common.translate('Archive'),
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'all',
         title: Common.translate('All_entries'),
-        contexts: ['browser_action']
+        contexts: ['action']
     },
     {
         id: 'tag',
         title: Common.translate('Tags'),
-        contexts: ['browser_action']
+        contexts: ['action']
     }
 ];
 
@@ -95,7 +92,7 @@ const api = new WallabagApi();
 // Code
 
 const version = browser.runtime.getManifest().version.split('.');
-version.length === 4 && browser.browserAction.setBadgeText({ text: 'ß' });
+version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
 
 api.init().then(data => {
     addExistCheckListeners(api.data.AllowExistCheck);
@@ -356,12 +353,13 @@ function addListeners () {
     browser.runtime.onInstalled.addListener(onRuntimeInstalled);
 }
 
+const imageExtension = globalThis.wallabaggerBrowser ? 'png' : 'svg';
 const browserIcon = {
     images: {
-        default: browser.runtime.getManifest().browser_action.default_icon,
-        good: 'img/wallabagger-green.svg',
-        wip: 'img/wallabagger-yellow.svg',
-        bad: 'img/wallabagger-red.svg'
+        default: browser.runtime.getManifest().action.default_icon,
+        good: '/img/wallabagger-green.' + imageExtension,
+        wip: '/img/wallabagger-yellow.' + imageExtension,
+        bad: '/img/wallabagger-red.' + imageExtension
     },
 
     timedToDefault: function () {
@@ -375,7 +373,7 @@ const browserIcon = {
             // On Firefox, we want to reset to the default icon suitable for the active theme
             // but Chromium does not support resetting icons.
             try {
-                browser.browserAction.setIcon({ path: null });
+                browser.action.setIcon({ path: null });
 
                 return;
             } catch {
@@ -384,7 +382,7 @@ const browserIcon = {
             }
         }
 
-        browser.browserAction.setIcon({ path: this.images[icon] });
+        browser.action.setIcon({ path: this.images[icon] });
     },
 
     setTimed: function (icon) {
