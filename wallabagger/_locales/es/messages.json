@@ -151,10 +151,6 @@
         "message": "Poner este artículo como destacado en wallabag",
         "description": "Popup"
     },
-    "Sites_locally": {
-        "message": "Obten el contenido del navegador para sitios web específicos (una URL por línea)",
-        "description": "Options"
-    },
     "Tag_already_exists": {
         "message": "La etiqueta ya existe",
         "description": "Popup"

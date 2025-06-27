@@ -203,10 +203,6 @@
         "message": "Estado",
         "description": "Options"
     },
-    "Sites_locally": {
-        "message": "Recupere conteúdo do navegador (uma URL por linha)",
-        "description": "Options"
-    },
     "Tag_already_exists": {
         "message": "A etiqueta já existe",
         "description": "Popup"

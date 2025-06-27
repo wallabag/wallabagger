@@ -20,7 +20,6 @@ class OptionsController {
         this.userLogin_ = document.getElementById('userlogin-input');
         this.userPassword_ = document.getElementById('userpassword-input');
         this.sitesToFetchLocallyEl = document.getElementById('sites-to-fetch-locally');
-        this.sitesToFetchLocallyInputEl = document.getElementById('sites-to-fetch-locally-input');
         this.getAppTokenButton_ = document.getElementById('getapptoken-button');
         this.tokenLabel_ = document.getElementById('apitoken-label');
 
@@ -59,7 +58,6 @@ class OptionsController {
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
-        this.sitesToFetchLocallyInputEl.addEventListener('blur', this.onSitesToFetchLocallyChanged.bind(this));
     }
 
     httpsButtonClick () {
@@ -127,11 +125,6 @@ class OptionsController {
 
     autoAddSingleTagClick (e) {
         Object.assign(this.data, { AutoAddSingleTag: this.autoAddSingleTag.checked });
-        this.port.postMessage({ request: 'setup-save', data: this.data });
-    }
-
-    onSitesToFetchLocallyChanged (e) {
-        Object.assign(this.data, { sitesToFetchLocally: this.sitesToFetchLocallyInputEl.value });
         this.port.postMessage({ request: 'setup-save', data: this.data });
     }
 
@@ -487,7 +480,6 @@ class OptionsController {
         if (this.data.FetchLocallyByDefault) {
             this._hide(this.sitesToFetchLocallyEl);
         }
-        this.sitesToFetchLocallyInputEl.value = this.data.sitesToFetchLocally;
         this.setSitesToFetchLocallyUi();
     }
 

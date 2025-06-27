@@ -283,10 +283,6 @@
         "message": "Automatski dodaj jednu oznaku",
         "description": "Options"
     },
-    "Sites_locally": {
-        "message": "Dohvati sadržaj iz preglednika za specificirane stranice (jedan URL po retku)",
-        "description": "Options"
-    },
     "Options": {
         "message": "Opcije",
         "description": "Options"

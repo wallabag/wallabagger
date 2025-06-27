@@ -287,10 +287,6 @@
         "message": "Angi om siden allerede er lagret (dette sender URL-en til hver fane til wallabag, bruk HTTPS-protokollen for bedre sikkerhet!)",
         "description": "Options"
     },
-    "Sites_locally": {
-        "message": "Hent innhold fra nettleseren for angitte nettsteder (én URL pr. linje)",
-        "description": "Options"
-    },
     "Tags_found": {
         "message": "Stikkord funnet:",
         "description": "Popup"

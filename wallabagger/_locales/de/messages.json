@@ -298,9 +298,5 @@
     "Settings": {
         "message": "Einstellungen",
         "description": "Options"
-    },
-    "Sites_locally": {
-        "message": "Inhalt für die angegebenen Sites aus dem Browser laden (ein URL pro Zeile)",
-        "description": "Options"
     }
 }
