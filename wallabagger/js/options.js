@@ -226,7 +226,6 @@ class OptionsController {
 
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
             this.setDataFromFields();
-            this.setFields();
             this.port.postMessage({ request: 'setup-gettoken', data: this.data });
         }
     }
@@ -489,6 +488,52 @@ class OptionsController {
             this._hide(this.sitesToFetchLocallyEl);
         }
         this.sitesToFetchLocallyInputEl.value = this.data.sitesToFetchLocally;
+        this.setSitesToFetchLocallyUi();
+    }
+
+    setSitesToFetchLocallyUi () {
+        const inputElement = document.getElementById('sites-to-fetch-locally-add-input');
+        const listElement = document.getElementById('sites-to-fetch-locally-add-list');
+        const form = document.getElementById('sites-to-fetch-locally-add-form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const sites = getSites();
+            sites.add(inputElement.value);
+            Object.assign(this.data, { sitesToFetchLocally: [...sites].join('\n') });
+            setList(listElement, inputElement.value);
+            inputElement.value = '';
+            this.port.postMessage({ request: 'setup-save', data: this.data });
+        }.bind(this));
+
+        const getSites = () => {
+            if (!this.data.sitesToFetchLocally) {
+                return new Set();
+            }
+            return new Set(this.data.sitesToFetchLocally.split('\n'));
+        };
+
+        const setList = (listElement, lastItemAdded) => {
+            const sites = [...new Set(this.data.sitesToFetchLocally.split('\n'))].sort();
+            listElement.innerHTML = '';
+            if (sites.length === 0) {
+                return false;
+            }
+            sites.forEach(site => {
+                addItemElement(site, listElement, lastItemAdded);
+            });
+        };
+
+        const addItemElement = (itemValue, listElement, lastItemAdded) => {
+            const itemElement = document.createElement('li');
+            itemElement.innerText = itemValue;
+            if (lastItemAdded === itemValue) {
+                itemElement.classList.add('text-success');
+            }
+            listElement.appendChild(itemElement);
+        };
+
+        setList(listElement);
     }
 
     allowExistTextMessage () {
