@@ -219,10 +219,6 @@
         "message": "預設自瀏覽器擷取目標頁面的內容",
         "description": "Options"
     },
-    "Sites_locally": {
-        "message": "自瀏覽器擷取指定網站的內容（以行分隔每個網址）",
-        "description": "Options"
-    },
     "day_many": {
         "message": "日",
         "description": "Options"

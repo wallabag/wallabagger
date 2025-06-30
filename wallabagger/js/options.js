@@ -20,7 +20,6 @@ class OptionsController {
         this.userLogin_ = document.getElementById('userlogin-input');
         this.userPassword_ = document.getElementById('userpassword-input');
         this.sitesToFetchLocallyEl = document.getElementById('sites-to-fetch-locally');
-        this.sitesToFetchLocallyInputEl = document.getElementById('sites-to-fetch-locally-input');
         this.getAppTokenButton_ = document.getElementById('getapptoken-button');
         this.tokenLabel_ = document.getElementById('apitoken-label');
 
@@ -59,7 +58,6 @@ class OptionsController {
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
-        this.sitesToFetchLocallyInputEl.addEventListener('blur', this.onSitesToFetchLocallyChanged.bind(this));
     }
 
     httpsButtonClick () {
@@ -127,11 +125,6 @@ class OptionsController {
 
     autoAddSingleTagClick (e) {
         Object.assign(this.data, { AutoAddSingleTag: this.autoAddSingleTag.checked });
-        this.port.postMessage({ request: 'setup-save', data: this.data });
-    }
-
-    onSitesToFetchLocallyChanged (e) {
-        Object.assign(this.data, { sitesToFetchLocally: this.sitesToFetchLocallyInputEl.value });
         this.port.postMessage({ request: 'setup-save', data: this.data });
     }
 
@@ -226,7 +219,6 @@ class OptionsController {
 
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
             this.setDataFromFields();
-            this.setFields();
             this.port.postMessage({ request: 'setup-gettoken', data: this.data });
         }
     }
@@ -488,7 +480,75 @@ class OptionsController {
         if (this.data.FetchLocallyByDefault) {
             this._hide(this.sitesToFetchLocallyEl);
         }
-        this.sitesToFetchLocallyInputEl.value = this.data.sitesToFetchLocally;
+        this.setSitesToFetchLocallyUi();
+    }
+
+    setSitesToFetchLocallyUi () {
+        const inputElement = document.getElementById('sites-to-fetch-locally-add-input');
+        const listElement = document.getElementById('sites-to-fetch-locally-add-list');
+        const form = document.getElementById('sites-to-fetch-locally-add-form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const sites = getSites();
+            sites.add(inputElement.value);
+            Object.assign(this.data, { sitesToFetchLocally: [...sites].join('\n') });
+            setList(listElement, inputElement.value);
+            inputElement.value = '';
+            this.port.postMessage({ request: 'setup-save', data: this.data });
+        }.bind(this));
+
+        const getSites = () => {
+            if (!this.data.sitesToFetchLocally) {
+                return new Set();
+            }
+            return new Set(this.data.sitesToFetchLocally.split('\n'));
+        };
+
+        const setList = (listElement, lastItemAdded) => {
+            const sites = [...getSites()].sort();
+            listElement.innerHTML = '';
+            if (sites.length === 0) {
+                return false;
+            }
+            sites.forEach(site => {
+                addItemElement(site, listElement, lastItemAdded);
+            });
+        };
+
+        const addItemElement = (itemValue, listElement, lastItemAdded) => {
+            const itemElement = document.createElement('li');
+            itemElement.classList.add('sites-list-item');
+            itemElement.dataset.url = itemValue;
+            if (lastItemAdded === itemValue) {
+                itemElement.classList.add('text-success');
+            }
+
+            const removeIcon = document.createElement('i');
+            removeIcon.classList.add('icon', 'icon-delete');
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.title = Common.translate('Remove_site');
+            removeButton.classList.add('btn');
+            removeButton.addEventListener('click', function () {
+                const sites = getSites();
+                sites.delete(itemElement.dataset.url);
+                Object.assign(this.data, { sitesToFetchLocally: [...sites].join('\n') });
+                setList(listElement, inputElement.value);
+                this.port.postMessage({ request: 'setup-save', data: this.data });
+            }.bind(this));
+
+            const textElement = document.createElement('span');
+            textElement.innerText = itemValue;
+
+            removeButton.appendChild(removeIcon);
+            itemElement.appendChild(removeButton);
+            itemElement.appendChild(textElement);
+            listElement.appendChild(itemElement);
+        };
+
+        setList(listElement);
     }
 
     allowExistTextMessage () {

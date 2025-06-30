@@ -6,6 +6,7 @@
     <title>Wallabagger</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/spectre.min.css">
+    <link rel="stylesheet" href="css/icomoon.css">
     <style>
         body {
             display: flex;
@@ -20,12 +21,22 @@
         }
         h3 {
             font-size: 1rem;
+            margin: 60px 0 15px;
+        }
+        h4 {
             margin: 20px 0 15px;
+            font-size: 0.8rem;
         }
         p {
             margin-bottom: 0;
         }
         form, section { margin-top: 5px; }
+        .form-input:not(:placeholder-shown):invalid {
+            border-color: #bcc3ce;
+        }
+        .form-input:not(:placeholder-shown):user-invalid {
+            border-color: #e85600;
+        }
         .main-title {
             margin: 0;
             font-size: 1.5rem;
@@ -42,6 +53,11 @@
             display: block;
             margin-bottom: 15px;
         }
+
+        .columns h3:first-of-type {
+            margin-top: 20px;
+        }
+
         .btn,
         .form-input,
         .input-group .input-group-addon {
@@ -86,12 +102,28 @@
 
         .params-buttons {
             display: flex;
+            margin: 50px 0 20px;
             flex-wrap: wrap;
             justify-content: space-around;
         }
 
         .params-button {
             margin-bottom: 5px;
+        }
+
+        .input-group--sites {
+            max-width: 484px;
+        }
+
+        .sites-list {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sites-list-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         @media (min-width: 500px) {
@@ -210,8 +242,10 @@
         <div class="columns">
             <div class="column col-12">
                 <h3 data-i18n="Fetch_from_the_browser">Fetch from the browser</h3>
+                <p data-i18n="Sites_locally_fetch_general_explaination">Sometimes, wallabag can't access to the content you're trying to store. Maybe it's a website requiring a login action, or using JavaScript to display the content. This feature give you the power to send the content you're looking in front of you, in the browser, so wallabag doesn't have to try anything but saving the stuff you sent to it.</p>
 
                 <div class="form-group">
+                    <h4 data-i18n="Sites_locally_always_fetch_title">All the websites</h4>
                     <label class="form-switch">
                         <input type="checkbox" id="fetch-locally-by-default-checkbox"/>
                         <i class="form-icon"></i><span data-i18n="Fetch_by_default_when_saving_page">Retrieve content from the browser by default when saving page</span>
@@ -219,10 +253,15 @@
                 </div>
 
                 <div id="sites-to-fetch-locally" class="form-group">
-                    <label class="form-label" for="sites-to-fetch-locally-input" data-i18n="Sites_locally">Sites to fetch locally</label>
-                    <div class="input-group">
-                        <textarea class="form-input" id="sites-to-fetch-locally-input"></textarea>
-                    </div>
+                    <h4 data-i18n="Sites_locally_whitelist_fetch_title">Whitelist</h4>
+                    <p data-i18n="Sites_locally_whitelist_fetch_explaination">Fill in the address of the website you have an issue with.</p>
+                    <form action="." id="sites-to-fetch-locally-add-form">
+                        <div class="input-group input-group--sites">
+                            <input type="url" id="sites-to-fetch-locally-add-input" class="form-input" autocomplete="off" required />
+                            <button class="btn input-group-btn" data-i18n-attr="title|Add_site">+</button>
+                        </div>
+                    </form>
+                    <ol id="sites-to-fetch-locally-add-list" class="sites-list"></ol>
                 </div>
 
                 <h3 data-i18n="Tags">Tags</h3>

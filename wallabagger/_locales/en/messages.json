@@ -219,12 +219,28 @@
         "message": "Set this article as starred in wallabag",
         "description": "Popup"
     },
-    "Sites_locally": {
-        "message": "Retrieve content from the browser for specified sites (an URL by line)",
-        "description": "Options"
-    },
     "Settings": {
         "message": "Settings",
+        "description": "Options"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "You want to send to wallabag the content of all the websites from the browser? Check this box.",
+        "description": "Options"
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "All the websites",
+        "description": "Options"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Sometimes, wallabag can't access to the content you're trying to store. Maybe it's a website requiring a login action, or using JavaScript to display the content. This feature give you the power to send the content you're looking in front of you, in the browser, so wallabag doesn't have to try anything but saving the stuff you sent to it.",
+        "description": "Options"
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Whitelist",
+        "description": "Options"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Enter the address of the website whose content you wish to store.",
         "description": "Options"
     },
     "Starred": {

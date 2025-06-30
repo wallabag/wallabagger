@@ -243,10 +243,6 @@
         "message": "Wersja API wallabag",
         "description": "Options"
     },
-    "Sites_locally": {
-        "message": "Pobierz zawartość z przeglądarki dla określonych witryn (adres URL wg wiersza)",
-        "description": "Options"
-    },
     "Unread": {
         "message": "Nieprzeczytane",
         "description": "background"

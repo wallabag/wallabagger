@@ -283,10 +283,6 @@
         "message": "Yıldızlılar",
         "description": "background"
     },
-    "Sites_locally": {
-        "message": "Tarayıcıdan belirli siteler için içerik aktar (her satırda bir URL)",
-        "description": "Options"
-    },
     "Others": {
         "message": "Diğerleri",
         "description": "Options"

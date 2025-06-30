@@ -271,10 +271,6 @@
         "message": "Activa esto só se así o indican os programadores",
         "description": "Options"
     },
-    "Sites_locally": {
-        "message": "Obter contido desde o navegador para webs específicas (un URL por liña)",
-        "description": "Options"
-    },
     "Unset_this_article_as_archived_into_Wallabag": {
         "message": "Marcar este artigo como Non arquivado en wallabag",
         "description": "Popup"

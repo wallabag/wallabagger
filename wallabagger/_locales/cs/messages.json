@@ -302,9 +302,5 @@
     "Archive_by_default_when_saving_page": {
         "message": "Při ukládání stránky ve výchozím nastavení archivovat",
         "description": "Options"
-    },
-    "Sites_locally": {
-        "message": "Získat obsah z prohlížeče pro zadané stránky (adresa URL na řádek)",
-        "description": "Options"
     }
 }

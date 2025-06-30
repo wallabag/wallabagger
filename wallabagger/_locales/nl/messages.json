@@ -59,9 +59,6 @@
     "Auto_add_single_tag": {
         "message": "Voeg enkele label automatisch toe"
     },
-    "Sites_locally": {
-        "message": "Haal inhoud op van de browser, voor de gegeven websites (een URL per regel)"
-    },
     "Wallabag_permission_checked": {
         "message": "wallabag toestemming gecontroleerd"
     },
