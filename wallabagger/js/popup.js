@@ -624,9 +624,6 @@ PopupController.prototype = {
             browser.scripting.executeScript({
                 target: { tabId: tab.id },
                 func: () => {
-                    if (typeof (browser) === 'undefined' && typeof (chrome) === 'object') {
-                        browser = chrome;
-                    }
                     browser.runtime.sendMessage({
                         wallabagSaveArticleContent: window.document.documentElement.innerHTML
                     });
