@@ -325,7 +325,7 @@ function onPortMessage (msg) {
         }
     } catch (error) {
         browserIcon.setTimed('bad');
-        postIfConnected({ response: 'error', error: error });
+        postIfConnected({ response: 'error', error });
     }
 }
 
@@ -494,7 +494,7 @@ function savePageToWallabag (url, resetIcon, title, content) {
     postIfConnected({ response: 'info', text: Common.translate('Saving_the_page_to_wallabag') });
 
     const savePageOptions = {
-        url: url
+        url
     };
 
     if (isToFetchLocally) {
@@ -590,6 +590,6 @@ const addToAllTags = (tags) => {
 const addDirtyToAllTags = (tagList) => {
     if (!tagList || tagList === '') { return; }
     let dirtyId = -1;
-    const dirtyTags = tagList.split(',').map(label => Object.assign({}, { id: dirtyId--, label: label, slug: label }));
+    const dirtyTags = tagList.split(',').map(label => Object.assign({}, { id: dirtyId--, label, slug: label }));
     addToAllTags(dirtyTags);
 };

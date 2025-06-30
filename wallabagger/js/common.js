@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Common" }] */
 'use strict';
 
 import { browser } from './browser-polyfill.js';
@@ -23,9 +22,9 @@ const Common = (() => {
     const getLocale = () => browser.i18n.getUILanguage();
 
     return {
-        translate: translate,
-        translateAll: translateAll,
-        getLocale: getLocale
+        translate,
+        translateAll,
+        getLocale
     };
 })();
 

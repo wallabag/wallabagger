@@ -4,7 +4,7 @@ FetchApi.prototype = {
 
     getRequestOptions: function (method, token, content) {
         let options = {
-            method: method,
+            method,
             headers: this.getHeaders(token),
             mode: 'cors',
             cache: 'default',
