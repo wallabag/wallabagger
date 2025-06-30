@@ -8,7 +8,7 @@ on:
 jobs:
   coding-standards:
     name: "Linting"
-    runs-on: "ubuntu-20.04"
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
