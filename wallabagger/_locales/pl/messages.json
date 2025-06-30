@@ -305,5 +305,23 @@
     },
     "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
         "message": "Wskaż, czy strona została już zapisana (ikona wallabaggera jest zielona)"
+    },
+    "Pick_a_client": {
+        "message": "Wybierz klienta"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "Chcesz wysłać do wallabaga zawartość wszystkich stron internetowych z przeglądarki? Zaznacz to pole."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Wszystkie strony internetowe"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Czasami wallabag nie może uzyskać dostępu do treści, którą próbujesz zapisać. Może to być strona internetowa wymagająca czynności logowania lub używająca JavaScript do wyświetlania treści. Ta funkcja daje Ci możliwość wysłania treści, którą oglądasz przed sobą, w przeglądarce, więc wallabag nie musi próbować niczego innego, jak tylko zapisać rzeczy, które do niego wysłano."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Biała lista"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Wprowadź adres strony internetowej, której treść chcesz zapisać."
     }
 }
