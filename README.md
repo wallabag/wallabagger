@@ -1,45 +1,38 @@
 # Wallabagger
 
-Wallabagger is an extension for add pages to wallabag, with ability to:
+[Wallabagger](https://github.com/wallabag/wallabagger) is a Firefox and Chromium-based browser (Chrome, Vivaldi, Brave…) extension for [wallabag v2](https://wallabag.org).
 
-- save current page
-- edit title
-- add (with autocomplete!) and remove tags
-- set starred and  archived
-- delete
+## What is wallabag?
 
-## What is wallabag
+wallabag is a self hostable application allowing you to not miss any content anymore. More informations on website: [wallabag.org](https://wallabag.org) and [github.com](https://github.com/wallabag/wallabag)
 
-wallabag is a self hostable application allowing you to not miss any content anymore.
-More information on websites: [wallabag.org](https://wallabag.org) and [github.com](https://github.com/wallabag/wallabag).
+* save the current page
+* send the content from a paywalled page to wallabag
+* edit the title
+* add (with autocomplete!) and remove tags
+* set starred and archived status
+* delete the page
 
 ## Requirement
 
-- Wallabag v.2 on server side.
-- Chrome-based browser or Firefox browser v.48 and higher
-- Edge browser v.14 and higher
+* [wallabag v2](https://wallabag.org) on server side.
+* Firefox or Chromium-based browser (Chrome, Vivaldi, Brave, Edge v48+…)
 
 ## Installation
 
-- Chrome browsers users can install extension from [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj)
-- Edge browsers users also use [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj) (need to 'Allow extensions from other stores')
+- Chromium-based browsers users can install extension from the [Chrome WebStore](https://chrome.google.com/webstore/detail/wallabagger/gbmgphmejlcoihgedabhgjdkcahacjlj)
 - Firefox browsers users can install the extension from [Mozilla add-ons storage](https://addons.mozilla.org/en-US/firefox/addon/wallabagger/)
-- By .crx file
-- As unpacked folder (developer mode)
 
-## Configuration
+## Useful links
 
-<https://wallabag.org/news/wallabagger-howto/>
+- [Documentation](https://wallabagger.wallabag.org/)
 
-## Acknowledgement
+## Many thanks to
 
-Many thanks to:
-
-- All wallabag mantainers, especially [Nicolas Lœuillet](https://github.com/nicosomb) and [Jeremy Benoist](https://github.com/j0k3r)
-- [Yan Zhu](https://github.com/picturepan2) for the [Spectre CSS framework](https://github.com/picturepan2/spectre)
+* [Yuriy Evdokimov](mailto:rurik19@yandex.ru) for being at the origin of this extension
+* [All the wallabag contributors](https://github.com/wallabag/wallabag/graphs/contributors)
+* [Yan Zhu](https://github.com/picturepan2) for the [Spectre CSS framework](https://github.com/picturepan2/spectre)
 
 ## License
 
-Copyright (c) 2013-2016 Yuriy Evdokimov <rurik19@yandex.ru>
-This work is free. You can redistribute it and/or modify it under the
-terms of the MIT License. See the COPYING file for more details.
+This work is free. You can redistribute it and/or modify it under the terms of the MIT License. See the COPYING file for more details.
