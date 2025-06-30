@@ -16,7 +16,7 @@ wallabag is a self hostable application allowing you to not miss any content any
 ## Requirements
 
 * [wallabag v2](https://wallabag.org) on server side.
-* Firefox or Chromium-based browser (Chrome, Vivaldi, Brave…)
+* Firefox or Chromium-based browser (Chrome, Vivaldi, Brave, Edge v48+…)
 
 ## How can I use it?
 
@@ -27,6 +27,8 @@ wallabag is a self hostable application allowing you to not miss any content any
 ## Help us
 
 - [Translate the app on Weblate](https://hosted.weblate.org/projects/wallabag/wallabagger/)
+- [Improve the documentation](https://github.com/wallabag/wallabagger/tree/main/docs)
+- [Test the pre-release version](betatest)
 
 ## Many thanks to
 
