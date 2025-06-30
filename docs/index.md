@@ -24,6 +24,10 @@ wallabag is a self hostable application allowing you to not miss any content any
 - [Options](options)
 - [Usage](usage)
 
+## Help us
+
+- [Translate the app on Weblate](https://hosted.weblate.org/projects/wallabag/wallabagger/)
+
 ## Many thanks to
 
 * [Yuriy Evdokimov](mailto:rurik19@yandex.ru) for being at the origin of this extension
