@@ -4,9 +4,8 @@
   "description": "Web extension for Wallabag v2",
   "main": "index.js",
   "browserslist": [
-    "Firefox >= 52",
-    "Chrome > 60",
-    "Edge > 14"
+    "Firefox >= 109",
+    "Chrome > 88"
   ],
   "scripts": {
     "deps:update": "cp node_modules/spectre.css/dist/spectre.min.css wallabagger/css/spectre.min.css && cp node_modules/spectre.css/dist/spectre-exp.min.css wallabagger/css/spectre-exp.min.css",
@@ -17,7 +16,7 @@
     "name": "Wallabagger",
     "applications": {
       "gecko": {
-        "strict_min_version": "52.0"
+        "strict_min_version": "109.0"
       }
     }
   },

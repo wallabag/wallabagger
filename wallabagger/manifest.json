@@ -4,7 +4,7 @@
   "default_locale": "en",
   "version": "1.19.0.0",
   "description": "__MSG_Extension_description__",
-  "minimum_chrome_version": "93",
+  "minimum_chrome_version": "88",
   "icons": {
     "48": "/img/wallabag-icon-48.png",
     "128": "/img/wallabag-icon-128.png"
