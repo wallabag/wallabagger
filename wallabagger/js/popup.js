@@ -624,7 +624,10 @@ PopupController.prototype = {
             browser.scripting.executeScript({
                 target: { tabId: tab.id },
                 func: () => {
-                    browser.runtime.sendMessage({
+                    // Use of chrome here instead of browser
+                    // because of isolated context where
+                    // browser is undefined in Chromium-based browsers
+                    chrome.runtime.sendMessage({
                         wallabagSaveArticleContent: window.document.documentElement.innerHTML
                     });
                 }
