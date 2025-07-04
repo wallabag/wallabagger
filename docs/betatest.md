@@ -5,18 +5,18 @@ If you're really sure you want to do it anyway, you can follow these steps:
 
 ### For Firefox
 
-1. Download [the last release package file](https://github.com/wallabag/wallabagger/releases/download/wallabagger.zip)
-2. Go to [the extension debbuging page](about:debugging#/runtime/this-firefox)
+1. Download [the last pre-release ZIP file package](https://github.com/wallabag/wallabagger/releases)
+2. Go to the extension debbuging page: `about:debugging#/runtime/this-firefox`
 3. Click on the `Load temporary module` button
 4. Select the ZIP file your just downloaded OR the folder extracted from the ZIP file (containing the *manifest.json* file)
 
 ### For Chromium-based browsers (Chrome, Vivaldi)
 
-1. Download [the last release package file](https://github.com/wallabag/wallabagger/releases/download/wallabagger.zip)
+1. Download [the last pre-release ZIP file package](https://github.com/wallabag/wallabagger/releases)
 2. Go to your browser's extension settings page
-    - [Chrome](chrome://extensions/)
-    - [Vivaldi](vivaldi:extensions)
-    - [Brave](brave://extensions/)
+    - Chrome: `chrome://extensions/`
+    - Vivaldi: `vivaldi:extensions`
+    - Brave: `brave://extensions/`
 3. Enable the developer mode (toggle on the top right corner)
 
 ![Developer mode](images/inst-developermode.png)

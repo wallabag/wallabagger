@@ -13,7 +13,7 @@ After installation of wallabagger extension you can setup it by options page. Th
 
     ![Menu](images/opt-menu.png)
 
-* Go to your chrome-based browser [extension setup page](chrome://extensions), and click on "options" in wallabagger section
+* Go to your chrome-based browser extension setup page (`chrome://extensions`), and click on "options" in wallabagger section
 
     ![extensions](images/opt-ext-optlink.png)
 
