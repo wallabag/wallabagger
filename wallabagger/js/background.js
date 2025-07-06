@@ -46,11 +46,6 @@ const wallabagContextMenus = [
         contexts: ['link', 'page']
     },
     {
-        id: 'separator',
-        type: 'separator',
-        contexts: ['action']
-    },
-    {
         id: 'unread',
         title: Common.translate('Unread'),
         contexts: ['action']
