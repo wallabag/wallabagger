@@ -43,7 +43,7 @@ const wallabagContextMenus = [
     {
         id: 'wallabagger-add-link',
         title: Common.translate('Wallabag_it'),
-        contexts: ['link', 'page']
+        contexts: ['link', 'page', 'tab']
     },
     {
         id: 'unread',
