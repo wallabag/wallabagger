@@ -305,5 +305,23 @@
     },
     "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
         "message": "Indica se a páxina xa está gardada (a icona de wallabagger ten cor verde)"
+    },
+    "Pick_a_client": {
+        "message": "Elixe un cliente"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "Queres enviar a wallabag o contido de todos os sitios web desde o navegador? Marca esta opción."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Todos os sitios web"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Hai veces que wallabag non pode acceder ao contido que queres gardar. Pode que ese sitio web requira o inicio de sesión, ou que use JavaScript para mostrar o contido. Esta opción permíteche enviar o contido que estás a ver, no navegador, para que wallabag só teña que gardar o contido que lle envías."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Sitios permitidos"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Escribe o enderezo da web cuxo contido queres gardar."
     }
 }
