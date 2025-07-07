@@ -291,6 +291,10 @@
         "message": "Récupération du contenu depuis le navigateur",
         "description": "Options"
     },
+    "First, you need to create <a href=\"%URL%\" target=\"_blank\">a new client</a>. Then you need to try again.": {
+        "message": "Vous devez d'abord créer <a href=\"%URL%\" target=\"_blank\">un nouveau client</a>. Puis relancer la validation.",
+        "description": "Options"
+    },
     "Options": {
         "message": "Options",
         "description": "Options"
@@ -325,6 +329,10 @@
     },
     "Sites_locally_whitelist_fetch_explaination": {
         "message": "Saisissez l'adresse du site dont la sauvegarde du contenu pose problème.",
+        "description": "Options"
+    },
+    "You need to be logged in <a href=\"%URL%\" target=\"_blank\">your wallabag</a>. Then you need to try again.": {
+        "message": "Vous devez être connecté à <a href=\"%URL%\" target=\"_blank\">votre wallabag</a>. Puis relancez la validation.",
         "description": "Options"
     }
 }

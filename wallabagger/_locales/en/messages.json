@@ -99,6 +99,10 @@
         "message": "Content fetching from the browser",
         "description": "Options"
     },
+    "First, you need to create <a href=\"%URL%\" target=\"_blank\">a new client</a>. Then you need to try again.": {
+        "message": "First, you need to create <a href=\"%URL%\" target=\"_blank\">a new client</a>. Then you need to try again.",
+        "description": "Options"
+    },
     "Get_token": {
         "message": "Get token",
         "description": "Options"
@@ -329,6 +333,10 @@
     },
     "Archive_by_default_when_saving_page": {
         "message": "Archive by default when saving the page",
+        "description": "Options"
+    },
+    "You need to be logged in <a href=\"%URL%\" target=\"_blank\">your wallabag</a>. Then you need to try again.": {
+        "message": "You need to be logged in <a href=\"%URL%\" target=\"_blank\">your wallabag</a>. Then you need to try again.",
         "description": "Options"
     }
 }

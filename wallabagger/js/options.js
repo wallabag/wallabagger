@@ -368,11 +368,11 @@ class OptionsController {
                 this.clientSelector.set(clients, onOptionSelected);
             } else {
                 this.clientSelector.clear();
-                this.setMessage(this.checkUrlMessage_, Common.translate(`First, you need to create <a href="${urls.clientCreate}" target="_blank">a new client</a>. Then you need to try again.`));
+                this.setMessage(this.checkUrlMessage_, Common.translate('First, you need to create <a href="%URL%" target="_blank">a new client</a>. Then you need to try again.').replace('%URL%', urls.clientCreate));
             }
         } else {
             this.clientSelector.clear();
-            this.setMessage(this.checkUrlMessage_, Common.translate(`You need to be logged in <a href="${urls.login}" target="_blank">your wallabag</a>. Then you need to try again.`));
+            this.setMessage(this.checkUrlMessage_, Common.translate('You need to be logged in <a href="%URL%" target="_blank">your wallabag</a>. Then you need to try again.').replace('%URL%', urls.login));
         }
     }
 
