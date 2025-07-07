@@ -302,5 +302,23 @@
     "Archive_by_default_when_saving_page": {
         "message": "Při ukládání stránky ve výchozím nastavení archivovat",
         "description": "Options"
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "Indikuje, zda je stránka již uložená (ikona wallabaggeru je zelená)"
+    },
+    "Pick_a_client": {
+        "message": "Zvolte klienta"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "Chcete do wallabagu odeslat obsah všech webových stránek z prohlížeče? Zatrhněte toto políčko."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Všechny webové stránky"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Vložte adresu stránek, jejichž obsah si přejete uložit."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Whitelist"
     }
 }
