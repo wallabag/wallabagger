@@ -323,5 +323,11 @@
     },
     "Sites_locally_whitelist_fetch_explaination": {
         "message": "Wprowadź adres strony internetowej, której treść chcesz zapisać."
+    },
+    "First, you need to create <a href=\"%URL%\" target=\"_blank\">a new client</a>. Then you need to try again.": {
+        "message": "Najpierw musisz utworzyć <a href=\"%URL%\" target=\"_blank\">nowego klienta</a>. Następnie musisz spróbować ponownie."
+    },
+    "You need to be logged in <a href=\"%URL%\" target=\"_blank\">your wallabag</a>. Then you need to try again.": {
+        "message": "Musisz się zalogować do <a href=\"%URL%\" target=\"_blank\">swojego wallabaga</a>. Następnie musisz spróbować ponownie."
     }
 }
