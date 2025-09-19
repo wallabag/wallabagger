@@ -40,7 +40,7 @@
     "eslint-plugin-compat": "^6.0.2",
     "eslint-plugin-import": "^2.32.0",
     "sort-json": "^2.0.1",
-    "web-ext": "^8.9.0"
+    "web-ext": "^8.10.0"
   },
   "dependencies": {
     "spectre.css": "^0.5.9"
