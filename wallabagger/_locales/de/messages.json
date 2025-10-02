@@ -76,7 +76,7 @@
         "description": "Options"
     },
     "Edit_the_Wallabag_title_of_this_article": {
-        "message": "Wallabag Artikeltitel bearbeiten",
+        "message": "Wallabag-Titel dieses Artikels bearbeiten",
         "description": "Popup"
     },
     "Enable_this_only_if_developers_told_you_to": {
@@ -298,5 +298,29 @@
     "Settings": {
         "message": "Einstellungen",
         "description": "Options"
+    },
+    "First, you need to create <a href=\"%URL%\" target=\"_blank\">a new client</a>. Then you need to try again.": {
+        "message": "Zuerst musst du <a href=\"%URL%\" target=\"_blank\">einen neuen Client</a> anlegen. Dann musst du es nochmal versuchen."
+    },
+    "Pick_a_client": {
+        "message": "Wähle einen Client"
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "Zeigt an, ob die Seite bereits gespeichert ist (das Wallabagger-Symbol ist grün)"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "Du möchtest den Inhalt aller Websites aus dem Browser an wallabag senden? Aktiviere dieses Kontrollkästchen."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Alle Webseiten"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Manchmal kann wallabag nicht auf die Inhalte zugreifen, die du speichern möchtest. Möglicherweise handelt es sich um eine Website, für die eine Anmeldung erforderlich ist oder die JavaScript verwendet, um die Inhalte anzuzeigen. Mit dieser Funktion kannst du die Inhalte, die du gerade im Browser vor dir hast, senden, sodass wallabag nichts weiter tun muss, als die von dir gesendeten Inhalte zu speichern."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Whitelist"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Gib die Adresse der Website ein, deren Inhalt du speichern möchtest."
     }
 }
