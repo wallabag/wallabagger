@@ -299,7 +299,7 @@
         "message": "Einstellungen",
         "description": "Options"
     },
-    "First, you need to create <a href=\"%URL%\" target=\"_blank\">a new client</a>. Then you need to try again.": {
+    "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
         "message": "Zuerst musst du <a href=\"%URL%\" target=\"_blank\">einen neuen Client</a> anlegen. Dann musst du es nochmal versuchen."
     },
     "Pick_a_client": {
