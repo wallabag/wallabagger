@@ -39,11 +39,16 @@ CacheType.prototype = {
     }
 };
 
+const wallabaggerAddLinkContexts = ['link', 'page'];
+if (!globalThis.wallabaggerBrowser) {
+    wallabaggerAddLinkContexts.push('tab');
+}
+
 const wallabagContextMenus = [
     {
         id: 'wallabagger-add-link',
         title: Common.translate('Wallabag_it'),
-        contexts: ['link', 'page', 'tab']
+        contexts: wallabaggerAddLinkContexts
     },
     {
         id: 'unread',
