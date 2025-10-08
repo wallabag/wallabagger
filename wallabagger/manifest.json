@@ -58,5 +58,10 @@
       },
       "description": "__MSG_Wallabag_it_description__"
     }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{7a7b1d36-d7a4-481b-92c6-9f5427cb9eb1}"
+    }
   }
 }
