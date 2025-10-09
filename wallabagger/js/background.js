@@ -94,13 +94,18 @@ const api = new WallabagApi();
 const version = browser.runtime.getManifest().version.split('.');
 version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
 
-api.init().then(data => {
+async function boot () {
+    await api.init();
     addExistCheckListeners(api.data.AllowExistCheck);
-    api.GetTags().then(tags => { cache.set('allTags', tags); });
-});
-
-addListeners();
-createContextMenus();
+    const { tags } = await api.GetTags();
+    cache.set('allTags', tags);
+    if (api.data.Url === null) {
+        openOptionsPage();
+    }
+    addListeners();
+    createContextMenus();
+}
+boot();
 
 // Functions
 function createContextMenus () {
@@ -461,7 +466,7 @@ function moveToDirtyCache (url) {
     }
 }
 
-function savePageToWallabag (url, resetIcon, title, content) {
+async function savePageToWallabag (url, resetIcon, title, content) {
     if (isServicePage(url)) {
         return;
     }

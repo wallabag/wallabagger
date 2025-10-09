@@ -49,15 +49,11 @@ WallabagApi.prototype = {
 
     tags: [],
 
-    init: function () {
+    init: async function () {
         Object.assign(this.data, this.defaultValues);
         this.fetchApi = new FetchApi();
-        return this.load().then(
-            result => {
-                this.setAllowExistSafe();
-                return Promise.resolve(result);
-            }
-        );
+        await this.load();
+        this.setAllowExistSafe();
     },
 
     resetDebug: function () {
@@ -69,27 +65,27 @@ WallabagApi.prototype = {
         browser.storage.local.set({ wallabagdata: this.data });
     },
 
-    load: function () {
-        return new Promise((resolve, reject) => {
-            browser.storage.local.get('wallabagdata', result => {
-                if (result.wallabagdata != null) {
-                    this.set(result.wallabagdata);
-                    if (this.checkParams()) {
-                        resolve(this.data);
-                    } else {
-                        this.clear();
-                        if (this.Debug === true) {
-                            console.log('Some parameters are empty. Check the settings');
-                        }
-                    }
-                } else {
-                    this.clear();
-                    if (this.Debug === true) {
-                        console.log('Saved parameters not found. Check the settings');
-                    }
+    load: async function () {
+        const result = await browser.storage.local.get('wallabagdata');
+
+        if (result.wallabagdata != null) {
+            this.set(result.wallabagdata);
+            if (this.checkParams()) {
+                return this.data;
+            } else {
+                this.clear();
+                if (this.Debug === true) {
+                    console.log('Some parameters are empty. Check the settings');
                 }
-            });
-        });
+            }
+        } else {
+            this.clear();
+            if (this.Debug === true) {
+                console.log('Saved parameters not found. Check the settings');
+            }
+        }
+
+        return this.data;
     },
 
     needNewAppToken: function () {
@@ -301,7 +297,7 @@ WallabagApi.prototype = {
             });
     },
 
-    GetTags: function () {
+    GetTags: async function () {
         if (!this.checkParams()) {
             return false;
         }
