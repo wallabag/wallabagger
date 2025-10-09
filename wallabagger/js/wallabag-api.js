@@ -104,11 +104,11 @@ WallabagApi.prototype = {
     checkParams: function () {
         return ((this.data.ClientId !== null) &&
                  (this.data.ClientSecret !== null) &&
-                 (this.data.userLogin !== null) &&
+                 (this.data.UserLogin !== null) &&
                  (this.data.UserPassword !== null) &&
                  (this.data.ClientId !== '') &&
                  (this.data.ClientSecret !== '') &&
-                 (this.data.userLogin !== '') &&
+                 (this.data.UserLogin !== '') &&
                  (this.data.UserPassword !== ''));
     },
 
