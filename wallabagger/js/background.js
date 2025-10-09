@@ -44,39 +44,6 @@ if (!globalThis.wallabaggerBrowser) {
     wallabaggerAddLinkContexts.push('tab');
 }
 
-const wallabagContextMenus = [
-    {
-        id: 'wallabagger-add-link',
-        title: Common.translate('Wallabag_it'),
-        contexts: wallabaggerAddLinkContexts
-    },
-    {
-        id: 'unread',
-        title: Common.translate('Unread'),
-        contexts: ['action']
-    },
-    {
-        id: 'starred',
-        title: Common.translate('Starred'),
-        contexts: ['action']
-    },
-    {
-        id: 'archive',
-        title: Common.translate('Archive'),
-        contexts: ['action']
-    },
-    {
-        id: 'all',
-        title: Common.translate('All_entries'),
-        contexts: ['action']
-    },
-    {
-        id: 'tag',
-        title: Common.translate('Tags'),
-        contexts: ['action']
-    }
-];
-
 const existStates = {
     exists: 'exists',
     notexists: 'notexists',
@@ -102,15 +69,45 @@ async function boot () {
     if (api.data.Url === null) {
         openOptionsPage();
     }
+
     addListeners();
-    createContextMenus();
+
+    if (browser.contextMenus !== undefined) {
+        [
+            {
+                id: 'wallabagger-add-link',
+                title: Common.translate('Wallabag_it'),
+                contexts: wallabaggerAddLinkContexts
+            },
+            {
+                id: 'unread',
+                title: Common.translate('Unread'),
+                contexts: ['action']
+            },
+            {
+                id: 'starred',
+                title: Common.translate('Starred'),
+                contexts: ['action']
+            },
+            {
+                id: 'archive',
+                title: Common.translate('Archive'),
+                contexts: ['action']
+            },
+            {
+                id: 'all',
+                title: Common.translate('All_entries'),
+                contexts: ['action']
+            },
+            {
+                id: 'tag',
+                title: Common.translate('Tags'),
+                contexts: ['action']
+            }
+        ].map(menu => browser.contextMenus.create(menu));
+    }
 }
 boot();
-
-// Functions
-function createContextMenus () {
-    wallabagContextMenus.map(menu => browser.contextMenus.create(menu));
-}
 
 function onTabActivatedListener (activeInfo) {
     browserIcon.set('default');
