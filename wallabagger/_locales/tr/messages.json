@@ -302,5 +302,32 @@
     "Fetch_by_default_when_saving_page": {
         "message": "Sayfa kaydedilirken varsayılan olarak tarayıcıdan içeriği getir",
         "description": "Options"
+    },
+    "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
+        "message": "Önce <a href=\"%URL%\" target=\"_blank\">yeni bir istemci</a> oluşturmalısınız. Ardından tekrar denemelisiniz."
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "Sayfanın zaten kaydedilip kaydedilmediğini belirtir (wallabagger simgesi yeşil renktedir)"
+    },
+    "Pick_a_client": {
+        "message": "İstemci seç"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "Tarayıcıdaki tüm web sitelerinin içeriğini wallabag'a göndermek mi istiyorsunuz? Bu kutuyu işaretleyin."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Tüm web siteleri"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Bazen wallabag, kaydetmeye çalıştığınız içeriğe erişemez. Belki de bu, oturum açma işlemi gerektiren veya içeriği görüntülemek için JavaScript kullanan bir web sitesidir. Bu özellik, tarayıcınızda önünüzde gördüğünüz içeriği gönderme olanağı sağlar, böylece wallabag, gönderdiğiniz içeriği kaydetmekten başka bir şey yapmaya gerek duymaz."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Beyaz liste"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "İçeriğini kaydetmek istediğiniz web sitesinin adresini girin."
+    },
+    "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
+        "message": "<a href=\"%URL%\" target=\"_blank\">wallabag hesabınızda</a> oturum açmanız ve ardından tekrar denemeniz gerekir."
     }
 }
