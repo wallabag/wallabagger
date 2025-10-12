@@ -622,7 +622,7 @@ class OptionsController {
 
     init () {
         this.connectPort();
-        this.port.postMessage({ request: 'setup' });
+        // this.port.postMessage({ request: 'setup' });
     }
 }
 

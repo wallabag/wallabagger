@@ -88,6 +88,19 @@ const dirtyCache = new CacheType(true);
 const existCache = new CacheType(true);
 
 const api = new WallabagApi();
+// We start initialization immediately and store the promise
+const initializationPromise = api.init(); 
+
+// We call these immediately at the top level
+addListeners();
+createContextMenus();
+
+initializationPromise.then(data => {
+    addExistCheckListeners(api.data.AllowExistCheck);
+    api.GetTags().then(tags => { cache.set('allTags', tags); });
+}).catch(error => {
+    console.error('Failed to initialize Wallabagger:', error);
+});
 
 // Code
 
@@ -97,10 +110,17 @@ version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
 api.init().then(data => {
     addExistCheckListeners(api.data.AllowExistCheck);
     api.GetTags().then(tags => { cache.set('allTags', tags); });
+    
+    // Register listeners only after initialization completes
+    addListeners();
+    createContextMenus();
+}).catch(error => {
+    console.error('Failed to initialize Wallabagger:', error);
+    
+    // Still add listeners so user can access settings to fix configuration
+    addListeners();
+    createContextMenus();
 });
-
-addListeners();
-createContextMenus();
 
 // Functions
 function createContextMenus () {
@@ -332,6 +352,13 @@ function onPortMessage (msg) {
 function onRuntimeConnect (port) {
     Port = port;
     portConnected = true;
+
+    // Proactively send data to the options page, but only AFTER init is done
+    if (port.name === 'setup') {
+        initializationPromise.then(() => {
+            port.postMessage({ response: 'setup', data: api.data });
+        });
+    }
 
     Port.onDisconnect.addListener(function () { portConnected = false; });
     Port.onMessage.addListener(onPortMessage);

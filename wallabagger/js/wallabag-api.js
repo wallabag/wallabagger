@@ -81,12 +81,14 @@ WallabagApi.prototype = {
                         if (this.Debug === true) {
                             console.log('Some parameters are empty. Check the settings');
                         }
+                        resolve(this.data); // promise must resolve
                     }
                 } else {
                     this.clear();
                     if (this.Debug === true) {
                         console.log('Saved parameters not found. Check the settings');
                     }
+                    resolve(this.data); // promise must resolve
                 }
             });
         });
@@ -103,13 +105,13 @@ WallabagApi.prototype = {
 
     checkParams: function () {
         return ((this.data.ClientId !== null) &&
-                 (this.data.ClientSecret !== null) &&
-                 (this.data.userLogin !== null) &&
-                 (this.data.UserPassword !== null) &&
-                 (this.data.ClientId !== '') &&
-                 (this.data.ClientSecret !== '') &&
-                 (this.data.userLogin !== '') &&
-                 (this.data.UserPassword !== ''));
+                (this.data.ClientSecret !== null) &&
+                (this.data.UserLogin !== null) &&  // ← Fixed: was userLogin
+                (this.data.UserPassword !== null) &&
+                (this.data.ClientId !== '') &&
+                (this.data.ClientSecret !== '') &&
+                (this.data.UserLogin !== '') &&    // ← Fixed: was userLogin
+                (this.data.UserPassword !== ''));
     },
 
     isTokenExpired: function () {
