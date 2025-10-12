@@ -97,10 +97,17 @@ version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
 api.init().then(data => {
     addExistCheckListeners(api.data.AllowExistCheck);
     api.GetTags().then(tags => { cache.set('allTags', tags); });
+    
+    // Register listeners only after initialization completes
+    addListeners();
+    createContextMenus();
+}).catch(error => {
+    console.error('Failed to initialize Wallabagger:', error);
+    
+    // Still add listeners so user can access settings to fix configuration
+    addListeners();
+    createContextMenus();
 });
-
-addListeners();
-createContextMenus();
 
 // Functions
 function createContextMenus () {
