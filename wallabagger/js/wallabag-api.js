@@ -81,12 +81,14 @@ WallabagApi.prototype = {
                         if (this.Debug === true) {
                             console.log('Some parameters are empty. Check the settings');
                         }
+                        resolve(this.data); // promise must resolve
                     }
                 } else {
                     this.clear();
                     if (this.Debug === true) {
                         console.log('Saved parameters not found. Check the settings');
                     }
+                    resolve(this.data); // promise must resolve
                 }
             });
         });
