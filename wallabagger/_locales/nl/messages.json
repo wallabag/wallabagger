@@ -229,5 +229,29 @@
     },
     "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
         "message": "Geeft aan of de pagina al opgeslagen is (het wallabagger pictogram is groen)"
+    },
+    "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
+        "message": "Maak eerst een <a href=\"%URL%\" target=\"_blank\">een nieuwe client</a>. Daarna kun je het nog een keer proberen."
+    },
+    "Pick_a_client": {
+        "message": "Kies een client"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "Wil je inhoud van alle webpagina's vanuit de browser naar wallabag sturen? Vink dan hier aan."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Alle webpagina's"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Soms krijgt wallabag geen toegang tot de webpagina die je wil opslaan. Misschien vereist de website een login actie, of gebruikt het JavaScript om de inhoud te genereren. Met deze functie krijg je de superkracht om de tekst, zoals je die voor je ziet in de browser, naar wallabag sturen, zodat wallabag deze tekst direct kan opslaan."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Toegestaan"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Voer de URL in van de webpagina waarvan je de inhoud wil opslaan."
+    },
+    "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
+        "message": "Meld je eerst aan op <a href=\"%URL%\" target=\"_blank\">jouw wallabag</a>. Probeer het dan nog eens."
     }
 }
