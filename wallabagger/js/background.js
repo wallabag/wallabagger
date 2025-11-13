@@ -61,6 +61,55 @@ const api = new WallabagApi();
 const version = browser.runtime.getManifest().version.split('.');
 version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
 
+(function addListeners () {
+    browser.contextMenus.onClicked.addListener((info) => {
+        switch (info.menuItemId) {
+            case 'wallabagger-add-link':
+                if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
+                    savePageToWallabag(info.linkUrl, true);
+                } else {
+                    savePageToWallabag(info.pageUrl, false);
+                }
+                break;
+            case 'unread':
+            case 'starred':
+            case 'archive':
+            case 'all':
+            case 'tag':
+                // @TODO api must be started
+                api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${info.menuItemId}/list` });
+                break;
+        }
+    });
+
+    browser.commands.onCommand.addListener((command) => {
+        if (command === 'wallabag-it') {
+            browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                if (tabs[0] != null) {
+                    savePageToWallabag(tabs[0].url, false);
+                }
+            });
+        }
+    });
+
+    browser.runtime.onConnect.addListener((port) => {
+        Port = port;
+        portConnected = true;
+
+        Port.onDisconnect.addListener(function () { portConnected = false; });
+        Port.onMessage.addListener(onPortMessage);
+    });
+
+    browser.runtime.onInstalled.addListener((details) => {
+        if (details.reason === 'install') {
+            openOptionsPage();
+        }
+        if (details.reason === 'update' && api.data.isFetchPermissionGranted !== true) {
+            openOptionsPage();
+        }
+    });
+})();
+
 async function boot () {
     await api.init();
     addExistCheckListeners(api.data.AllowExistCheck);
@@ -69,8 +118,6 @@ async function boot () {
     if (api.data.Url === null) {
         openOptionsPage();
     }
-
-    addListeners();
 
     if (browser.contextMenus !== undefined) {
         [
@@ -171,35 +218,6 @@ function openOptionsPage () {
         // @Opera
         browser.tabs.query({ url: optionsPageUrl }, function (res) {
             goToOptionsPage(optionsPageUrl, res);
-        });
-    }
-}
-
-function onContextMenusClicked (info) {
-    switch (info.menuItemId) {
-        case 'wallabagger-add-link':
-            if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
-                savePageToWallabag(info.linkUrl, true);
-            } else {
-                savePageToWallabag(info.pageUrl, false);
-            }
-            break;
-        case 'unread':
-        case 'starred':
-        case 'archive':
-        case 'all':
-        case 'tag':
-            GotoWallabag(info.menuItemId);
-            break;
-    }
-}
-
-function onCommandsCommand (command) {
-    if (command === 'wallabag-it') {
-        browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            if (tabs[0] != null) {
-                savePageToWallabag(tabs[0].url, false);
-            }
         });
     }
 }
@@ -329,30 +347,6 @@ function onPortMessage (msg) {
         browserIcon.setTimed('bad');
         postIfConnected({ response: 'error', error });
     }
-}
-
-function onRuntimeConnect (port) {
-    Port = port;
-    portConnected = true;
-
-    Port.onDisconnect.addListener(function () { portConnected = false; });
-    Port.onMessage.addListener(onPortMessage);
-}
-
-function onRuntimeInstalled (details) {
-    if (details.reason === 'install') {
-        openOptionsPage();
-    }
-    if (details.reason === 'update' && api.data.isFetchPermissionGranted !== true) {
-        openOptionsPage();
-    }
-}
-
-function addListeners () {
-    browser.contextMenus.onClicked.addListener(onContextMenusClicked);
-    browser.commands.onCommand.addListener(onCommandsCommand);
-    browser.runtime.onConnect.addListener(onRuntimeConnect);
-    browser.runtime.onInstalled.addListener(onRuntimeInstalled);
 }
 
 const imageExtension = globalThis.wallabaggerBrowser ? 'png' : 'svg';
@@ -529,8 +523,6 @@ async function savePageToWallabag (url, resetIcon, title, content) {
             throw error;
         });
 };
-
-const GotoWallabag = (part) => api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${part}/list` });
 
 const checkExist = (dirtyUrl) => {
     if (isServicePage(dirtyUrl)) { return; }
