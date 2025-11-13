@@ -1,5 +1,6 @@
 import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
+import { PortManager } from './port-manager.js';
 
 class OptionsController {
     constructor () {
@@ -602,6 +603,9 @@ class OptionsController {
                     console.log('setup saved:', msg.data);
                 }
                 break;
+            case PortManager.backgroundPortIsConnectedEventName:
+                this.port.backgroundPortIsConnected();
+                break;
             default:
                 if (this.data !== null && this.data.Debug) {
                     console.log(`unknown message: ${msg}`);
@@ -609,19 +613,8 @@ class OptionsController {
         };
     }
 
-    connectPort () {
-        this.port = browser.runtime.connect({ name: 'setup' });
-
-        this.port.onMessage.addListener(this.messageListener.bind(this));
-
-        this.port.onDisconnect.addListener(() => {
-            console.warn('Port disconnected, attempting to reconnect...');
-            setTimeout(this.connectPort.bind(this), 1000); // Retry after 1 second
-        });
-    }
-
     init () {
-        this.connectPort();
+        this.port = new PortManager('setup', this.messageListener.bind(this));
         this.port.postMessage({ request: 'setup' });
     }
 }

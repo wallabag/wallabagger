@@ -1,6 +1,7 @@
 import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
 import { WallabagApi } from './wallabag-api.js';
+import { PortManager } from './port-manager.js';
 
 let Port = null;
 let portConnected = false;
@@ -61,8 +62,13 @@ const api = new WallabagApi();
 const version = browser.runtime.getManifest().version.split('.');
 version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
 
-const addListeners = async () => {
-    browser.contextMenus.onClicked.addListener((info) => {
+const addListeners = () => {
+    console.groupCollapsed('addListeners');
+    console.log('starting');
+
+    console.log('adding onClicked listener');
+    browser.contextMenus.onClicked.addListener(async (info) => {
+        await api.forceInit();
         switch (info.menuItemId) {
             case 'wallabagger-add-link':
                 if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
@@ -76,13 +82,13 @@ const addListeners = async () => {
             case 'archive':
             case 'all':
             case 'tag':
-                // @TODO api must be started
                 api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${info.menuItemId}/list` });
                 break;
         }
     });
 
-    browser.commands.onCommand.addListener((command) => {
+    console.log('adding onCommand listener');
+    browser.commands.onCommand.addListener(async (command) => {
         if (command === 'wallabag-it') {
             browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                 if (tabs[0] != null) {
@@ -92,15 +98,28 @@ const addListeners = async () => {
         }
     });
 
-    browser.runtime.onConnect.addListener((port) => {
+    console.log('adding onConnect listener');
+    browser.runtime.onConnect.addListener(async (port) => {
+        console.log(port);
+        console.log('on-message');
+        port.onMessage.addListener(onPortMessage);
         Port = port;
         portConnected = true;
+        console.log('posting queue ready');
+        postIfConnected({ response: PortManager.backgroundPortIsConnectedEventName });
 
-        Port.onDisconnect.addListener(function () { portConnected = false; });
+        Port.onDisconnect.addListener(function () {
+            console.log('port disconnected');
+            portConnected = false;
+        });
         Port.onMessage.addListener(onPortMessage);
     });
+    // @TODO disabled to try to use Port
+    // browser.runtime.onMessage.addListener(onPortMessage);
 
-    browser.runtime.onInstalled.addListener((details) => {
+    console.log('adding onInstalled listener');
+    browser.runtime.onInstalled.addListener(async (details) => {
+        await api.forceInit();
         if (details.reason === 'install') {
             openOptionsPage();
         }
@@ -108,11 +127,19 @@ const addListeners = async () => {
             openOptionsPage();
         }
     });
+    console.log('ending');
+    console.groupEnd();
 };
 
 const contextMenusCreation = async () => {
+    console.groupCollapsed('contextMenusCreation');
+    console.log('starting');
+
+    console.log('adding onClicked listener');
     if (browser.contextMenus !== undefined) {
+        console.log('removing all the context menus');
         await browser.contextMenus.removeAll();
+
         await Promise.all([
             {
                 id: 'wallabagger-add-link',
@@ -144,20 +171,29 @@ const contextMenusCreation = async () => {
                 title: Common.translate('Tags'),
                 contexts: ['action']
             }
-        ].map(menu => browser.contextMenus.create(menu)));
+        ].map(menu => {
+            console.log(`adding context menu: ${menu.id}`);
+            return browser.contextMenus.create(menu);
+        }));
     }
+    console.log('ending');
+    console.groupEnd();
 };
 
 async function boot () {
-    await api.init();
-    await addListeners();
+    console.group('boot');
+    console.log('starting');
+    addListeners();
     await contextMenusCreation();
+    await api.init();
     addExistCheckListeners(api.data.AllowExistCheck);
     const { tags } = await api.GetTags();
     cache.set('allTags', tags);
     if (api.data.Url === null) {
         openOptionsPage();
     }
+    console.log('ending');
+    console.groupEnd();
 }
 boot();
 
@@ -186,6 +222,8 @@ function onTabUpdatedListener (tabId, changeInfo, tab) {
 }
 
 function addExistCheckListeners (enable) {
+    console.groupCollapsed('addExistCheckListeners');
+    console.log('starting');
     if (enable === true) {
         browser.tabs.onActivated.addListener(onTabActivatedListener);
         browser.tabs.onCreated.addListener(onTabCreatedListener);
@@ -201,6 +239,8 @@ function addExistCheckListeners (enable) {
             browser.tabs.onUpdated.removeListener(onTabUpdatedListener);
         }
     }
+    console.log('ending');
+    console.groupEnd();
 }
 
 function goToOptionsPage (optionsPageUrl, res) {
@@ -231,7 +271,8 @@ function postIfConnected (obj) {
     portConnected && Port.postMessage(obj);
     api.data.Debug && console.log(`postMessage: ${JSON.stringify(obj)}`);
 }
-function onPortMessage (msg) {
+async function onPortMessage (msg) {
+    await api.forceInit();
     try {
         switch (msg.request) {
             case 'save':
@@ -466,6 +507,7 @@ async function savePageToWallabag (url, resetIcon, title, content) {
     if (isServicePage(url)) {
         return;
     }
+    await api.forceInit();
     if (api.checkParams() === false) {
         openOptionsPage();
         return false;
