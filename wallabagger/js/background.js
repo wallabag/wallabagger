@@ -61,7 +61,7 @@ const api = new WallabagApi();
 const version = browser.runtime.getManifest().version.split('.');
 version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
 
-(function addListeners () {
+const addListeners = async () => {
     browser.contextMenus.onClicked.addListener((info) => {
         switch (info.menuItemId) {
             case 'wallabagger-add-link':
@@ -108,19 +108,12 @@ version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
             openOptionsPage();
         }
     });
-})();
+};
 
-async function boot () {
-    await api.init();
-    addExistCheckListeners(api.data.AllowExistCheck);
-    const { tags } = await api.GetTags();
-    cache.set('allTags', tags);
-    if (api.data.Url === null) {
-        openOptionsPage();
-    }
-
+const contextMenusCreation = async () => {
     if (browser.contextMenus !== undefined) {
-        [
+        await browser.contextMenus.removeAll();
+        await Promise.all([
             {
                 id: 'wallabagger-add-link',
                 title: Common.translate('Wallabag_it'),
@@ -151,7 +144,19 @@ async function boot () {
                 title: Common.translate('Tags'),
                 contexts: ['action']
             }
-        ].map(menu => browser.contextMenus.create(menu));
+        ].map(menu => browser.contextMenus.create(menu)));
+    }
+};
+
+async function boot () {
+    await api.init();
+    await addListeners();
+    await contextMenusCreation();
+    addExistCheckListeners(api.data.AllowExistCheck);
+    const { tags } = await api.GetTags();
+    cache.set('allTags', tags);
+    if (api.data.Url === null) {
+        openOptionsPage();
     }
 }
 boot();
