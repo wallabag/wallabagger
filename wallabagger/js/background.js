@@ -189,9 +189,6 @@ async function boot () {
     addExistCheckListeners(api.data.AllowExistCheck);
     const { tags } = await api.GetTags();
     cache.set('allTags', tags);
-    if (api.data.Url === null) {
-        openOptionsPage();
-    }
     console.log('ending');
     console.groupEnd();
 }
