@@ -50,10 +50,20 @@ WallabagApi.prototype = {
     tags: [],
 
     init: async function () {
+        console.groupCollapsed('init');
+        console.log('starting');
         Object.assign(this.data, this.defaultValues);
         this.fetchApi = new FetchApi();
         await this.load();
         this.setAllowExistSafe();
+        console.log('ending');
+        console.groupEnd();
+    },
+
+    forceInit: async function () {
+        if (!this.data.ClientId) {
+            await this.init();
+        }
     },
 
     resetDebug: function () {
@@ -298,6 +308,7 @@ WallabagApi.prototype = {
     },
 
     GetTags: async function () {
+        await this.forceInit();
         if (!this.checkParams()) {
             return false;
         }

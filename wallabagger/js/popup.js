@@ -1,5 +1,6 @@
 import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
+import { PortManager } from './port-manager.js';
 
 const PopupController = function () {
     this.mainCard = document.getElementById('main-card');
@@ -568,14 +569,17 @@ PopupController.prototype = {
             case 'close':
                 window.close();
                 break;
+            case PortManager.backgroundPortIsConnectedEventName:
+                console.log(PortManager.backgroundPortIsConnectedEventName);
+                this.port.backgroundPortIsConnected();
+                break;
             default:
                 console.log(`unknown message: ${msg}`);
         };
     },
 
     init: function () {
-        this.port = browser.runtime.connect({ name: 'popup' });
-        this.port.onMessage.addListener(this.messageListener.bind(this));
+        this.port = new PortManager('popup', this.messageListener.bind(this));
         this.port.postMessage({ request: 'setup' });
     },
 
