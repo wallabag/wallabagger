@@ -302,5 +302,32 @@
     "Fetch_by_default_when_saving_page": {
         "message": "Standardno dohvati sadržaj iz preglednika tijekom spremanja stranice",
         "description": "Options"
+    },
+    "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
+        "message": "Najprije moraš stvoriti <a href=\"%URL%\" target=\"_blank\">novog klijenta</a>. Zatim moraš ponovo pokušati."
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "Naznači je li stranica već spremljena (Wallabagger ikona je zelena)"
+    },
+    "Pick_a_client": {
+        "message": "Odaberi klijenta"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "Želiš poslati sadržaj svih web stranica iz preglednika u Wallabag? Označi ovaj kvadratić."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Sve web-stranice"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Wallabag ponekad ne može pristupiti sadržaju koji pokušavaš spremiti. Možda se radi o web-stranici koja zahtijeva prijavu ili koristi JavaScript za prikaz sadržaja. Ova funkcija omogućuje slanje sadržaja koji upravo gledaš u pregledniku, tako da Wallabag ne mora ništa pokušavati osim spremiti ono što si mu poslao/la."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Popis dopuštenih"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Upiši adresu web-stranice čiji sadržaj želiš spremiti."
+    },
+    "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
+        "message": "Moraš biti prijavljen/a u <a href=\"%URL%\" target=\"_blank\">tvojem wallabagu</a>. Zatim moraš ponovo pokušati."
     }
 }
