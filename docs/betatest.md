@@ -6,13 +6,13 @@ If you're really sure you want to do it anyway, you can follow these steps:
 ### For Firefox
 
 1. Download [the last pre-release ZIP file package](https://github.com/wallabag/wallabagger/releases)
-2. Go to the extension debbuging page: `about:debugging#/runtime/this-firefox`
-3. Click on the `Load temporary module` button
-4. Select the ZIP file your just downloaded OR the folder extracted from the ZIP file (containing the *manifest.json* file)
+2. Go to the extension debbuging page: `about:addons`
+3. Click on the cog icon then `Install Add-on From File`
+4. Select the ZIP file you downloaded
 
 ### For Chromium-based browsers (Chrome, Vivaldi)
 
-1. Download [the last pre-release ZIP file package](https://github.com/wallabag/wallabagger/releases)
+1. Download [the last pre-release CRX file](https://github.com/wallabag/wallabagger/releases)
 2. Go to your browser's extension settings page
     - Chrome: `chrome://extensions/`
     - Vivaldi: `vivaldi:extensions`
@@ -21,7 +21,7 @@ If you're really sure you want to do it anyway, you can follow these steps:
 
 ![Developer mode](images/inst-developermode.png)
 
-4. Drag 'n drop the ZIP file to this page
+4. Drag 'n drop the CRX file to this page
 5. Accept to install it
 
 ## Install the last work in progress version, should be stable, but not ready for production (**Really not recommended**)
