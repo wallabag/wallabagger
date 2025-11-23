@@ -1,1 +1,200 @@
-{}
+{
+    "Agreed": {
+        "message": "Погоджено"
+    },
+    "All_entries": {
+        "message": "Усі записи"
+    },
+    "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
+        "message": "Дозволити Пробіл в тегах (це відмикає Пробіл як ключ для тагів, використовуйте Ентер замість цього)"
+    },
+    "Archive": {
+        "message": "Архів"
+    },
+    "Article_s_link": {
+        "message": "Посилання на Статтю"
+    },
+    "Article_s_title": {
+        "message": "Назва Статті"
+    },
+    "Auto_add_single_tag": {
+        "message": "Додавати таг автоматично"
+    },
+    "Cancel": {
+        "message": "Відміна"
+    },
+    "Check_URL": {
+        "message": "Перевірити URL"
+    },
+    "Checklist": {
+        "message": "Чекліст"
+    },
+    "Client_ID": {
+        "message": "ID Клієнта"
+    },
+    "Client_secret": {
+        "message": "Пароль Клієнта"
+    },
+    "day_many": {
+        "message": "днів"
+    },
+    "day_one": {
+        "message": "день"
+    },
+    "Delete_this_article": {
+        "message": "Видалити цю статтю"
+    },
+    "Denied": {
+        "message": "Заборонено"
+    },
+    "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
+        "message": "Дійсно хочете видалити цю статтю з Вашого портфелю?"
+    },
+    "Download_file": {
+        "message": "Скачати файл"
+    },
+    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
+        "message": "З міркувань безпеки, ми дозволимо цю опцію тільки по протоколу HTTPS"
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": "Змінити назву портфелю для цієї статті"
+    },
+    "Enable_this_only_if_developers_told_you_to": {
+        "message": "Увімкни це тільки якщо розробники тобі це сказали"
+    },
+    "Options": {
+        "message": "Опції"
+    },
+    "Options_not_defined": {
+        "message": "Wallabagger (що б це не було) не сконфігурований"
+    },
+    "Others": {
+        "message": "Тощо"
+    },
+    "Pick_a_client": {
+        "message": "Оберіть клієнт"
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": "Прибрати цю статтю"
+    },
+    "Reset_parameters": {
+        "message": "Скинути параметри"
+    },
+    "Save": {
+        "message": "Збереження"
+    },
+    "Save_Error": {
+        "message": "Виникла помилка під час додавання статті"
+    },
+    "Save_to_file": {
+        "message": "Зберегти у файл"
+    },
+    "Saving_tags": {
+        "message": "Зберігання тагів…"
+    },
+    "Saving_the_page_to_wallabag": {
+        "message": "Зберігання сторінки…"
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": "Встановіть цю статтю як архівну"
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": "Встановіть цю статтю як відмічену зірочкою"
+    },
+    "Settings": {
+        "message": "Налаштування"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "Ви хочете відправити в Волабаг контент усіх вебсайтів з браузера? Перевірте цю відмітку."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Усі веб-сайти"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Іноді Воллабаг не може отримати доступ до контенту, що ти намагаєшся зберігти. Можливо, сайті вимагає авторизації, або використовується джаваскріпт для показу контенту. Ця можливість дає тобі потужність відправляти контент, на який Ти дивишся, у Твоєму браузері, то ж Воллабаг не буде вимгати нічого окрім зберігання усілякого контенту для того щоб його відправити."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Вайтліст"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Введіть адресу сайту, контент якого хочете зберігти."
+    },
+    "Starred": {
+        "message": "Зазірковано"
+    },
+    "State": {
+        "message": "Стан"
+    },
+    "Tag_already_exists": {
+        "message": "Тег вже існує"
+    },
+    "Tags": {
+        "message": "Теги"
+    },
+    "Archive_by_default_when_saving_page": {
+        "message": "Архівувати коли зберігається сторінка"
+    },
+    "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
+        "message": "Тобі треба авторизуватись у <a href=\"%URL%\" target=\"_blank\">Твоєму Воллабагу</a>."
+    },
+    "Enter_your_tags_here": {
+        "message": "ВВедіть тут Ваші теги"
+    },
+    "Expired": {
+        "message": "Застаріле"
+    },
+    "Fetch_from_the_browser": {
+        "message": "Вибирання контенту з браузера"
+    },
+    "Get_token": {
+        "message": "Взяти токен"
+    },
+    "Go_to_this_article_page": {
+        "message": "Перейти до сторінки статті"
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": "Перейти до сторінки статей wallabag"
+    },
+    "Granted": {
+        "message": "Уповноважено"
+    },
+    "hour_many": {
+        "message": "годин"
+    },
+    "hour_one": {
+        "message": "година"
+    },
+    "Load_from_file": {
+        "message": "Завантажити з файлу"
+    },
+    "Loading_wallabag_API": {
+        "message": "Вантажимо wallabag API…"
+    },
+    "minute_many": {
+        "message": "хвилин"
+    },
+    "minute_one": {
+        "message": "хвилина"
+    },
+    "No_leave_it": {
+        "message": "Ні, покинути це"
+    },
+    "Not_checked": {
+        "message": "не перевірено"
+    },
+    "Not_granted": {
+        "message": "Не уповноважено"
+    },
+    "Ok": {
+        "message": "ОК"
+    },
+    "Ok_I_understand": {
+        "message": "Добре, я розумію"
+    },
+    "Tags_found": {
+        "message": "Знайдені теги:"
+    },
+    "Unread": {
+        "message": "Непрочитане"
+    }
+}
