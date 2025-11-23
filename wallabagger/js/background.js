@@ -2,6 +2,7 @@ import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
 import { WallabagApi } from './wallabag-api.js';
 import { PortManager } from './port-manager.js';
+import { BrowserUtils } from './utils/browser-utils.js';
 
 let Port = null;
 let portConnected = false;
@@ -56,6 +57,7 @@ const dirtyCache = new CacheType(true);
 const existCache = new CacheType(true);
 
 const api = new WallabagApi();
+const browserUtils = new BrowserUtils();
 
 // Code
 
@@ -504,7 +506,7 @@ function moveToDirtyCache (url) {
 }
 
 async function savePageToWallabag (url, resetIcon, title, content) {
-    if (isServicePage(url)) {
+    if (browserUtils.isServicePage(url, api.data.Url)) {
         return;
     }
     await api.forceInit();
@@ -572,7 +574,7 @@ async function savePageToWallabag (url, resetIcon, title, content) {
 };
 
 const checkExist = (dirtyUrl) => {
-    if (isServicePage(dirtyUrl)) { return; }
+    if (browserUtils.isServicePage(dirtyUrl, api.data.Url)) { return; }
     const url = dirtyUrl.split('#')[0];
     if (existCache.check(url)) {
         const existsFlag = existCache.get(url);
@@ -605,8 +607,6 @@ const requestExists = (url) =>
 const saveExistFlag = (url, exists) => {
     existCache.set(url, exists);
 };
-
-const isServicePage = (url) => !/^https?:\/\/.+/.test(url) || RegExp('^' + api.data.Url).test(url);
 
 const addToAllTags = (tags) => {
     if (tags.length === 0) { return; }

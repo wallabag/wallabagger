@@ -1,6 +1,7 @@
 import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
 import { PortManager } from './port-manager.js';
+import { BrowserUtils } from './utils/browser-utils.js';
 
 const PopupController = function () {
     this.mainCard = document.getElementById('main-card');
@@ -71,6 +72,7 @@ PopupController.prototype = {
     tabUrl: null,
 
     port: null,
+    browserUtils: new BrowserUtils(),
 
     encodeMap: { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' },
     decodeMap: { '&amp;': '&', '&#039;': '\'', '&quot;': '"', '&lt;': '<', '&gt;': '>' },
@@ -428,18 +430,6 @@ PopupController.prototype = {
         window.close();
     },
 
-    activeTab: function () {
-        return new Promise((resolve, reject) => {
-            browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                if (tabs[0] != null) {
-                    return resolve(tabs[0]);
-                } else {
-                    return reject(new Error('active tab not found'));
-                }
-            });
-        });
-    },
-
     _createContainerEl: function (id, label) {
         const container = document.createElement('div');
         container.setAttribute('class', 'chip');
@@ -611,7 +601,7 @@ PopupController.prototype = {
     },
 
     saveArticle: function () {
-        this.activeTab().then(tab => {
+        this.browserUtils.getActiveTab().then(tab => {
             this.tabUrl = tab.url;
             this.cardTitle.textContent = tab.title;
             this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
