@@ -59,8 +59,10 @@ const api = new WallabagApi();
 
 // Code
 
-const version = browser.runtime.getManifest().version.split('.');
-version.length === 4 && browser.action.setBadgeText({ text: 'ß' });
+const isBetaVersion = browser.runtime.getManifest().version.split('.').length === 4;
+if (isBetaVersion) {
+    browser.action.setBadgeText({ text: 'ß' });
+}
 
 const addListeners = () => {
     console.groupCollapsed('addListeners');
@@ -140,10 +142,11 @@ const contextMenusCreation = async () => {
         console.log('removing all the context menus');
         await browser.contextMenus.removeAll();
 
+        const defaultLinkTitle = Common.translate('Wallabag_it');
         await Promise.all([
             {
                 id: 'wallabagger-add-link',
-                title: Common.translate('Wallabag_it'),
+                title: isBetaVersion ? '[BETA] ' + defaultLinkTitle : defaultLinkTitle,
                 contexts: wallabaggerAddLinkContexts
             },
             {
