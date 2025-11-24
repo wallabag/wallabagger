@@ -215,6 +215,10 @@
         "message": "Saving the page to wallabag…",
         "description": "background"
     },
+    "Service_pages_can_t_be_stored": {
+        "message": "Service pages can't be stored",
+        "description": "Popup"
+    },
     "Set_this_article_as_archived_into_Wallabag": {
         "message": "Set this article as archived in wallabag",
         "description": "Popup"

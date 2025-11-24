@@ -195,6 +195,10 @@
         "message": "Enregistrement de la page dans wallabag…",
         "description": "background"
     },
+    "Service_pages_can_t_be_stored": {
+        "message": "Les pages de service ne peuvent pas être enregistrées",
+        "description": "Popup"
+    },
     "Set_this_article_as_archived_into_Wallabag": {
         "message": "Marquer cet article comme lu dans wallabag",
         "description": "Popup"

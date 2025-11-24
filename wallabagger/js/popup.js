@@ -1,6 +1,7 @@
 import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
 import { PortManager } from './port-manager.js';
+import { BrowserUtils } from './utils/browser-utils.js';
 
 const PopupController = function () {
     this.mainCard = document.getElementById('main-card');
@@ -71,6 +72,7 @@ PopupController.prototype = {
     tabUrl: null,
 
     port: null,
+    browserUtils: new BrowserUtils(),
 
     encodeMap: { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' },
     decodeMap: { '&amp;': '&', '&#039;': '\'', '&quot;': '"', '&lt;': '<', '&gt;': '>' },
@@ -428,18 +430,6 @@ PopupController.prototype = {
         window.close();
     },
 
-    activeTab: function () {
-        return new Promise((resolve, reject) => {
-            browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                if (tabs[0] != null) {
-                    return resolve(tabs[0]);
-                } else {
-                    return reject(new Error('active tab not found'));
-                }
-            });
-        });
-    },
-
     _createContainerEl: function (id, label) {
         const container = document.createElement('div');
         container.setAttribute('class', 'chip');
@@ -536,15 +526,12 @@ PopupController.prototype = {
                 this.showInfo(msg.text);
                 break;
             case 'error':
-                this.hide(this.infoToast);
-                this.hide(this.mainCard);
                 this.showError(msg.error.message);
                 break;
             case 'article':
                 this.hide(this.infoToast);
                 if (msg.article !== null) {
                     this.setArticle(msg.article);
-                    this.hide(this.infoToast);
                     this.show(this.mainCard);
                 } else {
                     this.showError('Error: empty data!');
@@ -584,6 +571,8 @@ PopupController.prototype = {
     },
 
     showError: function (infoString) {
+        this.hide(this.infoToast);
+        this.hide(this.mainCard);
         this.errorToast.textContent = infoString;
         this.show(this.errorToast);
     },
@@ -611,7 +600,11 @@ PopupController.prototype = {
     },
 
     saveArticle: function () {
-        this.activeTab().then(tab => {
+        this.browserUtils.getActiveTab().then(tab => {
+            if (this.browserUtils.isServicePage(tab.url, this.apiUrl)) {
+                this.showError(Common.translate('Service_pages_can_t_be_stored'));
+                return;
+            }
             this.tabUrl = tab.url;
             this.cardTitle.textContent = tab.title;
             this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
@@ -625,17 +618,26 @@ PopupController.prototype = {
                 this.port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
             });
 
-            browser.scripting.executeScript({
-                target: { tabId: tab.id },
-                func: () => {
-                    // Use of chrome here instead of browser
-                    // because of isolated context where
-                    // browser is undefined in Chromium-based browsers
-                    chrome.runtime.sendMessage({
-                        wallabagSaveArticleContent: window.document.documentElement.innerHTML
+            try {
+                const isLocalFetchAction = !this.browserUtils.isRestrictedPage(tab.url);
+                if (isLocalFetchAction) {
+                    browser.scripting.executeScript({
+                        target: { tabId: tab.id },
+                        func: () => {
+                            // Use of chrome here instead of browser
+                            // because of isolated context where
+                            // browser is undefined in Chromium-based browsers
+                            chrome.runtime.sendMessage({
+                                wallabagSaveArticleContent: window.document.documentElement.innerHTML
+                            });
+                        }
                     });
+                } else {
+                    this.port.postMessage({ request: 'save', tabUrl: tab.url });
                 }
-            });
+            } catch (error) {
+                this.showError(error);
+            }
         });
     },
 
