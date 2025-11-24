@@ -1,8 +1,8 @@
 {
-  "name": "Wallabagger",
+  "name": "Wallabagger beta",
   "manifest_version": 3,
   "default_locale": "en",
-  "version": "1.23.4",
+  "version": "1.23.5.0",
   "description": "__MSG_Extension_description__",
   "minimum_chrome_version": "88",
   "icons": {
@@ -10,7 +10,7 @@
     "128": "/img/wallabag-icon-128.png"
   },
   "action": {
-    "default_title": "Wallabagger",
+    "default_title": "Wallabagger beta",
     "default_icon": "/img/wallabag-icon-48.png",
     "theme_icons": [
       {
@@ -64,7 +64,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "{7a7b1d36-d7a4-481b-92c6-9f5427cb9eb1}",
+      "id": "@wallabagger-beta",
       "strict_min_version": "128.0",
       "data_collection_permissions": {
         "required": ["none"]
