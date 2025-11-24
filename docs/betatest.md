@@ -1,16 +1,15 @@
 ## Install an unreleased version
 
-Sometimes, you want to use a version not available on the stores yet, or a beta version because a developer asked you. This version **WILL NOT** be updated automatically by your browser.
+Sometimes, you want to use a version not available on the stores yet, or a beta version because a developer asked you.
 If you're really sure you want to do it anyway, you can follow these steps:
 
 ### For Firefox
 
-1. Download [the last pre-release ZIP file package](https://github.com/wallabag/wallabagger/releases)
-2. Go to the extension debbuging page: `about:addons`
-3. Click on the cog icon then `Install Add-on From File`
-4. Select the ZIP file you downloaded
+1. Add the beta version [from the Firefox Add-on site](https://addons.mozilla.org/firefox/addon/wallabagger-beta/)
 
 ### For Chromium-based browsers (Chrome, Vivaldi)
+
+This version **WILL NOT** be updated automatically by your browser.
 
 1. Download [the last pre-release CRX file](https://github.com/wallabag/wallabagger/releases)
 2. Go to your browser's extension settings page
