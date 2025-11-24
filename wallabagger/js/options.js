@@ -148,22 +148,25 @@ class OptionsController {
     }
 
     async allowExistCheckClick (e) {
-        const granted = await new Promise((resolve, reject) => {
-            browser.permissions.request({
-                permissions: ['tabs']
-            }, resolve);
-        }).then(granted => granted);
-        if (!granted) {
-            this.allowExistCheck.checked = false;
-            return;
-        }
-        if (this.protocolCheck_.checked) {
-            Object.assign(this.data, { AllowExistCheck: this.allowExistCheck.checked });
-            this.port.postMessage({ request: 'setup-save', data: this.data });
-        } else {
+        if (!this.protocolCheck_.checked) {
             this.allowExistCheck.checked = false;
             this.httpsMessage.classList.add('active');
+            return false;
         }
+
+        const permissionsAction = e.target.checked ? 'request' : 'remove';
+        const isPermissionSuccessfull = await browser.permissions[permissionsAction]({
+            permissions: ['tabs']
+        });
+
+        if (!isPermissionSuccessfull) {
+            this.allowExistCheck.checked = !this.allowExistCheck.checked;
+            return false;
+        }
+
+        Object.assign(this.data, { AllowExistCheck: this.allowExistCheck.checked });
+        this.port.postMessage({ request: 'setup-save', data: this.data });
+        return true;
     }
 
     debugClick () {
