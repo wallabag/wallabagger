@@ -3,3 +3,4 @@ jsconfig.json
 .vscode/
 node_modules
 yarn-error.log
+web-ext-artifacts
