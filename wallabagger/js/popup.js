@@ -534,7 +534,7 @@ PopupController.prototype = {
                     this.setArticle(msg.article);
                     this.show(this.mainCard);
                 } else {
-                    this.showError('Error: empty data!');
+                    this.showError(Common.translate('Error_empty_data'));
                 }
                 break;
             case 'tags':

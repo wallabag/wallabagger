@@ -87,6 +87,10 @@
         "message": "Enter your tags here",
         "description": "Popup"
     },
+    "Error_empty_data": {
+        "message": "Error: empty data!",
+        "description": "Popup"
+    },
     "Expired": {
         "message": "Expired",
         "description": "Options"

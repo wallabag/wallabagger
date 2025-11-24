@@ -87,6 +87,10 @@
         "message": "Entrez vos tags ici",
         "description": "Popup"
     },
+    "Error_empty_data": {
+        "message": "Erreur : données vides !",
+        "description": "Popup"
+    },
     "Expired": {
         "message": "Expiré",
         "description": "Options"
