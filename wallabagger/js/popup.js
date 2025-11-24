@@ -607,7 +607,11 @@ PopupController.prototype = {
             }
             this.tabUrl = tab.url;
             this.cardTitle.textContent = tab.title;
-            this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
+            try {
+                this.entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
+            } catch (error) {
+                this.showError(error);
+            }
             this.enableTagsInput();
 
             browser.runtime.onMessage.addListener(event => {
