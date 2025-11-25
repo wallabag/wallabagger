@@ -126,6 +126,17 @@
             gap: 10px;
         }
 
+        .text-button {
+            color: #5755d9;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .text-button:hover {
+            text-decoration: underline;
+        }
+
         @media (min-width: 500px) {
             .columns {
                 display: flex;
@@ -172,8 +183,10 @@
                 </div>
                 <div id="client-selector"></div>
                 <div id="checkurl-message" class="text-error"></div>
+                <button id="credentials-manual" class="d-hide text-button" data-i18n="Or_you_can_click_here_to_fill_in_the_credentials_manually">Or you can click here to fill in the credentials manually</button>
             </form>
             <form action="." class="token-section d-hide" id="token-section">
+                <p id="credentials-manual-info" class="d-hide"><span data-i18n="You_can_find_your_credentials_here">You can find your credentials here:</span> <a target="_blank" data-wallabag-url="/developer"></a>.</p>
                 <div class="form-group">
                     <label class="form-label" for="clientid-input" data-i18n="Client_ID">Client ID</label>
                     <div class="input-group">

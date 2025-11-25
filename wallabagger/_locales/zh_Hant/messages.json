@@ -211,6 +211,10 @@
         "message": "檢查 wallabag 權限",
         "description": "Options"
     },
+    "You_can_find_your_credentials_here": {
+        "message": "你能在此找到所需憑證：",
+        "description": "Options"
+    },
     "Archive_by_default_when_saving_page": {
         "message": "儲存頁面預設為已封存",
         "description": "Options"

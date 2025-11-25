@@ -287,6 +287,10 @@
         "message": "Angi om siden allerede er lagret (dette sender URL-en til hver fane til wallabag, bruk HTTPS-protokollen for bedre sikkerhet!)",
         "description": "Options"
     },
+    "You_can_find_your_credentials_here": {
+        "message": "Du finner dine akkreditiver her:",
+        "description": "Options"
+    },
     "Tags_found": {
         "message": "Stikkord funnet:",
         "description": "Popup"

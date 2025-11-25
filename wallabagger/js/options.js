@@ -13,6 +13,8 @@ class OptionsController {
         this.versionLabel_ = document.getElementById('apiversion-label');
         this.checkurlbutton_ = document.getElementById('checkurl-button');
         this.checkUrlMessage_ = document.getElementById('checkurl-message');
+        this.credentialsManual = document.getElementById('credentials-manual');
+        this.credentialsManualInfo = document.getElementById('credentials-manual-info');
         this.tokenSection_ = document.getElementById('token-section');
         this.togglesSection = document.getElementById('toggles-section');
 
@@ -59,6 +61,7 @@ class OptionsController {
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
+        this.credentialsManual.addEventListener('click', this.credentialsManualClick.bind(this));
     }
 
     httpsButtonClick () {
@@ -147,6 +150,12 @@ class OptionsController {
         this.port.postMessage({ request: 'setup-save', data: this.data });
     }
 
+    credentialsManualClick (e) {
+        e.preventDefault();
+        this._show(this.tokenSection_);
+        this._show(this.credentialsManualInfo);
+    }
+
     async allowExistCheckClick (e) {
         if (!this.protocolCheck_.checked) {
             this.allowExistCheck.checked = false;
@@ -232,6 +241,7 @@ class OptionsController {
 
         if (this.clientId_.value !== '' && this.clientSecret_.value !== '' && this.userLogin_.value && this.userPassword_.value) {
             this.setDataFromFields();
+            this._show(this.togglesSection);
             this.port.postMessage({ request: 'setup-gettoken', data: this.data });
         }
     }
@@ -314,6 +324,10 @@ class OptionsController {
         e.preventDefault();
         this.clearMessage(this.checkUrlMessage_);
         this.clientSelector.clear();
+        this._hide(this.credentialsManual);
+        this._hide(this.credentialsManualInfo);
+        this._hide(this.tokenSection_);
+        this._hide(this.togglesSection);
         const urlDirty = this._getUrl();
         if (urlDirty !== '') {
             this._setProtocolCheck(urlDirty);
@@ -367,17 +381,31 @@ class OptionsController {
                     this.clientSecret_.value = clientSecretValue;
                     this.clientSecret_.disabled = true;
                     this._show(this.tokenSection_);
-                    this._show(this.togglesSection);
                 };
                 this.clientSelector.set(clients, onOptionSelected);
             } else {
                 this.clientSelector.clear();
+                this.resetCredentialFields();
+                this._show(this.credentialsManual);
                 this.setMessage(this.checkUrlMessage_, Common.translate('First_you_need_to_create_a_new_client_Then_you_need_to_try_again').replace('%URL%', urls.clientCreate));
             }
         } else {
             this.clientSelector.clear();
+            this.resetCredentialFields();
+            this._show(this.credentialsManual);
             this.setMessage(this.checkUrlMessage_, Common.translate('You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again').replace('%URL%', urls.login));
         }
+    }
+
+    resetCredentialFields () {
+        this.clientId_.value = '';
+        this.clientId_.disabled = false;
+        this.clientSecret_.value = '';
+        this.clientSecret_.disabled = false;
+        this.userLogin_.value = '';
+        this.userLogin_.disabled = false;
+        this.userPassword_.value = '';
+        this.userPassword_.disabled = false;
     }
 
     setMessage (el, content) {

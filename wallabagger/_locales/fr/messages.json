@@ -171,6 +171,10 @@
         "message": "Wallabagger non configuré",
         "description": "Background"
     },
+    "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
+        "message": "Ou vous pouvez cliquer ici pour remplir les paramètres manuellement",
+        "description": "Options"
+    },
     "Remove_this_article_from_Wallabag": {
         "message": "Supprimer cet article de wallabag",
         "description": "Popup"
@@ -290,6 +294,10 @@
     "Yes_delete_it": {
         "message": "Oui, le supprimer",
         "description": "Popup"
+    },
+    "You_can_find_your_credentials_here": {
+        "message": "Vous pouvez trouver vos identifiants ici :",
+        "description": "Options"
     },
     "Archive_by_default_when_saving_page": {
         "message": "Par défaut, marque la page comme lue lors de son enregistrement",

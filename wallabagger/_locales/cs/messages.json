@@ -287,6 +287,10 @@
         "message": "Adresa URL Wallabagu zkontrolována",
         "description": "Options"
     },
+    "You_can_find_your_credentials_here": {
+        "message": "Zde můžete nalézt své přihlašovací údaje:",
+        "description": "Options"
+    },
     "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
         "message": "Ke čtení, zápisu a aktualizaci obsahu potřebujeme přístup k vaší instanci Wallabagu. Otestujte znovu adresu URL a přijměte požadavek.",
         "description": "Options"

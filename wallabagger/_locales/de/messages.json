@@ -279,6 +279,10 @@
         "message": "Ja, löschen",
         "description": "Popup"
     },
+    "You_can_find_your_credentials_here": {
+        "message": "Ihre Zugangsdaten finden Sie hier:",
+        "description": "Options"
+    },
     "Archive_by_default_when_saving_page": {
         "message": "Standardmäßig markieren Sie die Seite beim Speichern als gelesen",
         "description": "Options"

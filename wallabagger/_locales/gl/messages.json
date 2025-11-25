@@ -235,6 +235,10 @@
         "message": "Si, elimínao",
         "description": "Popup"
     },
+    "You_can_find_your_credentials_here": {
+        "message": "Aquí tes as túas credenciais:",
+        "description": "Options"
+    },
     "Archive_by_default_when_saving_page": {
         "message": "Arquivar por defecto ao gardar a páxina",
         "description": "Options"
