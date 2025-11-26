@@ -1,23 +1,25 @@
 'use strict';
 
 class PortManager {
+    #logger = null;
     port = null;
     connected = false;
 
     static #backgroundPortIsConnectedEventName = 'background-port-is-connected';
     #messagesQueue = [];
 
-    constructor (name, listeners) {
+    constructor (name, listeners, logger) {
+        this.#logger = logger;
         this.name = name;
         this.#init(listeners);
     }
 
     postMessage (msg) {
         if (this.connected === true) {
-            this.#log('Sending message', msg);
+            this.#logger.log('Sending message', msg);
             this.port.postMessage(msg);
         } else {
-            this.#log('Queuing message:', msg);
+            this.#logger.log('Queuing message:', msg);
             this.#messagesQueue.push(msg);
         }
     }
@@ -37,13 +39,9 @@ class PortManager {
         this.port.onMessage.addListener(listeners);
 
         this.port.onDisconnect.addListener(() => {
-            this.#log('Port disconnected, attempting to reconnect...');
+            this.#logger.log('Port disconnected, attempting to reconnect...');
             setTimeout(() => this.#init(listeners), 1000);
         });
-    }
-
-    #log (...msg) {
-        console.log(...msg);
     }
 
     #startQueueConsuming () {

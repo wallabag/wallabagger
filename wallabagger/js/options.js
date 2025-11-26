@@ -1,8 +1,11 @@
 import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
 import { PortManager } from './port-manager.js';
+import { Logger } from './utils/logger.js';
 
 class OptionsController {
+    #logger = new Logger('options');
+
     constructor () {
         this.protocolCheck_ = document.getElementById('protocol-checkbox');
         this.protocolLabel_ = document.getElementById('input-group-wallabagurl');
@@ -98,8 +101,8 @@ class OptionsController {
                 const textFromFileLoaded = fileLoadedEvent.target.result;
                 const obj = JSON.parse(textFromFileLoaded);
                 if (this.debugEl.checked) {
-                    console.log(textFromFileLoaded);
-                    console.log(obj);
+                    this.#logger.log(textFromFileLoaded);
+                    this.#logger.log(obj);
                 }
                 this.data = Object.assign({}, obj);
                 this.setFields();
@@ -608,6 +611,7 @@ class OptionsController {
     messageListener (msg) {
         switch (msg.response) {
             case 'setup':
+                this.#logger.log('case setup');
                 this.data = Object.assign({}, msg.data);
                 this.setFields();
                 break;
@@ -630,22 +634,18 @@ class OptionsController {
                 break;
             case 'setup-save':
                 Object.assign(this.data, msg.data);
-                if (this.data.Debug) {
-                    console.log('setup saved:', msg.data);
-                }
+                this.#logger.log('setup saved:', msg.data);
                 break;
             case PortManager.backgroundPortIsConnectedEventName:
                 this.port.backgroundPortIsConnected();
                 break;
             default:
-                if (this.data !== null && this.data.Debug) {
-                    console.log(`unknown message: ${msg}`);
-                }
+                this.#logger.error('unknown message:', msg);
         };
     }
 
     init () {
-        this.port = new PortManager('setup', this.messageListener.bind(this));
+        this.port = new PortManager('setup', this.messageListener.bind(this), this.#logger);
         this.port.postMessage({ request: 'setup' });
     }
 }

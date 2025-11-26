@@ -21,9 +21,15 @@ class BrowserUtils {
         'chromewebstore.google.com'
     ];
 
+    #logger = null;
+
+    constructor (logger) {
+        this.#logger = logger;
+    }
+
     isServicePage (url, apiUrl) {
         const isServicePageResult = !/^https?:\/\/.+/.test(url) || RegExp('^' + apiUrl).test(url);
-        console.log({ isServicePageResult });
+        this.#logger.log('isServicePage', isServicePageResult);
         return isServicePageResult;
     };
 
@@ -32,9 +38,8 @@ class BrowserUtils {
             ? this.#firefoxRestrictedPages
             : this.#chromeRestrictedPages;
         const hostname = new URL(url).hostname;
-        console.log({ restrictedPages, hostname });
         const isRestrictedPageResult = restrictedPages.includes(hostname);
-        console.log({ isRestrictedPageResult });
+        this.#logger.log('isRestrictedPage', { restrictedPages, hostname, isRestrictedPageResult });
         return isRestrictedPageResult;
     };
 

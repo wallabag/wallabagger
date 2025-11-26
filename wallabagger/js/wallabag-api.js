@@ -17,7 +17,9 @@ const hashUrl = function (url) {
     });
 };
 
-const WallabagApi = function () { };
+const WallabagApi = function (logger) {
+    this.logger = logger;
+};
 
 WallabagApi.prototype = {
 
@@ -43,6 +45,8 @@ WallabagApi.prototype = {
         FetchLocallyByDefault: false
     },
 
+    logger: null,
+
     data: {},
 
     fetchApi: null,
@@ -50,14 +54,14 @@ WallabagApi.prototype = {
     tags: [],
 
     init: async function () {
-        console.groupCollapsed('init');
-        console.log('starting');
+        this.logger.groupCollapsed('init');
+        this.logger.log('starting');
         Object.assign(this.data, this.defaultValues);
         this.fetchApi = new FetchApi();
         await this.load();
         this.setAllowExistSafe();
-        console.log('ending');
-        console.groupEnd();
+        this.logger.log('ending');
+        this.logger.groupEnd();
     },
 
     forceInit: async function () {
@@ -82,18 +86,9 @@ WallabagApi.prototype = {
             this.set(result.wallabagdata);
             if (this.checkParams()) {
                 return this.data;
-            } else {
-                this.clear();
-                if (this.Debug === true) {
-                    console.log('Some parameters are empty. Check the settings');
-                }
-            }
-        } else {
-            this.clear();
-            if (this.Debug === true) {
-                console.log('Saved parameters not found. Check the settings');
             }
         }
+        this.clear();
 
         return this.data;
     },
@@ -124,6 +119,7 @@ WallabagApi.prototype = {
 
     clear: function () {
         this.set(this.defaultValues);
+        this.logger.log('Some parameters are empty. Check the settings');
     },
 
     set: function (params) {
@@ -131,6 +127,7 @@ WallabagApi.prototype = {
     },
 
     setsave: function (params) {
+        this.logger.setDebug(params.Debug);
         this.set(params);
         this.save();
     },
@@ -255,6 +252,7 @@ WallabagApi.prototype = {
             content.title = options.title;
         }
         if (options.content) {
+            this.logger.log('has local content', options.content);
             content.content = options.content;
         }
         const entriesUrl = `${this.data.Url}/api/entries.json`;

@@ -2,6 +2,7 @@ import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
 import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
+import { Logger } from './utils/logger.js';
 
 const PopupController = function () {
     this.mainCard = document.getElementById('main-card');
@@ -28,6 +29,8 @@ const PopupController = function () {
     this.starredIcon = document.getElementById('starred-icon');
     this.articleId = -1;
     this.addListeners();
+    this.logger = new Logger('popup');
+    this.browserUtils = new BrowserUtils(this.logger);
 };
 
 PopupController.prototype = {
@@ -72,7 +75,6 @@ PopupController.prototype = {
     tabUrl: null,
 
     port: null,
-    browserUtils: new BrowserUtils(),
 
     encodeMap: { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' },
     decodeMap: { '&amp;': '&', '&#039;': '\'', '&quot;': '"', '&lt;': '<', '&gt;': '>' },
@@ -356,7 +358,7 @@ PopupController.prototype = {
     onTagsInputChanged: function (e) {
         e.preventDefault();
         if (this.tagsInput.value !== '') {
-            console.log('bs state=' + this.backspacePressed);
+            this.logger.log('backspace pressed', this.backspacePressed);
             const lastChar = this.tagsInput.value.slice(-1);
             const value = this.tagsInput.value.slice(0, -1);
             if ((lastChar === ',') || (lastChar === ';') || ((lastChar === ' ') && (!this.AllowSpaceInTags) && (this.selectedFoundTag <= 0))) {
@@ -557,16 +559,16 @@ PopupController.prototype = {
                 window.close();
                 break;
             case PortManager.backgroundPortIsConnectedEventName:
-                console.log(PortManager.backgroundPortIsConnectedEventName);
+                this.logger.log(PortManager.backgroundPortIsConnectedEventName);
                 this.port.backgroundPortIsConnected();
                 break;
             default:
-                console.log(`unknown message: ${msg}`);
+                this.logger.error('unknown message:', msg);
         };
     },
 
     init: function () {
-        this.port = new PortManager('popup', this.messageListener.bind(this));
+        this.port = new PortManager('popup', this.messageListener.bind(this), this.logger);
         this.port.postMessage({ request: 'setup' });
     },
 
@@ -619,6 +621,7 @@ PopupController.prototype = {
                     return;
                 }
 
+                this.logger.log('postMessage');
                 this.port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
             });
 

@@ -3,6 +3,11 @@ import { Common } from './common.js';
 import { WallabagApi } from './wallabag-api.js';
 import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
+import { Logger } from './utils/logger.js';
+
+const logger = new Logger('background');
+const api = new WallabagApi(logger);
+const browserUtils = new BrowserUtils(logger);
 
 let Port = null;
 let portConnected = false;
@@ -56,21 +61,16 @@ const cache = new CacheType(true); // TODO - here checking option
 const dirtyCache = new CacheType(true);
 const existCache = new CacheType(true);
 
-const api = new WallabagApi();
-const browserUtils = new BrowserUtils();
-
-// Code
-
 const isBetaVersion = browser.runtime.getManifest().version.split('.').length === 4;
 if (isBetaVersion) {
     browser.action.setBadgeText({ text: 'ß' });
 }
 
 const addListeners = () => {
-    console.groupCollapsed('addListeners');
-    console.log('starting');
+    logger.groupCollapsed('addListeners');
+    logger.log('starting');
 
-    console.log('adding onClicked listener');
+    logger.log('adding onClicked listener');
     browser.contextMenus.onClicked.addListener(async (info) => {
         await api.forceInit();
         switch (info.menuItemId) {
@@ -91,7 +91,7 @@ const addListeners = () => {
         }
     });
 
-    console.log('adding onCommand listener');
+    logger.log('adding onCommand listener');
     browser.commands.onCommand.addListener(async (command) => {
         if (command === 'wallabag-it') {
             browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -102,18 +102,18 @@ const addListeners = () => {
         }
     });
 
-    console.log('adding onConnect listener');
+    logger.log('adding onConnect listener');
     browser.runtime.onConnect.addListener(async (port) => {
-        console.log(port);
-        console.log('on-message');
+        logger.log(port);
+        logger.log('on-message');
         port.onMessage.addListener(onPortMessage);
         Port = port;
         portConnected = true;
-        console.log('posting queue ready');
+        logger.log('posting queue ready');
         postIfConnected({ response: PortManager.backgroundPortIsConnectedEventName });
 
         Port.onDisconnect.addListener(function () {
-            console.log('port disconnected');
+            logger.log('port disconnected');
             portConnected = false;
         });
         Port.onMessage.addListener(onPortMessage);
@@ -121,7 +121,7 @@ const addListeners = () => {
     // @TODO disabled to try to use Port
     // browser.runtime.onMessage.addListener(onPortMessage);
 
-    console.log('adding onInstalled listener');
+    logger.log('adding onInstalled listener');
     browser.runtime.onInstalled.addListener(async (details) => {
         await api.forceInit();
         if (details.reason === 'install') {
@@ -131,17 +131,17 @@ const addListeners = () => {
             openOptionsPage();
         }
     });
-    console.log('ending');
-    console.groupEnd();
+    logger.log('ending');
+    logger.groupEnd();
 };
 
 const contextMenusCreation = async () => {
-    console.groupCollapsed('contextMenusCreation');
-    console.log('starting');
+    logger.groupCollapsed('contextMenusCreation');
+    logger.log('starting');
 
-    console.log('adding onClicked listener');
+    logger.log('adding onClicked listener');
     if (browser.contextMenus !== undefined) {
-        console.log('removing all the context menus');
+        logger.log('removing all the context menus');
         await browser.contextMenus.removeAll();
 
         const defaultLinkTitle = Common.translate('Wallabag_it');
@@ -177,25 +177,25 @@ const contextMenusCreation = async () => {
                 contexts: ['action']
             }
         ].map(menu => {
-            console.log(`adding context menu: ${menu.id}`);
+            logger.log(`adding context menu: ${menu.id}`);
             return browser.contextMenus.create(menu);
         }));
     }
-    console.log('ending');
-    console.groupEnd();
+    logger.log('ending');
+    logger.groupEnd();
 };
 
 async function boot () {
-    console.group('boot');
-    console.log('starting');
+    logger.groupCollapsed('boot');
+    logger.log('starting');
     addListeners();
     await contextMenusCreation();
     await api.init();
     addExistCheckListeners(api.data.AllowExistCheck);
     const { tags } = await api.GetTags();
     cache.set('allTags', tags);
-    console.log('ending');
-    console.groupEnd();
+    logger.log('ending');
+    logger.groupEnd();
 }
 boot();
 
@@ -224,8 +224,8 @@ function onTabUpdatedListener (tabId, changeInfo, tab) {
 }
 
 function addExistCheckListeners (enable) {
-    console.groupCollapsed('addExistCheckListeners');
-    console.log('starting');
+    logger.groupCollapsed('addExistCheckListeners');
+    logger.log('starting');
     if (enable === true) {
         browser.tabs.onActivated.addListener(onTabActivatedListener);
         browser.tabs.onCreated.addListener(onTabCreatedListener);
@@ -241,8 +241,8 @@ function addExistCheckListeners (enable) {
             browser.tabs.onUpdated.removeListener(onTabUpdatedListener);
         }
     }
-    console.log('ending');
-    console.groupEnd();
+    logger.log('ending');
+    logger.groupEnd();
 }
 
 function goToOptionsPage (optionsPageUrl, res) {
@@ -271,9 +271,10 @@ function openOptionsPage () {
 
 function postIfConnected (obj) {
     portConnected && Port.postMessage(obj);
-    api.data.Debug && console.log(`postMessage: ${JSON.stringify(obj)}`);
+    logger.log('postMessage:', obj);
 }
 async function onPortMessage (msg) {
+    logger.log(msg);
     await api.forceInit();
     try {
         switch (msg.request) {
@@ -313,6 +314,7 @@ async function onPortMessage (msg) {
                 saveExistFlag(msg.tabUrl, existStates.notexists);
                 break;
             case 'setup':
+                logger.log('setup');
                 if (!api.checkParams()) {
                     postIfConnected({ response: 'error', error: { message: Common.translate('Options_not_defined') } });
                 }
@@ -388,7 +390,7 @@ async function onPortMessage (msg) {
                 }
                 break;
             default: {
-                console.log(`unknown request ${JSON.stringify(msg)}`);
+                logger.error('unknown request', msg);
             }
         }
     } catch (error) {
@@ -494,7 +496,7 @@ function cutArticle (data) {
 function moveToDirtyCache (url) {
     if (cache.check(url)) {
         const art = cache.get(url);
-        // api.data.Debug && console.log(`article to move to dirtyCache ${JSON.stringify(art)}`);
+        logger.log('article to move to dirtyCache', art);
         dirtyCacheSet(url, {
             title: art.title,
             tagList: art.tags.map(tag => tag.label).join(','),
@@ -543,6 +545,7 @@ async function savePageToWallabag (url, resetIcon, title, content) {
     };
 
     if (isToFetchLocally) {
+        logger.log('set locally fetched', { title, content });
         savePageOptions.title = title;
         savePageOptions.content = content;
     }
