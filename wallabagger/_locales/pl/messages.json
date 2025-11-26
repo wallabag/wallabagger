@@ -92,7 +92,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "To rozszerzenie wallabag v2 ma możliwość edytowania tytułu i tagów oraz ustawiania stanów wyróżnienia, zarchiwizowania lub usunięcia.",
+        "message": "To rozszerzenie zapisuje adres URL witryny i jej zawartości na serwerze Wallabag v2, dzięki czemu można ją później odczytać. Umożliwia również edycję tytułu i tagów oraz ustawianie statusu: wyróżnione, zarchiwizowane lub usunięte.",
         "description": "Manifest.json"
     },
     "Loading_wallabag_API": {
@@ -326,7 +326,7 @@
         "message": "Biała lista"
     },
     "Sites_locally_whitelist_fetch_explaination": {
-        "message": "Wprowadź adres strony internetowej, której treść chcesz zapisać."
+        "message": "Wprowadź adres witryny, której zawartość chcesz zawsze wysyłać do przeglądarki, a nie tylko adres URL jej strony."
     },
     "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
         "message": "Najpierw musisz utworzyć <a href=\"%URL%\" target=\"_blank\">nowego klienta</a>. Następnie musisz spróbować ponownie."
