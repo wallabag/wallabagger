@@ -70,15 +70,6 @@ WallabagApi.prototype = {
         }
     },
 
-    resetDebug: function () {
-        this.data.Debug = this.defaultValues.Debug;
-        this.save();
-    },
-
-    save: function () {
-        browser.storage.local.set({ wallabagdata: this.data });
-    },
-
     load: async function () {
         const result = await browser.storage.local.get('wallabagdata');
 
@@ -126,10 +117,10 @@ WallabagApi.prototype = {
         Object.assign(this.data, params);
     },
 
-    setsave: function (params) {
+    saveParams: function (params) {
         this.logger.setDebug(params.Debug);
         this.set(params);
-        this.save();
+        browser.storage.local.set({ wallabagdata: this.data });
     },
 
     CheckUrl: function () {

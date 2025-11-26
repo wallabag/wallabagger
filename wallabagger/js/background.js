@@ -324,12 +324,12 @@ async function onPortMessage (msg) {
                 openOptionsPage();
                 break;
             case 'setup-save':
-                api.setsave(msg.data);
+                api.saveParams(msg.data);
                 postIfConnected({ response: 'setup-save', data: api.data });
                 addExistCheckListeners(msg.data.AllowExistCheck);
                 break;
             case 'setup-gettoken':
-                api.setsave(msg.data);
+                api.saveParams(msg.data);
                 api.PasswordToken()
                     .then(a => {
                         postIfConnected({ response: 'setup-gettoken', data: api.data, result: true });
@@ -343,7 +343,7 @@ async function onPortMessage (msg) {
                     });
                 break;
             case 'setup-checkurl':
-                api.setsave(msg.data);
+                api.saveParams(msg.data);
                 api.CheckUrl()
                     .then(a => {
                         postIfConnected({ response: 'setup-checkurl', data: api.data, result: true });
