@@ -244,15 +244,15 @@
         "description": "Options"
     },
     "Wallabag_API_token": {
-        "message": "Wallabag API Token",
+        "message": "wallabag API Token",
         "description": "Options"
     },
     "Wallabag_API_version": {
-        "message": "Wallabag API Version",
+        "message": "wallabag API Version",
         "description": "Options"
     },
     "Wallabag_it": {
-        "message": "Wallabag it!",
+        "message": "wallabag it!",
         "description": "background"
     },
     "Wallabag_it_description": {
@@ -260,15 +260,15 @@
         "description": "Manifest.json"
     },
     "Wallabag_permission_checked": {
-        "message": "Wallabag Berechtigungen geprüft",
+        "message": "wallabag Berechtigungen geprüft",
         "description": "Options"
     },
     "Wallabag_URL": {
-        "message": "Wallabag URL",
+        "message": "wallabag URL",
         "description": "Options"
     },
     "Wallabag_URL_checked": {
-        "message": "Wallabag URL getestet",
+        "message": "wallabag URL getestet",
         "description": "Options"
     },
     "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
@@ -322,9 +322,24 @@
         "message": "Manchmal kann wallabag nicht auf die Inhalte zugreifen, die du speichern möchtest. Möglicherweise handelt es sich um eine Website, für die eine Anmeldung erforderlich ist oder die JavaScript verwendet, um die Inhalte anzuzeigen. Mit dieser Funktion kannst du die Inhalte, die du gerade im Browser vor dir hast, senden, sodass wallabag nichts weiter tun muss, als die von dir gesendeten Inhalte zu speichern."
     },
     "Sites_locally_whitelist_fetch_title": {
-        "message": "Whitelist"
+        "message": "Positivliste"
     },
     "Sites_locally_whitelist_fetch_explaination": {
         "message": "Gib die Adresse der Website ein, deren Inhalt du speichern möchtest."
+    },
+    "Error_empty_data": {
+        "message": "Fehler: keine Daten!"
+    },
+    "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
+        "message": "Oder hier klicken um die Zugangsdaten manuell einzutragen"
+    },
+    "Service_pages_can_t_be_stored": {
+        "message": "Serviceseiten können nicht gespeichert werden"
+    },
+    "Fetch_by_default_when_saving_page": {
+        "message": "Beim Speichern einer Seite immer den Inhalt des Browsers senden"
+    },
+    "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
+        "message": "Du solltest auf <a href=\"%URL%\" target=\"_blank\">deinem wallabag</a> angemeldet sein. Danach bitte erneut versuchen."
     }
 }

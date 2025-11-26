@@ -333,5 +333,14 @@
     },
     "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
         "message": "Musisz się zalogować do <a href=\"%URL%\" target=\"_blank\">swojego wallabaga</a>. Następnie musisz spróbować ponownie."
+    },
+    "Error_empty_data": {
+        "message": "Błąd: puste dane!"
+    },
+    "Service_pages_can_t_be_stored": {
+        "message": "Stron usług nie można zapisać"
+    },
+    "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
+        "message": "Możesz też kliknąć tutaj, aby ręcznie wprowadzić dane uwierzytelniające"
     }
 }
