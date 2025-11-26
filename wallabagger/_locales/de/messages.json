@@ -92,7 +92,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "Erweiterung für Wallabag V2, mit der Sie den Titel, die Tags und den Status (Favorit, archiviert oder gelöscht) bearbeiten können.",
+        "message": "Diese Erweiterung speichert die URL einer Website und deren Inhalt auf einem Wallabag v2 Server um den Beitrag später lesen zu können. Sie können außerdem den Titel, die Tags und den Status (Favorit, archiviert oder gelöscht) bearbeiten.",
         "description": "Manifest.json"
     },
     "Get_token": {
@@ -325,7 +325,7 @@
         "message": "Positivliste"
     },
     "Sites_locally_whitelist_fetch_explaination": {
-        "message": "Gib die Adresse der Website ein, deren Inhalt du speichern möchtest."
+        "message": "Gib die Adresse der Website ein, für die du immer den Inhalt aus dem Browser senden möchtest, anstatt nur die URL."
     },
     "Error_empty_data": {
         "message": "Fehler: keine Daten!"
