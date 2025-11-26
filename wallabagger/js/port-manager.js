@@ -36,9 +36,9 @@ class PortManager {
 
         this.port.onMessage.addListener(listeners);
 
-        this.port.onDisconnect.addListener(function () {
+        this.port.onDisconnect.addListener(() => {
             this.#log('Port disconnected, attempting to reconnect...');
-            setTimeout(this.#init(listeners).bind(this), 1000);
+            setTimeout(() => this.#init(listeners), 1000);
         });
     }
 
