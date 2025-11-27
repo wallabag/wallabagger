@@ -70,40 +70,44 @@ const addListeners = () => {
     logger.groupCollapsed('addListeners');
     logger.log('starting');
 
-    logger.log('adding onClicked listener');
-    browser.contextMenus.onClicked.addListener(async (info) => {
-        await api.forceInit();
-        switch (info.menuItemId) {
-            case 'wallabagger-add-link':
-                if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
-                    savePageToWallabag(info.linkUrl, true);
-                } else {
-                    savePageToWallabag(info.pageUrl, false);
-                }
-                break;
-            case 'options':
-                browser.runtime.openOptionsPage();
-                break;
-            case 'unread':
-            case 'starred':
-            case 'archive':
-            case 'all':
-            case 'tag':
-                api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${info.menuItemId}/list` });
-                break;
-        }
-    });
+    if(browser.contextMenus !== undefined) {
+        logger.log('adding onClicked listener');
+        browser.contextMenus.onClicked.addListener(async (info) => {
+            await api.forceInit();
+            switch (info.menuItemId) {
+                case 'wallabagger-add-link':
+                    if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
+                        savePageToWallabag(info.linkUrl, true);
+                    } else {
+                        savePageToWallabag(info.pageUrl, false);
+                    }
+                    break;
+                case 'options':
+                    browser.runtime.openOptionsPage();
+                    break;
+                case 'unread':
+                case 'starred':
+                case 'archive':
+                case 'all':
+                case 'tag':
+                    api.checkParams() && browser.tabs.create({ url: `${api.data.Url}/${info.menuItemId}/list` });
+                    break;
+            }
+        });
+    }
 
-    logger.log('adding onCommand listener');
-    browser.commands.onCommand.addListener(async (command) => {
-        if (command === 'wallabag-it') {
-            browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                if (tabs[0] != null) {
-                    savePageToWallabag(tabs[0].url, false);
-                }
-            });
-        }
-    });
+    if(browser.commands !== undefined) {
+        logger.log('adding onCommand listener');
+        browser.commands.onCommand.addListener(async (command) => {
+            if (command === 'wallabag-it') {
+                browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                    if (tabs[0] != null) {
+                        savePageToWallabag(tabs[0].url, false);
+                    }
+                });
+            }
+        });
+    }
 
     logger.log('adding onConnect listener');
     browser.runtime.onConnect.addListener(async (port) => {
