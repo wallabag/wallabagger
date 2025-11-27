@@ -64,17 +64,14 @@ body {
     box-shadow: 0 0 0 0.1rem rgba(87, 85, 217, 0.2);
 }
 
-.card-image {
-    max-width: 444px;
-    max-height: 250px;
+.card-image-container {
+    display: flex;
+    width: 100%;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
     overflow: hidden;
-    margin: auto;
-}
-
-.card-image--default {
-    max-height: 100px;
-    margin-top: 14px;
-    margin-bottom: 14px;
 }
 
 .pb-30 {
@@ -112,4 +109,45 @@ body {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+}
+
+body.mobile {
+    width: auto;
+}
+
+.mobile .card {
+    border: none;
+}
+
+.mobile .card-image-container {
+    max-height: 100px;
+}
+
+.mobile .actions {
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.mobile .action-button {
+    padding: 15px;
+}
+
+.mobile .form-autocomplete .menu {
+    top: initial;
+    bottom: 100%;
+}
+
+.mobile .chip {
+    margin-left: 10px;
+    height: 1.8rem;
+}
+
+.mobile .btn.btn-clear {
+    height: 100%;
 }

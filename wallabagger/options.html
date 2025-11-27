@@ -152,6 +152,13 @@
                 min-width: 300px;
             }
         }
+
+        @media (max-width: 800px) {
+            body {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
     </style>
 </head>
 
@@ -168,7 +175,7 @@
                     <div class="input-group wallabag-url-group">
                         <span class="url-group">
                             <span class="input-group-addon" id="input-group-wallabagurl">https://</span>
-                            <input class="form-input wallabag-url" type="text" id="input-wallabagurl" placeholder="app.wallabag.it" />
+                            <input class="form-input wallabag-url" type="url" id="input-wallabagurl" placeholder="app.wallabag.it" />
                         </span>
                         <button class="btn input-group-btn" id="checkurl-button" data-i18n="Check_URL">Check URL</button>
 
