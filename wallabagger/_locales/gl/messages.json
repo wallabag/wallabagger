@@ -72,7 +72,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "A extensión wallabag v2 permite editar o título e etiquetar, así como marcar con estrela, arquivar e eliminar.",
+        "message": "Este complemento garda o URL dunha páxina e o seu contido nun servidor Wallabag v2 para poder lelo máis tarde. Tamén permite editar o título e etiquetar, así como marcar con estrela, arquivar e eliminar.",
         "description": "Manifest.json"
     },
     "Get_token": {
@@ -326,12 +326,21 @@
         "message": "Sitios permitidos"
     },
     "Sites_locally_whitelist_fetch_explaination": {
-        "message": "Escribe o enderezo da web cuxo contido queres gardar."
+        "message": "Escribe o enderezo da web para a cal sempre queres enviar o contido do navegador no lugar de só o URL da páxina."
     },
     "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
         "message": "Primeiro debes crear <a href=\"%URL%\" target=\"_blank\">un novo cliente</a>, e despois probar outra vez."
     },
     "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
         "message": "Tes que iniciar sesión <a href=\"%URL%\" target=\"_blank\">no teu wallabag</a>, e despois volver a intentalo."
+    },
+    "Error_empty_data": {
+        "message": "Erro: non hai datos!"
+    },
+    "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
+        "message": "Ou tamén podes premer aquí para escribir manualmente as credenciais"
+    },
+    "Service_pages_can_t_be_stored": {
+        "message": "Non se poden gardar as páxinas de servizo"
     }
 }

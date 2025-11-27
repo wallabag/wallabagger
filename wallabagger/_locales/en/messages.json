@@ -96,7 +96,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "This wallabag v2 extension has the ability to edit title and tags and set starred, archived, or delete states.",
+        "message": "This extension saves the URL of a website and its content on a Wallabag v2 server so that it can be read later. It also has the ability to edit title and tags and set starred, archived, or delete states.",
         "description": "Manifest.json"
     },
     "Fetch_from_the_browser": {
@@ -256,7 +256,7 @@
         "description": "Options"
     },
     "Sites_locally_whitelist_fetch_explaination": {
-        "message": "Enter the address of the website whose content you wish to store.",
+        "message": "Enter the address of the website for which you always want to send the browser content instead of just its page URL.",
         "description": "Options"
     },
     "Starred": {
