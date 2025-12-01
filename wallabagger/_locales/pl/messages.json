@@ -92,7 +92,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "To rozszerzenie zapisuje adres URL witryny i jej zawartości na serwerze Wallabag v2, dzięki czemu można ją później odczytać. Umożliwia również edycję tytułu i tagów oraz ustawianie statusu: wyróżnione, zarchiwizowane lub usunięte.",
+        "message": "Zapisuj adres URL i zawartość dowolnej strony na serwerze Wallabag v2 do późniejszego przeczytania z możliwością edycji metadanych.",
         "description": "Manifest.json"
     },
     "Loading_wallabag_API": {
