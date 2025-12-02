@@ -203,6 +203,10 @@
         "message": "Enregistrement de la page dans wallabag…",
         "description": "background"
     },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": "Enregistrement du contenu de la page dans wallabag…",
+        "description": "background"
+    },
     "Service_pages_can_t_be_stored": {
         "message": "Les pages de service ne peuvent pas être enregistrées",
         "description": "Popup"

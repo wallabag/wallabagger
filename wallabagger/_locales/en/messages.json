@@ -223,6 +223,10 @@
         "message": "Saving the page to wallabag…",
         "description": "background"
     },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": "Saving the browser's page content to wallabag…",
+        "description": "background"
+    },
     "Service_pages_can_t_be_stored": {
         "message": "Service pages can't be stored",
         "description": "Popup"

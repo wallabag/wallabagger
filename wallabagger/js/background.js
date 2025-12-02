@@ -551,7 +551,8 @@ async function savePageToWallabag (url, resetIcon, title, content) {
     // real saving
     browserIcon.set('wip');
     existCache.set(url, existStates.wip);
-    postIfConnected({ response: 'info', text: Common.translate('Saving_the_page_to_wallabag') });
+    const message = isToFetchLocally ? 'Saving_the_page_to_wallabag_from_the_browser' : 'Saving_the_page_to_wallabag';
+    postIfConnected({ response: 'info', text: Common.translate(message) });
 
     const savePageOptions = {
         url
