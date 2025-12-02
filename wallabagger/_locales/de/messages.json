@@ -92,7 +92,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "Diese Erweiterung speichert die URL einer Website und deren Inhalt auf einem Wallabag v2 Server um den Beitrag später lesen zu können. Sie können außerdem den Titel, die Tags und den Status (Favorit, archiviert oder gelöscht) bearbeiten.",
+        "message": "Speichert URL und Inhalt einer Seite auf einem Wallabag v2‑Server zum späteren Lesen; Metadaten können bearbeitet werden.",
         "description": "Manifest.json"
     },
     "Get_token": {
