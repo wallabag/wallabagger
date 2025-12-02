@@ -412,7 +412,10 @@ class OptionsController {
     }
 
     setMessage (el, content) {
-        el.innerHTML = content;
+        this.clearMessage(el);
+        const parser = new DOMParser();
+        const htmlDoc = parser.parseFromString(content, 'text/html');
+        [...htmlDoc.body.childNodes].map(node => el.appendChild(node));
     }
 
     clearMessage (el) {
