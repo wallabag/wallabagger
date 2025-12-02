@@ -81,6 +81,9 @@ const addListeners = () => {
                     savePageToWallabag(info.pageUrl, false);
                 }
                 break;
+            case 'options':
+                browser.runtime.openOptionsPage();
+                break;
             case 'unread':
             case 'starred':
             case 'archive':
@@ -180,6 +183,16 @@ const contextMenusCreation = async () => {
             logger.log(`adding context menu: ${menu.id}`);
             return browser.contextMenus.create(menu);
         }));
+
+        if(globalThis.wallabaggerBrowser === 'Firefox') {
+            logger.log('adding context menu: options');
+            browser.contextMenus.create({
+                id: 'options',
+                title: 'Options',
+                contexts: 'action' in browser ? ['action'] : ['browser_action']
+            });
+        }
+
     }
     logger.log('ending');
     logger.groupEnd();
