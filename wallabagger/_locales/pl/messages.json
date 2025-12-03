@@ -342,5 +342,8 @@
     },
     "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
         "message": "Możesz też kliknąć tutaj, aby ręcznie wprowadzić dane uwierzytelniające"
+    },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": "Zapisywanie zawartości strony przeglądarki na wallabag…"
     }
 }
