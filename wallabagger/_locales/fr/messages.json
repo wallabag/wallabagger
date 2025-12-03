@@ -340,7 +340,7 @@
         "description": "Options"
     },
     "Sites_locally_fetch_general_explaination": {
-        "message": "Parfois, wallabag n'arrive pas à accéder au contenu que vous essayer de sauvegarder. Peut-être que le site a besoin que vous soyez connecté, ou il utilise JavaScript pour afficher le contenu. Cette fonctionnalité permet d'envoyer le contenu que vous êtes en train de voir depuis votre navigateur, alors wallabag n'a rien besoin de faire si ce n'est sauvegarder ce que vous lui envoyez.",
+        "message": "Parfois, wallabag n'arrive pas à accéder au contenu que vous essayez de sauvegarder. Peut-être que le site a besoin que vous soyez connecté, ou il utilise JavaScript pour afficher le contenu. Cette fonctionnalité permet d'envoyer le contenu que vous êtes en train de voir depuis votre navigateur, alors wallabag n'a rien besoin de faire si ce n'est sauvegarder ce que vous lui envoyez.",
         "description": "Options"
     },
     "Sites_locally_whitelist_fetch_title": {
