@@ -339,5 +339,8 @@
     },
     "Service_pages_can_t_be_stored": {
         "message": "Servisní stránky nemohou být ukládány"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "Wallabag někdy není schopný získat obsah, který se snažíte uložit. Může to být tím, že stránky vyžadují přihlášení nebo k zobrazování obsahu využívají JavaScript. Tato funkcionalita vám umožňuje ukládat obsah, na který se díváte v prohlížeči, takže Wallabag nemusí dělat nic jiného, než uložit tento obsah."
     }
 }
