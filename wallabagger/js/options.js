@@ -540,9 +540,10 @@ class OptionsController {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
             const sites = getSites();
-            sites.add(inputElement.value);
+            const siteToAdd = (new URL(inputElement.value)).origin;
+            sites.add(siteToAdd);
             Object.assign(this.data, { sitesToFetchLocally: [...sites].join('\n') });
-            setList(listElement, inputElement.value);
+            setList(listElement, siteToAdd);
             inputElement.value = '';
             this.port.postMessage({ request: 'setup-save', data: this.data });
         }.bind(this));
