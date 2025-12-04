@@ -364,40 +364,47 @@ class OptionsController {
 
         this.clientSelector.containerElement.innerHTML = '<div class="loading"></div>';
 
-        const result = await fetch(urls.developer, { redirect: 'manual' });
-        if (result.status === 200) {
-            const html = await result.text();
-            const parser = new DOMParser();
-            const wallabagDeveloperDocument = parser.parseFromString(html, 'text/html');
-            const clients = [...wallabagDeveloperDocument.getElementsByClassName('collapsible-body')].map(client => {
-                const info = [...client.getElementsByTagName('code')].map(info => info.innerText);
-                return {
-                    name: client.parentElement.getElementsByClassName('collapsible-header')[0].innerText,
-                    id: info[0],
-                    secret: info[1]
-                };
-            });
-            if (clients.length > 0) {
-                const onOptionSelected = (clientIdValue, clientSecretValue) => {
-                    this.clientId_.value = clientIdValue;
-                    this.clientId_.disabled = true;
-                    this.clientSecret_.value = clientSecretValue;
-                    this.clientSecret_.disabled = true;
-                    this._show(this.tokenSection_);
-                };
-                this.clientSelector.set(clients, onOptionSelected);
+        try {
+            const result = await fetch(urls.developer, { redirect: 'manual' });
+            if (result.status === 200) {
+                const html = await result.text();
+                const parser = new DOMParser();
+                const wallabagDeveloperDocument = parser.parseFromString(html, 'text/html');
+                const clients = [...wallabagDeveloperDocument.getElementsByClassName('collapsible-body')].map(client => {
+                    const info = [...client.getElementsByTagName('code')].map(info => info.innerText);
+                    return {
+                        name: client.parentElement.getElementsByClassName('collapsible-header')[0].innerText,
+                        id: info[0],
+                        secret: info[1]
+                    };
+                });
+                if (clients.length > 0) {
+                    const onOptionSelected = (clientIdValue, clientSecretValue) => {
+                        this.clientId_.value = clientIdValue;
+                        this.clientId_.disabled = true;
+                        this.clientSecret_.value = clientSecretValue;
+                        this.clientSecret_.disabled = true;
+                        this._show(this.tokenSection_);
+                    };
+                    this.clientSelector.set(clients, onOptionSelected);
+                } else {
+                    this.resetClientSelector();
+                    this.setMessage(this.checkUrlMessage_, Common.translate('First_you_need_to_create_a_new_client_Then_you_need_to_try_again').replace('%URL%', urls.clientCreate));
+                }
             } else {
-                this.clientSelector.clear();
-                this.resetCredentialFields();
-                this._show(this.credentialsManual);
-                this.setMessage(this.checkUrlMessage_, Common.translate('First_you_need_to_create_a_new_client_Then_you_need_to_try_again').replace('%URL%', urls.clientCreate));
+                this.resetClientSelector();
+                this.setMessage(this.checkUrlMessage_, Common.translate('You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again').replace('%URL%', urls.login));
             }
-        } else {
-            this.clientSelector.clear();
-            this.resetCredentialFields();
-            this._show(this.credentialsManual);
-            this.setMessage(this.checkUrlMessage_, Common.translate('You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again').replace('%URL%', urls.login));
+        } catch(e) {
+            this.#logger.log(e);
+            this.resetClientSelector();
         }
+    }
+
+    resetClientSelector () {
+        this.clientSelector.clear();
+        this.resetCredentialFields();
+        this._show(this.credentialsManual);
     }
 
     resetCredentialFields () {
