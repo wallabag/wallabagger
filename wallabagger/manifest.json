@@ -26,6 +26,9 @@
     "service_worker": "js/background.js",
     "type": "module"
   },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'"
+  },
   "permissions": [
     "storage",
     "contextMenus",
