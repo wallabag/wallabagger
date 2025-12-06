@@ -2,7 +2,7 @@
   "name": "Wallabagger",
   "manifest_version": 3,
   "default_locale": "en",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "description": "__MSG_Extension_description__",
   "minimum_chrome_version": "88",
   "icons": {
