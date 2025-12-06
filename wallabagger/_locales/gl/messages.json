@@ -72,7 +72,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "Este complemento garda o URL dunha páxina e o seu contido nun servidor Wallabag v2 para poder lelo máis tarde. Tamén permite editar o título e etiquetar, así como marcar con estrela, arquivar e eliminar.",
+        "message": "Garda o URL e contido de calquera páxina nun servidor Wallabag v2 para ler máis tarde, con metadatos editables.",
         "description": "Manifest.json"
     },
     "Get_token": {
@@ -342,5 +342,8 @@
     },
     "Service_pages_can_t_be_stored": {
         "message": "Non se poden gardar as páxinas de servizo"
+    },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": "Gardando o contido da páxina do navegador en wallabag…"
     }
 }
