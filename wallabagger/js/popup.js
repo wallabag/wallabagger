@@ -31,6 +31,8 @@ const PopupController = function () {
     this.addListeners();
     this.logger = new Logger('popup');
     this.browserUtils = new BrowserUtils(this.logger);
+    const viewportClass = /\bMobile\b/.test(navigator.userAgent) ? 'mobile' : 'desktop';
+    document.body.classList.add(viewportClass);
 };
 
 PopupController.prototype = {
@@ -125,7 +127,6 @@ PopupController.prototype = {
         } else {
             this.archived = (this.archived + 1) % 2;
         }
-        this.tagsInput.focus();
     },
 
     toggleIcon: function (icon) {
@@ -202,7 +203,6 @@ PopupController.prototype = {
     enableTagsInput: function () {
         this.tagsInput.placeholder = Common.translate('Enter_your_tags_here');
         this.tagsInput.disabled = false;
-        this.tagsInput.focus();
     },
 
     onFoundTagChipClick: function (event) {
@@ -234,6 +234,7 @@ PopupController.prototype = {
                 this.createTagChip(tagid, taglabel),
                 this.tagsInput);
             this.enableTagsInput();
+            this.tagsInput.focus();
             if (tagid <= 0) {
                 this.tmpTagId = this.tmpTagId - 1;
             }
@@ -242,7 +243,10 @@ PopupController.prototype = {
         } else {
             this.tagsInput.placeholder = Common.translate('Tag_already_exists');
             const self = this;
-            setTimeout(function () { self.enableTagsInput(); }, 1000);
+            setTimeout(function () {
+                self.enableTagsInput();
+                self.tagsInput.focus();
+            }, 1000);
         }
         this.selectedFoundTag = 0;
         this.selectedTag = -1;
@@ -265,7 +269,6 @@ PopupController.prototype = {
         chip.parentNode.removeChild(chip);
         this.port.postMessage({ request: 'deleteArticleTag', articleId: this.articleId, tagId: tagid, tags: this.getSaveHtml(this.getTagsStr()), tabUrl: this.tabUrl });
         this.checkAutocompleteState();
-        this.tagsInput.focus();
     },
 
     getTagsStr: function () {
@@ -407,7 +410,6 @@ PopupController.prototype = {
         } else {
             this.hide(this.cardBody);
             this.show(this.cardHeader);
-            this.tagsInput.focus();
         }
     },
 
@@ -423,7 +425,6 @@ PopupController.prototype = {
         e.preventDefault();
         this.hide(this.cardBody);
         this.show(this.cardHeader);
-        this.tagsInput.focus();
     },
 
     openUrl: function (e) {
@@ -490,7 +491,6 @@ PopupController.prototype = {
         if (typeof (data.preview_picture) === 'string' &&
             data.preview_picture.length > 0 &&
             data.preview_picture.indexOf('http') === 0) {
-            this.cardImage.classList.remove('card-image--default');
             this.cardImage.src = data.preview_picture;
         }
 
