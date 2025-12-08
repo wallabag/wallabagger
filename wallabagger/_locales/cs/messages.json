@@ -100,7 +100,7 @@
         "description": "Popup"
     },
     "Extension_description": {
-        "message": "Toto rozšíření Wallabag v2 umožňuje upravovat název a štítky a nastavit stavy s hvězdičkou, archivováno nebo odstranění.",
+        "message": "Ukládejte libovolné URL a obsah na server Wallabag v2 pro pozdější čtení, s možností editovatelných metadat.",
         "description": "Manifest.json"
     },
     "Remove_this_article_from_Wallabag": {
@@ -320,7 +320,7 @@
         "message": "Všechny webové stránky"
     },
     "Sites_locally_whitelist_fetch_explaination": {
-        "message": "Vložte adresu stránek, jejichž obsah si přejete uložit."
+        "message": "Vložte adresu stránek, pro něž chcete vždy posílat obsah prohlížeče místo pouhé URL stránky."
     },
     "Sites_locally_whitelist_fetch_title": {
         "message": "Whitelist"
@@ -342,5 +342,8 @@
     },
     "Sites_locally_fetch_general_explaination": {
         "message": "Wallabag někdy není schopný získat obsah, který se snažíte uložit. Může to být tím, že stránky vyžadují přihlášení nebo k zobrazování obsahu využívají JavaScript. Tato funkcionalita vám umožňuje ukládat obsah, na který se díváte v prohlížeči, takže Wallabag nemusí dělat nic jiného, než uložit tento obsah."
+    },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": "Ukládání obsahu stránky v prohlížeči do Wallabagu…"
     }
 }
