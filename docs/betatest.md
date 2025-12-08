@@ -27,8 +27,26 @@ This version **WILL NOT** be updated automatically by your browser.
 
 1. Download [the last version of the source code](https://github.com/wallabag/wallabagger/archive/refs/heads/main.zip)
 2. Unzip this file
+
+### For Chromium-based browsers (Chrome, Vivaldi)
+
 3. Follow the steps 2 and 3 of the previous section
 4. Select the wallabagger folder (containing the *manifest.json* file)
+
+### For Firefox (temporary installation)
+
+3. Go to your browser's debugging settings page `about:debugging`
+4. Open `This Firefox`
+5. Click `Load Temporary Add-on...`
+6. Select the `manifest.json` file from the wallabagger folder
+
+### For Firefox for Android (temporary installation)
+
+3. [Set up your computer and Android emulator or device](https://extensionworkshop.com/documentation/develop/developing-extensions-for-firefox-for-android/)
+4. Connect your phone to your computer using USB
+5. Run `adb devices` to list all devices
+6. Go to the wallabagger folder (containing the *manifest.json* file)
+7. Run `web-ext run -t firefox-android --adb-device XXX --firefox-apk org.mozilla.firefox`
 
 ## Beta versioning number
 
