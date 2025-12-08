@@ -117,7 +117,7 @@ class OptionsController {
     saveToFileClick () {
         const body = document.querySelector('body');
         const textToSave = JSON.stringify(this.data);
-        const textToSaveAsBlob = new Blob([textToSave], { type: 'text/plain' });
+        const textToSaveAsBlob = new Blob([textToSave], { type: 'text/json' });
         const textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
         const fileNameToSaveAs = 'wallabag.json';
         const downloadLink = document.createElement('a');
