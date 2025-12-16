@@ -4,6 +4,7 @@ import { WallabagApi } from './wallabag-api.js';
 import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
 import { Logger } from './utils/logger.js';
+import { Cache } from './utils/cache.js';
 
 const logger = new Logger('background');
 const api = new WallabagApi(logger);
@@ -11,40 +12,6 @@ const browserUtils = new BrowserUtils(logger);
 
 let Port = null;
 let portConnected = false;
-
-const CacheType = function (enable) {
-    this.enabled = enable;
-    this._cache = [];
-};
-
-CacheType.prototype = {
-    _cache: null,
-    enabled: false,
-
-    str: function (some) {
-        return btoa(unescape(encodeURIComponent(some)));
-    },
-
-    set: function (key, data) {
-        if (this.enabled) {
-            this._cache[this.str(key)] = data;
-        }
-    },
-
-    clear: function (key) {
-        if (this.enabled) {
-            delete this._cache[this.str(key)];
-        }
-    },
-
-    check: function (key) {
-        return this.enabled && (this._cache[this.str(key)] !== undefined);
-    },
-
-    get: function (key) {
-        return this.enabled ? this._cache[this.str(key)] : undefined;
-    }
-};
 
 const wallabaggerAddLinkContexts = ['link', 'page'];
 if (!globalThis.wallabaggerBrowser) {
@@ -57,9 +24,9 @@ const existStates = {
     wip: 'wip'
 };
 
-const cache = new CacheType(true); // TODO - here checking option
-const dirtyCache = new CacheType(true);
-const existCache = new CacheType(true);
+const cache = new Cache(true); // TODO - here checking option
+const dirtyCache = new Cache(true);
+const existCache = new Cache(true);
 
 const isBetaVersion = browser.runtime.getManifest().version.split('.').length === 4;
 if (isBetaVersion) {
