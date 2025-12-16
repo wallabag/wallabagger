@@ -5,6 +5,7 @@ import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
 import { Logger } from './utils/logger.js';
 import { Cache } from './utils/cache.js';
+import { BrowserIcon } from './utils/browser-icon.js';
 
 const logger = new Logger('background');
 const api = new WallabagApi(logger);
@@ -294,7 +295,7 @@ async function onPortMessage (msg) {
                 } else {
                     dirtyCacheSet(msg.tabUrl, { deleted: true });
                 }
-                browserIcon.set('default');
+                BrowserIcon.set('default');
                 saveExistFlag(msg.tabUrl, existStates.notexists);
                 break;
             case 'setup':
@@ -378,48 +379,10 @@ async function onPortMessage (msg) {
             }
         }
     } catch (error) {
-        browserIcon.setTimed('bad');
+        BrowserIcon.setTimed('bad');
         postIfConnected({ response: 'error', error });
     }
 }
-
-const imageExtension = globalThis.wallabaggerBrowser ? 'png' : 'svg';
-const browserIcon = {
-    images: {
-        default: browser.runtime.getManifest().action.default_icon,
-        good: '/img/wallabagger-green.' + imageExtension,
-        wip: '/img/wallabagger-yellow.' + imageExtension,
-        bad: '/img/wallabagger-red.' + imageExtension
-    },
-
-    timedToDefault: function () {
-        setTimeout(() => {
-            this.set('default');
-        }, 5000);
-    },
-
-    set: function (icon) {
-        if (icon === 'default') {
-            // On Firefox, we want to reset to the default icon suitable for the active theme
-            // but Chromium does not support resetting icons.
-            try {
-                browser.action.setIcon({ path: null });
-
-                return;
-            } catch {
-                // Chromium does not support themed icons either,
-                // so let’s just fall back to the default icon.
-            }
-        }
-
-        browser.action.setIcon({ path: this.images[icon] });
-    },
-
-    setTimed: function (icon) {
-        this.set(icon);
-        this.timedToDefault();
-    }
-};
 
 function dirtyCacheSet (key, obj) {
     dirtyCache.set(key, Object.assign(dirtyCache.check(key) ? dirtyCache.get(key) : {}, obj));
@@ -520,7 +483,7 @@ async function savePageToWallabag (url, resetIcon, title, content) {
     }
 
     // real saving
-    browserIcon.set('wip');
+    BrowserIcon.set('wip');
     existCache.set(url, existStates.wip);
     const message = isToFetchLocally ? 'Saving_the_page_to_wallabag_from_the_browser' : 'Saving_the_page_to_wallabag';
     postIfConnected({ response: 'info', text: Common.translate(message) });
@@ -540,12 +503,12 @@ async function savePageToWallabag (url, resetIcon, title, content) {
         .then(data => applyDirtyCacheLight(url, data))
         .then(data => {
             if (!data.deleted) {
-                browserIcon.set('good');
+                BrowserIcon.set('good');
                 postIfConnected({ response: 'article', article: cutArticle(data) });
                 cache.set(url, cutArticle(data));
                 saveExistFlag(url, existStates.exists);
                 if (api.data.AllowExistCheck !== true || resetIcon) {
-                    browserIcon.timedToDefault();
+                    BrowserIcon.timedToDefault();
                 }
             } else {
                 cache.clear(url);
@@ -554,7 +517,7 @@ async function savePageToWallabag (url, resetIcon, title, content) {
         })
         .then(data => applyDirtyCacheReal(url, data))
         .catch(error => {
-            browserIcon.setTimed('bad');
+            BrowserIcon.setTimed('bad');
             saveExistFlag(url, existStates.notexists);
             postIfConnected({ response: 'error', error: { message: Common.translate('Save_Error') } });
             throw error;
