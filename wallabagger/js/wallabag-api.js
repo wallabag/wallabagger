@@ -125,7 +125,7 @@ WallabagApi.prototype = {
 
     CheckUrl: function () {
         const url_ = this.data.Url + '/api/version';
-        return this.fetchApi.Get(url_, '')
+        return this.fetchApi.get(url_, '')
             .then(fetchData => {
                 this.data.ApiVersion = fetchData;
                 this.setAllowExistSafe();
@@ -177,7 +177,7 @@ WallabagApi.prototype = {
     PatchArticle: function (articleId, content) {
         const entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
-            this.fetchApi.Patch(entryUrl, this.data.ApiToken, content)
+            this.fetchApi.patch(entryUrl, this.data.ApiToken, content)
         )
             .catch(error => {
                 throw new Error(`Failed to update article ${entryUrl}
@@ -190,7 +190,7 @@ WallabagApi.prototype = {
     DeleteArticle: function (articleId) {
         const entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
-            this.fetchApi.Delete(entryUrl, this.data.ApiToken)
+            this.fetchApi.delete(entryUrl, this.data.ApiToken)
         )
             .catch(error => {
                 throw new Error(`Failed to delete article ${entryUrl}
@@ -201,7 +201,7 @@ WallabagApi.prototype = {
     DeleteArticleTag: function (articleId, tagid) {
         const entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
         return this.CheckToken().then(a =>
-            this.fetchApi.Delete(entryUrl, this.data.ApiToken)
+            this.fetchApi.delete(entryUrl, this.data.ApiToken)
         )
             .catch(error => {
                 throw new Error(`Failed to delete article tag ${entryUrl}
@@ -248,7 +248,7 @@ WallabagApi.prototype = {
         }
         const entriesUrl = `${this.data.Url}/api/entries.json`;
         return this.CheckToken().then(a =>
-            this.fetchApi.Post(entriesUrl, this.data.ApiToken, content)
+            this.fetchApi.post(entriesUrl, this.data.ApiToken, content)
         )
             .catch(error => {
                 throw new Error(`Failed to save page ${entriesUrl}
@@ -280,7 +280,7 @@ WallabagApi.prototype = {
     GetAppToken: function (content) {
         this.CheckUrl();
         const oauthurl = `${this.data.Url}/oauth/v2/token`;
-        return this.fetchApi.Post(oauthurl, '', content)
+        return this.fetchApi.post(oauthurl, '', content)
             .then(data => {
                 if (data !== '') {
                     this.data.ApiToken = data.access_token;
@@ -303,7 +303,7 @@ WallabagApi.prototype = {
         }
         const entriesUrl = `${this.data.Url}/api/tags.json`;
         return this.CheckToken().then(a =>
-            this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+            this.fetchApi.get(entriesUrl, this.data.ApiToken)
         )
             .then(fetchData => {
                 this.tags = fetchData;
@@ -321,7 +321,7 @@ WallabagApi.prototype = {
             const paramAsync = this.data.AllowExistSafe ? hashUrl(url) : Promise.resolve(url);
             return paramAsync.then(param => `${existsUrl}?${this.data.AllowExistSafe ? 'hashed_url' : 'url'}=${encodeURIComponent(param)}`);
         })
-            .then(url => this.fetchApi.Get(url, this.data.ApiToken))
+            .then(url => this.fetchApi.get(url, this.data.ApiToken))
             .catch(error => {
                 throw new Error(`Failed to ask ${existsUrl} whether ${url} exists
                 ${error.message}`);
@@ -331,7 +331,7 @@ WallabagApi.prototype = {
     GetArticle: function (articleId) {
         const entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
         return this.CheckToken().then(a =>
-            this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+            this.fetchApi.get(entriesUrl, this.data.ApiToken)
         )
             .catch(error => {
                 throw new Error(`Failed to get article ${entriesUrl}
@@ -342,7 +342,7 @@ WallabagApi.prototype = {
     GetArticleTags: function (articleId) {
         const entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
         return this.CheckToken().then(a =>
-            this.fetchApi.Get(entriesUrl, this.data.ApiToken)
+            this.fetchApi.get(entriesUrl, this.data.ApiToken)
         )
             .catch(error => {
                 throw new Error(`Failed to get article tags ${entriesUrl}
