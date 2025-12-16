@@ -1,3 +1,5 @@
+'use strict';
+
 import { browser } from './browser-polyfill.js';
 import { FetchApi } from './fetch-api.js';
 
@@ -17,13 +19,8 @@ const hashUrl = function (url) {
     });
 };
 
-const WallabagApi = function (logger) {
-    this.logger = logger;
-};
-
-WallabagApi.prototype = {
-
-    defaultValues: {
+class WallabagApi {
+    defaultValues = {
         Url: null,
         ApiVersion: null,
         ClientId: null,
@@ -43,38 +40,39 @@ WallabagApi.prototype = {
         ArchiveByDefault: false,
         sitesToFetchLocally: null,
         FetchLocallyByDefault: false
-    },
+    };
 
-    logger: null,
+    data = {};
 
-    data: {},
+    #fetchApi = null;
+    #logger = null;
 
-    fetchApi: null,
+    constructor (logger) {
+        this.#logger = logger;
+    }
 
-    tags: [],
-
-    init: async function () {
-        this.logger.groupCollapsed('init');
-        this.logger.log('starting');
+    async init () {
+        this.#logger.groupCollapsed('init');
+        this.#logger.log('starting');
         Object.assign(this.data, this.defaultValues);
-        this.fetchApi = new FetchApi();
-        await this.load();
-        this.setAllowExistSafe();
-        this.logger.log('ending');
-        this.logger.groupEnd();
-    },
+        this.#fetchApi = new FetchApi();
+        await this.#load();
+        this.#setAllowExistSafe();
+        this.#logger.log('ending');
+        this.#logger.groupEnd();
+    }
 
-    forceInit: async function () {
+    async forceInit () {
         if (!this.data.ClientId) {
             await this.init();
         }
-    },
+    }
 
-    load: async function () {
+    async #load () {
         const result = await browser.storage.local.get('wallabagdata');
 
         if (result.wallabagdata != null) {
-            this.set(result.wallabagdata);
+            this.#set(result.wallabagdata);
             if (this.checkParams()) {
                 return this.data;
             }
@@ -82,18 +80,18 @@ WallabagApi.prototype = {
         this.clear();
 
         return this.data;
-    },
+    }
 
-    needNewAppToken: function () {
+    #needNewAppToken () {
         const need = (
             (this.data.ApiToken === '') ||
                   (this.data.ApiToken === null) ||
-                  this.isTokenExpired()
+                  this.#isTokenExpired()
         );
         return need;
-    },
+    }
 
-    checkParams: function () {
+    checkParams () {
         return ((this.data.ClientId !== null) &&
                  (this.data.ClientSecret !== null) &&
                  (this.data.UserLogin !== null) &&
@@ -102,126 +100,129 @@ WallabagApi.prototype = {
                  (this.data.ClientSecret !== '') &&
                  (this.data.UserLogin !== '') &&
                  (this.data.UserPassword !== ''));
-    },
+    }
 
-    isTokenExpired: function () {
+    // @TODO rename method to avoid conflict with data.isTokenExpired
+    #isTokenExpired () {
         return Date.now() > this.data.ExpireDate;
-    },
+    }
 
-    clear: function () {
-        this.set(this.defaultValues);
-        this.logger.log('Some parameters are empty. Check the settings');
-    },
+    clear () {
+        this.#set(this.defaultValues);
+        this.#logger.log('Some parameters are empty. Check the settings');
+    }
 
-    set: function (params) {
+    #set (params) {
         Object.assign(this.data, params);
-    },
+    }
 
-    saveParams: function (params) {
-        this.logger.setDebug(params.Debug);
-        this.set(params);
+    saveParams (params) {
+        this.#logger.setDebug(params.Debug);
+        this.#set(params);
         browser.storage.local.set({ wallabagdata: this.data });
-    },
+    }
 
-    CheckUrl: function () {
+    CheckUrl () {
         const url_ = this.data.Url + '/api/version';
-        return this.fetchApi.get(url_, '')
+        return this.#fetchApi.get(url_, '')
             .then(fetchData => {
                 this.data.ApiVersion = fetchData;
-                this.setAllowExistSafe();
+                this.#setAllowExistSafe();
                 return fetchData;
             })
             .catch(error => {
                 throw new Error(`Failed to get api version ${url_}
                 ${error.message}`);
             });
-    },
+    }
 
-    setAllowExistSafe: async function () {
+    async #setAllowExistSafe () {
         if (typeof (this.data.Url) !== 'string') {
             return false;
         }
-        this.data.AllowExistSafe = await this.SupportsHashedUrl();
-    },
+        this.data.AllowExistSafe = await this.#SupportsHashedUrl();
+    }
 
     /**
      * @returns {Promise<[number, number, number]>}
      */
-    GetVersion: function () {
+    #GetVersion () {
         if (this.data.ApiVersion) return Promise.resolve(this.data.ApiVersion.split('.').map(Number));
-        return this.CheckUrl().then(() => this.GetVersion());
-    },
+        return this.CheckUrl().then(() => this.#GetVersion());
+    }
 
-    SupportsHashedUrl: function () {
-        return this.GetVersion().then(([major, minor]) => {
+    #SupportsHashedUrl () {
+        return this.#GetVersion().then(([major, minor]) => {
             return (major > 2) || (major === 2 && minor >= 4);
         });
-    },
+    }
 
-    SaveTitle: function (articleId, articleTitle) {
+    SaveTitle (articleId, articleTitle) {
         return this.PatchArticle(articleId, { title: articleTitle });
-    },
+    }
 
-    SaveStarred: function (articleId, articleStarred) {
+    // @TODO remove data-apicall from options.html
+    SaveStarred (articleId, articleStarred) {
         return this.PatchArticle(articleId, { starred: articleStarred });
-    },
+    }
 
-    SaveArchived: function (articleId, articleArchived) {
+    // @TODO remove data-apicall from options.html
+    SaveArchived (articleId, articleArchived) {
         return this.PatchArticle(articleId, { archive: articleArchived });
-    },
+    }
 
-    SaveTags: function (articleId, taglist) {
+    SaveTags (articleId, taglist) {
         return this.PatchArticle(articleId, { tags: taglist });
-    },
+    }
 
-    PatchArticle: function (articleId, content) {
+    PatchArticle (articleId, content) {
         const entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return this.CheckToken().then(a =>
-            this.fetchApi.patch(entryUrl, this.data.ApiToken, content)
+        return this.#CheckToken().then(() =>
+            this.#fetchApi.patch(entryUrl, this.data.ApiToken, content)
         )
             .catch(error => {
                 throw new Error(`Failed to update article ${entryUrl}
                 ${error.message}`);
             });
-    },
+    }
     /** Delete article
      * @param articleId {number} Article identificator
      */
-    DeleteArticle: function (articleId) {
+    DeleteArticle (articleId) {
         const entryUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return this.CheckToken().then(a =>
-            this.fetchApi.delete(entryUrl, this.data.ApiToken)
+        return this.#CheckToken().then(() =>
+            this.#fetchApi.delete(entryUrl, this.data.ApiToken)
         )
             .catch(error => {
                 throw new Error(`Failed to delete article ${entryUrl}
                 ${error.message}`);
             });
-    },
+    }
 
-    DeleteArticleTag: function (articleId, tagid) {
+    DeleteArticleTag (articleId, tagid) {
         const entryUrl = `${this.data.Url}/api/entries/${articleId}/tags/${tagid}.json`;
-        return this.CheckToken().then(a =>
-            this.fetchApi.delete(entryUrl, this.data.ApiToken)
+        return this.#CheckToken().then(() =>
+            this.#fetchApi.delete(entryUrl, this.data.ApiToken)
         )
             .catch(error => {
                 throw new Error(`Failed to delete article tag ${entryUrl}
                 ${error.message}`);
             });
-    },
+    }
 
-    CheckToken: function () {
+    #CheckToken () {
         return new Promise((resolve, reject) => {
             if (!this.checkParams()) {
                 reject(new Error('Parameters not ok.'));
             }
-            if (this.needNewAppToken()) {
+            if (this.#needNewAppToken()) {
                 resolve(this.PasswordToken());
             }
             resolve('Token ok.');
         });
-    },
+    }
 
-    IsSiteToFetchLocally: function (pageUrl) {
+    IsSiteToFetchLocally (pageUrl) {
         if (this.data.FetchLocallyByDefault) {
             return true;
         }
@@ -232,9 +233,9 @@ WallabagApi.prototype = {
         return sites.filter(function (item) {
             return pageUrl.indexOf(item) === 0;
         }).length > 0;
-    },
+    }
 
-    SavePage: function (options) {
+    SavePage (options) {
         const content = { url: options.url };
         if (this.data.ArchiveByDefault === true) {
             content.archive = 1;
@@ -243,30 +244,20 @@ WallabagApi.prototype = {
             content.title = options.title;
         }
         if (options.content) {
-            this.logger.log('has local content', options.content);
+            this.#logger.log('has local content', options.content);
             content.content = options.content;
         }
         const entriesUrl = `${this.data.Url}/api/entries.json`;
-        return this.CheckToken().then(a =>
-            this.fetchApi.post(entriesUrl, this.data.ApiToken, content)
+        return this.#CheckToken().then(() =>
+            this.#fetchApi.post(entriesUrl, this.data.ApiToken, content)
         )
             .catch(error => {
                 throw new Error(`Failed to save page ${entriesUrl}
                 ${error.message}`);
             });
-    },
+    }
 
-    RefreshToken: function () {
-        const content = {
-            grant_type: 'refresh_token',
-            refresh_token: this.data.RefreshToken,
-            client_id: this.data.ClientId,
-            client_secret: this.data.ClientSecret
-        };
-        return this.GetAppToken(content);
-    },
-
-    PasswordToken: function () {
+    PasswordToken () {
         const content = {
             grant_type: 'password',
             client_id: this.data.ClientId,
@@ -274,19 +265,19 @@ WallabagApi.prototype = {
             username: this.data.UserLogin,
             password: this.data.UserPassword
         };
-        return this.GetAppToken(content);
-    },
+        return this.#GetAppToken(content);
+    }
 
-    GetAppToken: function (content) {
+    #GetAppToken (content) {
         this.CheckUrl();
         const oauthurl = `${this.data.Url}/oauth/v2/token`;
-        return this.fetchApi.post(oauthurl, '', content)
+        return this.#fetchApi.post(oauthurl, '', content)
             .then(data => {
                 if (data !== '') {
                     this.data.ApiToken = data.access_token;
                     this.data.RefreshToken = data.refresh_token;
                     this.data.ExpireDate = Date.now() + data.expires_in * 1000;
-                    this.data.isTokenExpired = this.isTokenExpired();
+                    this.data.isTokenExpired = this.#isTokenExpired();
                     return data;
                 }
             })
@@ -294,58 +285,35 @@ WallabagApi.prototype = {
                 throw new Error(`Failed to refresh token ${oauthurl}
                 ${error.message}`);
             });
-    },
+    }
 
-    GetTags: async function () {
+    async GetTags () {
         await this.forceInit();
         if (!this.checkParams()) {
             return false;
         }
         const entriesUrl = `${this.data.Url}/api/tags.json`;
-        return this.CheckToken().then(a =>
-            this.fetchApi.get(entriesUrl, this.data.ApiToken)
+        return this.#CheckToken().then(() =>
+            this.#fetchApi.get(entriesUrl, this.data.ApiToken)
         )
             .then(fetchData => {
-                this.tags = fetchData;
                 return fetchData;
             })
             .catch(error => {
                 throw new Error(`Failed to get tags ${entriesUrl} ${error.message}`);
             });
-    },
+    }
 
-    EntryExists: function (url) {
+    EntryExists (url) {
         const existsUrl = `${this.data.Url}/api/entries/exists.json`;
 
-        return this.CheckToken().then(() => {
+        return this.#CheckToken().then(() => {
             const paramAsync = this.data.AllowExistSafe ? hashUrl(url) : Promise.resolve(url);
             return paramAsync.then(param => `${existsUrl}?${this.data.AllowExistSafe ? 'hashed_url' : 'url'}=${encodeURIComponent(param)}`);
         })
-            .then(url => this.fetchApi.get(url, this.data.ApiToken))
+            .then(url => this.#fetchApi.get(url, this.data.ApiToken))
             .catch(error => {
                 throw new Error(`Failed to ask ${existsUrl} whether ${url} exists
-                ${error.message}`);
-            });
-    },
-
-    GetArticle: function (articleId) {
-        const entriesUrl = `${this.data.Url}/api/entries/${articleId}.json`;
-        return this.CheckToken().then(a =>
-            this.fetchApi.get(entriesUrl, this.data.ApiToken)
-        )
-            .catch(error => {
-                throw new Error(`Failed to get article ${entriesUrl}
-                ${error.message}`);
-            });
-    },
-
-    GetArticleTags: function (articleId) {
-        const entriesUrl = `${this.data.Url}/api/entries/${articleId}/tags.json`;
-        return this.CheckToken().then(a =>
-            this.fetchApi.get(entriesUrl, this.data.ApiToken)
-        )
-            .catch(error => {
-                throw new Error(`Failed to get article tags ${entriesUrl}
                 ${error.message}`);
             });
     }
