@@ -5,6 +5,7 @@ import { Common } from './common.js';
 import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
 import { Logger } from './utils/logger.js';
+import { decodeStr, sanitize } from './utils/sanitize.js';
 
 class PopupController {
     #mainCard = null;
@@ -50,8 +51,6 @@ class PopupController {
     #logger = null;
     #port = null;
 
-    #encodeMap = { '&': '&amp;', '\'': '&#039;', '"': '&quot;', '<': '&lt;', '>': '&gt;' };
-    #decodeMap = { '&amp;': '&', '&#039;': '\'', '&quot;': '"', '&lt;': '<', '&gt;': '>' };
 
     #selectedTag = -1;
     #selectedFoundTag = 0;
@@ -88,19 +87,6 @@ class PopupController {
         document.body.classList.add(viewportClass);
         this.#port = new PortManager('popup', this.#messageListener.bind(this), this.#logger);
         this.#port.postMessage({ request: 'setup' });
-    }
-
-    #getSaveHtml (param) {
-        return param.replace(/[<'&">]/g, symb => this.#encodeMap[symb]);
-    }
-
-    // @TODO extract
-    #decodeStr (param) {
-        for (const prop in this.#decodeMap) {
-            const propRegExp = new RegExp(prop, 'g');
-            param = param.replace(propRegExp, this.#decodeMap[prop]);
-        }
-        return param;
     }
 
     #addListeners () {
@@ -238,7 +224,7 @@ class PopupController {
             if (tagid <= 0) {
                 this.#tmpTagId = this.#tmpTagId - 1;
             }
-            this.#port.postMessage({ request: 'saveTags', articleId: this.#articleId, tags: this.#getSaveHtml(this.#getTagsStr()), tabUrl: this.#tabUrl });
+            this.#port.postMessage({ request: 'saveTags', articleId: this.#articleId, tags: sanitize(this.#getTagsStr()), tabUrl: this.#tabUrl });
             this.#checkAutocompleteState();
         } else {
             this.#tagsInput.placeholder = Common.translate('Tag_already_exists');
@@ -267,7 +253,7 @@ class PopupController {
         const tagid = chip.dataset.tagid;
         this.#dirtyTags = this.#dirtyTags.filter(tag => tag.id !== tagid);
         chip.parentNode.removeChild(chip);
-        this.#port.postMessage({ request: 'deleteArticleTag', articleId: this.#articleId, tagId: tagid, tags: this.#getSaveHtml(this.#getTagsStr()), tabUrl: this.#tabUrl });
+        this.#port.postMessage({ request: 'deleteArticleTag', articleId: this.#articleId, tagId: tagid, tags: sanitize(this.#getTagsStr()), tabUrl: this.#tabUrl });
         this.#checkAutocompleteState();
     }
 
@@ -415,7 +401,7 @@ class PopupController {
 
     #saveTitleClick (e) {
         e.preventDefault();
-        this.#port.postMessage({ request: 'saveTitle', articleId: this.#articleId, title: this.#getSaveHtml(this.#titleInput.value), tabUrl: this.#tabUrl });
+        this.#port.postMessage({ request: 'saveTitle', articleId: this.#articleId, title: sanitize(this.#titleInput.value), tabUrl: this.#tabUrl });
         this.#cardTitle.textContent = this.#titleInput.value;
         this.#hide(this.#cardBody);
         this.#show(this.#cardHeader);
@@ -483,7 +469,7 @@ class PopupController {
 
     #setArticle (data) {
         this.#articleId = data.id;
-        if (data.title !== undefined) { this.#cardTitle.textContent = this.#decodeStr(data.title); }
+        if (data.title !== undefined) { this.#cardTitle.textContent = decodeStr(data.title); }
         this.#cardTitle.href = data.id === -1 ? '#' : `${this.#apiUrl}/view/${this.#articleId}`;
         if (data.domain_name !== undefined) { this.#entryUrl.textContent = data.domain_name; }
         this.#entryUrl.href = data.url;
