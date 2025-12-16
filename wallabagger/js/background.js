@@ -209,7 +209,7 @@ async function boot () {
     await contextMenusCreation();
     await api.init();
     addExistCheckListeners(api.data.AllowExistCheck);
-    const { tags } = await api.GetTags();
+    const { tags } = await api.getTags();
     cache.set('allTags', tags);
     logger.log('ending');
     logger.groupEnd();
@@ -300,7 +300,7 @@ async function onPortMessage (msg) {
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
-                    api.GetTags()
+                    api.getTags()
                         .then(data => {
                             postIfConnected({ response: 'tags', tags: data });
                             cache.set('allTags', data);
@@ -311,7 +311,7 @@ async function onPortMessage (msg) {
                 break;
             case 'saveTitle':
                 if (msg.articleId !== -1) {
-                    api.SaveTitle(msg.articleId, msg.title).then(data => {
+                    api.saveTitle(msg.articleId, msg.title).then(data => {
                         postIfConnected({ response: 'title', title: data.title });
                         cache.set(msg.tabUrl, cutArticle(data));
                     });
@@ -321,7 +321,7 @@ async function onPortMessage (msg) {
                 break;
             case 'deleteArticle':
                 if (msg.articleId !== -1) {
-                    api.DeleteArticle(msg.articleId).then(data => {
+                    api.deleteArticle(msg.articleId).then(data => {
                         cache.clear(msg.tabUrl);
                     });
                 } else {
@@ -347,11 +347,11 @@ async function onPortMessage (msg) {
                 break;
             case 'setup-gettoken':
                 api.saveParams(msg.data);
-                api.PasswordToken()
+                api.passwordToken()
                     .then(a => {
                         postIfConnected({ response: 'setup-gettoken', data: api.data, result: true });
                         if (!cache.check('allTags')) {
-                            api.GetTags()
+                            api.getTags()
                                 .then(data => { cache.set('allTags', data); });
                         }
                     })
@@ -361,7 +361,7 @@ async function onPortMessage (msg) {
                 break;
             case 'setup-checkurl':
                 api.saveParams(msg.data);
-                api.CheckUrl()
+                api.checkUrl()
                     .then(a => {
                         postIfConnected({ response: 'setup-checkurl', data: api.data, result: true });
                     })
@@ -372,7 +372,7 @@ async function onPortMessage (msg) {
                 break;
             case 'deleteArticleTag':
                 if (msg.articleId !== -1) {
-                    api.DeleteArticleTag(msg.articleId, msg.tagId).then(data => {
+                    api.deleteArticleTag(msg.articleId, msg.tagId).then(data => {
                         postIfConnected({ response: 'articleTags', tags: data.tags });
                         cache.set(msg.tabUrl, cutArticle(data));
                     });
@@ -382,7 +382,7 @@ async function onPortMessage (msg) {
                 break;
             case 'saveTags':
                 if (msg.articleId !== -1) {
-                    api.SaveTags(msg.articleId, msg.tags).then(data => {
+                    api.saveTags(msg.articleId, msg.tags).then(data => {
                         postIfConnected({ response: 'articleTags', tags: data.tags });
                         cache.set(msg.tabUrl, cutArticle(data));
                         return data;
@@ -395,15 +395,15 @@ async function onPortMessage (msg) {
                     dirtyCacheSet(msg.tabUrl, { tagList: msg.tags });
                 }
                 break;
-            case 'SaveStarred':
-            case 'SaveArchived':
+            case 'saveStarred':
+            case 'saveArchived':
                 if (msg.articleId !== -1) {
                     api[msg.request](msg.articleId, msg.value ? 1 : 0).then(data => {
                         postIfConnected({ response: 'action', value: { starred: data.is_starred, archived: data.is_archived } });
                         cache.set(msg.tabUrl, cutArticle(data));
                     });
                 } else {
-                    dirtyCacheSet(msg.tabUrl, (msg.request === 'SaveStarred') ? { is_starred: msg.value } : { is_archived: msg.value });
+                    dirtyCacheSet(msg.tabUrl, (msg.request === 'saveStarred') ? { is_starred: msg.value } : { is_archived: msg.value });
                 }
                 break;
             default: {
@@ -486,10 +486,10 @@ function applyDirtyCacheReal (key, data) {
     if (dirtyCache.check(key)) {
         const dirtyObject = dirtyCache.get(key);
         if (dirtyObject.deleted !== undefined) {
-            return api.DeleteArticle(data.id).then(a => { dirtyCache.clear(key); });
+            return api.deleteArticle(data.id).then(a => { dirtyCache.clear(key); });
         } else {
             if (data.changed !== undefined) {
-                return api.PatchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList })
+                return api.patchArticle(data.id, { title: data.title, starred: data.is_starred, archive: data.is_archived, tags: data.tagList })
                     .then(data => cache.set(key, cutArticle(data)))
                     .then(a => { dirtyCache.clear(key); });
             }
@@ -535,7 +535,7 @@ async function savePageToWallabag (url, resetIcon, title, content) {
     }
     // if WIP and was some dirty changes, return dirtyCache
     const exists = existCache.check(url) ? existCache.get(url) : existStates.notexists;
-    const isToFetchLocally = api.IsSiteToFetchLocally(url);
+    const isToFetchLocally = api.isSiteToFetchLocally(url);
     if (exists === existStates.wip) {
         if (dirtyCache.check(url)) {
             const dc = dirtyCache.get(url);
@@ -568,7 +568,7 @@ async function savePageToWallabag (url, resetIcon, title, content) {
         savePageOptions.content = content;
     }
 
-    const promise = api.SavePage(savePageOptions);
+    const promise = api.savePage(savePageOptions);
     promise
         .then(data => applyDirtyCacheLight(url, data))
         .then(data => {
@@ -611,7 +611,7 @@ const checkExist = (dirtyUrl) => {
 };
 
 const requestExists = (url) =>
-    api.EntryExists(url)
+    api.entryExists(url)
         .then(data => {
             let icon = 'default';
             if (data.exists) {
