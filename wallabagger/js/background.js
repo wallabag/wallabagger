@@ -209,7 +209,7 @@ async function boot () {
     await contextMenusCreation();
     await api.init();
     addExistCheckListeners(api.data.AllowExistCheck);
-    const { tags } = await api.getTags();
+    const tags = await api.getTags();
     cache.set('allTags', tags);
     logger.log('ending');
     logger.groupEnd();
