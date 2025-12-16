@@ -2,22 +2,7 @@
 
 import { browser } from './browser-polyfill.js';
 import { FetchApi } from './fetch-api.js';
-
-/**
- * @param {string} url
- * @returns {Promise<string>}
- * @see https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#converting_a_digest_to_a_hex_string
- */
-const hashUrl = function (url) {
-    const urlByteArray = new TextEncoder().encode(url);
-    return crypto.subtle.digest('SHA-1', urlByteArray).then(hashBuffer => {
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray
-            .map((b) => b.toString(16).padStart(2, '0'))
-            .join(''); // convert bytes to hex string
-        return hashHex;
-    });
-};
+import { hashUrl } from './utils/url.js';
 
 class WallabagApi {
     defaultValues = {
@@ -307,9 +292,12 @@ class WallabagApi {
     entryExists (url) {
         const existsUrl = `${this.data.Url}/api/entries/exists.json`;
 
-        return this.#checkToken().then(() => {
-            const paramAsync = this.data.AllowExistSafe ? hashUrl(url) : Promise.resolve(url);
-            return paramAsync.then(param => `${existsUrl}?${this.data.AllowExistSafe ? 'hashed_url' : 'url'}=${encodeURIComponent(param)}`);
+        return this.#checkToken().then(async () => {
+            const urlValueParam = this.data.AllowExistSafe ?
+                await hashUrl(url) : url;
+            const keyParam = this.data.AllowExistSafe ?
+                'hashed_url' : 'url';
+            return `${existsUrl}?${keyParam}=${encodeURIComponent(urlValueParam)}`;
         })
             .then(url => this.#fetchApi.get(url, this.data.ApiToken))
             .catch(error => {
