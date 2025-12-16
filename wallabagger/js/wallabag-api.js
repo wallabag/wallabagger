@@ -289,21 +289,20 @@ class WallabagApi {
             });
     }
 
-    entryExists (url) {
+    async entryExists (url) {
         const existsUrl = `${this.data.Url}/api/entries/exists.json`;
 
-        return this.#checkToken().then(async () => {
+        try {
+            await this.#checkToken();
             const urlValueParam = this.data.AllowExistSafe ?
                 await hashUrl(url) : url;
             const keyParam = this.data.AllowExistSafe ?
                 'hashed_url' : 'url';
-            return `${existsUrl}?${keyParam}=${encodeURIComponent(urlValueParam)}`;
-        })
-            .then(url => this.#fetchApi.get(url, this.data.ApiToken))
-            .catch(error => {
-                throw new Error(`Failed to ask ${existsUrl} whether ${url} exists
-                ${error.message}`);
-            });
+            const requestUrl = `${existsUrl}?${keyParam}=${encodeURIComponent(urlValueParam)}`;
+            return this.#fetchApi.get(requestUrl, this.data.ApiToken);
+        } catch(error) {
+            throw new Error(`Failed to ask ${existsUrl} whether ${url} exists ${error.message}`);
+        }
     }
 };
 

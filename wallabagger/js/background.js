@@ -610,20 +610,19 @@ const checkExist = (dirtyUrl) => {
     }
 };
 
-const requestExists = (url) =>
-    api.entryExists(url)
-        .then(data => {
-            let icon = 'default';
-            if (data.exists) {
-                icon = 'good';
-                if (api.data.AllowExistCheck !== true) {
-                    browserIcon.setTimed(icon);
-                }
-            }
-            browserIcon.set(icon);
-            saveExistFlag(url, data.exists ? existStates.exists : existStates.notexists);
-            return data.exists;
-        });
+const requestExists = async (url) => {
+    const data = await api.entryExists(url);
+    let icon = 'default';
+    if (data.exists) {
+        icon = 'good';
+        if (api.data.AllowExistCheck !== true) {
+            browserIcon.setTimed(icon);
+        }
+    }
+    browserIcon.set(icon);
+    saveExistFlag(url, data.exists ? existStates.exists : existStates.notexists);
+    return data.exists;
+};
 
 const saveExistFlag = (url, exists) => {
     existCache.set(url, exists);
