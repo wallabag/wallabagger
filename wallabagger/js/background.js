@@ -5,11 +5,14 @@ import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
 import { Logger } from './utils/logger.js';
 import { Cache } from './utils/cache.js';
+import { ExistingUrl } from './utils/existing-url.js';
 import { BrowserIcon } from './utils/browser-icon.js';
 
 const logger = new Logger('background');
 const api = new WallabagApi(logger);
+const browserIcon = new BrowserIcon(browser);
 const browserUtils = new BrowserUtils(logger);
+const existingUrl = new ExistingUrl(api, browser, browserIcon, browserUtils, logger);
 
 let Port = null;
 let portConnected = false;
@@ -19,15 +22,9 @@ if (!globalThis.wallabaggerBrowser) {
     wallabaggerAddLinkContexts.push('tab');
 }
 
-const existStates = {
-    exists: 'exists',
-    notexists: 'notexists',
-    wip: 'wip'
-};
 
 const cache = new Cache(true); // TODO - here checking option
 const dirtyCache = new Cache(true);
-const existCache = new Cache(true);
 
 const isBetaVersion = browser.runtime.getManifest().version.split('.').length === 4;
 if (isBetaVersion) {
@@ -176,59 +173,13 @@ async function boot () {
     addListeners();
     await contextMenusCreation();
     await api.init();
-    addExistCheckListeners(api.data.AllowExistCheck);
+    existingUrl.addListeners(api.data.AllowExistCheck);
     const tags = await api.getTags();
     cache.set('allTags', tags);
     logger.log('ending');
     logger.groupEnd();
 }
 boot();
-
-function onTabActivatedListener (activeInfo) {
-    browserIcon.set('default');
-    const { tabId } = activeInfo;
-    browser.tabs.get(tabId, function (tab) {
-        if (tab.incognito) {
-            return;
-        }
-        checkExist(tab.url);
-    });
-}
-
-function onTabCreatedListener (tab) {
-    browserIcon.set('default');
-}
-
-function onTabUpdatedListener (tabId, changeInfo, tab) {
-    if (tab.incognito) {
-        return;
-    }
-    if ((changeInfo.status === 'loading') && tab.active) {
-        checkExist(tab.url);
-    }
-}
-
-function addExistCheckListeners (enable) {
-    logger.groupCollapsed('addExistCheckListeners');
-    logger.log('starting');
-    if (enable === true) {
-        browser.tabs.onActivated.addListener(onTabActivatedListener);
-        browser.tabs.onCreated.addListener(onTabCreatedListener);
-        browser.tabs.onUpdated.addListener(onTabUpdatedListener);
-    } else {
-        if (browser.tabs && browser.tabs.onActivated.hasListener(onTabActivatedListener)) {
-            browser.tabs.onActivated.removeListener(onTabActivatedListener);
-        }
-        if (browser.tabs && browser.tabs.onCreated.hasListener(onTabCreatedListener)) {
-            browser.tabs.onCreated.removeListener(onTabCreatedListener);
-        }
-        if (browser.tabs && browser.tabs.onUpdated.hasListener(onTabUpdatedListener)) {
-            browser.tabs.onUpdated.removeListener(onTabUpdatedListener);
-        }
-    }
-    logger.log('ending');
-    logger.groupEnd();
-}
 
 function goToOptionsPage (optionsPageUrl, res) {
     if (typeof (res) === 'undefined' || res.length === 0) {
@@ -295,8 +246,8 @@ async function onPortMessage (msg) {
                 } else {
                     dirtyCacheSet(msg.tabUrl, { deleted: true });
                 }
-                BrowserIcon.set('default');
-                saveExistFlag(msg.tabUrl, existStates.notexists);
+                browserIcon.set('default');
+                existingUrl.saveExistFlag(msg.tabUrl, existingUrl.states.notexists);
                 break;
             case 'setup':
                 logger.log('setup');
@@ -311,7 +262,7 @@ async function onPortMessage (msg) {
             case 'setup-save':
                 api.saveParams(msg.data);
                 postIfConnected({ response: 'setup-save', data: api.data });
-                addExistCheckListeners(msg.data.AllowExistCheck);
+                existingUrl.addListeners(msg.data.AllowExistCheck);
                 break;
             case 'setup-gettoken':
                 api.saveParams(msg.data);
@@ -379,7 +330,7 @@ async function onPortMessage (msg) {
             }
         }
     } catch (error) {
-        BrowserIcon.setTimed('bad');
+        browserIcon.setTimed('bad');
         postIfConnected({ response: 'error', error });
     }
 }
@@ -464,9 +415,9 @@ async function savePageToWallabag (url, resetIcon, title, content) {
         return false;
     }
     // if WIP and was some dirty changes, return dirtyCache
-    const exists = existCache.check(url) ? existCache.get(url) : existStates.notexists;
+    const exists = existingUrl.cache.check(url) ? existingUrl.cache.get(url) : existingUrl.states.notexists;
     const isToFetchLocally = api.isSiteToFetchLocally(url);
-    if (exists === existStates.wip) {
+    if (exists === existingUrl.states.wip) {
         if (dirtyCache.check(url)) {
             const dc = dirtyCache.get(url);
             postIfConnected({ response: 'article', article: cutArticle(dc) });
@@ -483,8 +434,8 @@ async function savePageToWallabag (url, resetIcon, title, content) {
     }
 
     // real saving
-    BrowserIcon.set('wip');
-    existCache.set(url, existStates.wip);
+    browserIcon.set('wip');
+    existingUrl.cache.set(url, existingUrl.states.wip);
     const message = isToFetchLocally ? 'Saving_the_page_to_wallabag_from_the_browser' : 'Saving_the_page_to_wallabag';
     postIfConnected({ response: 'info', text: Common.translate(message) });
 
@@ -503,12 +454,12 @@ async function savePageToWallabag (url, resetIcon, title, content) {
         .then(data => applyDirtyCacheLight(url, data))
         .then(data => {
             if (!data.deleted) {
-                BrowserIcon.set('good');
+                browserIcon.set('good');
                 postIfConnected({ response: 'article', article: cutArticle(data) });
                 cache.set(url, cutArticle(data));
-                saveExistFlag(url, existStates.exists);
+                existingUrl.saveExistFlag(url, existingUrl.states.exists);
                 if (api.data.AllowExistCheck !== true || resetIcon) {
-                    BrowserIcon.timedToDefault();
+                    browserIcon.timedToDefault();
                 }
             } else {
                 cache.clear(url);
@@ -517,46 +468,15 @@ async function savePageToWallabag (url, resetIcon, title, content) {
         })
         .then(data => applyDirtyCacheReal(url, data))
         .catch(error => {
-            BrowserIcon.setTimed('bad');
-            saveExistFlag(url, existStates.notexists);
+            browserIcon.setTimed('bad');
+            existingUrl.saveExistFlag(url, existingUrl.states.notexists);
             postIfConnected({ response: 'error', error: { message: Common.translate('Save_Error') } });
             throw error;
         });
 };
 
-const checkExist = (dirtyUrl) => {
-    if (browserUtils.isServicePage(dirtyUrl, api.data.Url)) { return; }
-    const url = dirtyUrl.split('#')[0];
-    if (existCache.check(url)) {
-        const existsFlag = existCache.get(url);
-        if (existsFlag === existStates.exists) {
-            browserIcon.set('good');
-        }
-        if (existsFlag === existStates.wip) {
-            browserIcon.set('wip');
-        }
-    } else {
-        requestExists(url);
-    }
-};
 
-const requestExists = async (url) => {
-    const data = await api.entryExists(url);
-    let icon = 'default';
-    if (data.exists) {
-        icon = 'good';
-        if (api.data.AllowExistCheck !== true) {
-            browserIcon.setTimed(icon);
-        }
-    }
-    browserIcon.set(icon);
-    saveExistFlag(url, data.exists ? existStates.exists : existStates.notexists);
-    return data.exists;
-};
 
-const saveExistFlag = (url, exists) => {
-    existCache.set(url, exists);
-};
 
 const addToAllTags = (tags) => {
     if (tags.length === 0) { return; }
