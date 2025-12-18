@@ -7,6 +7,8 @@ import { BrowserUtils } from './utils/browser-utils.js';
 import { Logger } from './utils/logger.js';
 import { decodeStr, sanitize } from './utils/sanitize.js';
 
+import { BrowserContentFetch } from './browser-content-fetch/browser-content-fetch.js';
+
 class PopupController {
     #mainCard = null;
     #errorToast = null;
@@ -56,6 +58,8 @@ class PopupController {
     #selectedFoundTag = 0;
     #backspacePressed = false;
 
+    #browserContentFetch = null;
+
     constructor () {
         this.#mainCard = document.getElementById('main-card');
         this.#errorToast = document.getElementById('error-toast');
@@ -87,6 +91,8 @@ class PopupController {
         document.body.classList.add(viewportClass);
         this.#port = new PortManager('popup', this.#messageListener.bind(this), this.#logger);
         this.#port.postMessage({ request: 'setup' });
+
+        this.#browserContentFetch = new BrowserContentFetch();
     }
 
     #addListeners () {
@@ -594,12 +600,23 @@ class PopupController {
             this.#enableTagsInput();
 
             browser.runtime.onMessage.addListener(event => {
-                if (typeof event.wallabagSaveArticleContent === 'undefined') {
+                if (typeof event.entryDocumentStr === 'undefined') {
                     return;
                 }
 
-                this.#logger.log('postMessage');
-                this.#port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
+                const parser = new DOMParser();
+                const entryDocument = parser.parseFromString(event.entryDocumentStr, 'text/html');
+                const wallabagEntry = this.#browserContentFetch.getEntry(tab.url, entryDocument);
+
+                const saveEntryMessage = {
+                    request: 'save',
+                    tabUrl: wallabagEntry.url,
+                    proxifiedUrl: wallabagEntry.originUrl ?? null,
+                    title: wallabagEntry.title ?? tab.title,
+                    content: wallabagEntry.content ?? null
+                };
+                this.#logger.log('postMessage', saveEntryMessage);
+                this.#port.postMessage(saveEntryMessage);
             });
 
             try {
@@ -612,7 +629,7 @@ class PopupController {
                             // because of isolated context where
                             // browser is undefined in Chromium-based browsers
                             chrome.runtime.sendMessage({
-                                wallabagSaveArticleContent: window.document.documentElement.innerHTML
+                                entryDocumentStr: `<html>${window.document.documentElement.innerHTML}</html>`
                             });
                         }
                     });

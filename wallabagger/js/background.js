@@ -215,7 +215,7 @@ async function onPortMessage (msg) {
     try {
         switch (msg.request) {
             case 'save':
-                savePageToWallabag(msg.tabUrl, false, msg.title, msg.content);
+                savePageToWallabag(msg.tabUrl, false, msg.title, msg.content, msg.proxifiedUrl);
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
@@ -405,10 +405,11 @@ function moveToDirtyCache (url) {
     }
 }
 
-async function savePageToWallabag (url, resetIcon, title, content) {
-    if (browserUtils.isServicePage(url, api.data.Url)) {
+async function savePageToWallabag (tabUrl, resetIcon, title, content, proxifiedUrl) {
+    if (browserUtils.isServicePage(tabUrl, api.data.Url)) {
         return;
     }
+    const url = tabUrl;
     await api.forceInit();
     if (api.checkParams() === false) {
         openOptionsPage();
@@ -416,7 +417,8 @@ async function savePageToWallabag (url, resetIcon, title, content) {
     }
     // if WIP and was some dirty changes, return dirtyCache
     const exists = existingUrl.cache.check(url) ? existingUrl.cache.get(url) : existingUrl.states.notexists;
-    const isToFetchLocally = api.isSiteToFetchLocally(url);
+    const hasContent = content && content.length > 0;
+    const isToFetchLocally = hasContent ?? api.isSiteToFetchLocally(tabUrl);
     if (exists === existingUrl.states.wip) {
         if (dirtyCache.check(url)) {
             const dc = dirtyCache.get(url);
@@ -439,9 +441,11 @@ async function savePageToWallabag (url, resetIcon, title, content) {
     const message = isToFetchLocally ? 'Saving_the_page_to_wallabag_from_the_browser' : 'Saving_the_page_to_wallabag';
     postIfConnected({ response: 'info', text: Common.translate(message) });
 
-    const savePageOptions = {
-        url
-    };
+    const savePageOptions = {url};
+
+    if(proxifiedUrl) {
+        savePageOptions.origin_url = proxifiedUrl;
+    }
 
     if (isToFetchLocally) {
         logger.log('set locally fetched', { title, content });
