@@ -76,7 +76,7 @@
         "description": "Options"
     },
     "Edit_the_Wallabag_title_of_this_article": {
-        "message": "この記事の Wallabag でのタイトルを編集",
+        "message": "この記事の wallabag でのタイトルを編集",
         "description": "Popup"
     },
     "Enable_this_only_if_developers_told_you_to": {
@@ -104,7 +104,7 @@
         "description": "Popup"
     },
     "Go_to_Wallabag_s_article_page": {
-        "message": "Wallabag でのこの記事のページへ移動",
+        "message": "wallabag でのこの記事のページへ移動",
         "description": "Popup"
     },
     "Granted": {
