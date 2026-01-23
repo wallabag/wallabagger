@@ -42,7 +42,7 @@
     "eslint-plugin-compat": "^6.0.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-promise": "^7.2.1",
-    "globals": "^16.5.0",
+    "globals": "^17.1.0",
     "sort-json": "^2.0.1",
     "web-ext": "^9.2.0"
   },
