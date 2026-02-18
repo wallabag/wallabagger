@@ -6,18 +6,16 @@ export class BrowserContentFetch {
     #europresse = new EuropresseProvider();
 
     #browser = null;
-    #port = null;
     #logger = null;
     #browserUtils = null;
 
-    constructor(browser, port, logger, browserUtils) {
+    constructor(browser, logger, browserUtils) {
         this.#browser = browser;
-        this.#port = port;
         this.#logger = logger;
         this.#browserUtils = browserUtils;
     }
 
-    handle(tab) {
+    handle(tab, savePageToWallabag) {
         this.#browser.runtime.onMessage.addListener(event => {
             if (typeof event.entryDocumentStr === 'undefined') {
                 return;
@@ -35,7 +33,7 @@ export class BrowserContentFetch {
                 content: wallabagEntry.content ?? null
             };
             this.#logger.log('postMessage', saveEntryMessage);
-            this.#port.postMessage(saveEntryMessage);
+            savePageToWallabag(saveEntryMessage.tabUrl, false, saveEntryMessage.title, saveEntryMessage.content, saveEntryMessage.proxifiedUrl);
         });
 
         const isLocalFetchAction = !this.#browserUtils.isRestrictedPage(tab.url);
@@ -51,8 +49,6 @@ export class BrowserContentFetch {
                     });
                 }
             });
-        } else {
-            this.#port.postMessage({ request: 'save', tabUrl: tab.url });
         }
     }
 

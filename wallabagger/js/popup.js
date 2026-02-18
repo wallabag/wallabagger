@@ -7,8 +7,6 @@ import { BrowserUtils } from './utils/browser-utils.js';
 import { Logger } from './utils/logger.js';
 import { decodeStr, sanitize } from './utils/sanitize.js';
 
-import { BrowserContentFetch } from './browser-content-fetch/browser-content-fetch.js';
-
 class PopupController {
     #mainCard = null;
     #errorToast = null;
@@ -58,8 +56,6 @@ class PopupController {
     #selectedFoundTag = 0;
     #backspacePressed = false;
 
-    #browserContentFetch = null;
-
     constructor () {
         this.#mainCard = document.getElementById('main-card');
         this.#errorToast = document.getElementById('error-toast');
@@ -91,8 +87,6 @@ class PopupController {
         document.body.classList.add(viewportClass);
         this.#port = new PortManager('popup', this.#messageListener.bind(this), this.#logger);
         this.#port.postMessage({ request: 'setup' });
-
-        this.#browserContentFetch = new BrowserContentFetch(browser, this.#port, this.#logger, this.#browserUtils);
     }
 
     #addListeners () {
@@ -600,7 +594,7 @@ class PopupController {
             this.#enableTagsInput();
 
             try {
-                this.#browserContentFetch.handle(tab);
+                this.#port.postMessage({request: 'save', tab});
             } catch (error) {
                 this.#showError(error);
             }

@@ -8,6 +8,8 @@ import { Cache } from './utils/cache.js';
 import { ExistingUrl } from './utils/existing-url.js';
 import { BrowserIcon } from './utils/browser-icon.js';
 
+import { BrowserContentFetch } from './browser-content-fetch/browser-content-fetch.js';
+
 const logger = new Logger('background');
 const api = new WallabagApi(logger);
 const browserIcon = new BrowserIcon(browser);
@@ -16,6 +18,8 @@ const existingUrl = new ExistingUrl(api, browser, browserIcon, browserUtils, log
 
 let Port = null;
 let portConnected = false;
+
+const browserContentFetch = new BrowserContentFetch(browser, logger, browserUtils);
 
 const wallabaggerAddLinkContexts = ['link', 'page'];
 if (!globalThis.wallabaggerBrowser) {
@@ -44,7 +48,9 @@ const addListeners = () => {
                     if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
                         savePageToWallabag(info.linkUrl, true);
                     } else {
-                        savePageToWallabag(info.pageUrl, false);
+                        browserUtils.getActiveTab().then(tab => {
+                            browserContentFetch.handle(tab, savePageToWallabag);
+                        });
                     }
                     break;
                 case 'options':
@@ -204,6 +210,83 @@ function openOptionsPage () {
         });
     }
 }
+async function savePageToWallabag (tabUrl, resetIcon, title, content, proxifiedUrl) {
+    if (browserUtils.isServicePage(tabUrl, api.data.Url)) {
+        return;
+    }
+
+    const url = tabUrl;
+    await api.forceInit();
+    if (api.checkParams() === false) {
+        openOptionsPage();
+        return false;
+    }
+    // if WIP and was some dirty changes, return dirtyCache
+    const exists = existingUrl.cache.check(url) ? existingUrl.cache.get(url) : existingUrl.states.notexists;
+    const hasContent = content && content.length > 0;
+    const isToFetchLocally = hasContent ?? api.isSiteToFetchLocally(tabUrl);
+    if (exists === existingUrl.states.wip) {
+        if (dirtyCache.check(url)) {
+            const dc = dirtyCache.get(url);
+            postIfConnected({ response: 'article', article: cutArticle(dc) });
+        }
+        return;
+    }
+
+    // if article was saved, return cache
+    if (!isToFetchLocally && cache.check(url)) {
+        postIfConnected({ response: 'article', article: cutArticle(cache.get(url)) });
+        moveToDirtyCache(url);
+        // @TODO check if other parameters required
+        savePageToWallabag(url, resetIcon);
+        return;
+    }
+
+    // real saving
+    browserIcon.set('wip');
+    existingUrl.cache.set(url, existingUrl.states.wip);
+    const message = isToFetchLocally ? 'Saving_the_page_to_wallabag_from_the_browser' : 'Saving_the_page_to_wallabag';
+    postIfConnected({ response: 'info', text: Common.translate(message) });
+
+    const savePageOptions = {url};
+
+    if(proxifiedUrl) {
+        savePageOptions.origin_url = proxifiedUrl;
+    }
+
+    if (isToFetchLocally) {
+        logger.log('set locally fetched', { title, content });
+        savePageOptions.title = title;
+        savePageOptions.content = content;
+        console.log(savePageOptions);
+    }
+
+    const promise = api.savePage(savePageOptions);
+    promise
+        .then(data => applyDirtyCacheLight(url, data))
+        .then(data => {
+            if (!data.deleted) {
+                browserIcon.set('good');
+                postIfConnected({ response: 'article', article: cutArticle(data) });
+                cache.set(url, cutArticle(data));
+                existingUrl.saveExistFlag(url, existingUrl.states.exists);
+                if (api.data.AllowExistCheck !== true || resetIcon) {
+                    browserIcon.timedToDefault();
+                }
+            } else {
+                cache.clear(url);
+            }
+            return data;
+        })
+        .then(data => applyDirtyCacheReal(url, data))
+        .catch(error => {
+            browserIcon.setTimed('bad');
+            existingUrl.saveExistFlag(url, existingUrl.states.notexists);
+            postIfConnected({ response: 'error', error: { message: Common.translate('Save_Error') } });
+            throw error;
+        });
+};
+
 
 function postIfConnected (obj) {
     portConnected && Port.postMessage(obj);
@@ -215,7 +298,7 @@ async function onPortMessage (msg) {
     try {
         switch (msg.request) {
             case 'save':
-                savePageToWallabag(msg.tabUrl, false, msg.title, msg.content, msg.proxifiedUrl);
+                browserContentFetch.handle(msg.tab, savePageToWallabag);
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
@@ -404,80 +487,6 @@ function moveToDirtyCache (url) {
         cache.clear(url);
     }
 }
-
-async function savePageToWallabag (tabUrl, resetIcon, title, content, proxifiedUrl) {
-    if (browserUtils.isServicePage(tabUrl, api.data.Url)) {
-        return;
-    }
-    const url = tabUrl;
-    await api.forceInit();
-    if (api.checkParams() === false) {
-        openOptionsPage();
-        return false;
-    }
-    // if WIP and was some dirty changes, return dirtyCache
-    const exists = existingUrl.cache.check(url) ? existingUrl.cache.get(url) : existingUrl.states.notexists;
-    const hasContent = content && content.length > 0;
-    const isToFetchLocally = hasContent ?? api.isSiteToFetchLocally(tabUrl);
-    if (exists === existingUrl.states.wip) {
-        if (dirtyCache.check(url)) {
-            const dc = dirtyCache.get(url);
-            postIfConnected({ response: 'article', article: cutArticle(dc) });
-        }
-        return;
-    }
-
-    // if article was saved, return cache
-    if (!isToFetchLocally && cache.check(url)) {
-        postIfConnected({ response: 'article', article: cutArticle(cache.get(url)) });
-        moveToDirtyCache(url);
-        savePageToWallabag(url, resetIcon);
-        return;
-    }
-
-    // real saving
-    browserIcon.set('wip');
-    existingUrl.cache.set(url, existingUrl.states.wip);
-    const message = isToFetchLocally ? 'Saving_the_page_to_wallabag_from_the_browser' : 'Saving_the_page_to_wallabag';
-    postIfConnected({ response: 'info', text: Common.translate(message) });
-
-    const savePageOptions = {url};
-
-    if(proxifiedUrl) {
-        savePageOptions.origin_url = proxifiedUrl;
-    }
-
-    if (isToFetchLocally) {
-        logger.log('set locally fetched', { title, content });
-        savePageOptions.title = title;
-        savePageOptions.content = content;
-    }
-
-    const promise = api.savePage(savePageOptions);
-    promise
-        .then(data => applyDirtyCacheLight(url, data))
-        .then(data => {
-            if (!data.deleted) {
-                browserIcon.set('good');
-                postIfConnected({ response: 'article', article: cutArticle(data) });
-                cache.set(url, cutArticle(data));
-                existingUrl.saveExistFlag(url, existingUrl.states.exists);
-                if (api.data.AllowExistCheck !== true || resetIcon) {
-                    browserIcon.timedToDefault();
-                }
-            } else {
-                cache.clear(url);
-            }
-            return data;
-        })
-        .then(data => applyDirtyCacheReal(url, data))
-        .catch(error => {
-            browserIcon.setTimed('bad');
-            existingUrl.saveExistFlag(url, existingUrl.states.notexists);
-            postIfConnected({ response: 'error', error: { message: Common.translate('Save_Error') } });
-            throw error;
-        });
-};
 
 
 
