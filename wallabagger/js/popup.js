@@ -92,7 +92,7 @@ class PopupController {
         this.#port = new PortManager('popup', this.#messageListener.bind(this), this.#logger);
         this.#port.postMessage({ request: 'setup' });
 
-        this.#browserContentFetch = new BrowserContentFetch();
+        this.#browserContentFetch = new BrowserContentFetch(browser, this.#port, this.#logger, this.#browserUtils);
     }
 
     #addListeners () {
@@ -599,43 +599,8 @@ class PopupController {
             }
             this.#enableTagsInput();
 
-            browser.runtime.onMessage.addListener(event => {
-                if (typeof event.entryDocumentStr === 'undefined') {
-                    return;
-                }
-
-                const parser = new DOMParser();
-                const entryDocument = parser.parseFromString(event.entryDocumentStr, 'text/html');
-                const wallabagEntry = this.#browserContentFetch.getEntry(tab.url, entryDocument);
-
-                const saveEntryMessage = {
-                    request: 'save',
-                    tabUrl: wallabagEntry.url,
-                    proxifiedUrl: wallabagEntry.originUrl ?? null,
-                    title: wallabagEntry.title ?? tab.title,
-                    content: wallabagEntry.content ?? null
-                };
-                this.#logger.log('postMessage', saveEntryMessage);
-                this.#port.postMessage(saveEntryMessage);
-            });
-
             try {
-                const isLocalFetchAction = !this.#browserUtils.isRestrictedPage(tab.url);
-                if (isLocalFetchAction) {
-                    browser.scripting.executeScript({
-                        target: { tabId: tab.id },
-                        func: () => {
-                            // Use of chrome here instead of browser
-                            // because of isolated context where
-                            // browser is undefined in Chromium-based browsers
-                            chrome.runtime.sendMessage({
-                                entryDocumentStr: `<html>${window.document.documentElement.innerHTML}</html>`
-                            });
-                        }
-                    });
-                } else {
-                    this.#port.postMessage({ request: 'save', tabUrl: tab.url });
-                }
+                this.#browserContentFetch.handle(tab);
             } catch (error) {
                 this.#showError(error);
             }
