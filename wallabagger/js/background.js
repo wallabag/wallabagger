@@ -8,7 +8,7 @@ import { Cache } from './utils/cache.js';
 import { ExistingUrl } from './utils/existing-url.js';
 import { BrowserIcon } from './utils/browser-icon.js';
 
-import { BrowserContentFetch } from './browser-content-fetch/browser-content-fetch.js';
+import { SavePage } from './save-page.js';
 
 const logger = new Logger('background');
 const api = new WallabagApi(logger);
@@ -19,7 +19,7 @@ const existingUrl = new ExistingUrl(api, browser, browserIcon, browserUtils, log
 let Port = null;
 let portConnected = false;
 
-const browserContentFetch = new BrowserContentFetch(browser, logger, browserUtils);
+const savePage = new SavePage(browser, logger, browserUtils, savePageToWallabag);
 
 const wallabaggerAddLinkContexts = ['link', 'page'];
 if (!globalThis.wallabaggerBrowser) {
@@ -46,10 +46,21 @@ const addListeners = () => {
             switch (info.menuItemId) {
                 case 'wallabagger-add-link':
                     if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
-                        savePageToWallabag(info.linkUrl, true);
+                        savePage.handle(
+                            {
+                                type: 'url',
+                                url: info.linkUrl,
+                                resetIcon: true
+                            }
+                        );
                     } else {
                         browserUtils.getActiveTab().then(tab => {
-                            browserContentFetch.handle(tab, savePageToWallabag);
+                            savePage.handle(
+                                {
+                                    type: 'tab',
+                                    tab: tab
+                                }
+                            );
                         });
                     }
                     break;
@@ -73,7 +84,13 @@ const addListeners = () => {
             if (command === 'wallabag-it') {
                 browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                     if (tabs[0] != null) {
-                        savePageToWallabag(tabs[0].url, false);
+                        savePage.handle(
+                            {
+                                type: 'url',
+                                url: tabs[0].url,
+                                resetIcon: false
+                            }
+                        );
                     }
                 });
             }
@@ -298,7 +315,13 @@ async function onPortMessage (msg) {
     try {
         switch (msg.request) {
             case 'save':
-                browserContentFetch.handle(msg.tab, savePageToWallabag);
+                savePage.handle(
+                    {
+                        type: 'tab',
+                        tab: msg.tab
+                    },
+                    savePageToWallabag
+                );
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {
