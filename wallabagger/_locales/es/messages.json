@@ -72,7 +72,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "Esta extensión de wallabag v2 permite editar el título, las etiquetas y establecer los estados favorito, archivado o eliminado.",
+        "message": "Guarda cualquier URL y su contenido en un servidor Wallabag v2 para leerlo después, con metadatos editables.",
         "description": "Manifest.json"
     },
     "Go_to_Wallabag_s_article_page": {
@@ -306,5 +306,44 @@
     "Fetch_by_default_when_saving_page": {
         "message": "Recuperar el contenido del navegador de forma predeterminada al guardar la página",
         "description": "Options"
+    },
+    "Error_empty_data": {
+        "message": "Error: ¡no hay datos!"
+    },
+    "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
+        "message": "Primero, necesitas crear <a href=\"%URL%\" target=\"_blank\">un nuevo cliente</a>. Después, inténtalo otra vez."
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": "Indica si la página ya está guardara (el icono de wallabagger es verde)"
+    },
+    "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
+        "message": "O puedes hacer click aquí para introducir las credenciales manualmente"
+    },
+    "Pick_a_client": {
+        "message": "Escoge un cliente"
+    },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": "Guardando el contenido de la página del navegador en wallabag…"
+    },
+    "Service_pages_can_t_be_stored": {
+        "message": "Las páginas de servicio no pueden ser guardadas"
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": "¿Quieres enviar a wallabag el contenido de todos los sitios web desde el navegador? Marca esta casilla."
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": "Todos los sitios web"
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": "En ocasiones, wallabag no puede acceder al contenido que intentas almacenar. Quizá es porque el sitio requiere hacer login o usa JavaScript para mostrar el contenido. Esta característica te permite enviar el contenido que se muestra en el navegador, de forma que wallabag no intenta nada más que guardar el contenido que le envías."
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": "Lista blanca"
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": "Introduce la dirección del sitio web para el que siempre quieres enviar el navegador en lugar de únicamente su URL."
+    },
+    "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
+        "message": "Necesitas iniciar sesión en <a href=\"%URL%\" target=\"_blank\">tu wallabag</a>. Después inténtalo de nuevo."
     }
 }
