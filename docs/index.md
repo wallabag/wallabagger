@@ -8,6 +8,7 @@ wallabag is a self hostable application allowing you to not miss any content any
 
 * save the current page
 * send the content from a paywalled page to wallabag
+* save the content from [Europresse](https://www.europresse.com/) (best results with the help of the [Ophirofox addon](https://ophirofox.ophir.dev/))
 * edit the title
 * add (with autocomplete!) and remove tags
 * set starred and archived status
