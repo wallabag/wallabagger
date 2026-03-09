@@ -1,11 +1,10 @@
-const FetchApi = function () {};
+'use strict';
 
-FetchApi.prototype = {
-
-    getRequestOptions: function (method, token, content) {
+class FetchApi {
+    #getRequestOptions (method, token, content) {
         let options = {
             method,
-            headers: this.getHeaders(token),
+            headers: this.#getHeaders(token),
             mode: 'cors',
             cache: 'default',
             credentials: 'omit'
@@ -14,9 +13,9 @@ FetchApi.prototype = {
             options = Object.assign(options, { body: JSON.stringify(content) });
         }
         return options;
-    },
+    }
 
-    getHeaders: function (token) {
+    #getHeaders (token) {
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json'
@@ -25,26 +24,26 @@ FetchApi.prototype = {
             headers.Authorization = `Bearer ${token}`;
         }
         return headers;
-    },
+    }
 
-    Patch: function (url, token, content) {
-        return this.Fetch(url, 'PATCH', token, content);
-    },
+    patch (url, token, content) {
+        return this.#fetch(url, 'PATCH', token, content);
+    }
 
-    Post: function (url, token, content) {
-        return this.Fetch(url, 'POST', token, content);
-    },
+    post (url, token, content) {
+        return this.#fetch(url, 'POST', token, content);
+    }
 
-    Delete: function (url, token) {
-        return this.Fetch(url, 'DELETE', token, '');
-    },
+    delete (url, token) {
+        return this.#fetch(url, 'DELETE', token, '');
+    }
 
-    Get: function (url, token) {
-        return this.Fetch(url, 'GET', token, '');
-    },
+    get (url, token) {
+        return this.#fetch(url, 'GET', token, '');
+    }
 
-    Fetch: function (url, method, token, content) {
-        const options = this.getRequestOptions(method, token, content);
+    #fetch (url, method, token, content) {
+        const options = this.#getRequestOptions(method, token, content);
         return fetch(url, options).then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)));
     }
 };
