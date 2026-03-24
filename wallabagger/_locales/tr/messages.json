@@ -184,7 +184,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "Bu wallabag v2 eklentisi etiketleri düzenleme, makale yıldızlama, arşivleme veya durum silme gibi özellikler barındırmakta.",
+        "message": "Herhangi bir sayfanın URL'sini ve içeriğini, daha sonra okumak üzere düzenlenebilir üst verilerle birlikte bir Wallabag v2 sunucusuna kaydedin.",
         "description": "Manifest.json"
     },
     "Expired": {
@@ -329,9 +329,21 @@
         "message": "Beyaz liste"
     },
     "Sites_locally_whitelist_fetch_explaination": {
-        "message": "İçeriğini kaydetmek istediğiniz web sitesinin adresini girin."
+        "message": "Yalnızca sayfa URL'si yerine, tarayıcı içeriğini her zaman göndermek istediğiniz web sitesinin adresini girin."
     },
     "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
         "message": "<a href=\"%URL%\" target=\"_blank\">wallabag hesabınızda</a> oturum açmanız ve ardından tekrar denemeniz gerekir."
+    },
+    "Error_empty_data": {
+        "message": "Hata: boş veri!"
+    },
+    "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
+        "message": "Veya buraya tıklayarak kimlik bilgilerini elle girebilirsiniz"
+    },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": "Tarayıcının sayfa içeriği wallabag'a kaydediliyor…"
+    },
+    "Service_pages_can_t_be_stored": {
+        "message": "Hizmet sayfaları kaydedilemiyor"
     }
 }
