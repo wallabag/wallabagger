@@ -232,7 +232,8 @@ async function savePageToWallabag (tabUrl, resetIcon, title, content, proxifiedU
         return;
     }
 
-    const url = tabUrl;
+    const url = browserUtils.browserReaderMode.isInReaderMode(tabUrl) ?
+        browserUtils.browserReaderMode.getUrl(tabUrl) : tabUrl;
     await api.forceInit();
     if (api.checkParams() === false) {
         openOptionsPage();

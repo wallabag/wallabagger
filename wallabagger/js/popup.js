@@ -584,10 +584,11 @@ class PopupController {
                 this.#showError(Common.translate('Service_pages_can_t_be_stored'));
                 return;
             }
-            this.#tabUrl = tab.url;
+            this.#tabUrl = this.#browserUtils.browserReaderMode.isInReaderMode(tab.url) ?
+                this.#browserUtils.browserReaderMode.getUrl(tab.url) : tab.url;
             this.#cardTitle.textContent = tab.title;
             try {
-                this.#entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(tab.url)[2];
+                this.#entryUrl.textContent = /(\w+:\/\/)([^/]+)\/(.*)/.exec(this.#tabUrl)[2];
             } catch (error) {
                 this.#showError(error);
             }

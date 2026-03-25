@@ -36,6 +36,8 @@ export class BrowserContentFetch {
             savePageToWallabag(saveEntryMessage.tabUrl, false, saveEntryMessage.title, saveEntryMessage.content, saveEntryMessage.proxifiedUrl);
         });
 
+        // @TODO isLocalFetchAction should only represent local fetch pages,
+        // not restricted pages nor wallabag server side fetched pages
         const isLocalFetchAction = !this.#browserUtils.isRestrictedPage(tab.url);
         if (isLocalFetchAction) {
             browser.scripting.executeScript({
@@ -49,6 +51,8 @@ export class BrowserContentFetch {
                     });
                 }
             });
+        } else {
+            savePageToWallabag(tab.url, false);
         }
     }
 
