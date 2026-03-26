@@ -221,7 +221,10 @@ class WallabagApi {
     }
 
     savePage (options) {
-        const content = { url: options.url };
+        const content = {
+            url: options.url,
+            origin_url: options.origin_url
+        };
         if (this.data.ArchiveByDefault === true) {
             content.archive = 1;
         }

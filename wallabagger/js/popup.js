@@ -593,32 +593,8 @@ class PopupController {
             }
             this.#enableTagsInput();
 
-            browser.runtime.onMessage.addListener(event => {
-                if (typeof event.wallabagSaveArticleContent === 'undefined') {
-                    return;
-                }
-
-                this.#logger.log('postMessage');
-                this.#port.postMessage({ request: 'save', tabUrl: tab.url, title: tab.title, content: event.wallabagSaveArticleContent });
-            });
-
             try {
-                const isLocalFetchAction = !this.#browserUtils.isRestrictedPage(tab.url);
-                if (isLocalFetchAction) {
-                    browser.scripting.executeScript({
-                        target: { tabId: tab.id },
-                        func: () => {
-                            // Use of chrome here instead of browser
-                            // because of isolated context where
-                            // browser is undefined in Chromium-based browsers
-                            chrome.runtime.sendMessage({
-                                wallabagSaveArticleContent: window.document.documentElement.innerHTML
-                            });
-                        }
-                    });
-                } else {
-                    this.#port.postMessage({ request: 'save', tabUrl: tab.url });
-                }
+                this.#port.postMessage({request: 'save', tab});
             } catch (error) {
                 this.#showError(error);
             }
