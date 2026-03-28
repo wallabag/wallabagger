@@ -332,7 +332,7 @@
         "message": "Chyba: prázdná data!"
     },
     "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
-        "message": "Nejdřív musíte vytvořit <a href=\"%URL%\" target=\"_blank\">nového klienta</a>. Pak to zkuste znovu."
+        "message": "Nejprve je zapotřebí vytvořit <a href=\"%URL%\" target=\"_blank\">nového klienta</a>. Poté je třeba zkusit znovu."
     },
     "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
         "message": "Nebo můžete pro ruční vyplnění přihlašovacích údajů kliknout zde"
@@ -341,7 +341,7 @@
         "message": "Servisní stránky nemohou být ukládány"
     },
     "Sites_locally_fetch_general_explaination": {
-        "message": "Wallabag někdy není schopný získat obsah, který se snažíte uložit. Může to být tím, že stránky vyžadují přihlášení nebo k zobrazování obsahu využívají JavaScript. Tato funkcionalita vám umožňuje ukládat obsah, na který se díváte v prohlížeči, takže Wallabag nemusí dělat nic jiného, než uložit tento obsah."
+        "message": "Občas se stane, že wallabat nemá přístup k obsahu, který se pokoušíte uložit. Může být, že webová stránka vyžaduje přihlášení, nebo pro zobrazení svého obsahu používá JavaScript. Tato funkce vám dává možnsoti odeslat obsah na který se díváte před sebou, v prohlížeči, takže wallabag se nemusí pokoušet o nic jiného než o uložení věcí, které do něho pošlete."
     },
     "Saving_the_page_to_wallabag_from_the_browser": {
         "message": "Ukládání obsahu stránky v prohlížeči do Wallabagu…"
