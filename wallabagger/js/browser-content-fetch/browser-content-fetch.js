@@ -16,10 +16,16 @@ export class BrowserContentFetch {
     }
 
     handle(tab, savePageToWallabag) {
-        this.#browser.runtime.onMessage.addListener(event => {
+        const listener = (event, sender) => {
             if (typeof event.entryDocumentStr === 'undefined') {
                 return;
             }
+
+            if (sender?.tab?.id !== tab.id) {
+                return;
+            }
+
+            this.#browser.runtime.onMessage.removeListener(listener);
 
             const parser = new DOMParser();
             const entryDocument = parser.parseFromString(event.entryDocumentStr, 'text/html');
@@ -34,7 +40,8 @@ export class BrowserContentFetch {
             };
             this.#logger.log('postMessage', saveEntryMessage);
             savePageToWallabag(saveEntryMessage.tabUrl, false, saveEntryMessage.title, saveEntryMessage.content, saveEntryMessage.proxifiedUrl);
-        });
+        };
+        this.#browser.runtime.onMessage.addListener(listener);
 
         // @TODO isLocalFetchAction should only represent local fetch pages,
         // not restricted pages nor wallabag server side fetched pages
