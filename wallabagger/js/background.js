@@ -19,7 +19,7 @@ const existingUrl = new ExistingUrl(api, browser, browserIcon, browserUtils, log
 let Port = null;
 let portConnected = false;
 
-const savePage = new SavePage(browser, logger, browserUtils, savePageToWallabag);
+const savePage = new SavePage(api, browser, logger, browserUtils, savePageToWallabag);
 
 const wallabaggerAddLinkContexts = ['link', 'page'];
 if (!globalThis.wallabaggerBrowser) {

@@ -3,6 +3,7 @@
 import { BrowserContentFetch } from './browser-content-fetch/browser-content-fetch.js';
 
 export class SavePage {
+    #api = null;
     #browser = null;
     #logger = null;
     #browserUtils = null;
@@ -10,13 +11,14 @@ export class SavePage {
 
     #browserContentFetch = null;
 
-    constructor(browser, logger, browserUtils, savePageToWallabag) {
+    constructor(api, browser, logger, browserUtils, savePageToWallabag) {
+        this.#api = api;
         this.#browser = browser;
         this.#logger = logger;
         this.#browserUtils = browserUtils;
         this.#savePageToWallabag = savePageToWallabag;
 
-        this.#browserContentFetch = new BrowserContentFetch(this.#browser, this.#logger, this.#browserUtils);
+        this.#browserContentFetch = new BrowserContentFetch(this.#api, this.#browser, this.#logger, this.#browserUtils);
     }
 
     handle(action) {

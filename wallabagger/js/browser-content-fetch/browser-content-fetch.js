@@ -8,8 +8,10 @@ export class BrowserContentFetch {
     #browser = null;
     #logger = null;
     #browserUtils = null;
+    #api = null;
 
-    constructor(browser, logger, browserUtils) {
+    constructor(api, browser, logger, browserUtils) {
+        this.#api = api;
         this.#browser = browser;
         this.#logger = logger;
         this.#browserUtils = browserUtils;
@@ -43,10 +45,8 @@ export class BrowserContentFetch {
         };
         this.#browser.runtime.onMessage.addListener(listener);
 
-        // @TODO isLocalFetchAction should only represent local fetch pages,
-        // not restricted pages nor wallabag server side fetched pages
-        const isLocalFetchAction = !this.#browserUtils.isRestrictedPage(tab.url);
-        if (isLocalFetchAction) {
+        const isToFetchLocally = !this.#browserUtils.isRestrictedPage(tab.url) && this.#api.isSiteToFetchLocally(tab.url);
+        if (isToFetchLocally) {
             browser.scripting.executeScript({
                 target: { tabId: tab.id },
                 func: () => {
