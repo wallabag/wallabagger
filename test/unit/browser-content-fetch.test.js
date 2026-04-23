@@ -178,6 +178,38 @@ describe('BrowserContentFetch', () => {
             expect(savedContent).toContain(contentStr);
         });
 
+        it('Europresse URLs should always be fetched locally', () => {
+            const tabTitle = 'Europresse article';
+            const europresseUrl = 'https://nouveau-europresse-com.bnf.idm.oclc.org/Search/foo';
+            const originUrl = 'https://www.lemonde.fr/article-xyz';
+            const entryTitle = 'My Europresse Title';
+            const contentStr = 'Europresse body content.';
+
+            api = fakeApi({ isSiteToFetchLocally: false });
+            browserContentFetch = new BrowserContentFetch(api, browser, logger, browserUtils);
+
+            const save = vi.fn();
+            const tab = { id: 1, url: europresseUrl, title: tabTitle };
+            const entryDocumentStr = `<html><head>`
+                + `<meta name="ophirofox-origin-url" content="${originUrl}">`
+                + `</head><body>`
+                + `<div class="titreArticle">${entryTitle}</div>`
+                + `<div class="DocPublicationName">Le Monde</div>`
+                + `<p>${contentStr}</p>`
+                + `</body></html>`;
+
+            browserContentFetch.handle(tab, save);
+            browser._fireOnMessage({ entryDocumentStr }, { tab: { id: 1 } });
+
+            expect(save).toHaveBeenCalledOnce();
+            const [savedUrl, resetIcon, savedTitle, savedContent, savedOriginUrl] = save.mock.calls[0];
+            expect(savedUrl).toBe(`${europresseUrl}?url=${originUrl}`);
+            expect(resetIcon).toBe(false);
+            expect(savedTitle).toBe(entryTitle);
+            expect(savedContent).toContain(contentStr);
+            expect(savedOriginUrl).toBe(originUrl);
+        });
+
         it('skips the local fetch for restricted pages even when the site is configured for local fetch', () => {
             const title = 'Restricted';
             const url = 'about:addons';

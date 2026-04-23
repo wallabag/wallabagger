@@ -45,7 +45,7 @@ export class BrowserContentFetch {
         };
         this.#browser.runtime.onMessage.addListener(listener);
 
-        const isToFetchLocally = !this.#browserUtils.isRestrictedPage(tab.url) && this.#api.isSiteToFetchLocally(tab.url);
+        const isToFetchLocally = this.#europresse.isCurrentUrl(tab.url) || (!this.#browserUtils.isRestrictedPage(tab.url) && this.#api.isSiteToFetchLocally(tab.url));
         if (isToFetchLocally) {
             browser.scripting.executeScript({
                 target: { tabId: tab.id },
