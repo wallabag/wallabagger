@@ -10,6 +10,7 @@
   "scripts": {
     "deps:update": "cp node_modules/spectre.css/dist/spectre.min.css wallabagger/css/spectre.min.css && cp node_modules/spectre.css/dist/spectre-exp.min.css wallabagger/css/spectre-exp.min.css",
     "lint": "eslint wallabagger/js/*.js",
+    "test": "vitest run",
     "locales:sort": "sort-json -i -d=1 wallabagger/_locales/**/messages.json",
     "build": "web-ext build --source-dir wallabagger/"
   },
@@ -43,7 +44,10 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-promise": "^7.2.1",
     "globals": "^16.5.0",
+    "happy-dom": "^20.8.9",
+    "jsdom": "^27.0.1",
     "sort-json": "^2.0.1",
+    "vitest": "^4.1.2",
     "web-ext": "^9.4.0"
   },
   "dependencies": {
