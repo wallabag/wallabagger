@@ -1,5 +1,4 @@
 import { defineConfig } from "eslint/config";
-import promise from "eslint-plugin-promise";
 import compat from "eslint-plugin-compat";
 import globals from "globals";
 import js from "@eslint/js";
@@ -9,7 +8,6 @@ export default defineConfig([
     { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
     {
         plugins: {
-            promise,
             compat,
         },
 
