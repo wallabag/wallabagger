@@ -262,5 +262,11 @@
     },
     "User_login": {
         "message": ""
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": ""
+    },
+    "Extension_description": {
+        "message": ""
     }
 }
