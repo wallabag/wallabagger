@@ -306,5 +306,41 @@
     "Fetch_from_the_browser": {
         "message": "从浏览器中提取的内容",
         "description": "Options"
+    },
+    "Error_empty_data": {
+        "message": ""
+    },
+    "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
+        "message": ""
+    },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": ""
+    },
+    "Sites_locally_always_fetch_title": {
+        "message": ""
+    },
+    "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
+        "message": ""
+    },
+    "Service_pages_can_t_be_stored": {
+        "message": ""
+    },
+    "Sites_locally_always_fetch_explaination": {
+        "message": ""
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": ""
+    },
+    "Sites_locally_whitelist_fetch_title": {
+        "message": ""
+    },
+    "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
+        "message": ""
+    },
+    "Pick_a_client": {
+        "message": ""
+    },
+    "Sites_locally_fetch_general_explaination": {
+        "message": ""
     }
 }
