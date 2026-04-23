@@ -321,5 +321,8 @@
     },
     "Wallabag_API_token": {
         "message": ""
+    },
+    "Sites_locally_whitelist_fetch_explaination": {
+        "message": ""
     }
 }
