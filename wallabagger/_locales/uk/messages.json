@@ -265,5 +265,8 @@
     },
     "Wallabag_API_token": {
         "message": ""
+    },
+    "Extension_description": {
+        "message": ""
     }
 }
