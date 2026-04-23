@@ -196,5 +196,50 @@
     },
     "Unread": {
         "message": "Непрочитане"
+    },
+    "Error_empty_data": {
+        "message": ""
+    },
+    "Wallabag_it_description": {
+        "message": ""
+    },
+    "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
+        "message": ""
+    },
+    "Saving_the_page_to_wallabag_from_the_browser": {
+        "message": ""
+    },
+    "User_password": {
+        "message": ""
+    },
+    "Use_HTTPS": {
+        "message": ""
+    },
+    "Fetch_by_default_when_saving_page": {
+        "message": ""
+    },
+    "Service_pages_can_t_be_stored": {
+        "message": ""
+    },
+    "Indicate_if_page_already_saved_into_wallabag_the_wallabagger_icon_is_green": {
+        "message": ""
+    },
+    "Yes_delete_it": {
+        "message": ""
+    },
+    "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
+        "message": ""
+    },
+    "Or_you_can_click_here_to_fill_in_the_credentials_manually": {
+        "message": ""
+    },
+    "You_can_find_your_credentials_here": {
+        "message": ""
+    },
+    "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
+        "message": ""
+    },
+    "User_login": {
+        "message": ""
     }
 }
