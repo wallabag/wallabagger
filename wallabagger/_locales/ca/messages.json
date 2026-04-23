@@ -217,5 +217,50 @@
     },
     "User_login": {
         "message": ""
+    },
+    "Ok_I_understand": {
+        "message": ""
+    },
+    "Unset_this_article_as_archived_into_Wallabag": {
+        "message": ""
+    },
+    "Wallabag_URL": {
+        "message": ""
+    },
+    "Set_this_article_as_archived_into_Wallabag": {
+        "message": ""
+    },
+    "Set_this_article_as_starred_into_Wallabag": {
+        "message": ""
+    },
+    "Wallabag_permission_checked": {
+        "message": ""
+    },
+    "Ok": {
+        "message": ""
+    },
+    "Wallabag_URL_checked": {
+        "message": ""
+    },
+    "Wallabag_API_version": {
+        "message": ""
+    },
+    "Remove_this_article_from_Wallabag": {
+        "message": ""
+    },
+    "Edit_the_Wallabag_title_of_this_article": {
+        "message": ""
+    },
+    "Go_to_Wallabag_s_article_page": {
+        "message": ""
+    },
+    "Wallabag_it": {
+        "message": ""
+    },
+    "Unset_this_article_as_starred_into_Wallabag": {
+        "message": ""
+    },
+    "Wallabag_API_token": {
+        "message": ""
     }
 }
