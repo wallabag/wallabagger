@@ -40,7 +40,7 @@
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
     "eslint": "^10.2.1",
-    "eslint-plugin-compat": "^7.0.1",
+    "eslint-plugin-compat": "^7.0.2",
     "globals": "^17.5.0",
     "happy-dom": "^20.8.9",
     "jsdom": "^29.1.0",
