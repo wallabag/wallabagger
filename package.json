@@ -46,7 +46,7 @@
     "jsdom": "^29.1.1",
     "sort-json": "^2.0.1",
     "vitest": "^4.1.7",
-    "web-ext": "^10.3.0"
+    "web-ext": "^10.5.0"
   },
   "dependencies": {
     "spectre.css": "^0.5.9"
