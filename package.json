@@ -39,7 +39,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.4.0",
+    "eslint": "^10.8.0",
     "eslint-plugin-compat": "^7.0.2",
     "globals": "^17.6.0",
     "happy-dom": "^20.8.9",
