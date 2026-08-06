@@ -30,10 +30,10 @@ describe('BrowserContentFetch', () => {
 
         const save = vi.fn();
         const tab = { id: 1, url, title };
-        const entryDocumentStr = normalPage(`<article>${contentStr}</article>`);
+        const content = normalPage(`<article>${contentStr}</article>`);
 
         browserContentFetch.handle(tab, save);
-        browser._fireOnMessage({ entryDocumentStr }, { tab: { id: 1 } });
+        browser._fireOnMessage({ content }, { tab: { id: 1 } });
 
         expect(save).toHaveBeenCalledOnce();
         const [savedUrl, resetIcon, savedTitle, savedContent, savedOriginUrl] = save.mock.calls[0];
@@ -78,7 +78,7 @@ describe('BrowserContentFetch', () => {
         browserContentFetch.handle(tab2, save2);
 
         browser._fireOnMessage(
-            { entryDocumentStr: normalPage(content1Str) },
+            { content: normalPage(content1Str) },
             { tab: { id: 1 } }
         );
 
@@ -91,7 +91,7 @@ describe('BrowserContentFetch', () => {
         expect(savedContent1).not.toContain(content2Str);
 
         browser._fireOnMessage(
-            { entryDocumentStr: normalPage(content2Str) },
+            { content: normalPage(content2Str) },
             { tab: { id: 2 } }
         );
 
@@ -115,7 +115,7 @@ describe('BrowserContentFetch', () => {
         expect(browser._messageListeners).toHaveLength(1);
 
         browser._fireOnMessage(
-            { entryDocumentStr: normalPage(contentStr) },
+            { content: normalPage(contentStr) },
             { tab: { id: 1 } }
         );
 
@@ -123,7 +123,7 @@ describe('BrowserContentFetch', () => {
         expect(save.mock.calls[0][3]).toContain(contentStr);
     });
 
-    it('ignores messages without entryDocumentStr', () => {
+    it('ignores messages without content', () => {
         const title = 'Example';
         const url = 'https://example.tld';
 
@@ -165,10 +165,10 @@ describe('BrowserContentFetch', () => {
 
             const save = vi.fn();
             const tab = { id: 1, url, title };
-            const entryDocumentStr = normalPage(contentStr);
+            const content = normalPage(contentStr);
 
             browserContentFetch.handle(tab, save);
-            browser._fireOnMessage({ entryDocumentStr }, { tab: { id: 1 } });
+            browser._fireOnMessage({ content }, { tab: { id: 1 } });
 
             expect(save).toHaveBeenCalledOnce();
             const [savedUrl, resetIcon, savedTitle, savedContent] = save.mock.calls[0];
@@ -190,7 +190,7 @@ describe('BrowserContentFetch', () => {
 
             const save = vi.fn();
             const tab = { id: 1, url: europresseUrl, title: tabTitle };
-            const entryDocumentStr = `<html><head>`
+            const content = `<html><head>`
                 + `<meta name="ophirofox-origin-url" content="${originUrl}">`
                 + `</head><body>`
                 + `<div class="titreArticle">${entryTitle}</div>`
@@ -199,7 +199,10 @@ describe('BrowserContentFetch', () => {
                 + `</body></html>`;
 
             browserContentFetch.handle(tab, save);
-            browser._fireOnMessage({ entryDocumentStr }, { tab: { id: 1 } });
+            browser._fireOnMessage(
+                { content, title: entryTitle, originUrl },
+                { tab: { id: 1 } }
+            );
 
             expect(save).toHaveBeenCalledOnce();
             const [savedUrl, resetIcon, savedTitle, savedContent, savedOriginUrl] = save.mock.calls[0];

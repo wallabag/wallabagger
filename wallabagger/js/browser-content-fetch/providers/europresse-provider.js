@@ -4,32 +4,34 @@ import { encodeToBase64 } from '../../utils/sanitize.js';
 
 export class EuropresseProvider {
     #url = 'https://nouveau-europresse-com.bnf.idm.oclc.org/Search';
-    #titlePageSelector = '.titreArticle';
-    #siteNamePageSelector = '.DocPublicationName';
-    #ophirofoxPageSelector = '[name="ophirofox-origin-url"]';
 
     isCurrentUrl(url) {
         return url.startsWith(this.#url);
     }
 
-    getEntry(entryUrl, entryDocument) {
-        const entryTitle = entryDocument.querySelector(this.#titlePageSelector).innerText;
-        const ophirofoxOriginUrlMetaElement = entryDocument.querySelector(this.#ophirofoxPageSelector);
-        const urlParams = ophirofoxOriginUrlMetaElement ?
-            `url=${ophirofoxOriginUrlMetaElement.content}` : this.#defaultData(entryDocument, entryTitle);
-
-        const data = {
-            content: entryDocument.documentElement.innerHTML,
-            title: entryTitle,
-            url: `${entryUrl}?${urlParams}`,
-            originUrl: ophirofoxOriginUrlMetaElement?.content
+    getPageSelectors() {
+        return {
+            title: '.titreArticle',
+            originUrl: '[name="ophirofox-origin-url"]',
+            siteName: '.DocPublicationName'
         };
-        return data;
     }
 
-    #defaultData(entryDocument, title) {
+    getEntry(entryUrl, extracted) {
+        const { title, content, originUrl, siteName } = extracted;
+        const urlParams = originUrl ?
+            `url=${originUrl}` : this.#defaultData(siteName, title);
+
+        return {
+            content,
+            title,
+            url: `${entryUrl}?${urlParams}`,
+            originUrl
+        };
+    }
+
+    #defaultData(siteName, title) {
         // @TODO add an advice to use Ophirofox
-        const siteName = entryDocument.querySelectorAll(this.#siteNamePageSelector)[0]?.firstChild.textContent.trim();
         const hashedTitle = `wallabagtitlebase64=${encodeToBase64(title)}`;
         const hashedSiteName = siteName ?
             `wallabagsitenamebase64=${encodeToBase64(siteName)}` : '';

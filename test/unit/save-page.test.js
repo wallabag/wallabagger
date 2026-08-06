@@ -31,10 +31,10 @@ describe('SavePage', () => {
             const url = 'https://example.tld';
 
             const tab = { id: 1, url, title };
-            const entryDocumentStr = articlePage();
+            const content = articlePage();
 
             savePage.handle({ type: 'tab', tab });
-            browser._fireOnMessage({ entryDocumentStr }, { tab: { id: 1 } });
+            browser._fireOnMessage({ content }, { tab: { id: 1 } });
 
             expect(savePageToWallabag).toHaveBeenCalledOnce();
             const [savedUrl, resetIcon, savedTitle, savedContent] = savePageToWallabag.mock.calls[0];
@@ -61,11 +61,11 @@ describe('SavePage', () => {
             savePage.handle({ type: 'tab', tab: tab2 });
 
             browser._fireOnMessage(
-                { entryDocumentStr: normalPage(content1Str) },
+                { content: normalPage(content1Str) },
                 { tab: { id: 1 } }
             );
             browser._fireOnMessage(
-                { entryDocumentStr: normalPage(content2Str) },
+                { content: normalPage(content2Str) },
                 { tab: { id: 2 } }
             );
 
