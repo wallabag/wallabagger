@@ -3,6 +3,7 @@ import { Common } from './common.js';
 import { WallabagApi } from './wallabag-api.js';
 import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
+import { AddDomainFromContextMenu } from './browser-content-fetch/add-domain-from-context-menu.js';
 import { Logger } from './utils/logger.js';
 import { Cache } from './utils/cache.js';
 import { ExistingUrl } from './utils/existing-url.js';
@@ -62,6 +63,12 @@ const addListeners = () => {
                                 }
                             );
                         });
+                    }
+                    break;
+                case 'wallabagger-add-to-fetch-locally':
+                    if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
+                        const addFromContextMenu = new AddDomainFromContextMenu();
+                        addFromContextMenu.addSiteToFetchLocally(api, browser, info.linkUrl, logger);
                     }
                     break;
                 case 'options':
@@ -139,12 +146,16 @@ const contextMenusCreation = async () => {
         logger.log('removing all the context menus');
         await browser.contextMenus.removeAll();
 
-        const defaultLinkTitle = Common.translate('Wallabag_it');
         await Promise.all([
             {
                 id: 'wallabagger-add-link',
-                title: isBetaVersion ? '[BETA] ' + defaultLinkTitle : defaultLinkTitle,
+                title: (isBetaVersion ? '[BETA] ' : '') + Common.translate('Wallabag_it'),
                 contexts: wallabaggerAddLinkContexts
+            },
+            {
+                id: 'wallabagger-add-to-fetch-locally',
+                title: (isBetaVersion ? '[BETA] ' : '') + Common.translate('Add_site_to_fetch_locally_list'),
+                contexts: ['link']
             },
             {
                 id: 'unread',

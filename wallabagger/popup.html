@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="card" id="main-card">
+    <div class="card d-hide" id="save-page">
 
         <div class="card-image-container">
             <img src="img/wallabag-icon-128.png" class="card-image img-responsive" id="card-image" />
@@ -108,8 +108,14 @@
 
     </div>
 
+    <div class="toast d-hide" id="save-domain-to-fetch-locally">
+        <span id="save-domain-to-fetch-locally__domain-added-success" class="d-hide" data-i18n="Domain_added_success">Domain added: </span>
+        <span id="save-domain-to-fetch-locally__domain-added-fail" class="d-hide" data-i18n="Domain_added_fail">Domain not added: </span>
+        <span id="save-domain-to-fetch-locally__domain-added" class="text-bold"></span>
+    </div>
 
-    <div class="toast" id="info-toast" data-i18n="Loading_wallabag_API">Loading wallabag API...</div>
+
+    <div class="toast d-hide" id="api-loading" data-i18n="Loading_wallabag_API">Loading wallabag API...</div>
     <div class="toast toast-error d-hide" id="error-toast"></div>
 
     <div class="modal modal-sm" id="delete_confirmation">
