@@ -344,5 +344,14 @@
     },
     "Saving_the_page_to_wallabag_from_the_browser": {
         "message": "Speichere den Inhalt des Browsers auf wallabag…"
+    },
+    "Add_site_to_fetch_locally_list": {
+        "message": "Inhalte dieser Domain immer vom Browser senden"
+    },
+    "Domain_added_fail": {
+        "message": "Domain nicht hinzugefügt: "
+    },
+    "Domain_added_success": {
+        "message": "Domain hinzugefügt: "
     }
 }
