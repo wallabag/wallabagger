@@ -66,9 +66,12 @@ const addListeners = () => {
                     }
                     break;
                 case 'wallabagger-add-to-fetch-locally':
-                    if (typeof (info.linkUrl) === 'string' && info.linkUrl.length > 0) {
+                    const url = info.linkUrl || info.pageUrl;
+                    if (typeof url === 'string' && url.length > 0) {
                         const addFromContextMenu = new AddDomainFromContextMenu();
-                        addFromContextMenu.addSiteToFetchLocally(api, browser, info.linkUrl, logger);
+                        const popupState = browserUtils.isServicePage(url, api.data.Url) ?
+                            {warning: addFromContextMenu.errorServicePage} : {};
+                        addFromContextMenu.addSiteToFetchLocally(api, browser, url, popupState, logger);
                     }
                     break;
                 case 'options':
@@ -155,7 +158,7 @@ const contextMenusCreation = async () => {
             {
                 id: 'wallabagger-add-to-fetch-locally',
                 title: (isBetaVersion ? '[BETA] ' : '') + Common.translate('Add_site_to_fetch_locally_list'),
-                contexts: ['link']
+                contexts: ['link', 'page']
             },
             {
                 id: 'unread',

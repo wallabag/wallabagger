@@ -239,6 +239,10 @@
         "message": "Saving the browser's page content to wallabag…",
         "description": "background"
     },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Service pages can't be added the content fetch locally list",
+        "description": "Popup"
+    },
     "Service_pages_can_t_be_stored": {
         "message": "Service pages can't be stored",
         "description": "Popup"

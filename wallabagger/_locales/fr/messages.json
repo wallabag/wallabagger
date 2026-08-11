@@ -219,6 +219,10 @@
         "message": "Enregistrement du contenu de la page dans wallabag…",
         "description": "background"
     },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Les pages de service ne peuvent pas être ajoutées à la liste des contenus à récupérer depuis le navigateur",
+        "description": "Popup"
+    },
     "Service_pages_can_t_be_stored": {
         "message": "Les pages de service ne peuvent pas être enregistrées",
         "description": "Popup"

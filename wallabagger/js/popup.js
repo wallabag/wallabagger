@@ -11,8 +11,7 @@ import { AddDomainFromContextMenu } from './browser-content-fetch/add-domain-fro
 class PopupController {
     #savePage = null;
     #saveDomainToFetchLocally = null;
-    #saveDomainToFetchLocallyDomainAddedSuccess = null;
-    #saveDomainToFetchLocallyDomainAddedFail = null;
+    #saveDomainToFetchLocallyDomainAddedPrefix = null;
     #saveDomainToFetchLocallyDomainAdded = null;
     #errorToast = null;
     #apiLoading = null;
@@ -64,8 +63,7 @@ class PopupController {
     constructor () {
         this.#savePage = document.getElementById('save-page');
         this.#saveDomainToFetchLocally = document.getElementById('save-domain-to-fetch-locally');
-        this.#saveDomainToFetchLocallyDomainAddedSuccess = document.getElementById('save-domain-to-fetch-locally__domain-added-success');
-        this.#saveDomainToFetchLocallyDomainAddedFail = document.getElementById('save-domain-to-fetch-locally__domain-added-fail');
+        this.#saveDomainToFetchLocallyDomainAddedPrefix = document.getElementById('save-domain-to-fetch-locally__domain-added-prefix');
         this.#saveDomainToFetchLocallyDomainAdded = document.getElementById('save-domain-to-fetch-locally__domain-added');
         this.#errorToast = document.getElementById('error-toast');
         this.#apiLoading = document.getElementById('api-loading');
@@ -581,12 +579,14 @@ class PopupController {
 
     #displayAddDomain (localStorageItems, addFromContextMenu) {
         const store = localStorageItems[addFromContextMenu.localStorageKey];
-        this.#saveDomainToFetchLocallyDomainAdded.innerText = store.value;
-        if(store.state) {
-            this.#show(this.#saveDomainToFetchLocallyDomainAddedSuccess);
+        this.#saveDomainToFetchLocallyDomainAdded.innerText = store.domain;
+        if(store.context.state === addFromContextMenu.popupStates.ok) {
+            this.#saveDomainToFetchLocallyDomainAddedPrefix.innerText = Common.translate('Domain_added_success');
             this.#saveDomainToFetchLocally.classList.add('toast-success');
+        } else if(store.context.state === addFromContextMenu.popupStates.warning) {
+            this.#saveDomainToFetchLocallyDomainAddedPrefix.innerText = Common.translate('Service_pages_can_t_be_added_the_content_fetch_locally_list');
         } else {
-            this.#show(this.#saveDomainToFetchLocallyDomainAddedFail);
+            this.#saveDomainToFetchLocallyDomainAddedPrefix.innerText = Common.translate('Domain_added_fail');
             this.#saveDomainToFetchLocally.classList.add('toast-error');
         }
         this.#show(this.#saveDomainToFetchLocally);
@@ -601,6 +601,7 @@ class PopupController {
     }
 
     #showInfo (infoString) {
+        this.#hide(this.#savePage);
         this.#apiLoading.textContent = infoString;
         this.#show(this.#apiLoading);
     }
@@ -620,7 +621,7 @@ class PopupController {
     #saveArticle () {
         this.#browserUtils.getActiveTab().then(tab => {
             if (this.#browserUtils.isServicePage(tab.url, this.#apiUrl)) {
-                this.#showError(Common.translate('Service_pages_can_t_be_stored'));
+                this.#showInfo(Common.translate('Service_pages_can_t_be_stored'));
                 return;
             }
             this.#tabUrl = this.#browserUtils.browserReaderMode.isInReaderMode(tab.url) ?
