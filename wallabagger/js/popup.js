@@ -601,7 +601,6 @@ class PopupController {
     }
 
     #showInfo (infoString) {
-        this.#hide(this.#savePage);
         this.#apiLoading.textContent = infoString;
         this.#show(this.#apiLoading);
     }
@@ -621,7 +620,7 @@ class PopupController {
     #saveArticle () {
         this.#browserUtils.getActiveTab().then(tab => {
             if (this.#browserUtils.isServicePage(tab.url, this.#apiUrl)) {
-                this.#showInfo(Common.translate('Service_pages_can_t_be_stored'));
+                this.#showError(Common.translate('Service_pages_can_t_be_stored'));
                 return;
             }
             this.#tabUrl = this.#browserUtils.browserReaderMode.isInReaderMode(tab.url) ?
