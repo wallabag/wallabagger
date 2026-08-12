@@ -346,12 +346,15 @@
         "message": "Speichere den Inhalt des Browsers auf wallabag…"
     },
     "Add_site_to_fetch_locally_list": {
-        "message": "Inhalte dieser Domain immer vom Browser senden"
+        "message": "Für diese Domain immer den Browserinhalt senden"
     },
     "Domain_added_fail": {
         "message": "Domain nicht hinzugefügt: "
     },
     "Domain_added_success": {
         "message": "Domain hinzugefügt: "
+    },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Serviceseiten können nicht auf die Positivliste zum Senden des Browserinhalts gesetzt werden"
     }
 }
