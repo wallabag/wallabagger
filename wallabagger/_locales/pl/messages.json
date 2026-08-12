@@ -356,6 +356,6 @@
         "message": "Domena dodana: "
     },
     "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
-        "message": "Stron usług nie można dodać do listy treści pobieranych lokalnie"
+        "message": "Stron usług nie można dodać do białej listy pobierania zawartości przeglądarki"
     }
 }
