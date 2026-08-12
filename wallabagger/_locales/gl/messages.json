@@ -345,5 +345,17 @@
     },
     "Saving_the_page_to_wallabag_from_the_browser": {
         "message": "Gardando o contido da páxina do navegador en wallabag…"
+    },
+    "Domain_added_fail": {
+        "message": "Dominio non engadido: "
+    },
+    "Domain_added_success": {
+        "message": "Dominio engadido: "
+    },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "As páxinas de servizo non se poden engadir á lista para obter contido localmente"
+    },
+    "Add_site_to_fetch_locally_list": {
+        "message": "Engade este sitio á lista para obter contido locamente"
     }
 }
