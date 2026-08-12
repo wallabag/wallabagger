@@ -354,5 +354,8 @@
     },
     "Domain_added_success": {
         "message": "Alan adı eklendi: "
+    },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Hizmet sayfaları, içeriği yerel olarak al listesine eklenemez"
     }
 }
