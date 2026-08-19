@@ -353,7 +353,7 @@
         "message": "Dominio engadido: "
     },
     "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
-        "message": "As páxinas de servizo non se poden engadir á lista para obter contido localmente"
+        "message": "As páxinas de servizo non se poden engadir á lista de permitidas para obter contido desde o navegador"
     },
     "Add_site_to_fetch_locally_list": {
         "message": "Engade este sitio á lista para obter contido locamente"
