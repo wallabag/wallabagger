@@ -345,5 +345,17 @@
     },
     "Service_pages_can_t_be_stored": {
         "message": "Hizmet sayfaları kaydedilemiyor"
+    },
+    "Add_site_to_fetch_locally_list": {
+        "message": "Bu siteyi içeriği yerel olarak al listesine ekle"
+    },
+    "Domain_added_fail": {
+        "message": "Alan adı eklenmedi: "
+    },
+    "Domain_added_success": {
+        "message": "Alan adı eklendi: "
+    },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Hizmet sayfaları, tarayıcı içerik alma işlemi için beyaz listeye eklenemez"
     }
 }

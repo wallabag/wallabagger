@@ -240,7 +240,7 @@
         "description": "background"
     },
     "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
-        "message": "Service pages can't be added the content fetch locally list",
+        "message": "Service pages cannot be added to the whitelist for browser content fetching",
         "description": "Popup"
     },
     "Service_pages_can_t_be_stored": {

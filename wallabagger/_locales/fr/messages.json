@@ -108,7 +108,7 @@
         "description": "Options"
     },
     "Extension_description": {
-        "message": "Extension pour Wallabag qui permet d'éditer le titre de la page, les tags, changer l'état en tant que favori, archivé ou supprimé.",
+        "message": "Enregistrer l'URL et le contenu de n'importe quelle page sur un serveur Wallabag v2 pour une lecture ultérieure, avec des métadonnées modifiables.",
         "description": "Manifest.json"
     },
     "Get_token": {
@@ -364,7 +364,7 @@
         "description": "Options"
     },
     "Sites_locally_whitelist_fetch_explaination": {
-        "message": "Saisissez l'adresse du site dont la sauvegarde du contenu pose problème.",
+        "message": "Entrez l'adresse du site pour lequel vous souhaitez toujours envoyer le contenu du navigateur au lieu de seulement son URL de page.",
         "description": "Options"
     },
     "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
