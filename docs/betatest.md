@@ -25,20 +25,24 @@ This version **WILL NOT** be updated automatically by your browser.
 
 ## Install the last work in progress version, should be stable, but not ready for production (**Really not recommended**)
 
+You should have Node and npm installed.
+
 1. Download [the last version of the source code](https://github.com/wallabag/wallabagger/archive/refs/heads/main.zip)
 2. Unzip this file
 
 ### For Chromium-based browsers (Chrome, Vivaldi)
 
-3. Follow the steps 2 and 3 of the previous section
-4. Select the wallabagger folder (containing the *manifest.json* file)
+3. Run `npm run manifest:build chrome` from the wallabagger's root directory
+4. Follow the steps 2 and 3 of the previous section
+5. Select the wallabagger folder (containing the *manifest.json* file)
 
 ### For Firefox (temporary installation)
 
-3. Go to your browser's debugging settings page `about:debugging`
-4. Open `This Firefox`
-5. Click `Load Temporary Add-on...`
-6. Select the `manifest.json` file from the wallabagger folder
+3. Run `npm run manifest:build firefox` from the wallabagger's root directory
+4. Go to your browser's debugging settings page `about:debugging`
+5. Open `This Firefox`
+6. Click `Load Temporary Add-on...`
+7. Select the `manifest.json` file from the wallabagger folder
 
 ### For Firefox for Android (temporary installation)
 
