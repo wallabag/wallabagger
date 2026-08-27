@@ -3,6 +3,7 @@
 import fs from "fs";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import packageJson from '../package.json' with { type: "json" };
 
 class Manifest {
     #availableBrowsers = [
@@ -24,7 +25,7 @@ class Manifest {
         "name": "Wallabagger",
         "manifest_version": 3,
         "default_locale": "en",
-        "version": "1.24.0",
+        "version": packageJson.version,
         "description": "__MSG_Extension_description__",
         "icons": {
             "48": "/img/wallabag-icon-48.png",
