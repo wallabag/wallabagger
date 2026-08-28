@@ -31,6 +31,10 @@
         "message": "Ajout automatique d'un tag",
         "description": "Options"
     },
+    "Be_careful_You_re_not_using_a_secure_protocol_If_you_re_connected_to_a_public_network_eg_hotel_coffee_shop_train_station_a_malicious_person_could_use_this_feature_to_know_every_page_you_re_looking_at": {
+        "message": "Attention ! Vous n'utilisez pas un protocole sécurisé. Si vous êtes connecté à un réseau public (exemples : hôtel, café ou gare), une personne malveillante pourrait utiliser cette fonctionnalité pour connaître toutes les pages que vous consultez.",
+        "description": "Options"
+    },
     "Cancel": {
         "message": "Annuler",
         "description": "Popup"
@@ -89,10 +93,6 @@
     },
     "Download_file": {
         "message": "Télécharger le fichier",
-        "description": "Options"
-    },
-    "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
-        "message": "Pour des raisons de sécurité, vous ne pouvez activer cette option qu'en utilisant le protocole HTTPS",
         "description": "Options"
     },
     "Edit_the_Wallabag_title_of_this_article": {

@@ -5,6 +5,11 @@ import { Logger } from './utils/logger.js';
 import { FetchLocally } from './browser-content-fetch/fetch-locally.js';
 
 class OptionsController {
+    #htmlAttributes = {
+        allowExistCheck: 'js-allow-exist-checkbox',
+        httpsButtons: 'js-https-button'
+    };
+
     #logger = new Logger('options');
     #fetchLocally = new FetchLocally();
 
@@ -32,7 +37,7 @@ class OptionsController {
         this.tokenLabel_ = document.getElementById('apitoken-label');
 
         this.allowSpaceCheck = document.getElementById('allow-space-checkbox');
-        this.allowExistCheck = document.getElementById('allow-exist-checkbox');
+        this.allowExistCheck = document.querySelector(`[${this.#htmlAttributes.allowExistCheck}]`);
         this.allowExistInsecureText = document.getElementById('allow-exist-insecure-text');
         this.allowExistSecureText = document.getElementById('allow-exist-secure-text');
         this.fetchLocallyByDefault = document.getElementById('fetch-locally-by-default-checkbox');
@@ -43,7 +48,7 @@ class OptionsController {
         this.clearButton = document.getElementById('clear-button');
         this.openFileDialog = document.getElementById('openFile-dialog');
         this.httpsMessage = document.getElementById('https-message');
-        this.httpsButton = document.getElementById('https-button');
+        this.httpsButtons = document.querySelectorAll(`[${this.#htmlAttributes.httpsButtons}]`);
         this.autoAddSingleTag = document.getElementById('single-tag');
 
         this.clientSelector = new ClientSelector(document.getElementById('client-selector'));
@@ -66,12 +71,17 @@ class OptionsController {
         this.loadFromFileButton.addEventListener('click', this.loadFromFileClick.bind(this));
         this.clearButton.addEventListener('click', this.clearClick.bind(this));
         this.openFileDialog.addEventListener('change', this.loadFromFile.bind(this));
-        this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
+        [...this.httpsButtons].map(httpsButton => httpsButton.addEventListener('click', this.httpsButtonClick.bind(this)));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
         this.credentialsManual.addEventListener('click', this.credentialsManualClick.bind(this));
     }
 
-    httpsButtonClick () {
+    httpsButtonClick (e) {
+        if(e.target.value === 'ok') {
+            this.#setAllowExistCheck();
+        } else {
+            this.allowExistCheck.checked = false;
+        }
         this.httpsMessage.classList.remove('active');
     }
 
@@ -164,13 +174,15 @@ class OptionsController {
     }
 
     async allowExistCheckClick (e) {
-        if (!this.protocolCheck_.checked) {
-            this.allowExistCheck.checked = false;
+        if (e.target.checked && !this.protocolCheck_.checked) {
             this.httpsMessage.classList.add('active');
             return false;
         }
+        return await this.#setAllowExistCheck();
+    }
 
-        const permissionsAction = e.target.checked ? 'request' : 'remove';
+    async #setAllowExistCheck () {
+        const permissionsAction = this.allowExistCheck.checked ? 'request' : 'remove';
         const isPermissionSuccessfull = await browser.permissions[permissionsAction]({
             permissions: ['tabs']
         });
