@@ -22,7 +22,6 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["js/background.js"],
     "service_worker": "js/background.js",
     "type": "module"
   },
@@ -38,8 +37,8 @@
   "optional_permissions": [
     "tabs"
   ],
-  "optional_host_permissions": [
-    "*://*/api/*"
+  "host_permissions": [
+    "*://*/*"
   ],
   "options_ui": {
     "page": "options.html",
