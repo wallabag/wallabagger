@@ -65,15 +65,6 @@ const addListeners = () => {
                         });
                     }
                     break;
-                case 'wallabagger-add-to-fetch-locally':
-                    const url = info.linkUrl || info.pageUrl;
-                    if (typeof url === 'string' && url.length > 0) {
-                        const addFromContextMenu = new AddDomainFromContextMenu();
-                        const popupState = browserUtils.isServicePage(url, api.data.Url) ?
-                            {warning: addFromContextMenu.errorServicePage} : {};
-                        addFromContextMenu.addSiteToFetchLocally(api, browser, url, popupState, logger);
-                    }
-                    break;
                 case 'options':
                     browser.runtime.openOptionsPage();
                     break;
@@ -154,11 +145,6 @@ const contextMenusCreation = async () => {
                 id: 'wallabagger-add-link',
                 title: (isBetaVersion ? '[BETA] ' : '') + Common.translate('Wallabag_it'),
                 contexts: wallabaggerAddLinkContexts
-            },
-            {
-                id: 'wallabagger-add-to-fetch-locally',
-                title: (isBetaVersion ? '[BETA] ' : '') + Common.translate('Add_site_to_fetch_locally_list'),
-                contexts: ['link', 'page']
             },
             {
                 id: 'unread',

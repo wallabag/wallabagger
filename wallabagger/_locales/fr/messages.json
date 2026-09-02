@@ -3,10 +3,6 @@
         "message": "Ajouter le site",
         "description": "Options"
     },
-    "Add_site_to_fetch_locally_list": {
-        "message": "Ajouter ce site à la liste des contenus à récupérer depuis le navigateur",
-        "description": "Context menu item to add a link's origin to the sites-to-fetch-locally list"
-    },
     "Agreed": {
         "message": "Accepté",
         "description": "Options"
