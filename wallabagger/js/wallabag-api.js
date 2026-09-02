@@ -207,19 +207,6 @@ class WallabagApi {
         });
     }
 
-    isSiteToFetchLocally (pageUrl) {
-        if (this.data.FetchLocallyByDefault) {
-            return true;
-        }
-        if (!this.data.sitesToFetchLocally) {
-            return false;
-        }
-        const sites = this.data.sitesToFetchLocally.split('\n');
-        return sites.filter(function (item) {
-            return pageUrl.indexOf(item) === 0;
-        }).length > 0;
-    }
-
     savePage (options) {
         const content = {
             url: options.url,

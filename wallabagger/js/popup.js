@@ -6,13 +6,14 @@ import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
 import { Logger } from './utils/logger.js';
 import { decodeStr, sanitize } from './utils/sanitize.js';
-import { AddDomainFromContextMenu } from './browser-content-fetch/add-domain-from-context-menu.js';
+import { FetchLocally } from './browser-content-fetch/fetch-locally.js';
 
 class PopupController {
     #savePage = null;
     #saveDomainToFetchLocally = null;
     #saveDomainToFetchLocallyDomainAddedPrefix = null;
     #saveDomainToFetchLocallyDomainAdded = null;
+    #saveHostToFetchLocallyAdd = null;
     #errorToast = null;
     #apiLoading = null;
     #apiUrl = null;
@@ -54,6 +55,7 @@ class PopupController {
     #browserUtils = null;
     #logger = null;
     #port = null;
+    #fetchLocally = null;
 
 
     #selectedTag = -1;
@@ -65,6 +67,7 @@ class PopupController {
         this.#saveDomainToFetchLocally = document.getElementById('save-domain-to-fetch-locally');
         this.#saveDomainToFetchLocallyDomainAddedPrefix = document.getElementById('save-domain-to-fetch-locally__domain-added-prefix');
         this.#saveDomainToFetchLocallyDomainAdded = document.getElementById('save-domain-to-fetch-locally__domain-added');
+        this.#saveHostToFetchLocallyAdd = document.getElementById('save-host-to-fetch-locally__add');
         this.#errorToast = document.getElementById('error-toast');
         this.#apiLoading = document.getElementById('api-loading');
         this.#cardTitle = document.getElementById('card-title');
@@ -94,6 +97,7 @@ class PopupController {
         document.body.classList.add(viewportClass);
         this.#port = new PortManager('popup', this.#messageListener.bind(this), this.#logger);
         this.#port.postMessage({ request: 'setup' });
+        this.#fetchLocally = new FetchLocally();
     }
 
     #addListeners () {
@@ -540,7 +544,7 @@ class PopupController {
                 this.#AutoAddSingleTag = msg.data.AutoAddSingleTag || 0;
                 this.#apiUrl = msg.data.Url;
                 this.#port.postMessage({ request: 'tags' });
-                this.#displayContent();
+                this.#displaySavePage();
                 break;
             case 'articleTags':
                 this.#createTags(msg.tags);
@@ -552,6 +556,20 @@ class PopupController {
             case 'close':
                 window.close();
                 break;
+            case this.#fetchLocally.events.name:
+                switch(msg.action) {
+                    case this.#fetchLocally.events.actions.ask:
+                        this.#saveHostToFetchLocallyAdd.addEventListener('click', () => {
+                            this.#port.postMessage({request: this.#fetchLocally.events.name, action: this.#fetchLocally.events.actions.add, url: msg.url});
+                        });
+                        this.#show(this.#saveDomainToFetchLocally);
+                        break;
+
+                    case this.#fetchLocally.events.actions.result:
+                        this.#displayAddDomain(msg.host, msg.context);
+                        break;
+                }
+                break;
             case PortManager.backgroundPortIsConnectedEventName:
                 this.#logger.log(PortManager.backgroundPortIsConnectedEventName);
                 this.#port.backgroundPortIsConnected();
@@ -561,36 +579,23 @@ class PopupController {
         };
     }
 
-    async #displayContent () {
-        const addFromContextMenu = new AddDomainFromContextMenu();
-        const localStorageItems = await browser.storage.local.get(addFromContextMenu.localStorageKey);
-        if(addFromContextMenu.localStorageKey in localStorageItems) {
-            this.#displayAddDomain(localStorageItems, addFromContextMenu);
-        } else {
-            this.#displaySavePage();
-        }
-    }
-
     #displaySavePage () {
         this.#show(this.#savePage);
         this.#show(this.#apiLoading);
         this.#saveArticle();
     }
 
-    #displayAddDomain (localStorageItems, addFromContextMenu) {
-        const store = localStorageItems[addFromContextMenu.localStorageKey];
-        this.#saveDomainToFetchLocallyDomainAdded.innerText = store.domain;
-        if(store.context.state === addFromContextMenu.popupStates.ok) {
+    #displayAddDomain (host, context) {
+        this.#saveDomainToFetchLocallyDomainAdded.innerText = host;
+        if(context.state === this.#fetchLocally.popupStates.ok) {
             this.#saveDomainToFetchLocallyDomainAddedPrefix.innerText = Common.translate('Domain_added_success');
             this.#saveDomainToFetchLocally.classList.add('toast-success');
-        } else if(store.context.state === addFromContextMenu.popupStates.warning) {
-            this.#saveDomainToFetchLocallyDomainAddedPrefix.innerText = Common.translate('Service_pages_can_t_be_added_the_content_fetch_locally_list');
         } else {
             this.#saveDomainToFetchLocallyDomainAddedPrefix.innerText = Common.translate('Domain_added_fail');
             this.#saveDomainToFetchLocally.classList.add('toast-error');
         }
         this.#show(this.#saveDomainToFetchLocally);
-        addFromContextMenu.cleanup();
+        this.#hide(document.querySelector('#save-host-to-fetch-locally__add'));
     }
 
     #showError (infoString) {

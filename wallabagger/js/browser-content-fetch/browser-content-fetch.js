@@ -1,6 +1,7 @@
 'use strict';
 
 import { EuropresseProvider } from './providers/europresse-provider.js';
+import { FetchLocally } from './fetch-locally.js';
 
 export class BrowserContentFetch {
     #europresse = new EuropresseProvider();
@@ -8,16 +9,15 @@ export class BrowserContentFetch {
     #browser = null;
     #logger = null;
     #browserUtils = null;
-    #api = null;
+    #fetchLocally = new FetchLocally();
 
-    constructor(api, browser, logger, browserUtils) {
-        this.#api = api;
+    constructor(browser, logger, browserUtils) {
         this.#browser = browser;
         this.#logger = logger;
         this.#browserUtils = browserUtils;
     }
 
-    handle(tab, savePageToWallabag) {
+    async handle(tab, savePageToWallabag) {
         const isEuropresse = this.#europresse.isCurrentUrl(tab.url);
 
         const listener = (event, sender) => {
@@ -47,7 +47,7 @@ export class BrowserContentFetch {
         };
         this.#browser.runtime.onMessage.addListener(listener);
 
-        const isToFetchLocally = isEuropresse || (!this.#browserUtils.isRestrictedPage(tab.url) && this.#api.isSiteToFetchLocally(tab.url));
+        const isToFetchLocally = isEuropresse || (!this.#browserUtils.isRestrictedPage(tab.url) && await this.#fetchLocally.isSiteToFetchLocally(tab.url));
         if (isToFetchLocally) {
             browser.scripting.executeScript({
                 target: { tabId: tab.id },

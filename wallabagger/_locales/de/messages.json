@@ -350,8 +350,5 @@
     },
     "Domain_added_success": {
         "message": "Domain hinzugefügt: "
-    },
-    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
-        "message": "Serviceseiten können nicht auf die Positivliste zum Senden des Browserinhalts gesetzt werden"
     }
 }
