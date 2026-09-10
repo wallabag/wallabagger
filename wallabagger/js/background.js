@@ -10,6 +10,7 @@ import { ExistingUrl } from './utils/existing-url.js';
 import { BrowserIcon } from './utils/browser-icon.js';
 
 import { SavePage } from './save-page.js';
+import { suggestTags as requestTagSuggestions } from './ai-tag-suggester.js';
 
 const logger = new Logger('background');
 const api = new WallabagApi(logger);
@@ -30,6 +31,7 @@ if (!globalThis.wallabaggerBrowser) {
 
 const cache = new Cache(true); // TODO - here checking option
 const dirtyCache = new Cache(true);
+const aiTagSuggestionRequests = new Map();
 
 const isBetaVersion = browser.runtime.getManifest().version.split('.').length === 4;
 if (isBetaVersion) {
@@ -210,6 +212,9 @@ async function boot () {
     addListeners();
     await contextMenusCreation();
     await api.init();
+    logger.log('Wallabagger background debug logging enabled', {
+        version: browser.runtime.getManifest().version
+    });
     existingUrl.addListeners(api.data.AllowExistCheck);
     const tags = await api.getTags();
     cache.set('allTags', tags);
@@ -324,6 +329,151 @@ function postIfConnected (obj) {
     portConnected && Port.postMessage(obj);
     logger.log('postMessage:', obj);
 }
+
+function aiTabUrl (tab) {
+    return browserUtils.browserReaderMode.isInReaderMode(tab.url)
+        ? browserUtils.browserReaderMode.getUrl(tab.url)
+        : tab.url;
+}
+
+async function suggestTagsForTab (tab, requestId) {
+    let tabUrl = typeof (tab?.url) === 'string' ? tab.url : '';
+    const startedAt = Date.now();
+    try {
+        tabUrl = aiTabUrl(tab);
+        await api.forceInit();
+        logger.log('AI tag suggestion started', {
+            tabId: tab?.id,
+            tabUrl,
+            enabled: Boolean(api.data.AiTagSuggestionsEnabled),
+            inferenceUrl: api.data.AiInferenceUrl,
+            model: api.data.AiModel
+        });
+        if (!api.data.AiTagSuggestionsEnabled ||
+            !api.data.AiInferenceUrl ||
+            !api.data.AiModel) {
+            throw new Error('AI tag suggestions are not enabled and configured');
+        }
+
+        if (globalThis.wallabaggerBrowser === 'Firefox') {
+            const permissions = await browser.permissions.getAll();
+            logger.log('AI tag suggestion Firefox permissions checked', {
+                origins: permissions.origins || [],
+                dataCollection: permissions.data_collection || []
+            });
+            if (Object.prototype.hasOwnProperty.call(permissions, 'data_collection')) {
+                const grantedData = new Set(permissions.data_collection || []);
+                if (!grantedData.has('browsingActivity') ||
+                    !grantedData.has('websiteContent')) {
+                    throw new Error('AI data collection permissions are not granted');
+                }
+            }
+        }
+
+        let title = typeof (tab.title) === 'string' ? tab.title : '';
+        let content = '';
+        let isRestrictedPage = true;
+        try {
+            isRestrictedPage = browserUtils.isRestrictedPage(tab.url);
+            logger.log('AI tag suggestion page restriction checked', {
+                tabUrl,
+                isRestrictedPage
+            });
+        } catch (error) {
+            logger.log('Could not check whether AI page extraction is restricted', error);
+        }
+        if (tab.id !== undefined && !isRestrictedPage) {
+            try {
+                const extraction = await browser.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    func: () => ({
+                        title: document.title,
+                        content: (document.body?.innerText || '').slice(0, 12000)
+                    })
+                });
+                const page = extraction[0]?.result;
+                if (page && typeof (page.title) === 'string') {
+                    title = page.title;
+                }
+                if (page && typeof (page.content) === 'string') {
+                    content = page.content;
+                }
+                logger.log('AI tag suggestion page content extracted', {
+                    resultCount: extraction.length,
+                    titleLength: title.length,
+                    contentLength: content.length
+                });
+            } catch (error) {
+                logger.log('AI page extraction failed; using tab metadata', error);
+            }
+        }
+
+        if (title === '' && content === '') {
+            logger.log('AI tag suggestion skipped because the page has no title or visible text', {
+                tabUrl,
+                elapsedMs: Date.now() - startedAt
+            });
+            postIfConnected({ response: 'tagSuggestions', requestId, tabUrl, tags: [] });
+            return;
+        }
+
+        logger.log('AI tag suggestion inference starting', {
+            model: api.data.AiModel,
+            titleLength: title.length,
+            contentLength: content.length
+        });
+        const tags = await requestTagSuggestions({
+            inferenceUrl: api.data.AiInferenceUrl,
+            apiKey: api.data.AiApiKey,
+            model: api.data.AiModel,
+            url: tabUrl,
+            title,
+            content,
+            debug: (message, details) => logger.log(message, details)
+        });
+        logger.log('AI tag suggestion completed', {
+            tagCount: tags.length,
+            tags,
+            elapsedMs: Date.now() - startedAt
+        });
+        postIfConnected({ response: 'tagSuggestions', requestId, tabUrl, tags });
+    } catch (error) {
+        const errorInfo = {
+            name: error?.name || typeof error,
+            message: error?.message || String(error),
+            stack: error?.stack || null,
+            tabUrl,
+            elapsedMs: Date.now() - startedAt
+        };
+        logger.error('AI tag suggestions failed', errorInfo);
+        postIfConnected({
+            response: 'tagSuggestionsError',
+            requestId,
+            tabUrl,
+            error: {
+                name: errorInfo.name,
+                message: errorInfo.message,
+                elapsedMs: errorInfo.elapsedMs
+            }
+        });
+    }
+}
+
+function requestTagSuggestionsForTab (tab, requestId) {
+    if (aiTagSuggestionRequests.has(requestId)) {
+        logger.log('Duplicate AI tag suggestion request ignored', { requestId });
+        return;
+    }
+
+    const request = suggestTagsForTab(tab, requestId);
+    aiTagSuggestionRequests.set(requestId, request);
+    void request.finally(() => {
+        if (aiTagSuggestionRequests.get(requestId) === request) {
+            aiTagSuggestionRequests.delete(requestId);
+        }
+    });
+}
+
 async function onPortMessage (msg) {
     logger.log(msg);
     await api.forceInit();
@@ -337,6 +487,9 @@ async function onPortMessage (msg) {
                     },
                     savePageToWallabag
                 );
+                break;
+            case 'suggestTags':
+                requestTagSuggestionsForTab(msg.tab, msg.requestId);
                 break;
             case 'tags':
                 if (!cache.check('allTags')) {

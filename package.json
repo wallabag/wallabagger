@@ -12,7 +12,8 @@
     "lint": "eslint wallabagger/js/*.js",
     "test": "vitest run",
     "locales:sort": "sort-json -i -d=1 wallabagger/_locales/**/messages.json",
-    "build": "web-ext build --source-dir wallabagger/"
+    "build": "web-ext build --source-dir wallabagger/",
+    "build:chrome": "node scripts/build-chrome.mjs"
   },
   "webextension": {
     "name": "Wallabagger",

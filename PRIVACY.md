@@ -1,11 +1,15 @@
 # Privacy policy
 
-wallabagger stores next personal information associated with your wallabag account:
+wallabagger stores the following personal information and configuration:
 
 - wallabag account login
 - wallabag account password
+- OpenAI-compatible inference URL
+- optional inference API key
+- selected inference model
+- AI tag suggestions enabled state
 
-The credentials are stored in the browser localstorage. It can be exported as a file as well.
+This information is stored in the browser's local storage and can be exported as a file.
 
 wallabagger is a third-party browser extension accessing the public wallabag API.
 
@@ -18,4 +22,6 @@ wallabagger is using the current API model (version 2) of wallabag. The way of a
 - The wallabag instance sends back an access token, which is used for later connections and refresh token, which is used for refreshing access token after it is expired
 - After the refresh token expires itself, the stored credentials are used for obtaining a new one.
 
-All credentials belong to user, are stored in the user's computer and are used only to connect to the wallabag installation.
+AI tag suggestions are opt-in. When enabled, wallabagger sends the grabbed page URL, title, and visible page text to the OpenAI-compatible endpoint configured by the user. wallabagger does not choose or operate that inference provider. It sends no page content to an inference provider while AI tag suggestions are disabled.
+
+All credentials belong to the user and are stored on the user's computer. Wallabag credentials are used only to connect to the configured wallabag installation. An optional inference API key is used only to connect to the user-configured inference provider.

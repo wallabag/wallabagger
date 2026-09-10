@@ -1,4 +1,64 @@
 {
+    "AI_API_key_optional": {
+        "message": "API key (optional for unauthenticated endpoints)",
+        "description": "Options"
+    },
+    "AI_configuration_incomplete": {
+        "message": "Enter an inference URL and select a model first.",
+        "description": "Options"
+    },
+    "AI_inference_URL": {
+        "message": "OpenAI-compatible inference URL",
+        "description": "Options"
+    },
+    "AI_inference_URL_hint": {
+        "message": "Include the provider's OpenAI-compatible API prefix, such as /v1, when required.",
+        "description": "Options"
+    },
+    "AI_models_load_failed": {
+        "message": "Could not load models from the inference provider.",
+        "description": "Options"
+    },
+    "AI_permission_denied": {
+        "message": "Permission to access the inference provider was denied.",
+        "description": "Options"
+    },
+    "AI_tag_suggestions": {
+        "message": "AI tag suggestions",
+        "description": "Options"
+    },
+    "AI_tag_suggestions_unavailable": {
+        "message": "AI tag suggestions are unavailable.",
+        "description": "Popup"
+    },
+    "Add_all": {
+        "message": "Add all",
+        "description": "Popup"
+    },
+    "Enable_AI_tag_suggestions": {
+        "message": "Enable AI tag suggestions. The page URL, title, and visible text will be sent to the configured inference provider.",
+        "description": "Options"
+    },
+    "Load_models": {
+        "message": "Load models",
+        "description": "Options"
+    },
+    "Models_loaded": {
+        "message": "Models loaded",
+        "description": "Options"
+    },
+    "No_tag_suggestions": {
+        "message": "No tag suggestions found.",
+        "description": "Popup"
+    },
+    "Select_a_model": {
+        "message": "Select a model",
+        "description": "Options"
+    },
+    "Suggesting_tags": {
+        "message": "Suggesting tags…",
+        "description": "Popup"
+    },
     "Add_site_to_fetch_locally_list": {
         "message": "Add this site to the content fetch locally list",
         "description": "Context menu item to add a link's origin to the sites-to-fetch-locally list"

@@ -60,6 +60,16 @@ class Logger {
     }
 
     #obfuscateSensitiveData (obj) {
+        if (obj === null) {
+            return null;
+        }
+        if (obj instanceof Error) {
+            return {
+                name: obj.name,
+                message: obj.message,
+                stack: obj.stack
+            };
+        }
         if (typeof obj !== 'object') {
             return obj;
         }

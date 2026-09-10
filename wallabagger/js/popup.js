@@ -22,6 +22,9 @@ class PopupController {
     #tagsInputContainer = null;
     #tagsInput = null;
     #tagsAutoCompleteList = null;
+    #tagSuggestionsStatus = null;
+    #tagSuggestionsChips = null;
+    #addAllSuggestedTags = null;
 
     #articleId = null;
     #editIcon = null;
@@ -43,13 +46,19 @@ class PopupController {
     #allTags = [];
     #dirtyTags = [];
     #foundTags = [];
+    #suggestedTags = [];
+    #tagSuggestionsState = 'idle';
+    #tagSuggestionsRequestId = null;
 
     #starred = 0;
     #archived = 0;
-    #tmpTagId = 0;
+    #tmpTagId = -1;
     #AllowSpaceInTags = false;
     #AutoAddSingleTag = false;
     #tabUrl = null;
+    #aiTagSuggestionsEnabled = false;
+    #aiInferenceUrl = null;
+    #aiModel = null;
 
     #browserUtils = null;
     #logger = null;
@@ -73,6 +82,9 @@ class PopupController {
         this.#tagsInputContainer = document.getElementById('tags-input-container');
         this.#tagsInput = document.getElementById('tags-input');
         this.#tagsAutoCompleteList = document.getElementById('tags-autocomplete-list');
+        this.#tagSuggestionsStatus = document.getElementById('tag-suggestions-status');
+        this.#tagSuggestionsChips = document.getElementById('tag-suggestions-chips');
+        this.#addAllSuggestedTags = document.getElementById('add-all-suggested-tags');
         this.#editIcon = document.getElementById('edit-icon');
         this.#saveTitleButton = document.getElementById('save-title-button');
         this.#cancelTitleButton = document.getElementById('cancel-title-button');
@@ -111,6 +123,7 @@ class PopupController {
         this.#tagsInput.addEventListener('input', this.#onTagsInputChanged.bind(this));
         this.#tagsInput.addEventListener('keyup', this.#onTagsInputKeyUp.bind(this));
         this.#tagsInput.addEventListener('keydown', this.#onTagsInputKeyDown.bind(this));
+        this.#addAllSuggestedTags.addEventListener('click', this.#addAllTagSuggestions.bind(this));
 
         this.#starredIcon.addEventListener('click', this.#onIconClick.bind(this));
         this.#archivedIcon.addEventListener('click', this.#onIconClick.bind(this));
@@ -215,7 +228,7 @@ class PopupController {
         }
     }
 
-    #addTag (tagid, taglabel) {
+    #addTag (tagid, taglabel, persist = true) {
         this.#disableTagsInput();
         if (this.#articleTags.concat(this.#dirtyTags).map(t => t.label.toUpperCase()).indexOf(taglabel.toUpperCase()) === -1) {
             this.#dirtyTags.push({
@@ -231,18 +244,24 @@ class PopupController {
             if (tagid <= 0) {
                 this.#tmpTagId = this.#tmpTagId - 1;
             }
-            this.#port.postMessage({ request: 'saveTags', articleId: this.#articleId, tags: sanitize(this.#getTagsStr()), tabUrl: this.#tabUrl });
+            if (persist) {
+                this.#postTags();
+            }
             this.#checkAutocompleteState();
-        } else {
-            this.#tagsInput.placeholder = Common.translate('Tag_already_exists');
-            const self = this;
-            setTimeout(function () {
-                self.#enableTagsInput();
-                self.#tagsInput.focus();
-            }, 1000);
+            this.#selectedFoundTag = 0;
+            this.#selectedTag = -1;
+            return true;
         }
+
+        this.#tagsInput.placeholder = Common.translate('Tag_already_exists');
+        const self = this;
+        setTimeout(function () {
+            self.#enableTagsInput();
+            self.#tagsInput.focus();
+        }, 1000);
         this.#selectedFoundTag = 0;
         this.#selectedTag = -1;
+        return false;
     }
 
     #deleteChip (ev) {
@@ -461,6 +480,90 @@ class PopupController {
         return container;
     }
 
+    #createTagSuggestionChip (label) {
+        const container = this.#createContainerEl(this.#tmpTagId, label);
+        container.addEventListener('click', this.#onTagSuggestionClick.bind(this));
+        return container;
+    }
+
+    #filterTagSuggestions () {
+        const existingTags = new Set(
+            this.#articleTags
+                .concat(this.#dirtyTags)
+                .map(tag => tag.label.toLowerCase())
+        );
+        const seen = new Set();
+        this.#suggestedTags = this.#suggestedTags.filter(tag => {
+            if (typeof (tag) !== 'string') {
+                return false;
+            }
+            const key = tag.toLowerCase();
+            if (existingTags.has(key) || seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    #renderTagSuggestions () {
+        if (this.#tagSuggestionsState !== 'loaded') {
+            return;
+        }
+
+        this.#filterTagSuggestions();
+        this.#tagSuggestionsChips.replaceChildren();
+        this.#suggestedTags.forEach(tag => {
+            this.#tagSuggestionsChips.appendChild(this.#createTagSuggestionChip(tag));
+        });
+
+        if (this.#suggestedTags.length === 0) {
+            this.#tagSuggestionsStatus.textContent = Common.translate('No_tag_suggestions');
+            this.#hide(this.#addAllSuggestedTags);
+        } else {
+            this.#tagSuggestionsStatus.textContent = '';
+            this.#show(this.#addAllSuggestedTags);
+        }
+    }
+
+    #postTags () {
+        this.#port.postMessage({
+            request: 'saveTags',
+            articleId: this.#articleId,
+            tags: sanitize(this.#getTagsStr()),
+            tabUrl: this.#tabUrl
+        });
+    }
+
+    #onTagSuggestionClick (event) {
+        event.preventDefault();
+        const label = event.currentTarget.dataset.taglabel;
+        const added = this.#addTag(this.#tmpTagId, label, false);
+        this.#suggestedTags = this.#suggestedTags
+            .filter(tag => tag.toLowerCase() !== label.toLowerCase());
+        if (added) {
+            this.#postTags();
+        }
+        this.#renderTagSuggestions();
+    }
+
+    #addAllTagSuggestions (event) {
+        event.preventDefault();
+        this.#filterTagSuggestions();
+        let added = false;
+        this.#suggestedTags.forEach(tag => {
+            added = this.#addTag(this.#tmpTagId, tag, false) || added;
+        });
+        if (added) {
+            this.#postTags();
+        }
+        this.#suggestedTags = [];
+        this.#tagSuggestionsState = 'idle';
+        this.#tagSuggestionsChips.replaceChildren();
+        this.#tagSuggestionsStatus.textContent = '';
+        this.#hide(this.#addAllSuggestedTags);
+    }
+
     #clearTagInput () {
         const tagsA = Array.prototype.slice.call(this.#tagsInputContainer.childNodes);
         return tagsA.filter(e => (e.classList != null) && e.classList.contains('chip'))
@@ -472,6 +575,7 @@ class PopupController {
         this.#dirtyTags = this.#dirtyTags.filter(tag => this.#articleTags.filter(atag => atag.label.toLowerCase() === tag.label.toLowerCase()).length === 0);
         this.#clearTagInput();
         this.#articleTags.concat(this.#dirtyTags).map(tag => this.#tagsInputContainer.insertBefore(this.#createTagChip(tag.id, tag.label), this.#tagsInput));
+        this.#renderTagSuggestions();
     }
 
     #setArticle (data) {
@@ -515,6 +619,34 @@ class PopupController {
         this.#enableTagsInput();
     }
 
+
+    #showTagSuggestionsLoading () {
+        this.#suggestedTags = [];
+        this.#tagSuggestionsState = 'loading';
+        this.#tagSuggestionsChips.replaceChildren();
+        this.#tagSuggestionsStatus.textContent = Common.translate('Suggesting_tags');
+        this.#hide(this.#addAllSuggestedTags);
+    }
+
+    #showTagSuggestions (tags) {
+        this.#suggestedTags = tags;
+        this.#tagSuggestionsState = 'loaded';
+        this.#renderTagSuggestions();
+    }
+
+    #showTagSuggestionsError (error = null) {
+        this.#suggestedTags = [];
+        this.#tagSuggestionsState = 'error';
+        this.#tagSuggestionsChips.replaceChildren();
+        const defaultMessage = Common.translate('AI_tag_suggestions_unavailable');
+        if (error?.message) {
+            const elapsed = Number.isFinite(error.elapsedMs) ? ` (${error.elapsedMs} ms)` : '';
+            this.#tagSuggestionsStatus.textContent = `${defaultMessage} ${error.name || 'Error'}: ${error.message}${elapsed}`;
+        } else {
+            this.#tagSuggestionsStatus.textContent = defaultMessage;
+        }
+        this.#hide(this.#addAllSuggestedTags);
+    }
     async #messageListener (msg) {
         switch (msg.response) {
             case 'info':
@@ -536,14 +668,30 @@ class PopupController {
                 this.#allTags = msg.tags;
                 break;
             case 'setup':
+                this.#logger.setDebug(Boolean(msg.data.Debug));
                 this.#AllowSpaceInTags = msg.data.AllowSpaceInTags || 0;
                 this.#AutoAddSingleTag = msg.data.AutoAddSingleTag || 0;
                 this.#apiUrl = msg.data.Url;
+                this.#aiTagSuggestionsEnabled = Boolean(msg.data.AiTagSuggestionsEnabled);
+                this.#aiInferenceUrl = msg.data.AiInferenceUrl;
+                this.#aiModel = msg.data.AiModel;
                 this.#port.postMessage({ request: 'tags' });
                 this.#displayContent();
                 break;
             case 'articleTags':
                 this.#createTags(msg.tags);
+                break;
+            case 'tagSuggestions':
+                if (msg.requestId === this.#tagSuggestionsRequestId &&
+                    msg.tabUrl === this.#tabUrl) {
+                    this.#showTagSuggestions(msg.tags);
+                }
+                break;
+            case 'tagSuggestionsError':
+                if (msg.requestId === this.#tagSuggestionsRequestId &&
+                    msg.tabUrl === this.#tabUrl) {
+                    this.#showTagSuggestionsError(msg.error);
+                }
                 break;
             case 'action':
                 this.#archived = msg.value.archived;
@@ -637,6 +785,22 @@ class PopupController {
                 this.#port.postMessage({request: 'save', tab});
             } catch (error) {
                 this.#showError(error);
+            }
+
+            if (this.#aiTagSuggestionsEnabled &&
+                this.#aiInferenceUrl &&
+                this.#aiModel) {
+                this.#showTagSuggestionsLoading();
+                try {
+                    this.#tagSuggestionsRequestId = crypto.randomUUID();
+                    this.#port.postMessage({
+                        request: 'suggestTags',
+                        requestId: this.#tagSuggestionsRequestId,
+                        tab
+                    });
+                } catch (error) {
+                    this.#logger.error('Could not request AI tag suggestions', error);
+                }
             }
         });
     }

@@ -64,6 +64,20 @@ body {
     box-shadow: 0 0 0 0.1rem rgba(87, 85, 217, 0.2);
 }
 
+.tag-suggestions {
+    margin-top: 0.4rem;
+}
+
+#tag-suggestions-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#add-all-suggested-tags {
+    margin-top: 0.4rem;
+}
+
 .card-image-container {
     display: flex;
     width: 100%;

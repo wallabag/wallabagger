@@ -300,6 +300,34 @@
                     </label>
                 </div>
 
+                <div class="form-group">
+                    <h4 data-i18n="AI_tag_suggestions">AI tag suggestions</h4>
+                    <label class="form-label" for="ai-inference-url" data-i18n="AI_inference_URL">OpenAI-compatible inference URL</label>
+                    <input type="url" id="ai-inference-url" class="form-input" placeholder="http://localhost:1234/v1" autocomplete="off" aria-describedby="ai-inference-url-hint"/>
+                    <p id="ai-inference-url-hint" class="form-input-hint" data-i18n="AI_inference_URL_hint">Include the provider's OpenAI-compatible API prefix, such as /v1, when required.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="ai-api-key" data-i18n="AI_API_key_optional">API key (optional for unauthenticated endpoints)</label>
+                    <input type="password" id="ai-api-key" class="form-input" autocomplete="off"/>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn" id="load-ai-models" data-i18n="Load_models" disabled>Load models</button>
+                    <select class="form-select" id="ai-model" disabled>
+                        <option value="" data-i18n="Select_a_model" disabled selected>Select a model</option>
+                    </select>
+                    <p id="ai-models-status" aria-live="polite"></p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="ai-tag-suggestions-enabled" disabled/>
+                        <i class="form-icon"></i>
+                        <span data-i18n="Enable_AI_tag_suggestions">Enable AI tag suggestions. The page URL, title, and visible text will be sent to the configured inference provider.</span>
+                    </label>
+                </div>
+
                 <h3 data-i18n="Others">Others</h3>
 
                 <div class="form-group">

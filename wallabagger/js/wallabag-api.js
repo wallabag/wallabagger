@@ -24,7 +24,11 @@ class WallabagApi {
         AutoAddSingleTag: false,
         ArchiveByDefault: false,
         sitesToFetchLocally: null,
-        FetchLocallyByDefault: false
+        FetchLocallyByDefault: false,
+        AiTagSuggestionsEnabled: false,
+        AiInferenceUrl: null,
+        AiApiKey: null,
+        AiModel: null
     };
 
     data = {};
@@ -42,6 +46,7 @@ class WallabagApi {
         Object.assign(this.data, this.defaultValues);
         this.#fetchApi = new FetchApi();
         await this.#load();
+        this.#logger.setDebug(Boolean(this.data.Debug));
         this.#setAllowExistSafe();
         this.#logger.log('ending');
         this.#logger.groupEnd();

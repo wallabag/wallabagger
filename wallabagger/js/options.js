@@ -1,4 +1,5 @@
 import { browser } from './browser-polyfill.js';
+import { listAiModels } from './ai-tag-suggester.js';
 import { Common } from './common.js';
 import { PortManager } from './port-manager.js';
 import { Logger } from './utils/logger.js';
@@ -44,6 +45,15 @@ class OptionsController {
         this.httpsButton = document.getElementById('https-button');
         this.autoAddSingleTag = document.getElementById('single-tag');
         this.clientSelector = new ClientSelector(document.getElementById('client-selector'));
+        this.aiTagSuggestionsEnabled = document.getElementById('ai-tag-suggestions-enabled');
+        this.aiInferenceUrl = document.getElementById('ai-inference-url');
+        this.aiApiKey = document.getElementById('ai-api-key');
+        this.loadAiModelsButton = document.getElementById('load-ai-models');
+        this.aiModel = document.getElementById('ai-model');
+        this.aiModelsStatus = document.getElementById('ai-models-status');
+        this.aiDataCollectionSupported = false;
+        this.aiGrantedOrigins = new Set();
+        this.aiGrantedDataCollection = new Set();
         this.addListeners_();
         this.data = null;
         this.port = null;
@@ -65,6 +75,11 @@ class OptionsController {
         this.httpsButton.addEventListener('click', this.httpsButtonClick.bind(this));
         this.autoAddSingleTag.addEventListener('click', this.autoAddSingleTagClick.bind(this));
         this.credentialsManual.addEventListener('click', this.credentialsManualClick.bind(this));
+        this.aiInferenceUrl.addEventListener('change', this.aiInferenceUrlChange.bind(this));
+        this.aiApiKey.addEventListener('change', this.aiApiKeyChange.bind(this));
+        this.loadAiModelsButton.addEventListener('click', this.loadAiModelsClick.bind(this));
+        this.aiModel.addEventListener('change', this.aiModelChange.bind(this));
+        this.aiTagSuggestionsEnabled.addEventListener('click', this.aiTagSuggestionsEnabledClick.bind(this));
     }
 
     httpsButtonClick () {
@@ -83,6 +98,17 @@ class OptionsController {
         this.permissionLabel_.textContent = Common.translate('Not_checked');
         this.versionLabel_.textContent = Common.translate('Not_checked');
         this.tokenLabel_.textContent = Common.translate('Not_checked');
+        this.aiTagSuggestionsEnabled.checked = false;
+        this.aiInferenceUrl.value = '';
+        this.aiApiKey.value = '';
+        this.#setAiModelOptions([], null);
+        this.#setAiStatus();
+        Object.assign(this.data, {
+            AiTagSuggestionsEnabled: false,
+            AiInferenceUrl: null,
+            AiApiKey: null,
+            AiModel: null
+        });
         this.data.isFetchPermissionGranted = false;
         this.setDataFromFields();
         this.port.postMessage({ request: 'setup-save', data: this.data });
@@ -257,6 +283,270 @@ class OptionsController {
             UserLogin: this.cleanStr(this.userLogin_.value),
             UserPassword: this.userPassword_.value
         });
+    }
+
+    #normalizeAiInferenceUrl (value) {
+        const url = new URL(value.trim());
+        if (!['http:', 'https:'].includes(url.protocol) ||
+            url.username !== '' ||
+            url.password !== '' ||
+            url.search !== '' ||
+            url.hash !== '') {
+            throw new TypeError('Invalid AI inference URL');
+        }
+
+        const path = url.pathname.replace(/\/+$/, '');
+        return url.origin + path;
+    }
+
+    #setAiStatus (translationKey = null, isError = false) {
+        this.aiModelsStatus.textContent = translationKey ? Common.translate(translationKey) : '';
+        this.aiModelsStatus.classList.toggle('text-error', Boolean(translationKey && isError));
+        this.aiModelsStatus.classList.toggle('text-success', Boolean(translationKey && !isError));
+    }
+
+    #setAiModelOptions (models, selectedModel) {
+        this.aiModel.innerHTML = '';
+
+        const placeholder = document.createElement('option');
+        placeholder.textContent = Common.translate('Select_a_model');
+        placeholder.value = '';
+        placeholder.disabled = true;
+        placeholder.selected = !selectedModel;
+        this.aiModel.appendChild(placeholder);
+
+        [...models]
+            .sort((left, right) => left.localeCompare(right, undefined, { sensitivity: 'base' }))
+            .forEach(model => {
+                const option = document.createElement('option');
+                option.textContent = model;
+                option.value = model;
+                option.selected = model === selectedModel;
+                this.aiModel.appendChild(option);
+            });
+
+        this.aiModel.disabled = models.length === 0;
+    }
+
+    #saveAiData () {
+        this.port.postMessage({ request: 'setup-save', data: this.data });
+    }
+
+    #persistAiInferenceUrl (normalizedUrl) {
+        this.aiInferenceUrl.value = normalizedUrl;
+        if (normalizedUrl === this.data.AiInferenceUrl) {
+            return false;
+        }
+
+        Object.assign(this.data, {
+            AiInferenceUrl: normalizedUrl,
+            AiModel: null,
+            AiTagSuggestionsEnabled: false
+        });
+        this.aiTagSuggestionsEnabled.checked = false;
+        this.#setAiModelOptions([], null);
+        this.#saveAiData();
+        return true;
+    }
+
+    aiInferenceUrlChange () {
+        try {
+            const normalizedUrl = this.#normalizeAiInferenceUrl(this.aiInferenceUrl.value);
+            this.#persistAiInferenceUrl(normalizedUrl);
+            this.#setAiStatus();
+            return true;
+        } catch {
+            this.#setAiStatus('AI_configuration_incomplete', true);
+            return false;
+        }
+    }
+
+    aiApiKeyChange () {
+        const apiKey = this.aiApiKey.value.trim();
+        this.aiApiKey.value = apiKey;
+        if (apiKey === (this.data.AiApiKey || '')) {
+            return;
+        }
+        Object.assign(this.data, { AiApiKey: apiKey || null });
+        this.#saveAiData();
+    }
+
+    aiModelChange () {
+        if (this.aiModel.value === '') {
+            return;
+        }
+        Object.assign(this.data, { AiModel: this.aiModel.value });
+        this.#saveAiData();
+    }
+
+    #callPermissionMethod (method, permissions) {
+        if (!globalThis.isChromeBrowser) {
+            return browser.permissions[method](permissions);
+        }
+
+        return new Promise((resolve, reject) => {
+            browser.permissions[method](permissions, result => {
+                if (browser.runtime.lastError) {
+                    reject(new Error(browser.runtime.lastError.message));
+                    return;
+                }
+                resolve(result);
+            });
+        });
+    }
+
+    #getAllPermissions () {
+        if (!globalThis.isChromeBrowser) {
+            return browser.permissions.getAll();
+        }
+
+        return new Promise((resolve, reject) => {
+            browser.permissions.getAll(result => {
+                if (browser.runtime.lastError) {
+                    reject(new Error(browser.runtime.lastError.message));
+                    return;
+                }
+                resolve(result);
+            });
+        });
+    }
+
+    async #preloadAiPermissionCapabilities () {
+        try {
+            const permissions = await this.#getAllPermissions();
+            this.aiDataCollectionSupported = Object.prototype.hasOwnProperty.call(permissions, 'data_collection');
+            this.aiGrantedOrigins = new Set(permissions.origins || []);
+            this.aiGrantedDataCollection = new Set(permissions.data_collection || []);
+        } catch {
+            this.aiDataCollectionSupported = false;
+            this.aiGrantedOrigins.clear();
+            this.aiGrantedDataCollection.clear();
+        }
+        this.aiTagSuggestionsEnabled.disabled = false;
+        this.loadAiModelsButton.disabled = false;
+    }
+
+    async loadAiModelsClick (event) {
+        event.preventDefault();
+
+        let normalizedUrl;
+        try {
+            normalizedUrl = this.#normalizeAiInferenceUrl(this.aiInferenceUrl.value);
+        } catch {
+            this.#setAiStatus('AI_configuration_incomplete', true);
+            return false;
+        }
+
+        this.#persistAiInferenceUrl(normalizedUrl);
+        const originPermission = new URL(normalizedUrl).origin + '/*';
+        const permissionPromise = this.#callPermissionMethod('request', {
+            origins: [originPermission]
+        });
+
+        try {
+            const granted = await permissionPromise;
+            if (!granted) {
+                this.#setAiStatus('AI_permission_denied', true);
+                return false;
+            }
+            this.aiGrantedOrigins.add(originPermission);
+
+            const models = await listAiModels({
+                inferenceUrl: normalizedUrl,
+                apiKey: this.data.AiApiKey
+            });
+            const selectedModel = models.includes(this.data.AiModel)
+                ? this.data.AiModel
+                : null;
+            this.#setAiModelOptions(models, selectedModel);
+            if (!selectedModel && (this.data.AiModel || this.data.AiTagSuggestionsEnabled)) {
+                Object.assign(this.data, {
+                    AiModel: null,
+                    AiTagSuggestionsEnabled: false
+                });
+                this.aiTagSuggestionsEnabled.checked = false;
+                this.#saveAiData();
+            }
+            this.#setAiStatus('Models_loaded');
+            return true;
+        } catch {
+            this.#setAiStatus('AI_models_load_failed', true);
+            return false;
+        }
+    }
+
+    async aiTagSuggestionsEnabledClick (event) {
+        if (!event.target.checked) {
+            Object.assign(this.data, { AiTagSuggestionsEnabled: false });
+            this.#saveAiData();
+            this.#setAiStatus();
+            if (this.aiDataCollectionSupported) {
+                const removed = await this.#callPermissionMethod('remove', {
+                    data_collection: ['browsingActivity', 'websiteContent']
+                });
+                if (removed) {
+                    this.aiGrantedDataCollection.delete('browsingActivity');
+                    this.aiGrantedDataCollection.delete('websiteContent');
+                }
+            }
+            return true;
+        }
+
+        let normalizedUrl;
+        try {
+            normalizedUrl = this.#normalizeAiInferenceUrl(this.aiInferenceUrl.value);
+        } catch {
+            event.target.checked = false;
+            this.#setAiStatus('AI_configuration_incomplete', true);
+            return false;
+        }
+
+        if (this.#persistAiInferenceUrl(normalizedUrl) || !this.data.AiModel) {
+            event.target.checked = false;
+            this.#setAiStatus('AI_configuration_incomplete', true);
+            return false;
+        }
+
+        const originPermission = new URL(normalizedUrl).origin + '/*';
+        const permissions = {};
+        if (!this.aiGrantedOrigins.has(originPermission)) {
+            permissions.origins = [originPermission];
+        }
+        if (this.aiDataCollectionSupported) {
+            const missingDataPermissions = ['browsingActivity', 'websiteContent']
+                .filter(permission => !this.aiGrantedDataCollection.has(permission));
+            if (missingDataPermissions.length > 0) {
+                permissions.data_collection = missingDataPermissions;
+            }
+        }
+
+        const permissionPromise = Object.keys(permissions).length > 0
+            ? this.#callPermissionMethod('request', permissions)
+            : Promise.resolve(true);
+
+        try {
+            const granted = await permissionPromise;
+            if (!granted) {
+                event.target.checked = false;
+                this.#setAiStatus('AI_permission_denied', true);
+                return false;
+            }
+
+            this.aiGrantedOrigins.add(originPermission);
+            if (permissions.data_collection) {
+                permissions.data_collection.forEach(permission => {
+                    this.aiGrantedDataCollection.add(permission);
+                });
+            }
+            Object.assign(this.data, { AiTagSuggestionsEnabled: true });
+            this.#saveAiData();
+            this.#setAiStatus();
+            return true;
+        } catch {
+            event.target.checked = false;
+            this.#setAiStatus('AI_permission_denied', true);
+            return false;
+        }
     }
 
     handleProtocolClick () {
@@ -533,6 +823,18 @@ class OptionsController {
         this.archiveByDefault.checked = this.data.ArchiveByDefault;
 
         this.fetchLocallyByDefault.checked = this.data.FetchLocallyByDefault;
+
+        this.aiInferenceUrl.value = this.data.AiInferenceUrl || '';
+        this.aiApiKey.value = this.data.AiApiKey || '';
+        this.aiTagSuggestionsEnabled.checked = Boolean(
+            this.data.AiTagSuggestionsEnabled &&
+            this.data.AiInferenceUrl &&
+            this.data.AiModel
+        );
+        this.#setAiModelOptions(
+            this.data.AiModel ? [this.data.AiModel] : [],
+            this.data.AiModel
+        );
         if (this.data.FetchLocallyByDefault) {
             this._hide(this.sitesToFetchLocallyEl);
         }
@@ -655,7 +957,8 @@ class OptionsController {
         };
     }
 
-    init () {
+    async init () {
+        await this.#preloadAiPermissionCapabilities();
         this.port = new PortManager('setup', this.messageListener.bind(this), this.#logger);
         this.port.postMessage({ request: 'setup' });
     }
