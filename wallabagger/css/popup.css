@@ -74,7 +74,8 @@ body {
     align-items: center;
 }
 
-#add-all-suggested-tags {
+#add-all-suggested-tags,
+#retry-tag-suggestions {
     margin-top: 0.4rem;
 }
 

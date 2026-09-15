@@ -25,6 +25,7 @@ class PopupController {
     #tagSuggestionsStatus = null;
     #tagSuggestionsChips = null;
     #addAllSuggestedTags = null;
+    #retryTagSuggestionsButton = null;
 
     #articleId = null;
     #editIcon = null;
@@ -49,6 +50,7 @@ class PopupController {
     #suggestedTags = [];
     #tagSuggestionsState = 'idle';
     #tagSuggestionsRequestId = null;
+    #tagSuggestionsTab = null;
 
     #starred = 0;
     #archived = 0;
@@ -85,6 +87,7 @@ class PopupController {
         this.#tagSuggestionsStatus = document.getElementById('tag-suggestions-status');
         this.#tagSuggestionsChips = document.getElementById('tag-suggestions-chips');
         this.#addAllSuggestedTags = document.getElementById('add-all-suggested-tags');
+        this.#retryTagSuggestionsButton = document.getElementById('retry-tag-suggestions');
         this.#editIcon = document.getElementById('edit-icon');
         this.#saveTitleButton = document.getElementById('save-title-button');
         this.#cancelTitleButton = document.getElementById('cancel-title-button');
@@ -124,6 +127,7 @@ class PopupController {
         this.#tagsInput.addEventListener('keyup', this.#onTagsInputKeyUp.bind(this));
         this.#tagsInput.addEventListener('keydown', this.#onTagsInputKeyDown.bind(this));
         this.#addAllSuggestedTags.addEventListener('click', this.#addAllTagSuggestions.bind(this));
+        this.#retryTagSuggestionsButton.addEventListener('click', this.#retryTagSuggestions.bind(this));
 
         this.#starredIcon.addEventListener('click', this.#onIconClick.bind(this));
         this.#archivedIcon.addEventListener('click', this.#onIconClick.bind(this));
@@ -626,11 +630,13 @@ class PopupController {
         this.#tagSuggestionsChips.replaceChildren();
         this.#tagSuggestionsStatus.textContent = Common.translate('Suggesting_tags');
         this.#hide(this.#addAllSuggestedTags);
+        this.#hide(this.#retryTagSuggestionsButton);
     }
 
     #showTagSuggestions (tags) {
         this.#suggestedTags = tags;
         this.#tagSuggestionsState = 'loaded';
+        this.#hide(this.#retryTagSuggestionsButton);
         this.#renderTagSuggestions();
     }
 
@@ -646,7 +652,33 @@ class PopupController {
             this.#tagSuggestionsStatus.textContent = defaultMessage;
         }
         this.#hide(this.#addAllSuggestedTags);
+        this.#show(this.#retryTagSuggestionsButton);
     }
+
+    #requestTagSuggestions (tab) {
+        this.#tagSuggestionsTab = tab;
+        this.#showTagSuggestionsLoading();
+        try {
+            this.#tagSuggestionsRequestId = crypto.randomUUID();
+            this.#port.postMessage({
+                request: 'suggestTags',
+                requestId: this.#tagSuggestionsRequestId,
+                tab
+            });
+        } catch (error) {
+            this.#logger.error('Could not request AI tag suggestions', error);
+            this.#showTagSuggestionsError(error);
+        }
+    }
+
+    #retryTagSuggestions (event) {
+        event.preventDefault();
+        if (this.#tagSuggestionsState !== 'error' || !this.#tagSuggestionsTab) {
+            return;
+        }
+        this.#requestTagSuggestions(this.#tagSuggestionsTab);
+    }
+
     async #messageListener (msg) {
         switch (msg.response) {
             case 'info':
@@ -790,17 +822,7 @@ class PopupController {
             if (this.#aiTagSuggestionsEnabled &&
                 this.#aiInferenceUrl &&
                 this.#aiModel) {
-                this.#showTagSuggestionsLoading();
-                try {
-                    this.#tagSuggestionsRequestId = crypto.randomUUID();
-                    this.#port.postMessage({
-                        request: 'suggestTags',
-                        requestId: this.#tagSuggestionsRequestId,
-                        tab
-                    });
-                } catch (error) {
-                    this.#logger.error('Could not request AI tag suggestions', error);
-                }
+                this.#requestTagSuggestions(tab);
             }
         });
     }

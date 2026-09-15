@@ -51,6 +51,10 @@
         "message": "No tag suggestions found.",
         "description": "Popup"
     },
+    "Retry_AI_tag_suggestions": {
+        "message": "Retry",
+        "description": "Popup button to retry AI tag suggestions"
+    },
     "Select_a_model": {
         "message": "Select a model",
         "description": "Options"
