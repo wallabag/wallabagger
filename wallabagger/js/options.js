@@ -550,16 +550,18 @@ class OptionsController {
 
         browser.storage.onChanged.addListener(async (event) => {
             if(event.wallabagdata.oldValue.sitesToFetchLocally !== event.wallabagdata.newValue.sitesToFetchLocally) {
+                const {wallabagdata} = await browser.storage.local.get('wallabagdata');
                 const lastSiteAdded = event.wallabagdata.newValue.sitesToFetchLocallyLastAdded;
                 setList(listElement, lastSiteAdded);
-                Object.assign(this.data, { sitesToFetchLocallyLastAdded: null });
+                wallabagdata.sitesToFetchLocallyLastAdded = null;
+                this.data = wallabagdata;
+                browser.storage.local.set({ wallabagdata });
             }
         });
 
         form.addEventListener('submit', async function (event) {
             event.preventDefault();
-            const host = await this.#fetchLocally.addToList(inputElement.value);
-            setList(listElement, host);
+            await this.#fetchLocally.addToList(inputElement.value);
             inputElement.value = '';
             event.target.reset();
         }.bind(this));

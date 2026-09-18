@@ -283,10 +283,11 @@ async function savePageToWallabag (tabUrl, resetIcon, title, content, proxifiedU
     const promise = api.savePage(savePageOptions);
     promise
         .then(data => applyDirtyCacheLight(url, data))
-        .then(data => {
+        .then(async (data) => {
             if (!data.deleted) {
                 if(data.content.includes("wallabag can't retrieve contents")) {
-                    fetchLocally.addHostProposal(data.url, postIfConnected);
+                    await fetchLocally.addSiteToFetchLocally(data.url, postIfConnected);
+                    postIfConnected({ response: 'popup-save' });
                 }
                 browserIcon.set('good');
                 postIfConnected({ response: 'article', article: cutArticle(data) });
@@ -434,13 +435,6 @@ async function onPortMessage (msg) {
                     });
                 } else {
                     dirtyCacheSet(msg.tabUrl, (msg.request === 'saveStarred') ? { is_starred: msg.value } : { is_archived: msg.value });
-                }
-                break;
-            case fetchLocally.events.name:
-                switch(msg.action) {
-                    case fetchLocally.events.actions.add:
-                        fetchLocally.addSiteToFetchLocally(msg.url, postIfConnected);
-                        break;
                 }
                 break;
             default: {

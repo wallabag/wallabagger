@@ -13,7 +13,6 @@ class PopupController {
     #saveDomainToFetchLocally = null;
     #saveDomainToFetchLocallyDomainAddedPrefix = null;
     #saveDomainToFetchLocallyDomainAdded = null;
-    #saveHostToFetchLocallyAdd = null;
     #errorToast = null;
     #apiLoading = null;
     #apiUrl = null;
@@ -67,7 +66,6 @@ class PopupController {
         this.#saveDomainToFetchLocally = document.getElementById('save-domain-to-fetch-locally');
         this.#saveDomainToFetchLocallyDomainAddedPrefix = document.getElementById('save-domain-to-fetch-locally__domain-added-prefix');
         this.#saveDomainToFetchLocallyDomainAdded = document.getElementById('save-domain-to-fetch-locally__domain-added');
-        this.#saveHostToFetchLocallyAdd = document.getElementById('save-host-to-fetch-locally__add');
         this.#errorToast = document.getElementById('error-toast');
         this.#apiLoading = document.getElementById('api-loading');
         this.#cardTitle = document.getElementById('card-title');
@@ -556,13 +554,12 @@ class PopupController {
             case 'close':
                 window.close();
                 break;
+            case 'popup-save':
+                this.#saveArticle();
+                break;
             case this.#fetchLocally.events.name:
                 switch(msg.action) {
                     case this.#fetchLocally.events.actions.ask:
-                        this.#saveHostToFetchLocallyAdd.addEventListener('click', () => {
-                            this.#port.postMessage({request: this.#fetchLocally.events.name, action: this.#fetchLocally.events.actions.add, url: msg.url});
-                            this.#saveArticle();
-                        });
                         this.#show(this.#saveDomainToFetchLocally);
                         break;
 
@@ -596,7 +593,6 @@ class PopupController {
             this.#saveDomainToFetchLocally.classList.add('toast-error');
         }
         this.#show(this.#saveDomainToFetchLocally);
-        this.#hide(document.querySelector('#save-host-to-fetch-locally__add'));
     }
 
     #showError (infoString) {

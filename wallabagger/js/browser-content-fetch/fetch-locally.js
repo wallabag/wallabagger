@@ -13,7 +13,6 @@ export class FetchLocally {
     events = {
         name: 'wallabag-fetch-error',
         actions: {
-            add: 'add',
             ask: 'ask',
             result: 'result'
         }
@@ -70,11 +69,6 @@ export class FetchLocally {
         wallabagdata.sitesToFetchLocally = [...sites].join('\n');
         browser.storage.local.set({ wallabagdata });
     }
-
-    addHostProposal(url, postMessage) {
-        // @TODO check if not in the whitelist
-        postMessage({ response: this.events.name, action: this.events.actions.ask, url });
-    };
 
     async addToList(url) {
         const host = (new URL(url)).origin;
