@@ -561,6 +561,7 @@ class PopupController {
                     case this.#fetchLocally.events.actions.ask:
                         this.#saveHostToFetchLocallyAdd.addEventListener('click', () => {
                             this.#port.postMessage({request: this.#fetchLocally.events.name, action: this.#fetchLocally.events.actions.add, url: msg.url});
+                            this.#saveArticle();
                         });
                         this.#show(this.#saveDomainToFetchLocally);
                         break;

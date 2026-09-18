@@ -151,3 +151,8 @@ body.mobile {
 .mobile .btn.btn-clear {
     height: 100%;
 }
+
+.btn--save-domain-to-fetch-locally-add {
+    height: auto;
+    white-space: initial;
+}
