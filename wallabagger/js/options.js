@@ -548,15 +548,20 @@ class OptionsController {
         const listElement = document.getElementById('sites-to-fetch-locally-add-list');
         const form = document.getElementById('sites-to-fetch-locally-add-form');
 
+        browser.storage.onChanged.addListener(async (event) => {
+            if(event.wallabagdata.oldValue.sitesToFetchLocally !== event.wallabagdata.newValue.sitesToFetchLocally) {
+                const lastSiteAdded = event.wallabagdata.newValue.sitesToFetchLocallyLastAdded;
+                setList(listElement, lastSiteAdded);
+                Object.assign(this.data, { sitesToFetchLocallyLastAdded: null });
+            }
+        });
+
         form.addEventListener('submit', async function (event) {
             event.preventDefault();
-            const sites = await this.#fetchLocally.getSites();
-            const siteToAdd = (new URL(inputElement.value)).origin;
-            sites.add(siteToAdd);
-            Object.assign(this.data, { sitesToFetchLocally: [...sites].join('\n') });
-            setList(listElement, siteToAdd);
+            const host = await this.#fetchLocally.addToList(inputElement.value);
+            setList(listElement, host);
             inputElement.value = '';
-            this.port.postMessage({ request: 'setup-save', data: this.data });
+            event.target.reset();
         }.bind(this));
 
         const setList = async (listElement, lastItemAdded) => {
