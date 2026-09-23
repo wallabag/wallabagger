@@ -1,6 +1,6 @@
 {
   "name": "wallabagger",
-  "version": "1.1.1",
+  "version": "1.24.0",
   "description": "Web extension for Wallabag v2",
   "main": "index.js",
   "browserslist": [
@@ -12,15 +12,8 @@
     "lint": "eslint wallabagger/js/*.js",
     "test": "vitest run",
     "locales:sort": "sort-json -i -d=1 wallabagger/_locales/**/messages.json",
-    "build": "web-ext build --source-dir wallabagger/"
-  },
-  "webextension": {
-    "name": "Wallabagger",
-    "applications": {
-      "gecko": {
-        "strict_min_version": "109.0"
-      }
-    }
+    "build": "web-ext build --source-dir wallabagger/",
+    "manifest:build" : "node manifest-builder/manifest.mjs"
   },
   "repository": {
     "type": "git",

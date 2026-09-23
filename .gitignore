@@ -1,4 +1,5 @@
 wallabagger.pem
+wallabagger/manifest.json
 jsconfig.json
 .vscode/
 node_modules
