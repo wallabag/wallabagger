@@ -345,5 +345,17 @@
     },
     "Sites_locally_whitelist_fetch_explaination": {
         "message": "Oppgi adressen til nettstedet der du alltid vil sende innholdet fra nettleseren, i stedet for kun nettsidens URL."
+    },
+    "Domain_added_fail": {
+        "message": "Domene ikke lagt til: "
+    },
+    "Domain_added_success": {
+        "message": "Domene lagt til: "
+    },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Tjenestesider kan ikke legges til i hvitelisten for innthenting av nettleserinnhold"
+    },
+    "Add_site_to_fetch_locally_list": {
+        "message": "Legg til dette nettstedet i listen for lokal innthenting av innhold"
     }
 }
