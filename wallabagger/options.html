@@ -102,7 +102,7 @@
 
         .params-buttons {
             display: flex;
-            margin: 50px 0 20px;
+            margin: 20px 0 50px;
             flex-wrap: wrap;
             justify-content: space-around;
         }
@@ -135,6 +135,48 @@
 
         .text-button:hover {
             text-decoration: underline;
+        }
+
+        .help {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .help__container {
+            display: inline;
+        }
+
+        .chip--help {
+            max-width: initial;
+            padding: 1rem 0.6rem;
+            font-size: 0.9rem;
+            transition: background .2s,color .2s;
+            overflow: initial;
+        }
+
+        .chip--help:active,
+        .chip--help:focus,
+        .chip--help:hover {
+            color: #fff;
+            background-color: #5764c6;
+            text-decoration: none;
+        }
+
+        .chip--help::before {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .chip--help-issue::before {
+            content: "❔";
+        }
+
+        .chip--help-translate::before {
+            content: "🌐 ";
+        }
+
+        .chip--help-doc::before {
+            content: "📗 ";
         }
 
         @media (min-width: 500px) {
@@ -327,6 +369,21 @@
             </div>
         </div>
     </div>
+
+    <h2 data-i18n="Do_you_need_help">Do you need help?</h2>
+    <ul class="help">
+        <li id="help-issue" class="help__container">
+            <a href="https://github.com/wallabag/wallabagger/issues" class="chip chip--help chip--help-issue" target="_blank" data-i18n="Something_s_wrong">Something's wrong?</a>
+        </li>
+        <li id="help-translate" class="help__container">
+            <a href="https://hosted.weblate.org/projects/wallabag/wallabagger/" class="chip chip--help chip--help-translate" target="_blank" data-i18n="Unexpected_translation">Unexpected translation?</a>
+        </li>
+        <li id="help-doc" class="help__container">
+            <a href="https://wallabagger.wallabag.org/" class="chip chip--help chip--help-doc" target="_blank" data-i18n="Documentation">Documentation</a>
+        </li>
+    </ul>
+
+    <h2 data-i18n="Settings_management">Settings management</h2>
     <div class="column col-12 pt-10 params-buttons">
         <button class="btn params-button" id="clear-button" data-i18n="Reset_parameters">Reset parameters</button>
         <button class="btn params-button" id="saveToFile-button" data-i18n="Save_to_file">Save to file</button>

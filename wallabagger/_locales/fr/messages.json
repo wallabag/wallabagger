@@ -67,9 +67,17 @@
         "message": "Refusé",
         "description": "Options"
     },
+    "Do_you_need_help": {
+        "message": "Besoin d'aide ?",
+        "description": "Options"
+    },
     "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
         "message": "Souhaitez-vous supprimer de wallabag cet article de façon permanente ?",
         "description": "Popup"
+    },
+    "Documentation": {
+        "message": "Documentation",
+        "description": "Options"
     },
     "Domain_added_fail": {
         "message": "Erreur lors de l'ajout du domaine : ",
@@ -235,6 +243,10 @@
         "message": "Marquer cet article comme favori dans wallabag",
         "description": "Popup"
     },
+    "Something_s_wrong": {
+        "message": "Un soucis ?",
+        "description": "Options"
+    },
     "Starred": {
         "message": "Favoris",
         "description": "background"
@@ -254,6 +266,10 @@
     "Tags_found": {
         "message": "Tags trouvés :",
         "description": "Popup"
+    },
+    "Unexpected_translation": {
+        "message": "Une traduction incorrecte ?",
+        "description": "Options"
     },
     "Unread": {
         "message": "Non lus",
@@ -341,6 +357,10 @@
     },
     "Settings": {
         "message": "Paramètres",
+        "description": "Options"
+    },
+    "Settings_management": {
+        "message": "Gestion des paramètres",
         "description": "Options"
     },
     "Fetch_by_default_when_saving_page": {

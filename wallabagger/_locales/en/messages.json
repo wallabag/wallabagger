@@ -67,9 +67,17 @@
         "message": "Denied",
         "description": "Options"
     },
+    "Do_you_need_help": {
+        "message": "Do you need help?",
+        "description": "Options"
+    },
     "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
         "message": "Do you want to remove this article permanently from wallabag?",
         "description": "Popup"
+    },
+    "Documentation": {
+        "message": "Documentation",
+        "description": "Options"
     },
     "Domain_added_fail": {
         "message": "Domain not added: ",
@@ -259,6 +267,10 @@
         "message": "Settings",
         "description": "Options"
     },
+    "Settings_management": {
+        "message": "Settings management",
+        "description": "Options"
+    },
     "Sites_locally_always_fetch_explaination": {
         "message": "You want to send to wallabag the content of all the websites from the browser? Check this box.",
         "description": "Options"
@@ -277,6 +289,10 @@
     },
     "Sites_locally_whitelist_fetch_explaination": {
         "message": "Enter the address of the website for which you always want to send the browser content instead of just its page URL.",
+        "description": "Options"
+    },
+    "Something_s_wrong": {
+        "message": "Something's wrong?",
         "description": "Options"
     },
     "Starred": {
@@ -298,6 +314,10 @@
     "Tags_found": {
         "message": "Tags found:",
         "description": "Popup"
+    },
+    "Unexpected_translation": {
+        "message": "Unexpected translation?",
+        "description": "Options"
     },
     "Unread": {
         "message": "Unread",
