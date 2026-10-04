@@ -1,4 +1,8 @@
 {
+    "Add_site": {
+        "message": "Add site",
+        "description": "Options"
+    },
     "Add_site_to_fetch_locally_list": {
         "message": "Add this site to the content fetch locally list",
         "description": "Context menu item to add a link's origin to the sites-to-fetch-locally list"
@@ -213,6 +217,10 @@
     },
     "Pick_a_client": {
         "message": "Pick a client",
+        "description": "Options"
+    },
+    "Remove_site": {
+        "message": "Remove site",
         "description": "Options"
     },
     "Remove_this_article_from_Wallabag": {
