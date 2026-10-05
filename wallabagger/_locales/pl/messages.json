@@ -351,5 +351,29 @@
     },
     "Domain_added_success": {
         "message": "Domena dodana: "
+    },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Stron usług nie można dodać do białej listy pobierania zawartości przeglądarki"
+    },
+    "Add_site": {
+        "message": "Dodaj witrynę"
+    },
+    "Do_you_need_help": {
+        "message": "Czy potrzebujesz pomocy?"
+    },
+    "Documentation": {
+        "message": "Dokumentacja"
+    },
+    "Remove_site": {
+        "message": "Usuń witrynę"
+    },
+    "Settings_management": {
+        "message": "Zarządzanie ustawieniami"
+    },
+    "Something_s_wrong": {
+        "message": "Coś jest nie tak?"
+    },
+    "Unexpected_translation": {
+        "message": "Nieoczekiwane tłumaczenie?"
     }
 }
