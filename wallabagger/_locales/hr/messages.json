@@ -345,5 +345,38 @@
     },
     "Service_pages_can_t_be_stored": {
         "message": "Stranice usluga se ne mogu spremiti"
+    },
+    "Add_site": {
+        "message": "Dodaj web-stranicu"
+    },
+    "Add_site_to_fetch_locally_list": {
+        "message": "Dodaj ovu web-stranicu u popis lokalnog dohvaćanje sadržaja"
+    },
+    "Do_you_need_help": {
+        "message": "Trebaš pomoć?"
+    },
+    "Documentation": {
+        "message": "Dokumentacija"
+    },
+    "Domain_added_fail": {
+        "message": "Domena nije dodana: "
+    },
+    "Domain_added_success": {
+        "message": "Domena je dodana: "
+    },
+    "Remove_site": {
+        "message": "Ukloni web-stranicu"
+    },
+    "Settings_management": {
+        "message": "Upravljanje postavkama"
+    },
+    "Something_s_wrong": {
+        "message": "Nešto je krivo?"
+    },
+    "Unexpected_translation": {
+        "message": "Neočekivani prijevod?"
+    },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Stranice usluga se ne mogu dodati u popis dopuštenih za dohvaćanje sadržaja preglednika"
     }
 }
