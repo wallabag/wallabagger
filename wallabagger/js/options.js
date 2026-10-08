@@ -2,9 +2,11 @@ import { browser } from './browser-polyfill.js';
 import { Common } from './common.js';
 import { PortManager } from './port-manager.js';
 import { Logger } from './utils/logger.js';
+import { FetchLocally } from './browser-content-fetch/fetch-locally.js';
 
 class OptionsController {
     #logger = new Logger('options');
+    #fetchLocally = new FetchLocally();
 
     constructor () {
         this.protocolCheck_ = document.getElementById('protocol-checkbox');
@@ -43,7 +45,9 @@ class OptionsController {
         this.httpsMessage = document.getElementById('https-message');
         this.httpsButton = document.getElementById('https-button');
         this.autoAddSingleTag = document.getElementById('single-tag');
+
         this.clientSelector = new ClientSelector(document.getElementById('client-selector'));
+
         this.addListeners_();
         this.data = null;
         this.port = null;
@@ -544,26 +548,26 @@ class OptionsController {
         const listElement = document.getElementById('sites-to-fetch-locally-add-list');
         const form = document.getElementById('sites-to-fetch-locally-add-form');
 
-        form.addEventListener('submit', function (event) {
+        browser.storage.onChanged.addListener(async (event) => {
+            if(event.wallabagdata.oldValue.sitesToFetchLocally !== event.wallabagdata.newValue.sitesToFetchLocally) {
+                const {wallabagdata} = await browser.storage.local.get('wallabagdata');
+                const lastSiteAdded = event.wallabagdata.newValue.sitesToFetchLocallyLastAdded;
+                setList(listElement, lastSiteAdded);
+                wallabagdata.sitesToFetchLocallyLastAdded = null;
+                this.data = wallabagdata;
+                browser.storage.local.set({ wallabagdata });
+            }
+        });
+
+        form.addEventListener('submit', async function (event) {
             event.preventDefault();
-            const sites = getSites();
-            const siteToAdd = (new URL(inputElement.value)).origin;
-            sites.add(siteToAdd);
-            Object.assign(this.data, { sitesToFetchLocally: [...sites].join('\n') });
-            setList(listElement, siteToAdd);
+            await this.#fetchLocally.addToList(inputElement.value);
             inputElement.value = '';
-            this.port.postMessage({ request: 'setup-save', data: this.data });
+            event.target.reset();
         }.bind(this));
 
-        const getSites = () => {
-            if (!this.data.sitesToFetchLocally) {
-                return new Set();
-            }
-            return new Set(this.data.sitesToFetchLocally.split('\n'));
-        };
-
-        const setList = (listElement, lastItemAdded) => {
-            const sites = [...getSites()].sort();
+        const setList = async (listElement, lastItemAdded) => {
+            const sites = [...await this.#fetchLocally.getSites()].sort();
             listElement.innerHTML = '';
             if (sites.length === 0) {
                 return false;
@@ -588,12 +592,10 @@ class OptionsController {
             removeButton.type = 'button';
             removeButton.title = Common.translate('Remove_site');
             removeButton.classList.add('btn');
-            removeButton.addEventListener('click', function () {
-                const sites = getSites();
-                sites.delete(itemElement.dataset.url);
-                Object.assign(this.data, { sitesToFetchLocally: [...sites].join('\n') });
+            removeButton.addEventListener('click', async function () {
+                const host = itemElement.dataset.url;
+                await this.#fetchLocally.removeHostFromList(host);
                 setList(listElement, inputElement.value);
-                this.port.postMessage({ request: 'setup-save', data: this.data });
             }.bind(this));
 
             const textElement = document.createElement('span');

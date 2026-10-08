@@ -3,7 +3,7 @@ import { Common } from './common.js';
 import { WallabagApi } from './wallabag-api.js';
 import { PortManager } from './port-manager.js';
 import { BrowserUtils } from './utils/browser-utils.js';
-import { AddDomainFromContextMenu } from './browser-content-fetch/add-domain-from-context-menu.js';
+import { FetchLocally } from './browser-content-fetch/fetch-locally.js';
 import { Logger } from './utils/logger.js';
 import { Cache } from './utils/cache.js';
 import { ExistingUrl } from './utils/existing-url.js';
@@ -13,6 +13,7 @@ import { SavePage } from './save-page.js';
 
 const logger = new Logger('background');
 const api = new WallabagApi(logger);
+const fetchLocally = new FetchLocally();
 const browserIcon = new BrowserIcon(browser);
 const browserUtils = new BrowserUtils(logger);
 const existingUrl = new ExistingUrl(api, browser, browserIcon, browserUtils, logger);
@@ -20,7 +21,7 @@ const existingUrl = new ExistingUrl(api, browser, browserIcon, browserUtils, log
 let Port = null;
 let portConnected = false;
 
-const savePage = new SavePage(api, browser, logger, browserUtils, savePageToWallabag);
+const savePage = new SavePage(browser, logger, browserUtils, savePageToWallabag);
 
 const wallabaggerAddLinkContexts = ['link', 'page'];
 if (!globalThis.wallabaggerBrowser) {
@@ -63,15 +64,6 @@ const addListeners = () => {
                                 }
                             );
                         });
-                    }
-                    break;
-                case 'wallabagger-add-to-fetch-locally':
-                    const url = info.linkUrl || info.pageUrl;
-                    if (typeof url === 'string' && url.length > 0) {
-                        const addFromContextMenu = new AddDomainFromContextMenu();
-                        const popupState = browserUtils.isServicePage(url, api.data.Url) ?
-                            {warning: addFromContextMenu.errorServicePage} : {};
-                        addFromContextMenu.addSiteToFetchLocally(api, browser, url, popupState, logger);
                     }
                     break;
                 case 'options':
@@ -154,11 +146,6 @@ const contextMenusCreation = async () => {
                 id: 'wallabagger-add-link',
                 title: (isBetaVersion ? '[BETA] ' : '') + Common.translate('Wallabag_it'),
                 contexts: wallabaggerAddLinkContexts
-            },
-            {
-                id: 'wallabagger-add-to-fetch-locally',
-                title: (isBetaVersion ? '[BETA] ' : '') + Common.translate('Add_site_to_fetch_locally_list'),
-                contexts: ['link', 'page']
             },
             {
                 id: 'unread',
@@ -256,7 +243,7 @@ async function savePageToWallabag (tabUrl, resetIcon, title, content, proxifiedU
     // if WIP and was some dirty changes, return dirtyCache
     const exists = existingUrl.cache.check(url) ? existingUrl.cache.get(url) : existingUrl.states.notexists;
     const hasContent = content && content.length > 0;
-    const isToFetchLocally = hasContent ?? api.isSiteToFetchLocally(tabUrl);
+    const isToFetchLocally = hasContent ?? await fetchLocally.isSiteToFetchLocally(tabUrl);
     if (exists === existingUrl.states.wip) {
         if (dirtyCache.check(url)) {
             const dc = dirtyCache.get(url);
@@ -296,8 +283,12 @@ async function savePageToWallabag (tabUrl, resetIcon, title, content, proxifiedU
     const promise = api.savePage(savePageOptions);
     promise
         .then(data => applyDirtyCacheLight(url, data))
-        .then(data => {
+        .then(async (data) => {
             if (!data.deleted) {
+                if(data.content.includes("wallabag can't retrieve contents")) {
+                    await fetchLocally.addSiteToFetchLocally(data.url, postIfConnected);
+                    postIfConnected({ response: 'popup-save' });
+                }
                 browserIcon.set('good');
                 postIfConnected({ response: 'article', article: cutArticle(data) });
                 cache.set(url, cutArticle(data));

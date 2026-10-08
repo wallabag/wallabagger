@@ -3,10 +3,6 @@
         "message": "Add site",
         "description": "Options"
     },
-    "Add_site_to_fetch_locally_list": {
-        "message": "Add this site to the content fetch locally list",
-        "description": "Context menu item to add a link's origin to the sites-to-fetch-locally list"
-    },
     "Agreed": {
         "message": "Agreed",
         "description": "Options"
@@ -254,10 +250,6 @@
     "Saving_the_page_to_wallabag_from_the_browser": {
         "message": "Saving the browser's page content to wallabag…",
         "description": "background"
-    },
-    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
-        "message": "Service pages cannot be added to the whitelist for browser content fetching",
-        "description": "Popup"
     },
     "Service_pages_can_t_be_stored": {
         "message": "Service pages can't be stored",

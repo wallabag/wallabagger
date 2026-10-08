@@ -354,8 +354,5 @@
     },
     "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
         "message": "Tjenestesider kan ikke legges til i hvitelisten for innthenting av nettleserinnhold"
-    },
-    "Add_site_to_fetch_locally_list": {
-        "message": "Legg til dette nettstedet i listen for lokal innthenting av innhold"
     }
 }
