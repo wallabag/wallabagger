@@ -354,5 +354,26 @@
     },
     "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
         "message": "Tjenestesider kan ikke legges til i hvitelisten for innthenting av nettleserinnhold"
+    },
+    "Do_you_need_help": {
+        "message": "Trenger du hjelp?"
+    },
+    "Documentation": {
+        "message": "Dokumentasjon"
+    },
+    "Remove_site": {
+        "message": "Fjern nettside"
+    },
+    "Add_site": {
+        "message": "Legg til nettside"
+    },
+    "Something_s_wrong": {
+        "message": "Er noe galt?"
+    },
+    "Unexpected_translation": {
+        "message": "Uventet oversettelse?"
+    },
+    "Settings_management": {
+        "message": "Administrasjon av innstillinger"
     }
 }
