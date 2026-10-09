@@ -354,5 +354,26 @@
     },
     "Add_site_to_fetch_locally_list": {
         "message": "Engade este sitio á lista para obter contido locamente"
+    },
+    "Add_site": {
+        "message": "Engadir páxina"
+    },
+    "Do_you_need_help": {
+        "message": "Precisas axuda?"
+    },
+    "Documentation": {
+        "message": "Documentación"
+    },
+    "Remove_site": {
+        "message": "Retirar páxina"
+    },
+    "Settings_management": {
+        "message": "Xestión dos axustes"
+    },
+    "Something_s_wrong": {
+        "message": "Hai algún problema?"
+    },
+    "Unexpected_translation": {
+        "message": "Tradución non solicitada?"
     }
 }

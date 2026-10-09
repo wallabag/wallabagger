@@ -351,5 +351,29 @@
     },
     "Domain_added_success": {
         "message": "Alan adı eklendi: "
+    },
+    "Service_pages_can_t_be_added_the_content_fetch_locally_list": {
+        "message": "Hizmet sayfaları, tarayıcı içerik alma işlemi için beyaz listeye eklenemez"
+    },
+    "Add_site": {
+        "message": "Site ekle"
+    },
+    "Do_you_need_help": {
+        "message": "Yardıma mı ihtiyacınız var?"
+    },
+    "Documentation": {
+        "message": "Dokümantasyon"
+    },
+    "Remove_site": {
+        "message": "Siteyi kaldır"
+    },
+    "Settings_management": {
+        "message": "Ayar yönetimi"
+    },
+    "Something_s_wrong": {
+        "message": "Bir sorun mu var?"
+    },
+    "Unexpected_translation": {
+        "message": "Beklenmeyen bir çeviri mi var?"
     }
 }
