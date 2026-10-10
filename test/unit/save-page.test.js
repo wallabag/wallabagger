@@ -110,7 +110,7 @@ describe('SavePage', () => {
     });
 
     describe('handle with type "tab" when the site is not configured for local fetch', () => {
-        it('saves the tab URL without fetching content', () => {
+        it('saves the tab URL without fetching content', async () => {
             const title = 'Remote Only';
             const url = 'https://remote-only.tld';
 
@@ -119,7 +119,7 @@ describe('SavePage', () => {
 
             const tab = { id: 1, url, title };
 
-            savePage.handle({ type: 'tab', tab });
+            await savePage.handle({ type: 'tab', tab });
 
             expect(savePageToWallabag).toHaveBeenCalledOnce();
             expect(savePageToWallabag).toHaveBeenCalledWith(url, false);

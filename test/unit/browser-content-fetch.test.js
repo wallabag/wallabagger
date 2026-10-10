@@ -142,7 +142,7 @@ describe('BrowserContentFetch', () => {
     });
 
     describe('isSiteToFetchLocally gating', () => {
-        it('falls back to URL-only save when the site is not configured for local fetch', () => {
+        it('falls back to URL-only save when the site is not configured for local fetch', async () => {
             const title = 'Example';
             const url = 'https://example.tld';
 
@@ -152,7 +152,7 @@ describe('BrowserContentFetch', () => {
             const save = vi.fn();
             const tab = { id: 1, url, title };
 
-            browserContentFetch.handle(tab, save);
+            await browserContentFetch.handle(tab, save);
 
             expect(save).toHaveBeenCalledOnce();
             expect(save).toHaveBeenCalledWith(url, false);
