@@ -1,23 +1,23 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { SavePage } from '../../wallabagger/js/save-page.js';
-import { fakeBrowser, fakeLogger, fakeBrowserUtils, fakeApi } from '../helpers/browser-fake.js';
+import { fakeBrowser, fakeLogger, fakeBrowserUtils, fakeFetchLocally } from '../helpers/browser-fake.js';
 import { articlePage, normalPage } from '../helpers/page-fake.js';
 
 describe('SavePage', () => {
-    let api;
     let browser;
+    let fetchLocally;
     let logger;
     let browserUtils;
     let savePageToWallabag;
     let savePage;
 
     beforeEach(() => {
-        api = fakeApi();
+        fetchLocally = fakeFetchLocally();
         browser = fakeBrowser();
         logger = fakeLogger();
         browserUtils = fakeBrowserUtils();
         savePageToWallabag = vi.fn();
-        savePage = new SavePage(api, browser, logger, browserUtils, savePageToWallabag);
+        savePage = new SavePage(browser, logger, browserUtils, savePageToWallabag, fetchLocally);
         globalThis.browser = browser;
     });
 
@@ -114,8 +114,8 @@ describe('SavePage', () => {
             const title = 'Remote Only';
             const url = 'https://remote-only.tld';
 
-            api = fakeApi({ isSiteToFetchLocally: false });
-            savePage = new SavePage(api, browser, logger, browserUtils, savePageToWallabag);
+            fetchLocally = fakeFetchLocally({ isSiteToFetchLocally: false });
+            savePage = new SavePage(browser, logger, browserUtils, savePageToWallabag, fetchLocally);
 
             const tab = { id: 1, url, title };
 

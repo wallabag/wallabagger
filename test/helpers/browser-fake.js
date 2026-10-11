@@ -46,7 +46,7 @@ export function fakeBrowserUtils({ isRestrictedPage = false } = {}) {
     };
 }
 
-export function fakeApi({ isSiteToFetchLocally = true } = {}) {
+export function fakeFetchLocally({ isSiteToFetchLocally = true } = {}) {
     return {
         isSiteToFetchLocally: vi.fn().mockReturnValue(isSiteToFetchLocally),
     };

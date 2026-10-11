@@ -1,21 +1,21 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { BrowserContentFetch } from '../../wallabagger/js/browser-content-fetch/browser-content-fetch.js';
-import { fakeBrowser, fakeLogger, fakeBrowserUtils, fakeApi } from '../helpers/browser-fake.js';
+import { fakeBrowser, fakeLogger, fakeBrowserUtils, fakeFetchLocally } from '../helpers/browser-fake.js';
 import { normalPage } from '../helpers/page-fake.js';
 
 describe('BrowserContentFetch', () => {
-    let api;
     let browser;
+    let fetchLocally;
     let logger;
     let browserUtils;
     let browserContentFetch;
 
     beforeEach(() => {
-        api = fakeApi();
+        fetchLocally = fakeFetchLocally();
         browser = fakeBrowser();
         logger = fakeLogger();
         browserUtils = fakeBrowserUtils();
-        browserContentFetch = new BrowserContentFetch(api, browser, logger, browserUtils);
+        browserContentFetch = new BrowserContentFetch(browser, logger, browserUtils, fetchLocally);
         globalThis.browser = browser;
     });
 
@@ -49,7 +49,7 @@ describe('BrowserContentFetch', () => {
         const url = 'https://addons.mozilla.org/page';
 
         browserUtils = fakeBrowserUtils({ isRestrictedPage: true });
-        browserContentFetch = new BrowserContentFetch(api, browser, logger, browserUtils);
+        browserContentFetch = new BrowserContentFetch(browser, logger, browserUtils, fetchLocally);
 
         const save = vi.fn();
         const tab = { id: 1, url, title };
@@ -146,8 +146,8 @@ describe('BrowserContentFetch', () => {
             const title = 'Example';
             const url = 'https://example.tld';
 
-            api = fakeApi({ isSiteToFetchLocally: false });
-            browserContentFetch = new BrowserContentFetch(api, browser, logger, browserUtils);
+            fetchLocally = fakeFetchLocally({ isSiteToFetchLocally: false });
+            browserContentFetch = new BrowserContentFetch(browser, logger, browserUtils, fetchLocally);
 
             const save = vi.fn();
             const tab = { id: 1, url, title };
@@ -185,8 +185,8 @@ describe('BrowserContentFetch', () => {
             const entryTitle = 'My Europresse Title';
             const contentStr = 'Europresse body content.';
 
-            api = fakeApi({ isSiteToFetchLocally: false });
-            browserContentFetch = new BrowserContentFetch(api, browser, logger, browserUtils);
+            fetchLocally = fakeFetchLocally({ isSiteToFetchLocally: false });
+            browserContentFetch = new BrowserContentFetch(browser, logger, browserUtils, fetchLocally);
 
             const save = vi.fn();
             const tab = { id: 1, url: europresseUrl, title: tabTitle };
@@ -218,8 +218,8 @@ describe('BrowserContentFetch', () => {
             const url = 'about:addons';
 
             browserUtils = fakeBrowserUtils({ isRestrictedPage: true });
-            api = fakeApi({ isSiteToFetchLocally: true });
-            browserContentFetch = new BrowserContentFetch(api, browser, logger, browserUtils);
+            fetchLocally = fakeFetchLocally({ isSiteToFetchLocally: true });
+            browserContentFetch = new BrowserContentFetch(browser, logger, browserUtils, fetchLocally);
 
             const save = vi.fn();
             const tab = { id: 1, url, title };

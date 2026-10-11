@@ -10,13 +10,13 @@ export class SavePage {
 
     #browserContentFetch = null;
 
-    constructor(browser, logger, browserUtils, savePageToWallabag) {
+    constructor(browser, logger, browserUtils, savePageToWallabag, fetchLocally) {
         this.#browser = browser;
         this.#logger = logger;
         this.#browserUtils = browserUtils;
         this.#savePageToWallabag = savePageToWallabag;
 
-        this.#browserContentFetch = new BrowserContentFetch(this.#browser, this.#logger, this.#browserUtils);
+        this.#browserContentFetch = new BrowserContentFetch(this.#browser, this.#logger, this.#browserUtils, fetchLocally);
     }
 
     async handle(action) {
