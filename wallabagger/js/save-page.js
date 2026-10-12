@@ -10,21 +10,21 @@ export class SavePage {
 
     #browserContentFetch = null;
 
-    constructor(browser, logger, browserUtils, savePageToWallabag) {
+    constructor(browser, logger, browserUtils, savePageToWallabag, fetchLocally) {
         this.#browser = browser;
         this.#logger = logger;
         this.#browserUtils = browserUtils;
         this.#savePageToWallabag = savePageToWallabag;
 
-        this.#browserContentFetch = new BrowserContentFetch(this.#browser, this.#logger, this.#browserUtils);
+        this.#browserContentFetch = new BrowserContentFetch(this.#browser, this.#logger, this.#browserUtils, fetchLocally);
     }
 
-    handle(action) {
+    async handle(action) {
         if(action.type === 'tab' && action.tab) {
             // if in the list to fetch locally
             // if fetch all locally options is set
             // if europresse
-            this.#saveTab(action.tab);
+            await this.#saveTab(action.tab);
         }
 
         if(action.type === 'url' && action.url) {
@@ -38,8 +38,8 @@ export class SavePage {
         this.#savePageToWallabag(url, resetIcon);
     }
 
-    #saveTab(tab) {
+    async #saveTab(tab) {
         this.#logger.log('save-page tab', tab);
-        this.#browserContentFetch.handle(tab, this.#savePageToWallabag);
+        await this.#browserContentFetch.handle(tab, this.#savePageToWallabag);
     }
 }

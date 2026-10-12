@@ -1,8 +1,14 @@
 import { vi } from 'vitest';
+import { WallabagApi } from '../../wallabagger/js/wallabag-api.js';
 
 export function fakeBrowser() {
     const messageListeners = [];
     return {
+        storage: {
+            local: {
+                get: vi.fn().mockResolvedValue({ wallabagdata: (new WallabagApi()).defaultValues })
+            }
+        },
         runtime: {
             onMessage: {
                 addListener: (fn) => messageListeners.push(fn),
@@ -40,7 +46,7 @@ export function fakeBrowserUtils({ isRestrictedPage = false } = {}) {
     };
 }
 
-export function fakeApi({ isSiteToFetchLocally = true } = {}) {
+export function fakeFetchLocally({ isSiteToFetchLocally = true } = {}) {
     return {
         isSiteToFetchLocally: vi.fn().mockReturnValue(isSiteToFetchLocally),
     };

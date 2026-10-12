@@ -9,12 +9,13 @@ export class BrowserContentFetch {
     #browser = null;
     #logger = null;
     #browserUtils = null;
-    #fetchLocally = new FetchLocally();
+    #fetchLocally = null;
 
-    constructor(browser, logger, browserUtils) {
+    constructor(browser, logger, browserUtils, fetchLocally) {
         this.#browser = browser;
         this.#logger = logger;
         this.#browserUtils = browserUtils;
+        this.#fetchLocally = fetchLocally;
     }
 
     async handle(tab, savePageToWallabag) {
