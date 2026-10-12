@@ -1,5 +1,11 @@
 # Changelog
 
+## New in 1.25.0
+
+- Help links added to the options page
+- Add site to the "fetch from the browser" list (the option was removed from the right click context menu, but the site is automatically added to the list if wallabag couldn't get the content)
+- Add a builder for Firefox/Chromium manifest version (`npm run manifest:build firefox|chrome`)
+
 ## New in 1.24.0
 
 - Fix #530 - Add domain to the fetch locally white list from the right click context menu on a link
