@@ -393,5 +393,8 @@
     },
     "Pick_a_client": {
         "message": "Choisir un client"
+    },
+    "Domain_added_success": {
+        "message": "Domaine ajouté : "
     }
 }
