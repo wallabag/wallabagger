@@ -345,5 +345,32 @@
     },
     "Saving_the_page_to_wallabag_from_the_browser": {
         "message": "Ukládání obsahu stránky v prohlížeči do Wallabagu…"
+    },
+    "Add_site": {
+        "message": "Přidat stránky"
+    },
+    "Do_you_need_help": {
+        "message": "Potřebujete pomoc?"
+    },
+    "Documentation": {
+        "message": "Dokumentace"
+    },
+    "Domain_added_fail": {
+        "message": "Doména nebyla přidána: "
+    },
+    "Domain_added_success": {
+        "message": "Doména byla přidána: "
+    },
+    "Remove_site": {
+        "message": "Odebrat stránky"
+    },
+    "Settings_management": {
+        "message": "Správa nastavení"
+    },
+    "Something_s_wrong": {
+        "message": "Něco se nepovedlo?"
+    },
+    "Unexpected_translation": {
+        "message": "Nečekaný překlad?"
     }
 }
