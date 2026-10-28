@@ -365,5 +365,14 @@
     },
     "Remove_site": {
         "message": "Website entfernen"
+    },
+    "Settings_management": {
+        "message": "Einstellungen verwalten"
+    },
+    "Something_s_wrong": {
+        "message": "Stimmt etwas nicht?"
+    },
+    "Unexpected_translation": {
+        "message": "Unerwartete Übersetzung?"
     }
 }
