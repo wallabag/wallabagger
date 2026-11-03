@@ -8,7 +8,7 @@
         "description": "background"
     },
     "Allow_Space_in_tags_this_disables_Space_as_send_tags_key_use_Enter_key_instead": {
-        "message": "Leerzeichen in Tags zulassen (dies deaktiviert Space als Sende-Tags-Taste, verwenden Sie stattdessen die Enter-Taste)",
+        "message": "Leerzeichen in Tags zulassen (dies deaktiviert Space als Sende-Tags-Taste, verwende stattdessen die Enter-Taste)",
         "description": "Options"
     },
     "Archive": {
@@ -64,7 +64,7 @@
         "description": "Options"
     },
     "Do_you_want_to_remove_this_article_permanently_from_wallabag": {
-        "message": "Möchten Sie diesen Artikel dauerhaft aus wallabag entfernen?",
+        "message": "Möchtest du diesen Artikel dauerhaft aus wallabag entfernen?",
         "description": "Popup"
     },
     "Download_file": {
@@ -72,7 +72,7 @@
         "description": "Options"
     },
     "Due_to_security_reason_we_allow_this_option_only_for_HTTPS_protocol": {
-        "message": "Aus Sicherheitsgründen ist diese Option nur für HTTPS-Protokoll erlaubt",
+        "message": "Aus Sicherheitsgründen ist diese Option nur für das HTTPS-Protokoll erlaubt",
         "description": "Options"
     },
     "Edit_the_Wallabag_title_of_this_article": {
@@ -80,11 +80,11 @@
         "description": "Popup"
     },
     "Enable_this_only_if_developers_told_you_to": {
-        "message": "Aktivieren Sie diese Option nur, wenn ein Entwickler Sie dazu auffordert",
+        "message": "Aktiviere diese Option nur, wenn dich ein Entwickler dazu auffordert",
         "description": "Options"
     },
     "Enter_your_tags_here": {
-        "message": "Geben Sie hier Ihre Tags ein",
+        "message": "Gebe hier deine Tags ein",
         "description": "Popup"
     },
     "Expired": {
@@ -120,7 +120,7 @@
         "description": "Options"
     },
     "Indicate_if_page_already_saved_this_sends_URL_of_each_tab_to_wallabag_use_HTTPS_protocol_for_better_security": {
-        "message": "Anzeigen, ob die Seite bereits gespeichert ist (dies sendet die URL jedes Tabs an Wallabag, verwenden Sie das HTTPS-Protokoll für mehr Sicherheit!)",
+        "message": "Anzeigen, ob die Seite bereits gespeichert ist (dies sendet die URL jedes Tabs an Wallabag, verwende das HTTPS-Protokoll für mehr Sicherheit!)",
         "description": "Options"
     },
     "Load_from_file": {
@@ -156,7 +156,7 @@
         "description": "Options"
     },
     "Ok_I_understand": {
-        "message": "OK, ich hab's verstanden",
+        "message": "OK, ich habe verstanden",
         "description": "Options"
     },
     "Options_not_defined": {
@@ -272,7 +272,7 @@
         "description": "Options"
     },
     "We_need_an_access_to_your_wallabag_instance_to_read_write_and_update_content_Please_test_the_URL_again_and_accept_the_permission_request": {
-        "message": "Wir benötigen Zugriff auf Ihre wallabag-Instanz zum Lesen, Schreiben und Aktualisieren von Inhalten. Bitte prüfen Sie die URL noch einmal und akzeptieren Sie die Anfrage.",
+        "message": "Wir benötigen Zugriff auf deine wallabag-Instanz zum Lesen, Schreiben und Aktualisieren von Inhalten. Bitte prüfe die URL noch einmal und akzeptiere die Anfrage.",
         "description": "Options"
     },
     "Yes_delete_it": {
@@ -280,11 +280,11 @@
         "description": "Popup"
     },
     "You_can_find_your_credentials_here": {
-        "message": "Ihre Zugangsdaten finden Sie hier:",
+        "message": "Deine Zugangsdaten findest du hier:",
         "description": "Options"
     },
     "Archive_by_default_when_saving_page": {
-        "message": "Standardmäßig markieren Sie die Seite beim Speichern als gelesen",
+        "message": "Beim Speichern standardmäßig als gelesen markieren",
         "description": "Options"
     },
     "Fetch_from_the_browser": {
@@ -304,7 +304,7 @@
         "description": "Options"
     },
     "First_you_need_to_create_a_new_client_Then_you_need_to_try_again": {
-        "message": "Zuerst musst du <a href=\"%URL%\" target=\"_blank\">einen neuen Client</a> anlegen. Dann musst du es nochmal versuchen."
+        "message": "Zuerst musst du <a href=\"%URL%\" target=\"_blank\">einen neuen Client</a> anlegen. Dann kannst du es nochmal versuchen."
     },
     "Pick_a_client": {
         "message": "Wähle einen Client"
@@ -365,5 +365,14 @@
     },
     "Remove_site": {
         "message": "Website entfernen"
+    },
+    "Settings_management": {
+        "message": "Einstellungen verwalten"
+    },
+    "Something_s_wrong": {
+        "message": "Stimmt etwas nicht?"
+    },
+    "Unexpected_translation": {
+        "message": "Unerwartete Übersetzung?"
     }
 }
