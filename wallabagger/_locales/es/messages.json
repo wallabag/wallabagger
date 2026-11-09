@@ -345,5 +345,32 @@
     },
     "You_need_to_be_logged_in_your_wallabag_Then_you_need_to_try_again": {
         "message": "Necesitas iniciar sesión en <a href=\"%URL%\" target=\"_blank\">tu wallabag</a>. Después inténtalo de nuevo."
+    },
+    "Add_site": {
+        "message": "Añadir sitio"
+    },
+    "Do_you_need_help": {
+        "message": "¿Necesitas ayuda?"
+    },
+    "Documentation": {
+        "message": "Documentación"
+    },
+    "Domain_added_fail": {
+        "message": "Domino no añadido: "
+    },
+    "Domain_added_success": {
+        "message": "Dominio añadido: "
+    },
+    "Remove_site": {
+        "message": "Eliminar sitio"
+    },
+    "Settings_management": {
+        "message": "Gestión de ajustes"
+    },
+    "Something_s_wrong": {
+        "message": "¿Algo va mal?"
+    },
+    "Unexpected_translation": {
+        "message": "¿Traducción inesperada?"
     }
 }
