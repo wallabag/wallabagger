@@ -375,5 +375,8 @@
     },
     "Unexpected_translation": {
         "message": "Nieoczekiwane tłumaczenie?"
+    },
+    "Be_careful_You_re_not_using_a_secure_protocol_If_you_re_connected_to_a_public_network_eg_hotel_coffee_shop_train_station_a_malicious_person_could_use_this_feature_to_know_every_page_you_re_looking_at": {
+        "message": "Uwaga! Nie korzystasz z bezpiecznego protokołu. Jeśli jesteś podłączony do sieci publicznej (np. w hotelu, kawiarni czy na dworcu), osoba o złych zamiarach może wykorzystać ten fakt, aby dowiedzieć się, jakie strony przeglądasz."
     }
 }
