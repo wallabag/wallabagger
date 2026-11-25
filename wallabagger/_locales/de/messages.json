@@ -374,5 +374,8 @@
     },
     "Unexpected_translation": {
         "message": "Unerwartete Übersetzung?"
+    },
+    "Be_careful_You_re_not_using_a_secure_protocol_If_you_re_connected_to_a_public_network_eg_hotel_coffee_shop_train_station_a_malicious_person_could_use_this_feature_to_know_every_page_you_re_looking_at": {
+        "message": "Vorsicht! Sie verwenden kein sicheres Protokoll. Wenn Sie mit einem öffentlichen Netzwerk verbunden sind (z. B. in einem Hotel, Café oder Bahnhof), könnte ein Angreifer diese Funktion nutzen, um alle Seiten zu sehen, die Sie aufrufen."
     }
 }
